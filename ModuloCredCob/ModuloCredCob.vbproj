@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.30319</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BC319760-454B-4215-920F-44D522366861}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>ModuloCyC.ico</ApplicationIcon>
+    <AssemblyKeyContainerName />
+    <AssemblyName>ModuloCredCob</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace>ModuloCredCob</RootNamespace>
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/ModuloCredCob/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>ModuloCredCob.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>ModuloCredCob.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <BaseAddress>285212672</BaseAddress>
+    <DocumentationFile>ModuloCredCob.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <BaseAddress>285212672</BaseAddress>
+    <DocumentationFile>ModuloCredCob.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <Reference Include="AbonoExterno, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AbonoExterno.dll</HintPath>
+    </Reference>
+    <Reference Include="Accessibility">
+      <Name>Accessibility</Name>
+    </Reference>
+    <Reference Include="AdministracionAbonosExternos, Version=1.0.5606.16838, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AdministracionAbonosExternos.dll</HintPath>
+    </Reference>
+    <Reference Include="AjustesCartera, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AjustesCartera.dll</HintPath>
+    </Reference>
+    <Reference Include="Arqueo, Version=1.0.5712.23317, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Arqueo.dll</HintPath>
+    </Reference>
+    <Reference Include="AsignacionMultiple, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AsignacionMultiple.dll</HintPath>
+    </Reference>
+    <Reference Include="AutorizacionCredito, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AutorizacionCredito.dll</HintPath>
+    </Reference>
+    <Reference Include="BuroDeCredito, Version=1.0.5606.17430, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\BuroDeCredito.dll</HintPath>
+    </Reference>
+    <Reference Include="Catalogo, Version=1.0.5604.19605, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Catalogo.dll</HintPath>
+    </Reference>
+    <Reference Include="CobranzaExterna, Version=1.0.5606.17654, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CobranzaExterna.dll</HintPath>
+    </Reference>
+    <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Contactos.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlesBase, Version=1.1.5606.17781, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ControlesBase.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Web, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="CyCSaldoAFavor, Version=1.0.5606.17994, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CyCSaldoAFavor.dll</HintPath>
+    </Reference>
+    <Reference Include="DBNotas, Version=1.0.5605.16871, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DBNotas.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentosBSR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DocumentosBSR.dll</HintPath>
+    </Reference>
+    <Reference Include="ExportacionDirectaReportes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ExportacionDirectaReportes.dll</HintPath>
+    </Reference>
+    <Reference Include="ExportData, Version=1.0.5606.18363, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ExportData.dll</HintPath>
+    </Reference>
+    <Reference Include="Filiales, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Filiales.dll</HintPath>
+    </Reference>
+    <Reference Include="FormsArqueo, Version=1.0.5606.18588, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\FormsArqueo.dll</HintPath>
+    </Reference>
+    <Reference Include="frontReportesEspeciales, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\frontReportesEspeciales.dll</HintPath>
+    </Reference>
+    <Reference Include="ImporteDescuento, Version=1.0.5605.16005, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ImporteDescuento.dll</HintPath>
+    </Reference>
+    <Reference Include="Interfaz, Version=1.0.5606.18793, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Interfaz.dll</HintPath>
+    </Reference>
+    <Reference Include="NombreEmpresa, Version=1.0.5604.18811, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NombreEmpresa.dll</HintPath>
+    </Reference>
+    <Reference Include="PagoReferenciado, Version=1.0.5606.18981, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PagoReferenciado.dll</HintPath>
+    </Reference>
+    <Reference Include="PanelControlCyC, Version=1.0.5606.19007, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PanelControlCyC.dll</HintPath>
+    </Reference>
+    <Reference Include="ProgramacionCobranza, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ProgramacionCobranza.dll</HintPath>
+    </Reference>
+    <Reference Include="QuejasLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\QuejasLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RelacionCobranza, Version=1.0.5606.19253, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\RelacionCobranza.dll</HintPath>
+    </Reference>
+    <Reference Include="ReporteDinamico, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ReporteDinamico.dll</HintPath>
+    </Reference>
+    <Reference Include="ResguardoCyC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ResguardoCyC.dll</HintPath>
+    </Reference>
+    <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SGDAC.dll</HintPath>
+    </Reference>
+    <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SigaMetClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="SIGAMETSecurity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SIGAMETSecurity.dll</HintPath>
+    </Reference>
+    <Reference Include="SigametSeguridad, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SigametSeguridad.dll</HintPath>
+    </Reference>
+    <Reference Include="SVCC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SVCC.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UINotas, Version=1.0.5605.16911, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\UINotas.dll</HintPath>
+    </Reference>
+    <Reference Include="ValidaSaldosCaja, Version=1.0.5604.19002, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ValidaSaldosCaja.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Descuentos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapCobranza.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapCobranzaDoc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapMotivoCancelacionMovCaja.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapOperador.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapRelacionCobranza.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCargaArchivoTransfer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCargosPendientes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCargosPendientesEmpleado.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatMotivoCancelacionMovCaja.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatOperador.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatTarjetaCredito.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCierreRelacionCobranza.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCierreRelCobPlaneacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClientesCartera.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClientesCreditoRebasado.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaClientesNuevos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaMovimientos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaMovimientosCancelados.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaReporte.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLiquidacionesDescuadradas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPanelControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrincipal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRelacionCobranza.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSelTipoCobro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTipoGestionCobranza.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Splash.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Content Include="ModuloCyC.ico" />
+    <EmbeddedResource Include="Descuentos.resx">
+      <DependentUpon>Descuentos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapCobranza.resx">
+      <DependentUpon>frmCapCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapCobranzaDoc.resx">
+      <DependentUpon>frmCapCobranzaDoc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapMotivoCancelacionMovCaja.resx">
+      <DependentUpon>frmCapMotivoCancelacionMovCaja.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapOperador.resx">
+      <DependentUpon>frmCapOperador.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapRelacionCobranza.resx">
+      <DependentUpon>frmCapRelacionCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCargaArchivoTransfer.resx">
+      <DependentUpon>frmCargaArchivoTransfer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCargosPendientes.resx">
+      <DependentUpon>frmCargosPendientes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCargosPendientesEmpleado.resx">
+      <DependentUpon>frmCargosPendientesEmpleado.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatMotivoCancelacionMovCaja.resx">
+      <DependentUpon>frmCatMotivoCancelacionMovCaja.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatOperador.resx">
+      <DependentUpon>frmCatOperador.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatTarjetaCredito.resx">
+      <DependentUpon>frmCatTarjetaCredito.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCierreRelacionCobranza.resx">
+      <DependentUpon>frmCierreRelacionCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCierreRelCobPlaneacion.resx">
+      <DependentUpon>frmCierreRelCobPlaneacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClientesCartera.resx">
+      <DependentUpon>frmClientesCartera.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClientesCreditoRebasado.resx">
+      <DependentUpon>frmClientesCreditoRebasado.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaClientesNuevos.resx">
+      <DependentUpon>frmConsultaClientesNuevos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaMovimientos.resx">
+      <DependentUpon>frmConsultaMovimientos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaMovimientosCancelados.resx">
+      <DependentUpon>frmConsultaMovimientosCancelados.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaReporte.resx">
+      <DependentUpon>frmConsultaReporte.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLiquidacionesDescuadradas.resx">
+      <DependentUpon>frmLiquidacionesDescuadradas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPanelControl.resx">
+      <DependentUpon>frmPanelControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrincipal.resx">
+      <DependentUpon>frmPrincipal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRelacionCobranza.resx">
+      <DependentUpon>frmRelacionCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSelTipoCobro.resx">
+      <DependentUpon>frmSelTipoCobro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTipoGestionCobranza.resx">
+      <DependentUpon>frmTipoGestionCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Splash.resx">
+      <DependentUpon>Splash.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="My Project\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>
