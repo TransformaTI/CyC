@@ -264,6 +264,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\ResguardoCyC.dll</HintPath>
     </Reference>
+    <Reference Include="RTGMGateway">
+      <HintPath>..\..\SigametLibrerias\PortatilClasses\bin\RTGMGateway.dll</HintPath>
+    </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SGDAC.dll</HintPath>
