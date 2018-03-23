@@ -163,6 +163,10 @@ Module Main
 
     'Código del empleado utilizado para identificar abonos externos
     Public GLOBAL_EmpleadoAbonoExterno As Integer
+
+    Public GLOBAL_Modulo As Short = 4
+    Public GLOBAL_Empresa As Short
+
 #End Region
 
 #Region "Variables globales para la Seguridad"

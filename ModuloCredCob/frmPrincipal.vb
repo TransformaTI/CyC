@@ -841,12 +841,28 @@ Public Class frmPrincipal
 #End Region
 
     Private Sub frmPrincipal_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         sbpUsuario.Text = GLOBAL_IDUsuario
         sbpUsuarioNombre.Text = GLOBAL_UsuarioNombre
         sbpDepartamento.Text = GLOBAL_CelulaDescripcion
         sbpServidor.Text = GLOBAL_Servidor
         sbpBaseDeDatos.Text = GLOBAL_Database
         sbpVersion.Text = "CyC Versión: " & Application.ProductVersion.ToString
+
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim strURLGateway As String
+
+        If oConfig.Parametros.Count > 0 Then
+            strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+            If strURLGateway = "" Then
+                mnuConsultaEmpresa.Enabled = True
+            Else
+                mnuConsultaEmpresa.Enabled = False
+            End If
+        End If
+
+
 
         Me.Text = Me.Text & " - " & GLOBAL_NombreEmpresa
 
@@ -858,8 +874,8 @@ Public Class frmPrincipal
         'oPanelControl.Show()
         AbreMisPostits()
 
-        If oSeguridad.TieneAcceso("ArchivoExportacion") OrElse _
-           oSeguridad.TieneAcceso("SituacionCartera") OrElse _
+        If oSeguridad.TieneAcceso("ArchivoExportacion") OrElse
+           oSeguridad.TieneAcceso("SituacionCartera") OrElse
            oSeguridad.TieneAcceso("NotasCredito") Then
 
             mnuReportesEspeciales.Enabled = True
