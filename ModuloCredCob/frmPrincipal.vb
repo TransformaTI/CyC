@@ -1159,40 +1159,65 @@ Public Class frmPrincipal
 
 
     Private Sub ConsultaClientes()
-        If Not oSeguridad.TieneAcceso("BUSQUEDACLIENTES") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        Dim oConfig As SigaMetClasses.cConfig
+        Dim strURLGateway As String
+        Dim oBuscaCliente As SigaMetClasses.BusquedaCliente
 
-        Dim f As Form
-        For Each f In Me.MdiChildren
-            If f.Name = "BusquedaCliente" Then
-                f.Focus()
+        Try
+            If Not oSeguridad.TieneAcceso("BUSQUEDACLIENTES") Then
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-        Next
 
-        Cursor = Cursors.WaitCursor
-        Dim _ModificaDatosCliente As Boolean = _
-            oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
-        Dim _ModificaDatosCredito As Boolean = _
-            oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
-        Dim _CambioEmpleadoNomina As Boolean = _
-            oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
-        Dim _CambioClientePadre As Boolean = _
-                    oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
+            Dim f As Form
+            For Each f In Me.MdiChildren
+                If f.Name = "BusquedaCliente" Then
+                    f.Focus()
+                    Exit Sub
+                End If
+            Next
 
-        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False, _
-                        AutoSeleccionarRegistroUnico:=False, _
-                        PermiteModificarDatosCliente:=_ModificaDatosCliente, _
-                        PermiteModificarDatosCredito:=_ModificaDatosCredito, _
-                        Usuario:=Main.GLOBAL_IDUsuario, _
-                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina, _
-                        PermiteCambioClientePadre:=_CambioClientePadre, _
-                        DSCatalogos:=DSCatalogos)
-        oBuscaCliente.MdiParent = Me
-        oBuscaCliente.Show()
-        Cursor = Cursors.Default
+            Cursor = Cursors.WaitCursor
+            Dim _ModificaDatosCliente As Boolean =
+                oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
+            Dim _ModificaDatosCredito As Boolean =
+                oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
+            Dim _CambioEmpleadoNomina As Boolean =
+                oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
+            Dim _CambioClientePadre As Boolean =
+                        oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
+
+            oConfig = New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            strURLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+
+            If (String.IsNullOrEmpty(strURLGateway)) Then
+                oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                            AutoSeleccionarRegistroUnico:=False,
+                            PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                            PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                            Usuario:=Main.GLOBAL_IDUsuario,
+                            PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                            PermiteCambioClientePadre:=_CambioClientePadre,
+                            DSCatalogos:=DSCatalogos)
+            Else
+                oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                            AutoSeleccionarRegistroUnico:=False,
+                            PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                            PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                            Usuario:=Main.GLOBAL_IDUsuario,
+                            PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                            PermiteCambioClientePadre:=_CambioClientePadre,
+                            DSCatalogos:=DSCatalogos,
+                            URLGateway:=strURLGateway)
+            End If
+
+            oBuscaCliente.MdiParent = Me
+            oBuscaCliente.Show()
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & Chr(3) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub ConsultaRelacionCobranza()
