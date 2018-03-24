@@ -1140,21 +1140,35 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub ConsultaDocumento()
-        If Not oSeguridad.TieneAcceso("DOCUMENTOS") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        Try
+            Dim frmConsultaDoc As SigaMetClasses.ConsultaCargo
+            Dim oConfig As New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            Dim strURLGateway As String = CStr(oConfig.Parametros("URLGateway")).Trim
 
-        Dim f As Form
-        For Each f In Me.MdiChildren
-            If f.Name = "ConsultaCargo" Then
-                f.Focus()
+            If Not oSeguridad.TieneAcceso("DOCUMENTOS") Then
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-        Next
-        Dim frmConsultaDoc As New SigaMetClasses.ConsultaCargo()
-        frmConsultaDoc.MdiParent = Me
-        frmConsultaDoc.Show()
+
+            Dim f As Form
+            For Each f In Me.MdiChildren
+                If f.Name = "ConsultaCargo" Then
+                    f.Focus()
+                    Exit Sub
+                End If
+            Next
+
+            If (String.IsNullOrEmpty(strURLGateway)) Then
+                frmConsultaDoc = New SigaMetClasses.ConsultaCargo()
+            Else
+                frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway)
+            End If
+
+            frmConsultaDoc.MdiParent = Me
+            frmConsultaDoc.Show()
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
@@ -1181,15 +1195,24 @@ Public Class frmPrincipal
             oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
         Dim _CambioClientePadre As Boolean = _
                     oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
-
-        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False, _
-                        AutoSeleccionarRegistroUnico:=False, _
-                        PermiteModificarDatosCliente:=_ModificaDatosCliente, _
-                        PermiteModificarDatosCredito:=_ModificaDatosCredito, _
-                        Usuario:=Main.GLOBAL_IDUsuario, _
-                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina, _
-                        PermiteCambioClientePadre:=_CambioClientePadre, _
+        Dim strURLGateway As String = "http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc"
+        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                        AutoSeleccionarRegistroUnico:=False,
+                        PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                        PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                        Usuario:=Main.GLOBAL_IDUsuario,
+                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                        PermiteCambioClientePadre:=_CambioClientePadre,
                         DSCatalogos:=DSCatalogos)
+        'Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+        '                AutoSeleccionarRegistroUnico:=False,
+        '                PermiteModificarDatosCliente:=_ModificaDatosCliente,
+        '                PermiteModificarDatosCredito:=_ModificaDatosCredito,
+        '                Usuario:=Main.GLOBAL_IDUsuario,
+        '                PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+        '                PermiteCambioClientePadre:=_CambioClientePadre,
+        '                DSCatalogos:=DSCatalogos,
+        '                URLGateway:=strURLGateway)
         oBuscaCliente.MdiParent = Me
         oBuscaCliente.Show()
         Cursor = Cursors.Default
