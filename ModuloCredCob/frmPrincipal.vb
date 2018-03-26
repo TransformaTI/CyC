@@ -12,6 +12,7 @@ Public Class frmPrincipal
 
         'Add any initialization after the InitializeComponent() call
 
+        DeshabilitaAutorizacionDeCredito()
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -2059,4 +2060,25 @@ Public Class frmPrincipal
     Private Sub mnuAyuda_Click(sender As System.Object, e As System.EventArgs) Handles mnuAyuda.Click
 
     End Sub
+
+    Private Function ConsultaURLGateway() As String
+        Dim URLGateway As String = ""
+        Dim oConfig As SigaMetClasses.cConfig
+
+        Try
+            oConfig = New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            URLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+
+        Catch ex As Exception
+            URLGateway = ""
+        End Try
+        Return URLGateway
+    End Function
+
+    Private Sub DeshabilitaAutorizacionDeCredito()
+        If (ConsultaURLGateway() > "") Then
+            mniAutorizacionCredito.Enabled = False
+        End If
+    End Sub
+
 End Class
