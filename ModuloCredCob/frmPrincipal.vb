@@ -858,10 +858,12 @@ Public Class frmPrincipal
                 mnuConsultaEmpresa.Enabled = True
                 mnuCatEmpresas.Enabled = True
                 btnQueja.Enabled = True
+                mnuClientesNuevos.Enabled = True
             Else
                 mnuConsultaEmpresa.Enabled = False
                 mnuCatEmpresas.Enabled = False
                 btnQueja.Enabled = False
+                mnuClientesNuevos.Enabled = False
             End If
         End If
 
