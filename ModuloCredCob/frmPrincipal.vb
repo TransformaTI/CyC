@@ -857,13 +857,13 @@ Public Class frmPrincipal
             If strURLGateway = "" Then
                 mnuConsultaEmpresa.Enabled = True
                 mnuCatEmpresas.Enabled = True
-                btnQueja.Enabled = True
                 mnuClientesNuevos.Enabled = True
+                mniAutorizacionCredito.Enabled = True
             Else
                 mnuConsultaEmpresa.Enabled = False
                 mnuCatEmpresas.Enabled = False
-                btnQueja.Enabled = False
                 mnuClientesNuevos.Enabled = False
+                mniAutorizacionCredito.Enabled = False
             End If
         End If
 
@@ -962,7 +962,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa(True, False, False, True, mnuCatEmpresas.Enabled)
+        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa(mnuCatEmpresas.Enabled, mnuCatEmpresas.Enabled, mnuCatEmpresas.Enabled, True, mnuCatEmpresas.Enabled)
         oCatEmpresa.MdiParent = Me
         oCatEmpresa.Show()
         Cursor = Cursors.Default
