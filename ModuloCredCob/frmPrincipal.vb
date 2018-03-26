@@ -11,7 +11,6 @@ Public Class frmPrincipal
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-
         DeshabilitaAutorizacionDeCredito()
     End Sub
 
@@ -2075,9 +2074,19 @@ Public Class frmPrincipal
         Return URLGateway
     End Function
 
+    Private Function ValidaURL(URL As String) As Boolean
+        Dim uriValidada As Uri
+
+        Return Uri.TryCreate(URL, UriKind.Absolute, uriValidada)
+    End Function
+
     Private Sub DeshabilitaAutorizacionDeCredito()
-        If (ConsultaURLGateway() > "") Then
-            mniAutorizacionCredito.Enabled = False
+        Dim strURL As String = ConsultaURLGateway()
+
+        If (strURL > "") Then
+            If (ValidaURL(strURL)) Then
+                mniAutorizacionCredito.Enabled = False
+            End If
         End If
     End Sub
 
