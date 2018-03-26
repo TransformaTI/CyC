@@ -849,7 +849,6 @@ Public Class frmPrincipal
         sbpBaseDeDatos.Text = GLOBAL_Database
         sbpVersion.Text = "CyC Versión: " & Application.ProductVersion.ToString
 
-
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         Dim strURLGateway As String
 
@@ -857,12 +856,14 @@ Public Class frmPrincipal
             strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
             If strURLGateway = "" Then
                 mnuConsultaEmpresa.Enabled = True
+                mnuCatEmpresas.Enabled = True
+                btnQueja.Enabled = True
             Else
                 mnuConsultaEmpresa.Enabled = False
+                mnuCatEmpresas.Enabled = False
+                btnQueja.Enabled = False
             End If
         End If
-
-
 
         Me.Text = Me.Text & " - " & GLOBAL_NombreEmpresa
 
@@ -959,7 +960,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa()
+        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa(True, False, False, True, mnuCatEmpresas.Enabled)
         oCatEmpresa.MdiParent = Me
         oCatEmpresa.Show()
         Cursor = Cursors.Default
