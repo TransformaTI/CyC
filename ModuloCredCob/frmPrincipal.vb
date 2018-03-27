@@ -10,6 +10,7 @@ Public Class frmPrincipal
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         Inhabilitar()
+
         'Add any initialization after the InitializeComponent() call
 
     End Sub
