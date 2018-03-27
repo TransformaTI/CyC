@@ -856,7 +856,7 @@ Public Class frmPrincipal
         Try
             strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
         Catch ex As Exception
-            MessageBox.Show("El parametro URL Gateway no esta configurado")
+            MessageBox.Show("El parámetro URL Gateway no esta configurado")
         End Try
         If strURLGateway = "" Then
             mnuConsultaEmpresa.Enabled = True
