@@ -9,7 +9,7 @@ Public Class frmPrincipal
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
-
+        Inhabilitar()
         'Add any initialization after the InitializeComponent() call
 
     End Sub
@@ -121,6 +121,8 @@ Public Class frmPrincipal
     Friend WithEvents mniAbonosExternos As System.Windows.Forms.MenuItem
     Friend WithEvents btnEntregaNotas As System.Windows.Forms.ToolBarButton
     Friend WithEvents mnuExportacionReportes As System.Windows.Forms.MenuItem
+    Public Property _URLGateway As String
+
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrincipal))
@@ -1618,7 +1620,21 @@ Public Class frmPrincipal
         Cursor = Cursors.Default
         importacionPGRef.Show()
     End Sub
+    Private Sub Inhabilitar()
+        Try
+            Dim oConfig As New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
+            If _URLGateway <> "" Then
+                mnuArqueo.Enabled = False
+                mnuClientesCreditoRebasado.Enabled = False
+                btnQueja.Enabled = False
+            End If
+        Catch ex As Exception
+            MsgBox("No se encontró el parámetro URLGateway" & vbCrLf & ex.Message)
+        End Try
 
+
+    End Sub
 
 #End Region
 
@@ -1633,14 +1649,14 @@ Public Class frmPrincipal
             End If
         Next
         Try
-            QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString, _
+            QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
                 SigametSeguridad.Seguridad.Conexion, GLOBAL_IDUsuario, 1)
-            f = New QuejasLibrary.frmSeguimientoQueja()
+            f = New QuejasLibrary.frmSeguimientoQueja(_URLGateway)
             f.WindowState = FormWindowState.Maximized
             f.MdiParent = Me
             f.Show()
         Catch ex As Exception
-            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf & _
+            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
                 ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
@@ -2059,4 +2075,5 @@ Public Class frmPrincipal
     Private Sub mnuAyuda_Click(sender As System.Object, e As System.EventArgs) Handles mnuAyuda.Click
 
     End Sub
+
 End Class
