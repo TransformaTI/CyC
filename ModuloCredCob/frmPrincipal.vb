@@ -11,7 +11,6 @@ Public Class frmPrincipal
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-        DeshabilitaAutorizacionDeCredito()
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -853,6 +852,8 @@ Public Class frmPrincipal
         If Main.GLOBAL_SeguridadNT = True Then
             sbpVersion.Text &= " NT"
         End If
+
+        DeshabilitaOpcionesMenu()
 
         'Dim oPanelControl As New frmPanelControl()
         'oPanelControl.Show()
@@ -2080,12 +2081,17 @@ Public Class frmPrincipal
         Return Uri.TryCreate(URL, UriKind.Absolute, uriValidada)
     End Function
 
-    Private Sub DeshabilitaAutorizacionDeCredito()
+    ' Deshabilita opciones de menú si se encuentra un parámetro válido
+    ' URLGateway en la tabla 'Parametro'
+    Private Sub DeshabilitaOpcionesMenu()
         Dim strURL As String = ConsultaURLGateway()
 
         If (strURL > "") Then
             If (ValidaURL(strURL)) Then
                 mniAutorizacionCredito.Enabled = False
+                mnuCatClientesDescuento.Enabled = False
+                mnuEjecutivoCyC.Enabled = False
+                mniBuroCredito.Enabled = False
             End If
         End If
     End Sub
