@@ -1266,23 +1266,35 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub ConsultaFactura()
-        If Not oSeguridad.TieneAcceso("FACTURAS") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        Try
+            If Trim(_URLGateway) <> "" Then
+                If Not oSeguridad.TieneAcceso("FACTURAS") Then
+                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
 
-        Dim f As Form
-        For Each f In Me.MdiChildren
-            If f.Name = "ConsultaFactura" Then
-                f.Focus()
-                Exit Sub
+                Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "ConsultaFactura" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+                Cursor = Cursors.WaitCursor
+                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway)
+                oConsultaFactura.MdiParent = Me
+                oConsultaFactura.Show()
+                Cursor = Cursors.Default
+            Else
+                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway)
+                oConsultaFactura.MdiParent = Me
+                oConsultaFactura.Close()
+                MessageBox.Show("El parámetro _URLGateway esta vacio", Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-        Next
-        Cursor = Cursors.WaitCursor
-        Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura()
-        oConsultaFactura.MdiParent = Me
-        oConsultaFactura.Show()
-        Cursor = Cursors.Default
+
+        Catch ex As Exception
+            MsgBox("Error con parámetro URLGateway" & vbCrLf & ex.Message)
+        End Try
     End Sub
 
     Private Sub ConsultaEmpresa()
