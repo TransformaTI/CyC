@@ -10,8 +10,8 @@ Public Class frmPrincipal
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         Inhabilitar()
-
         'Add any initialization after the InitializeComponent() call
+
 
     End Sub
 
@@ -861,8 +861,8 @@ Public Class frmPrincipal
         'oPanelControl.Show()
         AbreMisPostits()
 
-        If oSeguridad.TieneAcceso("ArchivoExportacion") OrElse _
-           oSeguridad.TieneAcceso("SituacionCartera") OrElse _
+        If oSeguridad.TieneAcceso("ArchivoExportacion") OrElse
+           oSeguridad.TieneAcceso("SituacionCartera") OrElse
            oSeguridad.TieneAcceso("NotasCredito") Then
 
             mnuReportesEspeciales.Enabled = True
@@ -917,7 +917,7 @@ Public Class frmPrincipal
                 ConsultaRelacionCobranza()
             Case "NuevaNota"
                 Cursor = Cursors.WaitCursor
-                Dim oPostit As New SigaMetClasses.Postit(SigaMetClasses.Postit.enumTipoPostit.Usuario, GLOBAL_IDUsuario, usuario:=GLOBAL_IDUsuario, contenedor:=Me)
+                Dim oPostit As New SigaMetClasses.Postit(SigaMetClasses.Postit.enumTipoPostit.Usuario, GLOBAL_IDUsuario, Usuario:=GLOBAL_IDUsuario, Contenedor:=Me)
                 oPostit.Show()
                 Cursor = Cursors.Default
             Case "Referencia"
@@ -1108,14 +1108,14 @@ Public Class frmPrincipal
         '                True)
 
 
-        Dim frmConRep As New ReporteDinamico.frmListaReporte(4, _
-                        Main.GLOBAL_RutaReportes, _
-                        Main.GLOBAL_Servidor, _
-                        Main.GLOBAL_Database, _
-                        Main.GLOBAL_IDUsuario, _
-                        GLOBAL_connection, _
-                        Main.GLOBAL_Corporativo, _
-                        Main.GLOBAL_Sucursal, _
+        Dim frmConRep As New ReporteDinamico.frmListaReporte(4,
+                        Main.GLOBAL_RutaReportes,
+                        Main.GLOBAL_Servidor,
+                        Main.GLOBAL_Database,
+                        Main.GLOBAL_IDUsuario,
+                        GLOBAL_connection,
+                        Main.GLOBAL_Corporativo,
+                        Main.GLOBAL_Sucursal,
                         True)
         frmConRep.MdiParent = Me
         frmConRep.WindowState = FormWindowState.Maximized
@@ -1176,22 +1176,22 @@ Public Class frmPrincipal
         Next
 
         Cursor = Cursors.WaitCursor
-        Dim _ModificaDatosCliente As Boolean = _
+        Dim _ModificaDatosCliente As Boolean =
             oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
-        Dim _ModificaDatosCredito As Boolean = _
+        Dim _ModificaDatosCredito As Boolean =
             oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
-        Dim _CambioEmpleadoNomina As Boolean = _
+        Dim _CambioEmpleadoNomina As Boolean =
             oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
-        Dim _CambioClientePadre As Boolean = _
+        Dim _CambioClientePadre As Boolean =
                     oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
 
-        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False, _
-                        AutoSeleccionarRegistroUnico:=False, _
-                        PermiteModificarDatosCliente:=_ModificaDatosCliente, _
-                        PermiteModificarDatosCredito:=_ModificaDatosCredito, _
-                        Usuario:=Main.GLOBAL_IDUsuario, _
-                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina, _
-                        PermiteCambioClientePadre:=_CambioClientePadre, _
+        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                        AutoSeleccionarRegistroUnico:=False,
+                        PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                        PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                        Usuario:=Main.GLOBAL_IDUsuario,
+                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                        PermiteCambioClientePadre:=_CambioClientePadre,
                         DSCatalogos:=DSCatalogos)
         oBuscaCliente.MdiParent = Me
         oBuscaCliente.Show()
@@ -1599,7 +1599,7 @@ Public Class frmPrincipal
 
         Cursor = Cursors.WaitCursor
 
-        Dim pgref As New PagoReferenciado.PagoReferenciado(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, _
+        Dim pgref As New PagoReferenciado.PagoReferenciado(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion,
             GLOBAL_IDEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada, FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto)
         pgref.MdiParent = Me
 
@@ -1664,7 +1664,7 @@ Public Class frmPrincipal
         Try
             QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
                 SigametSeguridad.Seguridad.Conexion, GLOBAL_IDUsuario, 1)
-            f = New QuejasLibrary.frmSeguimientoQueja(_URLGateway)
+            f = New QuejasLibrary.frmSeguimientoQueja(Convert.ToInt32(_URLGateway))
             f.WindowState = FormWindowState.Maximized
             f.MdiParent = Me
             f.Show()
@@ -1725,7 +1725,7 @@ Public Class frmPrincipal
             Next
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
-            Dim _autorizacionCyC As New AutorizacionCredito.Solicitantes(GLOBAL_IDUsuario, GLOBAL_MaxImporteCredito, _
+            Dim _autorizacionCyC As New AutorizacionCredito.Solicitantes(GLOBAL_IDUsuario, GLOBAL_MaxImporteCredito,
                 GLOBAL_ClaveCreditoAutorizado, SigaMetClasses.DataLayer.Conexion)
             _autorizacionCyC.WindowState = FormWindowState.Maximized
             _autorizacionCyC.MdiParent = Me
@@ -1831,7 +1831,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario, _
+            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario,
                 GLOBAL_IDEmpleado, GLOBAL_CajaUsuario, FechaOperacion, FechaOperacion, ConsecutivoInicioDeSesion, SesionIniciada)
             ajuste.MdiParent = Me
             ajuste.WindowState = FormWindowState.Maximized
@@ -1853,7 +1853,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario, _
+            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario,
                 GLOBAL_IDEmpleado, GLOBAL_CajaUsuario, FechaOperacion, FechaOperacion, ConsecutivoInicioDeSesion, SesionIniciada, GLOBAL_TipoCargoEfiNeg)
             ajuste.MdiParent = Me
             ajuste.WindowState = FormWindowState.Maximized
@@ -1897,7 +1897,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim cobResguardo As ResguardoCyC.ListaCobranza = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, _
+            Dim cobResguardo As ResguardoCyC.ListaCobranza = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario,
                 GLOBAL_RespResguardo, GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
             cobResguardo.MdiParent = Me
             cobResguardo.WindowState = FormWindowState.Maximized
@@ -1969,7 +1969,7 @@ Public Class frmPrincipal
             Next
             Cursor = Cursors.WaitCursor
             BuroDeCredito.DataManager.Instance.Connection = SigaMetClasses.DataLayer.Conexion
-            Dim bcControl As BuroDeCredito.frmBuroCredito = New BuroDeCredito.frmBuroCredito(GLOBAL_IDUsuario, _
+            Dim bcControl As BuroDeCredito.frmBuroCredito = New BuroDeCredito.frmBuroCredito(GLOBAL_IDUsuario,
                 GLOBAL_Password, GLOBAL_IDEmpleado)
             bcControl.MdiParent = Me
             bcControl.StartPosition = FormStartPosition.CenterParent
@@ -1993,7 +1993,7 @@ Public Class frmPrincipal
             'Acceso a la pantalla de administración de abonos externos, con las siguientes funcionalidades:
             '* Carga de archivos de abonos externos
             '* Ingreso (automático o bajo demanda) a la pantalla de aplicación de abonos externos
-            Dim admAbonosExternos As AdministracionAbonosExternos.AdministracionAbonosExternos = _
+            Dim admAbonosExternos As AdministracionAbonosExternos.AdministracionAbonosExternos =
                 New AdministracionAbonosExternos.AdministracionAbonosExternos()
             'Controlador de evento para indicar cuando se cargó un archivo, a fín de mostrar automáticamente la pantalla de aplicación
             'de abonos
@@ -2019,9 +2019,9 @@ Public Class frmPrincipal
 
         'Acceso a la pantalla de aplicación de abonos externos, se proporcionan los parámetros necesarios para la integración de un movimiento
         'de caja, además se proporcionan las claves del archivo que será procesado
-        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, _
-            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada, _
-            FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto, _
+        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion,
+            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada,
+            FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto,
             e.Item, e.Label)
         DirectCast(sender, Form).Close()
 
@@ -2049,8 +2049,8 @@ Public Class frmPrincipal
 
         'Acceso a la pantalla de aplicación de abonos externos, se proporcionan los parámetros necesarios para la integración de un movimiento
         'de caja
-        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, _
-            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada, _
+        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion,
+            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada,
             FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto)
         aplAbonoExterno.MdiParent = Me
 
