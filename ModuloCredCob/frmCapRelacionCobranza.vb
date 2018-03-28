@@ -29,6 +29,18 @@ Public Class frmCapRelacionCobranza
     'Controlar captura final o precaptura
     Private _tipoOperacionCaptura As Integer
 
+    'Dirección para consultar datos en servicio web
+    Private _URLGateway As String
+
+    Public Property URLGateway() As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
     Public Sub New(TipoCaptura as Integer)
         MyBase.New()
 
@@ -1733,7 +1745,7 @@ Public Class frmCapRelacionCobranza
         For Each lvItem In lvwLista.Items
             If CType(lvItem.SubItems(12).Text, Decimal) > 0 Then
                 lvItem.Selected = True
-                MessageBox.Show("El documento " & lvItem.SubItems(0).Text & " tiene saldo pendiente," & vbCrLf & _
+                MessageBox.Show("El documento " & lvItem.SubItems(0).Text & " tiene saldo pendiente," & vbCrLf &
                     "retírelo de la lista para continuar.", "Cobranza", MessageBoxButtons.OK, MessageBoxIcon.Stop)
                 retVal = True
                 Exit For
@@ -1741,4 +1753,48 @@ Public Class frmCapRelacionCobranza
         Next
         Return retVal
     End Function
+
+    Private Function consultaClienteCRM(ByVal cliente As Integer, ByVal URL As String) As String
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As RTGMCore.DireccionEntrega
+
+        Try
+            Gateway = New RTGMGateway.RTGMGateway
+            Gateway.URLServicio = URL
+            Solicitud = New RTGMGateway.SolicitudGateway() With {
+                .Fuente = RTGMCore.Fuente.Sigamet,
+                .IDCliente = cliente,
+                .IDEmpresa = 0
+            }
+
+            DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+
+            Return DireccionEntrega.Nombre
+        Catch ex As Exception
+            Throw ex
+        End Try
+    End Function
+
+    Private Function recargaPrecapturados(ByVal lvwPrecapturados As ListView) As ListView
+        Dim lvwRecarga As ListView
+
+        If Not IsNothing(lvwPrecapturados) Then
+            If (lvwPrecapturados.Items.Count > 0) Then
+                lvwRecarga = lvwPrecapturados
+
+                For Each lvi As ListViewItem In lvwRecarga.Items
+                    'lvi.SubItems
+                Next lvi
+            End If
+        End If
+
+
+
+
+
+
+        Return Nothing
+    End Function
+
 End Class
