@@ -857,6 +857,29 @@ Public Class frmPrincipal
             sbpVersion.Text &= " NT"
         End If
 
+        DeshabilitaOpcionesMenu()
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim strURLGateway As String
+
+        strURLGateway = ""
+        Try
+            strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            MessageBox.Show("El parametro URL Gateway no esta configurado")
+        End Try
+        If strURLGateway = "" Then
+            mnuConsultaEmpresa.Enabled = True
+            mnuCatEmpresas.Enabled = True
+            mnuClientesNuevos.Enabled = True
+            mniAutorizacionCredito.Enabled = True
+        Else
+            mnuConsultaEmpresa.Enabled = False
+            mnuCatEmpresas.Enabled = False
+            mnuClientesNuevos.Enabled = False
+            mniAutorizacionCredito.Enabled = False
+        End If
+
         'Dim oPanelControl As New frmPanelControl()
         'oPanelControl.Show()
         AbreMisPostits()
@@ -946,7 +969,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa()
+        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa(mnuCatEmpresas.Enabled, mnuCatEmpresas.Enabled, mnuCatEmpresas.Enabled, True, mnuCatEmpresas.Enabled)
         oCatEmpresa.MdiParent = Me
         oCatEmpresa.Show()
         Cursor = Cursors.Default
@@ -1162,40 +1185,63 @@ Public Class frmPrincipal
 
 
     Private Sub ConsultaClientes()
-        If Not oSeguridad.TieneAcceso("BUSQUEDACLIENTES") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        Dim oBuscaCliente As SigaMetClasses.BusquedaCliente
+        Dim strURL As String
 
-        Dim f As Form
-        For Each f In Me.MdiChildren
-            If f.Name = "BusquedaCliente" Then
-                f.Focus()
+        Try
+            If Not oSeguridad.TieneAcceso("BUSQUEDACLIENTES") Then
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-        Next
 
-        Cursor = Cursors.WaitCursor
-        Dim _ModificaDatosCliente As Boolean = _
-            oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
-        Dim _ModificaDatosCredito As Boolean = _
-            oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
-        Dim _CambioEmpleadoNomina As Boolean = _
-            oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
-        Dim _CambioClientePadre As Boolean = _
-                    oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
+            Dim f As Form
+            For Each f In Me.MdiChildren
+                If f.Name = "BusquedaCliente" Then
+                    f.Focus()
+                    Exit Sub
+                End If
+            Next
 
-        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False, _
-                        AutoSeleccionarRegistroUnico:=False, _
-                        PermiteModificarDatosCliente:=_ModificaDatosCliente, _
-                        PermiteModificarDatosCredito:=_ModificaDatosCredito, _
-                        Usuario:=Main.GLOBAL_IDUsuario, _
-                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina, _
-                        PermiteCambioClientePadre:=_CambioClientePadre, _
-                        DSCatalogos:=DSCatalogos)
-        oBuscaCliente.MdiParent = Me
-        oBuscaCliente.Show()
-        Cursor = Cursors.Default
+            Cursor = Cursors.WaitCursor
+            Dim _ModificaDatosCliente As Boolean =
+                oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
+            Dim _ModificaDatosCredito As Boolean =
+                oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
+            Dim _CambioEmpleadoNomina As Boolean =
+                oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
+            Dim _CambioClientePadre As Boolean =
+                        oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
+
+            strURL = ConsultaURLGateway()
+
+            If (String.IsNullOrEmpty(strURL)) Then
+                oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                            AutoSeleccionarRegistroUnico:=False,
+                            PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                            PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                            Usuario:=Main.GLOBAL_IDUsuario,
+                            PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                            PermiteCambioClientePadre:=_CambioClientePadre,
+                            DSCatalogos:=DSCatalogos)
+            Else
+                oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                            AutoSeleccionarRegistroUnico:=False,
+                            PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                            PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                            Usuario:=Main.GLOBAL_IDUsuario,
+                            PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                            PermiteCambioClientePadre:=_CambioClientePadre,
+                            DSCatalogos:=DSCatalogos,
+                            URLGateway:=strURL)
+            End If
+
+            oBuscaCliente.MdiParent = Me
+            oBuscaCliente.Show()
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub ConsultaRelacionCobranza()
@@ -1652,7 +1698,7 @@ Public Class frmPrincipal
         Try
             QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
                 SigametSeguridad.Seguridad.Conexion, GLOBAL_IDUsuario, 1)
-            f = New QuejasLibrary.frmSeguimientoQueja(_URLGateway)
+            f = New QuejasLibrary.frmSeguimientoQueja(Convert.ToInt32(_URLGateway))
             f.WindowState = FormWindowState.Maximized
             f.MdiParent = Me
             f.Show()
@@ -2075,6 +2121,41 @@ Public Class frmPrincipal
 
     Private Sub mnuAyuda_Click(sender As System.Object, e As System.EventArgs) Handles mnuAyuda.Click
 
+    End Sub
+
+    Private Function ConsultaURLGateway() As String
+        Dim URLGateway As String = ""
+        Dim oConfig As SigaMetClasses.cConfig
+
+        Try
+            oConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            URLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+        Catch ex As Exception
+            URLGateway = ""
+        End Try
+
+        Return URLGateway
+    End Function
+
+    Private Function ValidaURL(URL As String) As Boolean
+        Dim uriValidada As Uri
+
+        Return Uri.TryCreate(URL, UriKind.Absolute, uriValidada)
+    End Function
+
+    ' Deshabilita opciones de menú si se encuentra un parámetro válido
+    ' URLGateway en la tabla 'Parametro'
+    Private Sub DeshabilitaOpcionesMenu()
+        Dim strURL As String = ConsultaURLGateway()
+
+        If (strURL > "") Then
+            If (ValidaURL(strURL)) Then
+                mniAutorizacionCredito.Enabled = False
+                mnuCatClientesDescuento.Enabled = False
+                mnuEjecutivoCyC.Enabled = False
+                mniBuroCredito.Enabled = False
+            End If
+        End If
     End Sub
 
 End Class
