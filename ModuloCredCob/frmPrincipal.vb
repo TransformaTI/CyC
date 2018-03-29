@@ -10,8 +10,8 @@ Public Class frmPrincipal
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         Inhabilitar()
-
         'Add any initialization after the InitializeComponent() call
+
 
     End Sub
 
@@ -857,35 +857,12 @@ Public Class frmPrincipal
             sbpVersion.Text &= " NT"
         End If
 
-        DeshabilitaOpcionesMenu()
-
-        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
-        Dim strURLGateway As String
-
-        strURLGateway = ""
-        Try
-            strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
-        Catch ex As Exception
-            MessageBox.Show("El parametro URL Gateway no esta configurado")
-        End Try
-        If strURLGateway = "" Then
-            mnuConsultaEmpresa.Enabled = True
-            mnuCatEmpresas.Enabled = True
-            mnuClientesNuevos.Enabled = True
-            mniAutorizacionCredito.Enabled = True
-        Else
-            mnuConsultaEmpresa.Enabled = False
-            mnuCatEmpresas.Enabled = False
-            mnuClientesNuevos.Enabled = False
-            mniAutorizacionCredito.Enabled = False
-        End If
-
         'Dim oPanelControl As New frmPanelControl()
         'oPanelControl.Show()
         AbreMisPostits()
 
-        If oSeguridad.TieneAcceso("ArchivoExportacion") OrElse _
-           oSeguridad.TieneAcceso("SituacionCartera") OrElse _
+        If oSeguridad.TieneAcceso("ArchivoExportacion") OrElse
+           oSeguridad.TieneAcceso("SituacionCartera") OrElse
            oSeguridad.TieneAcceso("NotasCredito") Then
 
             mnuReportesEspeciales.Enabled = True
@@ -940,7 +917,7 @@ Public Class frmPrincipal
                 ConsultaRelacionCobranza()
             Case "NuevaNota"
                 Cursor = Cursors.WaitCursor
-                Dim oPostit As New SigaMetClasses.Postit(SigaMetClasses.Postit.enumTipoPostit.Usuario, GLOBAL_IDUsuario, usuario:=GLOBAL_IDUsuario, contenedor:=Me)
+                Dim oPostit As New SigaMetClasses.Postit(SigaMetClasses.Postit.enumTipoPostit.Usuario, GLOBAL_IDUsuario, Usuario:=GLOBAL_IDUsuario, Contenedor:=Me)
                 oPostit.Show()
                 Cursor = Cursors.Default
             Case "Referencia"
@@ -969,7 +946,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa(mnuCatEmpresas.Enabled, mnuCatEmpresas.Enabled, mnuCatEmpresas.Enabled, True, mnuCatEmpresas.Enabled)
+        Dim oCatEmpresa As New SigaMetClasses.CatalogoEmpresa()
         oCatEmpresa.MdiParent = Me
         oCatEmpresa.Show()
         Cursor = Cursors.Default
@@ -1131,14 +1108,14 @@ Public Class frmPrincipal
         '                True)
 
 
-        Dim frmConRep As New ReporteDinamico.frmListaReporte(4, _
-                        Main.GLOBAL_RutaReportes, _
-                        Main.GLOBAL_Servidor, _
-                        Main.GLOBAL_Database, _
-                        Main.GLOBAL_IDUsuario, _
-                        GLOBAL_connection, _
-                        Main.GLOBAL_Corporativo, _
-                        Main.GLOBAL_Sucursal, _
+        Dim frmConRep As New ReporteDinamico.frmListaReporte(4,
+                        Main.GLOBAL_RutaReportes,
+                        Main.GLOBAL_Servidor,
+                        Main.GLOBAL_Database,
+                        Main.GLOBAL_IDUsuario,
+                        GLOBAL_connection,
+                        Main.GLOBAL_Corporativo,
+                        Main.GLOBAL_Sucursal,
                         True)
         frmConRep.MdiParent = Me
         frmConRep.WindowState = FormWindowState.Maximized
@@ -1185,63 +1162,40 @@ Public Class frmPrincipal
 
 
     Private Sub ConsultaClientes()
-        Dim oBuscaCliente As SigaMetClasses.BusquedaCliente
-        Dim strURL As String
+        If Not oSeguridad.TieneAcceso("BUSQUEDACLIENTES") Then
+            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
-        Try
-            If Not oSeguridad.TieneAcceso("BUSQUEDACLIENTES") Then
-                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Dim f As Form
+        For Each f In Me.MdiChildren
+            If f.Name = "BusquedaCliente" Then
+                f.Focus()
                 Exit Sub
             End If
+        Next
 
-            Dim f As Form
-            For Each f In Me.MdiChildren
-                If f.Name = "BusquedaCliente" Then
-                    f.Focus()
-                    Exit Sub
-                End If
-            Next
+        Cursor = Cursors.WaitCursor
+        Dim _ModificaDatosCliente As Boolean =
+            oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
+        Dim _ModificaDatosCredito As Boolean =
+            oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
+        Dim _CambioEmpleadoNomina As Boolean =
+            oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
+        Dim _CambioClientePadre As Boolean =
+                    oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
 
-            Cursor = Cursors.WaitCursor
-            Dim _ModificaDatosCliente As Boolean =
-                oSeguridad.TieneAcceso("CLIENTES_MODIFICA")
-            Dim _ModificaDatosCredito As Boolean =
-                oSeguridad.TieneAcceso("CLIENTESCARTERA_MODIFICA")
-            Dim _CambioEmpleadoNomina As Boolean =
-                oSeguridad.TieneAcceso("CAMBIO_EMPLEADONOMINA")
-            Dim _CambioClientePadre As Boolean =
-                        oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
-
-            strURL = ConsultaURLGateway()
-
-            If (String.IsNullOrEmpty(strURL)) Then
-                oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
-                            AutoSeleccionarRegistroUnico:=False,
-                            PermiteModificarDatosCliente:=_ModificaDatosCliente,
-                            PermiteModificarDatosCredito:=_ModificaDatosCredito,
-                            Usuario:=Main.GLOBAL_IDUsuario,
-                            PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
-                            PermiteCambioClientePadre:=_CambioClientePadre,
-                            DSCatalogos:=DSCatalogos)
-            Else
-                oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
-                            AutoSeleccionarRegistroUnico:=False,
-                            PermiteModificarDatosCliente:=_ModificaDatosCliente,
-                            PermiteModificarDatosCredito:=_ModificaDatosCredito,
-                            Usuario:=Main.GLOBAL_IDUsuario,
-                            PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
-                            PermiteCambioClientePadre:=_CambioClientePadre,
-                            DSCatalogos:=DSCatalogos,
-                            URLGateway:=strURL)
-            End If
-
-            oBuscaCliente.MdiParent = Me
-            oBuscaCliente.Show()
-        Catch ex As Exception
-            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            Cursor = Cursors.Default
-        End Try
+        Dim oBuscaCliente As New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
+                        AutoSeleccionarRegistroUnico:=False,
+                        PermiteModificarDatosCliente:=_ModificaDatosCliente,
+                        PermiteModificarDatosCredito:=_ModificaDatosCredito,
+                        Usuario:=Main.GLOBAL_IDUsuario,
+                        PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
+                        PermiteCambioClientePadre:=_CambioClientePadre,
+                        DSCatalogos:=DSCatalogos)
+        oBuscaCliente.MdiParent = Me
+        oBuscaCliente.Show()
+        Cursor = Cursors.Default
     End Sub
 
     Private Sub ConsultaRelacionCobranza()
@@ -1645,7 +1599,7 @@ Public Class frmPrincipal
 
         Cursor = Cursors.WaitCursor
 
-        Dim pgref As New PagoReferenciado.PagoReferenciado(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, _
+        Dim pgref As New PagoReferenciado.PagoReferenciado(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion,
             GLOBAL_IDEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada, FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto)
         pgref.MdiParent = Me
 
@@ -1771,7 +1725,7 @@ Public Class frmPrincipal
             Next
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
-            Dim _autorizacionCyC As New AutorizacionCredito.Solicitantes(GLOBAL_IDUsuario, GLOBAL_MaxImporteCredito, _
+            Dim _autorizacionCyC As New AutorizacionCredito.Solicitantes(GLOBAL_IDUsuario, GLOBAL_MaxImporteCredito,
                 GLOBAL_ClaveCreditoAutorizado, SigaMetClasses.DataLayer.Conexion)
             _autorizacionCyC.WindowState = FormWindowState.Maximized
             _autorizacionCyC.MdiParent = Me
@@ -1877,7 +1831,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario, _
+            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario,
                 GLOBAL_IDEmpleado, GLOBAL_CajaUsuario, FechaOperacion, FechaOperacion, ConsecutivoInicioDeSesion, SesionIniciada)
             ajuste.MdiParent = Me
             ajuste.WindowState = FormWindowState.Maximized
@@ -1899,7 +1853,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario, _
+            Dim ajuste As AjustesCartera.AjusteSaldoMenorX = New AjustesCartera.AjusteSaldoMenorX(GLOBAL_IDUsuario,
                 GLOBAL_IDEmpleado, GLOBAL_CajaUsuario, FechaOperacion, FechaOperacion, ConsecutivoInicioDeSesion, SesionIniciada, GLOBAL_TipoCargoEfiNeg)
             ajuste.MdiParent = Me
             ajuste.WindowState = FormWindowState.Maximized
@@ -1943,7 +1897,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim cobResguardo As ResguardoCyC.ListaCobranza = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, _
+            Dim cobResguardo As ResguardoCyC.ListaCobranza = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario,
                 GLOBAL_RespResguardo, GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
             cobResguardo.MdiParent = Me
             cobResguardo.WindowState = FormWindowState.Maximized
@@ -2015,7 +1969,7 @@ Public Class frmPrincipal
             Next
             Cursor = Cursors.WaitCursor
             BuroDeCredito.DataManager.Instance.Connection = SigaMetClasses.DataLayer.Conexion
-            Dim bcControl As BuroDeCredito.frmBuroCredito = New BuroDeCredito.frmBuroCredito(GLOBAL_IDUsuario, _
+            Dim bcControl As BuroDeCredito.frmBuroCredito = New BuroDeCredito.frmBuroCredito(GLOBAL_IDUsuario,
                 GLOBAL_Password, GLOBAL_IDEmpleado)
             bcControl.MdiParent = Me
             bcControl.StartPosition = FormStartPosition.CenterParent
@@ -2039,7 +1993,7 @@ Public Class frmPrincipal
             'Acceso a la pantalla de administración de abonos externos, con las siguientes funcionalidades:
             '* Carga de archivos de abonos externos
             '* Ingreso (automático o bajo demanda) a la pantalla de aplicación de abonos externos
-            Dim admAbonosExternos As AdministracionAbonosExternos.AdministracionAbonosExternos = _
+            Dim admAbonosExternos As AdministracionAbonosExternos.AdministracionAbonosExternos =
                 New AdministracionAbonosExternos.AdministracionAbonosExternos()
             'Controlador de evento para indicar cuando se cargó un archivo, a fín de mostrar automáticamente la pantalla de aplicación
             'de abonos
@@ -2065,9 +2019,9 @@ Public Class frmPrincipal
 
         'Acceso a la pantalla de aplicación de abonos externos, se proporcionan los parámetros necesarios para la integración de un movimiento
         'de caja, además se proporcionan las claves del archivo que será procesado
-        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, _
-            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada, _
-            FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto, _
+        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion,
+            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada,
+            FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto,
             e.Item, e.Label)
         DirectCast(sender, Form).Close()
 
@@ -2095,8 +2049,8 @@ Public Class frmPrincipal
 
         'Acceso a la pantalla de aplicación de abonos externos, se proporcionan los parámetros necesarios para la integración de un movimiento
         'de caja
-        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, _
-            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada, _
+        Dim aplAbonoExterno As New AbonoExterno.AbonoExterno(GLOBAL_connection, GLOBAL_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion,
+            _idEmpleado, GLOBAL_IDUsuario, GLOBAL_DiasAjuste, SesionIniciada,
             FechaInicioSesion, GLOBAL_SaldoAFavorActivo, GLOBAL_RutaReportes, GLOBAL_PGREFImporteExacto)
         aplAbonoExterno.MdiParent = Me
 
@@ -2133,41 +2087,6 @@ Public Class frmPrincipal
 
     Private Sub mnuAyuda_Click(sender As System.Object, e As System.EventArgs) Handles mnuAyuda.Click
 
-    End Sub
-
-    Private Function ConsultaURLGateway() As String
-        Dim URLGateway As String = ""
-        Dim oConfig As SigaMetClasses.cConfig
-
-        Try
-            oConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
-            URLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
-        Catch ex As Exception
-            URLGateway = ""
-        End Try
-
-        Return URLGateway
-    End Function
-
-    Private Function ValidaURL(URL As String) As Boolean
-        Dim uriValidada As Uri
-
-        Return Uri.TryCreate(URL, UriKind.Absolute, uriValidada)
-    End Function
-
-    ' Deshabilita opciones de menú si se encuentra un parámetro válido
-    ' URLGateway en la tabla 'Parametro'
-    Private Sub DeshabilitaOpcionesMenu()
-        Dim strURL As String = ConsultaURLGateway()
-
-        If (strURL > "") Then
-            If (ValidaURL(strURL)) Then
-                mniAutorizacionCredito.Enabled = False
-                mnuCatClientesDescuento.Enabled = False
-                mnuEjecutivoCyC.Enabled = False
-                mniBuroCredito.Enabled = False
-            End If
-        End If
     End Sub
 
 End Class
