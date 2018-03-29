@@ -1101,7 +1101,15 @@ Public Class frmRelacionCobranza
 
     Private Sub entregarCobranza()
         Cursor = Cursors.WaitCursor
-        Dim frmCobranzaEntrega As New frmCapRelacionCobranza(TipoCapturaCobranza.Entrega, _Cobranza)
+        Dim frmCobranzaEntrega As frmCapRelacionCobranza
+        Dim strURL As String = ConsultaURLGateway()
+
+        If (Not String.IsNullOrEmpty(strURL)) Then
+            frmCobranzaEntrega = New frmCapRelacionCobranza(TipoCapturaCobranza.Entrega, _Cobranza, strURL)
+        Else
+            frmCobranzaEntrega = New frmCapRelacionCobranza(TipoCapturaCobranza.Entrega, _Cobranza)
+        End If
+
         If frmCobranzaEntrega.ShowDialog() = DialogResult.OK Then
             Me.CargaDatos(dtpFCobranza.Value.Date)
         End If
@@ -1644,7 +1652,7 @@ Public Class frmRelacionCobranza
     End Sub
 
     Private Sub Modificacion(ByVal Cancelacion As Boolean)
-        If _UsuarioCaptura = Main.GLOBAL_IDUsuario AndAlso Not (oSeguridad.TieneAcceso("PRECAPT_MODIF_PROPIAS") OrElse _
+        If _UsuarioCaptura = Main.GLOBAL_IDUsuario AndAlso Not (oSeguridad.TieneAcceso("PRECAPT_MODIF_PROPIAS") OrElse
                 oSeguridad.TieneAcceso("PRECAPT_MODIF_TODAS")) Then
             MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -1661,4 +1669,18 @@ Public Class frmRelacionCobranza
             Modificar()
         End If
     End Sub
+
+    Private Function ConsultaURLGateway() As String
+        Dim URLGateway As String = ""
+        Dim oConfig As SigaMetClasses.cConfig
+
+        Try
+            oConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            URLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+        Catch ex As Exception
+            URLGateway = ""
+        End Try
+
+        Return URLGateway
+    End Function
 End Class
