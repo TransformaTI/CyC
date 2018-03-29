@@ -1,13 +1,26 @@
+Imports RTGMGateway
+
 Public Class frmClientesCartera
     Inherits System.Windows.Forms.Form
 
     Private LoadCompleted As Boolean = False
     Private _Cliente As Integer
     Private NoExiste As Boolean = False
+    Private _URLGateway As String
 
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+        cboCelula.CargaDatos()
+    End Sub
+
+    Public Sub New(URLGateway As String)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
@@ -324,7 +337,12 @@ Public Class frmClientesCartera
             Case "Consultar"
                 Consultar()
             Case "Refrescar"
-                CargaDatos()
+                If _URLGateway = "" Then
+                    CargaDatos()
+                Else
+                    CargaDatos(_URLGateway)
+                End If
+
             Case "Cerrar"
                 Me.Close()
         End Select
@@ -344,10 +362,10 @@ Public Class frmClientesCartera
             Exit Sub
         End If
         Dim ColumnKey(0) As DataColumn
-        Dim strQuery As String = _
-        "SELECT Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " & _
-        "FROM vwDatosCliente " & _
-        "WHERE Saldo > 0 " & _
+        Dim strQuery As String =
+        "SELECT Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " &
+        "FROM vwDatosCliente " &
+        "WHERE Saldo > 0 " &
         "AND Celula = @Celula ORDER BY Celula, Ruta, Cliente"
 
         'Dim cnSIGAMET As New SqlClient.SqlConnection(Main.ConString)
@@ -370,6 +388,52 @@ Public Class frmClientesCartera
         End Try
     End Sub
 
+    Private Sub CargaDatos(URLGateway As String)
+        Cursor = Cursors.WaitCursor
+        _Cliente = 0
+        If Not LoadCompleted Then
+            Exit Sub
+        End If
+        Dim ColumnKey(0) As DataColumn
+        Dim strQuery As String =
+        "SELECT Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " &
+        "FROM vwDatosCliente " &
+        "WHERE Saldo > 0 " &
+        "AND Celula = @Celula ORDER BY Celula, Ruta, Cliente"
+
+        'Dim cnSIGAMET As New SqlClient.SqlConnection(Main.ConString)
+        Dim cnSIGAMET As SqlClient.SqlConnection = GLOBAL_connection
+        Dim cmdCartera As New SqlClient.SqlCommand(strQuery, cnSIGAMET)
+        Dim daCartera As New SqlClient.SqlDataAdapter(cmdCartera)
+        Dim dt As New DataTable("Cartera")
+        cmdCartera.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = cboCelula.Celula
+        Try
+            Dim row As DataRow
+
+            For Each row In dt.Rows
+
+                Dim Cliente As Integer = CInt(row("Cliente"))
+                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                objSolicitudGateway.IDCliente = Cliente
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                objGateway.URLServicio = URLGateway
+                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                row("Nombre") = objRtgCore.Nombre
+
+            Next
+
+            daCartera.Fill(dt)
+            If dt.Rows.Count > 0 Then
+                grdCartera.DataSource = dt
+            End If
+            grdCartera.CaptionText = "Clientes de la cartera de crédito de la célula " & cboCelula.Celula.ToString & " (" & dt.Rows.Count.ToString & " en total)"
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido el siguiente error:" & Chr(13) & ex.Message, Application.ProductName & " versión " & Application.ProductVersion, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
     Private Sub frmCartera_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         LoadCompleted = True
     End Sub
@@ -377,17 +441,25 @@ Public Class frmClientesCartera
     Private Sub Modificar()
         If _Cliente <> 0 Then
             Cursor = Cursors.WaitCursor
-            Dim oDatosCredito As New SigaMetClasses.CapturaDatosCreditoCliente(_Cliente, GLOBAL_Corporativo, GLOBAL_Sucursal, _
+            Dim oDatosCredito As New SigaMetClasses.CapturaDatosCreditoCliente(_Cliente, GLOBAL_Corporativo, GLOBAL_Sucursal,
             ModificaTipoCredito:=False, ModificaTipoCobro:=False, dtEjecutivoCyC:=DSCatalogos.Tables("EjecutivosCyC"))
             If oDatosCredito.ShowDialog() = DialogResult.OK Then
-                CargaDatos()
+                If _URLGateway = "" Then
+                    CargaDatos()
+                Else
+                    CargaDatos(_URLGateway)
+                End If
             End If
-            Cursor = Cursors.Default
+                Cursor = Cursors.Default
         End If
     End Sub
 
     Private Sub btnCargarDatos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCargarDatos.Click
-        CargaDatos()
+        If _URLGateway = "" Then
+            CargaDatos()
+        Else
+            CargaDatos(_URLGateway)
+        End If
     End Sub
 
     Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
