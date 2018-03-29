@@ -983,24 +983,66 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub ConsultaDatosCredito()
-        If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        Try
+            If String.IsNullOrEmpty(_URLGateway) Then
+                If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
+                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
 
-        Dim f As Form
-        For Each f In Me.MdiChildren
-            If f.Name = "frmClientesCartera" Then
-                f.Focus()
+                Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "frmClientesCartera" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+                Cursor = Cursors.WaitCursor
+                Dim oDatosCredito As New frmClientesCartera()
+                oDatosCredito.MdiParent = Me
+                oDatosCredito.WindowState = FormWindowState.Maximized
+                oDatosCredito.Show()
+                Cursor = Cursors.Default
+            Else
+                If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
+                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+
+                Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "frmClientesCartera" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+                Cursor = Cursors.WaitCursor
+                Dim oDatosCredito As New frmClientesCartera(_URLGateway)
+                oDatosCredito.MdiParent = Me
+                oDatosCredito.WindowState = FormWindowState.Maximized
+                oDatosCredito.Show()
+                Cursor = Cursors.Default
+            End If
+        Catch
+            If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-        Next
-        Cursor = Cursors.WaitCursor
-        Dim oDatosCredito As New frmClientesCartera()
-        oDatosCredito.MdiParent = Me
-        oDatosCredito.WindowState = FormWindowState.Maximized
-        oDatosCredito.Show()
-        Cursor = Cursors.Default
+
+            Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "frmClientesCartera" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+                Cursor = Cursors.WaitCursor
+                Dim oDatosCredito As New frmClientesCartera()
+                oDatosCredito.MdiParent = Me
+                oDatosCredito.WindowState = FormWindowState.Maximized
+                oDatosCredito.Show()
+                Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub CatalogoOperador()
