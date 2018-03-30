@@ -29,13 +29,26 @@ Public Class frmCapRelacionCobranza
     'Controlar captura final o precaptura
     Private _tipoOperacionCaptura As Integer
 
-    Public Sub New(TipoCaptura as Integer)
+    'Dirección para consultar datos en servicio web
+    Private _URLGateway As String
+
+    Public Property URLGateway() As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
+    Public Sub New(TipoCaptura As Integer, Optional URLGateway As String = "")
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
+        _URLGateway = URLGateway
         cboEmpleado.CargaDatos(True, 3)
         cboTipoCobranza.CargaDatos()
         _Cargado = True
@@ -134,25 +147,25 @@ Public Class frmCapRelacionCobranza
     Friend WithEvents btnCobOperador As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmCapRelacionCobranza))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCapRelacionCobranza))
         Me.lvwLista = New System.Windows.Forms.ListView()
-        Me.colDocumento = New System.Windows.Forms.ColumnHeader()
-        Me.colAñoPed = New System.Windows.Forms.ColumnHeader()
-        Me.colCelula = New System.Windows.Forms.ColumnHeader()
-        Me.colPedido = New System.Windows.Forms.ColumnHeader()
-        Me.colGestionInicial = New System.Windows.Forms.ColumnHeader()
-        Me.colGestionInicialDescripcion = New System.Windows.Forms.ColumnHeader()
-        Me.colRutaSuministro = New System.Windows.Forms.ColumnHeader()
-        Me.colTipoCargoTipoPedido = New System.Windows.Forms.ColumnHeader()
-        Me.colFCargo = New System.Windows.Forms.ColumnHeader()
-        Me.colCliente = New System.Windows.Forms.ColumnHeader()
-        Me.colNombre = New System.Windows.Forms.ColumnHeader()
-        Me.colTotal = New System.Windows.Forms.ColumnHeader()
-        Me.colSaldo = New System.Windows.Forms.ColumnHeader()
-        Me.colFactura = New System.Windows.Forms.ColumnHeader()
-        Me.colFacturaSerie = New System.Windows.Forms.ColumnHeader()
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
-        Me.colValeCredito = New System.Windows.Forms.ColumnHeader()
+        Me.colDocumento = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colAñoPed = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCelula = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colPedido = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colGestionInicial = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colGestionInicialDescripcion = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colRutaSuministro = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colTipoCargoTipoPedido = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colFCargo = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCliente = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNombre = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colTotal = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colSaldo = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colFactura = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colFacturaSerie = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colValeCredito = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.mnuLista = New System.Windows.Forms.ContextMenu()
         Me.mnuEliminar = New System.Windows.Forms.MenuItem()
         Me.MenuItem1 = New System.Windows.Forms.MenuItem()
@@ -200,9 +213,9 @@ Public Class frmCapRelacionCobranza
         'lvwLista
         '
         Me.lvwLista.Activation = System.Windows.Forms.ItemActivation.OneClick
-        Me.lvwLista.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lvwLista.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwLista.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colDocumento, Me.colAñoPed, Me.colCelula, Me.colPedido, Me.colGestionInicial, Me.colGestionInicialDescripcion, Me.colRutaSuministro, Me.colTipoCargoTipoPedido, Me.colFCargo, Me.colCliente, Me.colNombre, Me.colTotal, Me.colSaldo, Me.colFactura, Me.colFacturaSerie, Me.ColumnHeader1, Me.colValeCredito})
         Me.lvwLista.ContextMenu = Me.mnuLista
         Me.lvwLista.FullRowSelect = True
@@ -211,6 +224,7 @@ Public Class frmCapRelacionCobranza
         Me.lvwLista.Size = New System.Drawing.Size(992, 368)
         Me.lvwLista.SmallImageList = Me.imgLista16
         Me.lvwLista.TabIndex = 0
+        Me.lvwLista.UseCompatibleStateImageBehavior = False
         Me.lvwLista.View = System.Windows.Forms.View.Details
         '
         'colDocumento
@@ -346,10 +360,17 @@ Public Class frmCapRelacionCobranza
         '
         'imgLista16
         '
-        Me.imgLista16.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imgLista16.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgLista16.ImageStream = CType(resources.GetObject("imgLista16.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgLista16.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgLista16.Images.SetKeyName(0, "")
+        Me.imgLista16.Images.SetKeyName(1, "")
+        Me.imgLista16.Images.SetKeyName(2, "")
+        Me.imgLista16.Images.SetKeyName(3, "")
+        Me.imgLista16.Images.SetKeyName(4, "")
+        Me.imgLista16.Images.SetKeyName(5, "")
+        Me.imgLista16.Images.SetKeyName(6, "")
+        Me.imgLista16.Images.SetKeyName(7, "")
+        Me.imgLista16.Images.SetKeyName(8, "")
         '
         'txtPedidoReferencia
         '
@@ -358,7 +379,6 @@ Public Class frmCapRelacionCobranza
         Me.txtPedidoReferencia.Name = "txtPedidoReferencia"
         Me.txtPedidoReferencia.Size = New System.Drawing.Size(176, 21)
         Me.txtPedidoReferencia.TabIndex = 0
-        Me.txtPedidoReferencia.Text = ""
         '
         'Label1
         '
@@ -366,54 +386,55 @@ Public Class frmCapRelacionCobranza
         Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(8, 161)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(74, 14)
+        Me.Label1.Size = New System.Drawing.Size(75, 13)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Documento:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnBuscar
         '
-        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Bitmap)
+        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
         Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBuscar.Location = New System.Drawing.Point(288, 157)
         Me.btnBuscar.Name = "btnBuscar"
+        Me.btnBuscar.Size = New System.Drawing.Size(75, 23)
         Me.btnBuscar.TabIndex = 1
         Me.btnBuscar.Text = "&Buscar"
         Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnAceptar
         '
-        Me.btnAceptar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
-        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Bitmap)
+        Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
         Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAceptar.Location = New System.Drawing.Point(928, 40)
         Me.btnAceptar.Name = "btnAceptar"
+        Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
         Me.btnAceptar.TabIndex = 5
         Me.btnAceptar.Text = "&Aceptar"
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnCancelar
         '
-        Me.btnCancelar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Bitmap)
+        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Image)
         Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCancelar.Location = New System.Drawing.Point(928, 72)
         Me.btnCancelar.Name = "btnCancelar"
+        Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 6
         Me.btnCancelar.Text = "&Cancelar"
         Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtObservaciones
         '
-        Me.txtObservaciones.AutoSize = False
         Me.txtObservaciones.Location = New System.Drawing.Point(104, 112)
         Me.txtObservaciones.Multiline = True
         Me.txtObservaciones.Name = "txtObservaciones"
         Me.txtObservaciones.Size = New System.Drawing.Size(416, 40)
         Me.txtObservaciones.TabIndex = 4
         Me.txtObservaciones.TabStop = False
-        Me.txtObservaciones.Text = ""
         '
         'Label2
         '
@@ -421,7 +442,7 @@ Public Class frmCapRelacionCobranza
         Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.Location = New System.Drawing.Point(8, 112)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(91, 14)
+        Me.Label2.Size = New System.Drawing.Size(93, 13)
         Me.Label2.TabIndex = 10
         Me.Label2.Text = "Observaciones:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -440,13 +461,15 @@ Public Class frmCapRelacionCobranza
         '
         Me.sbpTotal.Alignment = System.Windows.Forms.HorizontalAlignment.Center
         Me.sbpTotal.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
-        Me.sbpTotal.Width = 496
+        Me.sbpTotal.Name = "sbpTotal"
+        Me.sbpTotal.Width = 495
         '
         'sbpTotalImporte
         '
         Me.sbpTotalImporte.Alignment = System.Windows.Forms.HorizontalAlignment.Center
         Me.sbpTotalImporte.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
-        Me.sbpTotalImporte.Width = 496
+        Me.sbpTotalImporte.Name = "sbpTotalImporte"
+        Me.sbpTotalImporte.Width = 495
         '
         'cboEmpleado
         '
@@ -463,7 +486,7 @@ Public Class frmCapRelacionCobranza
         Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(8, 67)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(64, 14)
+        Me.Label3.Size = New System.Drawing.Size(65, 13)
         Me.Label3.TabIndex = 13
         Me.Label3.Text = "Empleado:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -482,7 +505,7 @@ Public Class frmCapRelacionCobranza
         Me.Label4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.Location = New System.Drawing.Point(8, 91)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(72, 14)
+        Me.Label4.Size = New System.Drawing.Size(72, 13)
         Me.Label4.TabIndex = 15
         Me.Label4.Text = "F.Cobranza:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -494,59 +517,68 @@ Public Class frmCapRelacionCobranza
         Me.tbBarra.ButtonSize = New System.Drawing.Size(18, 18)
         Me.tbBarra.DropDownArrows = True
         Me.tbBarra.ImageList = Me.imgLista16
+        Me.tbBarra.Location = New System.Drawing.Point(0, 0)
         Me.tbBarra.Name = "tbBarra"
         Me.tbBarra.ShowToolTips = True
-        Me.tbBarra.Size = New System.Drawing.Size(1008, 25)
+        Me.tbBarra.Size = New System.Drawing.Size(1008, 28)
         Me.tbBarra.TabIndex = 16
         '
         'btnEliminar
         '
         Me.btnEliminar.ImageIndex = 3
+        Me.btnEliminar.Name = "btnEliminar"
         Me.btnEliminar.Tag = "Eliminar"
         Me.btnEliminar.ToolTipText = "Eliminar de la lista el documento seleccionado"
         '
         'btnSep1
         '
+        Me.btnSep1.Name = "btnSep1"
         Me.btnSep1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnConsultaDocumento
         '
         Me.btnConsultaDocumento.ImageIndex = 4
+        Me.btnConsultaDocumento.Name = "btnConsultaDocumento"
         Me.btnConsultaDocumento.Tag = "ConsultarDocumento"
         Me.btnConsultaDocumento.ToolTipText = "Consultar más datos del documento seleccionado"
         '
         'btnConsultaCliente
         '
         Me.btnConsultaCliente.ImageIndex = 1
+        Me.btnConsultaCliente.Name = "btnConsultaCliente"
         Me.btnConsultaCliente.Tag = "ConsultarCliente"
         Me.btnConsultaCliente.ToolTipText = "Consultar más datos del cliente seleccionado"
         '
         'btnSep2
         '
+        Me.btnSep2.Name = "btnSep2"
         Me.btnSep2.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnCambiarGestion
         '
         Me.btnCambiarGestion.ImageIndex = 5
+        Me.btnCambiarGestion.Name = "btnCambiarGestion"
         Me.btnCambiarGestion.Tag = "CambiarGestion"
         Me.btnCambiarGestion.ToolTipText = "Cambia el tipo de gestión de los documentos seleccionados"
         '
         'btnPrecargar
         '
         Me.btnPrecargar.ImageIndex = 7
+        Me.btnPrecargar.Name = "btnPrecargar"
         Me.btnPrecargar.Tag = "PreCargar"
         Me.btnPrecargar.ToolTipText = "Precarga la lista de documentos a gestionar para el día"
         '
         'btnCobOperador
         '
         Me.btnCobOperador.ImageIndex = 8
+        Me.btnCobOperador.Name = "btnCobOperador"
         Me.btnCobOperador.Tag = "CobranzaOperador"
         Me.btnCobOperador.ToolTipText = "Lista de cobranza para ejecutivo (Créditos de operador)"
         '
         'lblTituloLista
         '
-        Me.lblTituloLista.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblTituloLista.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblTituloLista.BackColor = System.Drawing.Color.RoyalBlue
         Me.lblTituloLista.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTituloLista.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -573,7 +605,7 @@ Public Class frmCapRelacionCobranza
         Me.Label5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.Location = New System.Drawing.Point(8, 43)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(33, 14)
+        Me.Label5.Size = New System.Drawing.Size(34, 13)
         Me.Label5.TabIndex = 19
         Me.Label5.Text = "Tipo:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -584,6 +616,7 @@ Public Class frmCapRelacionCobranza
         Me.cboCelula.ForeColor = System.Drawing.Color.MediumBlue
         Me.cboCelula.Location = New System.Drawing.Point(584, 64)
         Me.cboCelula.Name = "cboCelula"
+        Me.cboCelula.Size = New System.Drawing.Size(121, 21)
         Me.cboCelula.TabIndex = 21
         '
         'lblCelula
@@ -592,7 +625,7 @@ Public Class frmCapRelacionCobranza
         Me.lblCelula.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCelula.Location = New System.Drawing.Point(536, 67)
         Me.lblCelula.Name = "lblCelula"
-        Me.lblCelula.Size = New System.Drawing.Size(43, 14)
+        Me.lblCelula.Size = New System.Drawing.Size(44, 13)
         Me.lblCelula.TabIndex = 22
         Me.lblCelula.Text = "Célula:"
         Me.lblCelula.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -610,7 +643,26 @@ Public Class frmCapRelacionCobranza
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCancelar
         Me.ClientSize = New System.Drawing.Size(1008, 621)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.chkPedidoReferencia, Me.lblCelula, Me.Label5, Me.Label4, Me.Label3, Me.Label2, Me.Label1, Me.cboCelula, Me.cboTipoCobranza, Me.lblTituloLista, Me.tbBarra, Me.dtpFCobranza, Me.cboEmpleado, Me.sbpEstatus, Me.txtObservaciones, Me.btnCancelar, Me.btnAceptar, Me.btnBuscar, Me.txtPedidoReferencia, Me.lvwLista})
+        Me.Controls.Add(Me.chkPedidoReferencia)
+        Me.Controls.Add(Me.lblCelula)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.cboCelula)
+        Me.Controls.Add(Me.cboTipoCobranza)
+        Me.Controls.Add(Me.lblTituloLista)
+        Me.Controls.Add(Me.tbBarra)
+        Me.Controls.Add(Me.dtpFCobranza)
+        Me.Controls.Add(Me.cboEmpleado)
+        Me.Controls.Add(Me.sbpEstatus)
+        Me.Controls.Add(Me.txtObservaciones)
+        Me.Controls.Add(Me.btnCancelar)
+        Me.Controls.Add(Me.btnAceptar)
+        Me.Controls.Add(Me.btnBuscar)
+        Me.Controls.Add(Me.txtPedidoReferencia)
+        Me.Controls.Add(Me.lvwLista)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCapRelacionCobranza"
@@ -619,16 +671,18 @@ Public Class frmCapRelacionCobranza
         CType(Me.sbpTotal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.sbpTotalImporte, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
 #End Region
 
-    Public Sub New(ByVal TipoCaptura As Integer, ByVal Cobranza As Integer)
+    Public Sub New(ByVal TipoCaptura As Integer, ByVal Cobranza As Integer, Optional URLGateway As String = "")
         MyBase.New()
         InitializeComponent()
         _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion
         _Cobranza = Cobranza
+        _URLGateway = URLGateway
         cboTipoCobranza.CargaDatos()
         cboEmpleado.CargaDatos(True, 3)
         cboCelula.CargaDatos()
@@ -741,7 +795,7 @@ Public Class frmCapRelacionCobranza
                     DocumentosBSR.SerieDocumento.SeparaSerie(PedidoReferencia)
                     'valeCredito = CType(PedidoReferencia, Integer)
                 Catch ex As System.OverflowException
-                    MessageBox.Show("El número de documento no corresponde a un vale de crédito" & CrLf & _
+                    MessageBox.Show("El número de documento no corresponde a un vale de crédito" & CrLf &
                                     "Verifique por favor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End Try
@@ -803,8 +857,8 @@ Public Class frmCapRelacionCobranza
             End If
 
             If _TipoCargo <> CType(drLista("TipoCargo"), Byte) Then
-                strMensaje = "El documento " & strPedidoReferencia & " es " & _
-                            " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) & _
+                strMensaje = "El documento " & strPedidoReferencia & " es " &
+                            " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
                             " y no puede ser capturado en esta lista."
                 MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
@@ -815,8 +869,8 @@ Public Class frmCapRelacionCobranza
             If Not dtTipoCargo Is Nothing Then
                 If Not _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion _
                     AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) Then
-                    strMensaje = "El documento " & strPedidoReferencia & " es " & _
-                                " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) & _
+                    strMensaje = "El documento " & strPedidoReferencia & " es " &
+                                " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
                                 " y no puede ser capturado en esta lista."
                     MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
@@ -824,7 +878,7 @@ Public Class frmCapRelacionCobranza
             End If
 
             If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
-                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) & _
+                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
                 "¿Desea agregar este documento a la relación de cobranza?"
                 If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
                     Exit Sub
@@ -837,14 +891,14 @@ Public Class frmCapRelacionCobranza
                 'de documentos pagados
                 If Not CType(cboTipoCobranza.SelectedValue, Byte) = 14 Then
                     If GLOBAL_RCCaptDocumentoPagado Then
-                        strMensaje = "El documento " & strPedidoReferencia & " ya está pagado" & _
+                        strMensaje = "El documento " & strPedidoReferencia & " ya está pagado" &
                         "¿Desea agregar este documento a la relación de cobranza?"
                         If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
                             Exit Sub
                         End If
                     Else
-                        strMensaje = "El documento " & strPedidoReferencia & " ya " & _
-                                     "se encuentra pagado" & Chr(13) & _
+                        strMensaje = "El documento " & strPedidoReferencia & " ya " &
+                                     "se encuentra pagado" & Chr(13) &
                                      "y no puede ser capturado en esta lista."
                         MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
@@ -860,8 +914,8 @@ Public Class frmCapRelacionCobranza
 
             'No se permite la captura de documentos con saldo en la lista de cobranza para archivo muerto
             If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(drLista("Saldo"), Decimal) > 0 Then
-                strMensaje = "El documento " & strPedidoReferencia & _
-                                                     " tiene saldo pendiente" & Chr(13) & _
+                strMensaje = "El documento " & strPedidoReferencia &
+                                                     " tiene saldo pendiente" & Chr(13) &
                                                      "y no puede ser capturado en esta lista."
                 MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
@@ -973,7 +1027,7 @@ Public Class frmCapRelacionCobranza
 
         If Not _Encontrado Then
             If Not chkPedidoReferencia.Checked Then
-                MessageBox.Show("No se encontró un documento asociado al vale de crédito especificado," & Chr(13) & _
+                MessageBox.Show("No se encontró un documento asociado al vale de crédito especificado," & Chr(13) &
                                 "intente la búsqueda por número de pedido (Pedido referencia)", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Else
                 MessageBox.Show("No se encontró el documento especificado", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -1025,7 +1079,7 @@ Public Class frmCapRelacionCobranza
                     DocumentosBSR.SerieDocumento.SeparaSerie(PedidoReferencia)
                     'valeCredito = CType(PedidoReferencia, Integer)
                 Catch ex As System.OverflowException
-                    MessageBox.Show("El número de documento no corresponde a un vale de crédito" & CrLf & _
+                    MessageBox.Show("El número de documento no corresponde a un vale de crédito" & CrLf &
                                     "Verifique por favor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Function
                 End Try
@@ -1119,7 +1173,7 @@ Public Class frmCapRelacionCobranza
                     'para cierre se toma del catálogo tipocobranza.
                     'Parametrización de la solicitud de autorización para el cierre de la cobranza. JAGD 18/02/2007
                     Dim status As String = "CERRADO"
-                    If GLOBAL_AutCierreRelEjeCyC AndAlso _
+                    If GLOBAL_AutCierreRelEjeCyC AndAlso
                     GLOBAL_IDEmpleado <> System.Convert.ToInt32(cboEmpleado.SelectedValue) _
                     AndAlso Not oSeguridad.TieneAcceso("TRANS_REL_COB_EJECUTIVO") Then
                         'Se eliminó la llamada a la función de alta del else, se validan los tipos de cobranza que requieren autorización, del catálogo
@@ -1136,7 +1190,7 @@ Public Class frmCapRelacionCobranza
                     entregaListaCobranzaPrecaptura(iNuevoFolio)
                 End If
 
-                If MessageBox.Show("La relación fue grabada exitosamente con el folio: " & iNuevoFolio.ToString & vbCrLf & _
+                If MessageBox.Show("La relación fue grabada exitosamente con el folio: " & iNuevoFolio.ToString & vbCrLf &
                         "¿Desea imprimir el comprobante?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Information) = DialogResult.Yes Then
                     ImprimirRelacion(iNuevoFolio)
                 End If
@@ -1145,7 +1199,7 @@ Public Class frmCapRelacionCobranza
             'Modificacion de la cobranza
             If _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion Then
                 oCobranza.Modifica(_Cobranza, dtpFCobranza.Value.Date, GLOBAL_IDUsuario, CType(cboEmpleado.SelectedValue, Integer), _TotalCobranza, txtObservaciones.Text, CType(cboTipoCobranza.SelectedValue, Byte), arrPedidos)
-                If MessageBox.Show(SigaMetClasses.M_DATOS_OK & vbCrLf & _
+                If MessageBox.Show(SigaMetClasses.M_DATOS_OK & vbCrLf &
                     "¿Desea imprimir el comprobante?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Information) = DialogResult.Yes Then
                     ImprimirRelacion(_Cobranza)
                 End If
@@ -1241,7 +1295,7 @@ Public Class frmCapRelacionCobranza
             cboEmpleado.SelectedValue = _Empleado
         End If
 
-        If _tipoOperacionCaptura = TipoCapturaCobranza.Captura AndAlso _
+        If _tipoOperacionCaptura = TipoCapturaCobranza.Captura AndAlso
             Not AutorizaCapturaCobranza(CType(cboTipoCobranza.SelectedValue, Byte)) Then
             btnAceptar.Enabled = False
         End If
@@ -1293,11 +1347,11 @@ Public Class frmCapRelacionCobranza
     Private Sub PreCarga2()
         If _tipoOperacionCaptura <> TipoCapturaCobranza.Entrega Then
             Dim programacioncobranza As New _
-                ProgramacionCobranza.ConsultaProgramaCobranza(Main.DSCatalogos.Tables("Celulas"), _
-                DirectCast(cboEmpleado.DataSource, DataTable), _
-                Main.DSCatalogos.Tables("EjecutivosCyC"), _
-                CType(cboEmpleado.SelectedValue, Integer), _
-                GLOBAL_connection, _
+                ProgramacionCobranza.ConsultaProgramaCobranza(Main.DSCatalogos.Tables("Celulas"),
+                DirectCast(cboEmpleado.DataSource, DataTable),
+                Main.DSCatalogos.Tables("EjecutivosCyC"),
+                CType(cboEmpleado.SelectedValue, Integer),
+                GLOBAL_connection,
                 GLOBAL_CargaClientesSinDatosPrg)
 
             programacioncobranza.PermitirTodosEjecutivos = oSeguridad.TieneAcceso("INTEGRAR_SOL_COB")
@@ -1313,10 +1367,10 @@ Public Class frmCapRelacionCobranza
     Private Sub PreCargaCobranzaOperador()
         If _tipoOperacionCaptura <> TipoCapturaCobranza.Entrega Then
             Dim programacioncobranza As New _
-                ProgramacionCobranza.ConsultaCobranzaEjecutivoOperador(Main.DSCatalogos.Tables("Celulas"), _
-                Main.DSCatalogos.Tables("Rutas"), _
-                DirectCast(cboEmpleado.DataSource, DataTable), _
-                CType(cboEmpleado.SelectedValue, Integer), _
+                ProgramacionCobranza.ConsultaCobranzaEjecutivoOperador(Main.DSCatalogos.Tables("Celulas"),
+                Main.DSCatalogos.Tables("Rutas"),
+                DirectCast(cboEmpleado.DataSource, DataTable),
+                CType(cboEmpleado.SelectedValue, Integer),
                 GLOBAL_connection)
 
             If programacioncobranza.ShowDialog() = DialogResult.OK Then
@@ -1348,8 +1402,8 @@ Public Class frmCapRelacionCobranza
 
         If lvwLista.Items.Count > 0 And empleadoCob <> empleado And fecha = fechaCob And empleado > 0 Then
 
-            If MessageBox.Show("¿Desea acumular los documentos " & CrLf & _
-                    "del empleado no.  " & CStr(empleadoCob) & " al empleado actual?", _
+            If MessageBox.Show("¿Desea acumular los documentos " & CrLf &
+                    "del empleado no.  " & CStr(empleadoCob) & " al empleado actual?",
                      Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
                 lvwLista.Items.Clear()
                 lvwLista.Items.Clear()
@@ -1361,7 +1415,7 @@ Public Class frmCapRelacionCobranza
 
             If lvwLista.Items.Count > 0 Then
 
-                If MessageBox.Show("Esto borrará la lista actual " & CrLf & "¿Desea continuar?", _
+                If MessageBox.Show("Esto borrará la lista actual " & CrLf & "¿Desea continuar?",
                         Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     lvwLista.Items.Clear()
                     _TotalCobranza = 0
@@ -1435,9 +1489,9 @@ Public Class frmCapRelacionCobranza
         dtTipoCargo = Main.TipoCargoCobranza(GLOBAL_connection, CType(cboTipoCobranza.SelectedValue, Byte))
 
         If _DatosCargados Then
-            If _tipoOperacionCaptura = TipoCapturaCobranza.Captura AndAlso _
+            If _tipoOperacionCaptura = TipoCapturaCobranza.Captura AndAlso
             Not AutorizaCapturaCobranza(CType(cboTipoCobranza.SelectedValue, Byte)) Then
-                MessageBox.Show("No tiene permiso para capturar este tipo de cobranza", _
+                MessageBox.Show("No tiene permiso para capturar este tipo de cobranza",
                     Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 btnAceptar.Enabled = False
                 Exit Sub
@@ -1448,7 +1502,7 @@ Public Class frmCapRelacionCobranza
             If _tipoOperacionCaptura = TipoCapturaCobranza.Captura Then
                 If CType(cboTipoCobranza.SelectedValue, Byte) = 10 AndAlso Not oSeguridad.TieneAcceso("CIERRE_REL_COB_EJEC_ADMIN") Then
                     cboTipoCobranza.SelectedValue = 1
-                    MessageBox.Show("No tiene permiso para capturar este tipo de cobranza", _
+                    MessageBox.Show("No tiene permiso para capturar este tipo de cobranza",
                         Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
@@ -1629,12 +1683,12 @@ Public Class frmCapRelacionCobranza
         Next
         Try
             precaptura.CancelacionSolicitudCobranza(_Cobranza, 2, GLOBAL_IDUsuario)
-            iNuevoFolio = precaptura.AltaMovimiento(dtpFCobranza.Value.Date, Main.GLOBAL_IDUsuario, _
-                CType(cboEmpleado.SelectedValue, Integer), _TotalCobranza, _
-                txtObservaciones.Text, CType(cboTipoCobranza.SelectedValue, Byte), _
+            iNuevoFolio = precaptura.AltaMovimiento(dtpFCobranza.Value.Date, Main.GLOBAL_IDUsuario,
+                CType(cboEmpleado.SelectedValue, Integer), _TotalCobranza,
+                txtObservaciones.Text, CType(cboTipoCobranza.SelectedValue, Byte),
                 precaptura.dtListaDocumentos)
             Cursor = Cursors.Default
-            If MessageBox.Show("La solicitud de relación fue grabada exitosamente con el folio: " & iNuevoFolio.ToString & vbCrLf & _
+            If MessageBox.Show("La solicitud de relación fue grabada exitosamente con el folio: " & iNuevoFolio.ToString & vbCrLf &
             "¿Desea imprimir el comprobante?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Information) = DialogResult.Yes Then
                 ImprimirSolicitud(iNuevoFolio)
             End If
@@ -1693,6 +1747,10 @@ Public Class frmCapRelacionCobranza
 
             LlenaLista(dr)
 
+            If (Not String.IsNullOrEmpty(URLGateway)) Then
+                recargaPrecapturados()
+            End If
+
         Catch ex As Exception
             MessageBox.Show(ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -1733,7 +1791,7 @@ Public Class frmCapRelacionCobranza
         For Each lvItem In lvwLista.Items
             If CType(lvItem.SubItems(12).Text, Decimal) > 0 Then
                 lvItem.Selected = True
-                MessageBox.Show("El documento " & lvItem.SubItems(0).Text & " tiene saldo pendiente," & vbCrLf & _
+                MessageBox.Show("El documento " & lvItem.SubItems(0).Text & " tiene saldo pendiente," & vbCrLf &
                     "retírelo de la lista para continuar.", "Cobranza", MessageBoxButtons.OK, MessageBoxIcon.Stop)
                 retVal = True
                 Exit For
@@ -1741,4 +1799,53 @@ Public Class frmCapRelacionCobranza
         Next
         Return retVal
     End Function
+
+    Private Function consultaClienteCRM(ByVal cliente As Integer) As String
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+
+        Try
+            If (Not String.IsNullOrEmpty(URLGateway)) Then
+                Gateway = New RTGMGateway.RTGMGateway
+                Gateway.URLServicio = URLGateway
+                Solicitud = New RTGMGateway.SolicitudGateway() With {
+                    .Fuente = RTGMCore.Fuente.Sigamet,
+                    .IDCliente = cliente,
+                    .IDEmpresa = 0
+                }
+
+                DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+            End If
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+        Return DireccionEntrega.Nombre.Trim
+    End Function
+
+    Private Sub recargaPrecapturados()
+        ' Indice de la columna 'Cliente' en lvwLista
+        Dim idxCliente As Integer = Me.colCliente.Index
+        ' Indice de la columna 'Nombre' en lvwLista
+        Dim idxNombre As Integer = Me.colNombre.Index
+        Dim cliente As Integer
+
+        Try
+            If Not IsNothing(lvwLista) Then
+                If (lvwLista.Items.Count > 0) Then
+
+                    For Each item As ListViewItem In lvwLista.Items
+                        cliente = Convert.ToInt32(item.SubItems(idxCliente).Text)
+                        item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
+                    Next item
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error: " & vbCrLf & ex.Message, Me.Titulo,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
 End Class
