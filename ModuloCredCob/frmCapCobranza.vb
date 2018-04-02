@@ -1,4 +1,5 @@
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 
 Public Class frmCapCobranza
     Inherits System.Windows.Forms.Form
@@ -13,7 +14,7 @@ Public Class frmCapCobranza
     Private _Folio As Integer
     Private _Consecutivo As Byte
     Private _Caja As Byte
-
+    Private _URLGateway As String = ""
 
 #Region " Windows Form Designer generated code "
 
@@ -35,6 +36,8 @@ Public Class frmCapCobranza
         cboEmpleado.SelectedValue = GLOBAL_IDEmpleado
 
         cboRuta.CargaDatos()
+
+        CargaURLGateway()
 
     End Sub
 
@@ -425,7 +428,7 @@ Public Class frmCapCobranza
         Me.lblWarning.Name = "lblWarning"
         Me.lblWarning.Size = New System.Drawing.Size(256, 72)
         Me.lblWarning.TabIndex = 31
-        Me.lblWarning.Text = "La modificación de este movimiento implica la cancelación de este y la creación d" & _
+        Me.lblWarning.Text = "La modificación de este movimiento implica la cancelación de este y la creación d" &
     "e un nuevo movimiento con otra clave."
         Me.lblWarning.Visible = False
         '
@@ -623,7 +626,24 @@ Public Class frmCapCobranza
 
         Me.CargaLista()
 
+        CargaURLGateway()
 
+    End Sub
+
+    Private Sub CargaURLGateway()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+            Dim re As Regex = New Regex(
+                            "^(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]",
+                            RegexOptions.IgnoreCase)
+            Dim m As Match = re.Match(_URLGateway)
+            If m.Captures.Count = 0 Then
+                MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
+            End If
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
     End Sub
 
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
@@ -670,7 +690,7 @@ Public Class frmCapCobranza
 
     Private Sub frmCapCobranza_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Cursor = Cursors.WaitCursor
-        
+
 
         If FechaOperacion.Day <= Main.GLOBAL_DiasAjuste Then
             'Se detecta la fecha mínima
@@ -910,28 +930,57 @@ Public Class frmCapCobranza
         btnBorrarCobro.Enabled = False
     End Sub
 
+    Private Function consultaClienteCRM(ByVal cliente As Integer) As String
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+
+        Try
+            If (Not String.IsNullOrEmpty(_URLGateway)) Then
+                Gateway = New RTGMGateway.RTGMGateway
+                Gateway.URLServicio = _URLGateway
+                Solicitud = New RTGMGateway.SolicitudGateway() With {
+                    .Fuente = RTGMCore.Fuente.Sigamet,
+                    .IDCliente = cliente,
+                    .IDEmpresa = 0
+                }
+
+                DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+            End If
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+        Return DireccionEntrega.Nombre.Trim
+    End Function
+
     Private Sub txtCliente_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCliente.Leave
         If txtCliente.Text <> "" Then
-            Dim oCliente As New SigaMetClasses.cCliente()
-            oCliente.Consulta(CType(txtCliente.Text, Integer))
-            lblNombreCliente.Text = oCliente.Nombre
-            'TODO: Validacion de clientes de edificio administrado agregada el 13/10/2004
-            btnAgregar.Enabled = True
-            GLOBAL_ClientePadreEdificio = Nothing
-            GLOBAL_AplicaValidacionClienteHijo = False 'Indica cuando se debe aplicar la validación de clientes hijos en la captura de cobros
-            If GLOBAL_AplicaAdmEdificios Then
-                Dim movCaja As Byte = cboTipoMovCaja.TipoMovimientoCaja
-                If movCaja = GLOBAL_TipoMovimientoAdmEdificios Then
-                    If Not (validacionDeClientesEdificio(oCliente)) Then
-                        MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que" & Chr(13) & _
-                            "se requiere el contrato de un cliente padre de Administración de Edificios", "Validacion del no. de contrato", _
+            If _URLGateway <> "" Then
+                lblNombreCliente.Text = consultaClienteCRM(CInt(txtCliente.Text))
+            Else
+                Dim oCliente As New SigaMetClasses.cCliente()
+                oCliente.Consulta(CType(txtCliente.Text, Integer))
+                lblNombreCliente.Text = oCliente.Nombre
+                'TODO: Validacion de clientes de edificio administrado agregada el 13/10/2004
+                btnAgregar.Enabled = True
+                GLOBAL_ClientePadreEdificio = Nothing
+                GLOBAL_AplicaValidacionClienteHijo = False 'Indica cuando se debe aplicar la validación de clientes hijos en la captura de cobros
+                If GLOBAL_AplicaAdmEdificios Then
+                    Dim movCaja As Byte = cboTipoMovCaja.TipoMovimientoCaja
+                    If movCaja = GLOBAL_TipoMovimientoAdmEdificios Then
+                        If Not (validacionDeClientesEdificio(oCliente)) Then
+                            MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que" & Chr(13) &
+                            "se requiere el contrato de un cliente padre de Administración de Edificios", "Validacion del no. de contrato",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                        'Se apaga el botón para que no se agregen cobros hasta que se corrija el contrato o se cambie el tipo de cobranza
-                        btnAgregar.Enabled = False
+                            'Se apaga el botón para que no se agregen cobros hasta que se corrija el contrato o se cambie el tipo de cobranza
+                            btnAgregar.Enabled = False
+                        End If
                     End If
                 End If
+                'Fin de la validacion de cobranza de edificios
             End If
-            'Fin de la validacion de cobranza de edificios
         End If
     End Sub
 
