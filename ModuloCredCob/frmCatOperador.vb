@@ -9,6 +9,7 @@ Public Class frmCatOperador
     Private _MaxLitrosCredito As Integer
     Private _MaxDiasCredito As Short
     Private dtOperador As DataTable
+    Private _URLGateway As String
 
     Public Sub New(ByVal TipoOperacion As SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo)
         MyBase.New()
@@ -276,7 +277,29 @@ Public Class frmCatOperador
     End Sub
 
 #End Region
-
+    Public Function recargarOperadoresCRM(ByVal dtOperadores As DataTable) As DataTable
+        Dim _dtOperadores As New DataTable()
+        _dtOperadores = dtOperadores
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+        Dim objRTGMGateway As New RTGMGateway.RTGMGateway
+        Dim objSolicitud As RTGMGateway.SolicitudGateway
+        For Each row As DataRow In _dtOperadores.Rows
+            Try
+                If (Not String.IsNullOrEmpty(_URLGateway)) Then
+                    objRTGMGateway = New RTGMGateway.RTGMGateway
+                    objRTGMGateway.URLServicio = _URLGateway
+                    objSolicitud = New RTGMGateway.SolicitudGateway() With {
+                        .Fuente = RTGMCore.Fuente.Sigamet,
+                        .IDCliente = CInt(row("Cliente"))
+                    }
+                    row("Nombre") = objSolicitud.Nombre
+                End If
+            Catch ex As Exception
+                Throw ex
+            End Try
+        Next
+        Return _dtOperadores
+    End Function
 
     Private Sub CargaGrid()
         Cursor = Cursors.WaitCursor
@@ -284,6 +307,7 @@ Public Class frmCatOperador
         dtOperador = New DataTable()
         dtOperador = oOperador.Consulta()
         If dtOperador.Rows.Count > 0 Then
+            dtOperador = recargarOperadoresCRM(dtOperador)
             grdDatos.DataSource = dtOperador
             grdDatos.CaptionText = "Operadores (" & dtOperador.Rows.Count.ToString & ")"
         End If
