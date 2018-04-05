@@ -857,6 +857,29 @@ Public Class frmPrincipal
             sbpVersion.Text &= " NT"
         End If
 
+        DeshabilitaOpcionesMenu()
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim strURLGateway As String
+
+        strURLGateway = ""
+        Try
+            strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            MessageBox.Show("El parametro URL Gateway no esta configurado")
+        End Try
+        If strURLGateway = "" Then
+            mnuConsultaEmpresa.Enabled = True
+            mnuCatEmpresas.Enabled = True
+            mnuClientesNuevos.Enabled = True
+            mniAutorizacionCredito.Enabled = True
+        Else
+            mnuConsultaEmpresa.Enabled = False
+            mnuCatEmpresas.Enabled = False
+            mnuClientesNuevos.Enabled = False
+            mniAutorizacionCredito.Enabled = False
+        End If
+
         'Dim oPanelControl As New frmPanelControl()
         'oPanelControl.Show()
         AbreMisPostits()
@@ -1928,6 +1951,9 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub GeneracionCobranzaResguardo()
+        Dim cobResguardo As ResguardoCyC.ListaCobranza
+        Dim strURLGateway As String
+
         If oSeguridad.TieneAcceso("ListaCobranzaResg") Then
             Dim f As Form
             For Each f In Me.MdiChildren
@@ -1939,8 +1965,16 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
 
-            Dim cobResguardo As ResguardoCyC.ListaCobranza = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario,
-                GLOBAL_RespResguardo, GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
+            strURLGateway = ConsultaURLGateway()
+
+            If (ValidaURL(strURLGateway)) Then
+                cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo,
+                    GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes, strURLGateway)
+            Else
+                cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo,
+                    GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
+            End If
+
             cobResguardo.MdiParent = Me
             cobResguardo.WindowState = FormWindowState.Maximized
             cobResguardo.Show()
@@ -2131,4 +2165,38 @@ Public Class frmPrincipal
 
     End Sub
 
+    Private Function ConsultaURLGateway() As String
+        Dim URLGateway As String = ""
+        Dim oConfig As SigaMetClasses.cConfig
+
+        Try
+            oConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            URLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+        Catch ex As Exception
+            URLGateway = ""
+        End Try
+
+        Return URLGateway
+    End Function
+
+    Private Function ValidaURL(URL As String) As Boolean
+        Dim uriValidada As Uri
+
+        Return Uri.TryCreate(URL, UriKind.Absolute, uriValidada)
+    End Function
+
+    ' Deshabilita opciones de menú si se encuentra un parámetro válido
+    ' URLGateway en la tabla 'Parametro'
+    Private Sub DeshabilitaOpcionesMenu()
+        Dim strURL As String = ConsultaURLGateway()
+
+        If (strURL > "") Then
+            If (ValidaURL(strURL)) Then
+                mniAutorizacionCredito.Enabled = False
+                mnuCatClientesDescuento.Enabled = False
+                mnuEjecutivoCyC.Enabled = False
+                mniBuroCredito.Enabled = False
+            End If
+        End If
+    End Sub
 End Class
