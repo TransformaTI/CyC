@@ -4,13 +4,21 @@ Public Class frmConsultaMovimientos
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
-        MyBase.New(4, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado)
+        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado)
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
 
+    End Sub
+
+    Public Sub New(URLGateway As String)
+        MyBase.New(4, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway)
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+        'Add any initialization after the InitializeComponent() call
+        _URLGatewy = URLGateway
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -25,6 +33,7 @@ Public Class frmConsultaMovimientos
 
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
+    Private _URLGatewy As String
 
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
@@ -59,11 +68,14 @@ Public Class frmConsultaMovimientos
     End Sub
 
     Private Sub frmConsultaMovimientos_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        CargaDatos()
+        If _URLGatewy = "" Then
+            CargaDatos()
+        Else
+            CargaDatos(_URLGatewy)
+        End If
+
         Me.PermiteCapturar = GLOBAL_CapturaPermitida
         Me.PermiteModificar = GLOBAL_CapturaPermitida
-
-
     End Sub
 
     Public Overrides Sub Modificar()

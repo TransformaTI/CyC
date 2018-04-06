@@ -1189,22 +1189,45 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub ConsultaMovimientos()
-        If Not oSeguridad.TieneAcceso("MOVIMIENTOS") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        Try
+            If Trim(_URLGateway) = "" Then
+                If Not oSeguridad.TieneAcceso("MOVIMIENTOS") Then
+                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
 
-        Dim f As Form
-        For Each f In Me.MdiChildren
-            If f.Name = "ConsultaMovimientos" Then
-                f.Focus()
-                Exit Sub
+                Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "ConsultaMovimientos" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+                Dim frmConMov As New frmConsultaMovimientos()
+                frmConMov.MdiParent = Me
+                frmConMov.Show()
+
+            Else
+                If Not oSeguridad.TieneAcceso("MOVIMIENTOS") Then
+                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+
+                Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "ConsultaMovimientos" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+
+                Dim frmConMov As New frmConsultaMovimientos(_URLGateway)
+                frmConMov.MdiParent = Me
+                frmConMov.Show()
             End If
-        Next
-
-        Dim frmConMov As New frmConsultaMovimientos()
-        frmConMov.MdiParent = Me
-        frmConMov.Show()
+        Catch ex As Exception
+            MsgBox("Error con parámetro URLGateway" & vbCrLf & ex.Message)
+        End Try
     End Sub
 
     Private Sub ConsultaDocumento()
@@ -1338,7 +1361,7 @@ Public Class frmPrincipal
                     End If
                 Next
                 Cursor = Cursors.WaitCursor
-                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway)
+                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura()
                 oConsultaFactura.MdiParent = Me
                 oConsultaFactura.Show()
                 Cursor = Cursors.Default
@@ -1738,7 +1761,7 @@ Public Class frmPrincipal
     End Sub
     Private Sub Inhabilitar()
         Try
-            Dim oConfig As New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
             If _URLGateway <> "" Then
                 mnuArqueo.Enabled = False
