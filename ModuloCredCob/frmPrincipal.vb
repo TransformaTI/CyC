@@ -121,6 +121,7 @@ Public Class frmPrincipal
     Friend WithEvents mniBuroCredito As System.Windows.Forms.MenuItem
     Friend WithEvents mniAbonosExternos As System.Windows.Forms.MenuItem
     Friend WithEvents btnEntregaNotas As System.Windows.Forms.ToolBarButton
+    Friend WithEvents MnuCuentaBancariaCliente As MenuItem
     Friend WithEvents mnuExportacionReportes As System.Windows.Forms.MenuItem
     Public Property _URLGateway As String
 
@@ -218,6 +219,7 @@ Public Class frmPrincipal
         Me.btnResguardo = New System.Windows.Forms.ToolBarButton()
         Me.btnEntregaNotas = New System.Windows.Forms.ToolBarButton()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
+        Me.MnuCuentaBancariaCliente = New System.Windows.Forms.MenuItem()
         CType(Me.sbpUsuario, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpUsuarioNombre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpDepartamento, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -428,7 +430,7 @@ Public Class frmPrincipal
         'mnuCatalogos
         '
         Me.mnuCatalogos.Index = 1
-        Me.mnuCatalogos.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuOperador, Me.mnuTarjetaCredito, Me.mnuCatMotivoCancelacionMovCaja, Me.mnuCatEmpresas, Me.mnuCatClientesDescuento, Me.mnuEjecutivoCyC, Me.mniRespResguardo, Me.mniFiliales})
+        Me.mnuCatalogos.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuOperador, Me.mnuTarjetaCredito, Me.mnuCatMotivoCancelacionMovCaja, Me.mnuCatEmpresas, Me.mnuCatClientesDescuento, Me.mnuEjecutivoCyC, Me.mniRespResguardo, Me.mniFiliales, Me.MnuCuentaBancariaCliente})
         Me.mnuCatalogos.Text = "Catálogos"
         '
         'mnuOperador
@@ -769,6 +771,11 @@ Public Class frmPrincipal
         Me.ImageList1.Images.SetKeyName(10, "")
         Me.ImageList1.Images.SetKeyName(11, "")
         '
+        'MnuCuentaBancariaCliente
+        '
+        Me.MnuCuentaBancariaCliente.Index = 8
+        Me.MnuCuentaBancariaCliente.Text = "C&uentaBancariaCliente"
+        '
         'frmPrincipal
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
@@ -835,7 +842,7 @@ Public Class frmPrincipal
 
     Private Sub TableroNotas()
         Cursor = Cursors.WaitCursor
-        Dim oTablero As New SigaMetClasses.PostitLista(SigaMetClasses.Postit.enumTipoPostit.Usuario, GLOBAL_IDUsuario, _
+        Dim oTablero As New SigaMetClasses.PostitLista(SigaMetClasses.Postit.enumTipoPostit.Usuario, GLOBAL_IDUsuario,
                                             Usuario:=GLOBAL_IDUsuario)
         oTablero.ShowDialog()
         Cursor = Cursors.Default
@@ -1053,18 +1060,18 @@ Public Class frmPrincipal
             End If
 
             Dim f As Form
-                For Each f In Me.MdiChildren
-                    If f.Name = "frmClientesCartera" Then
-                        f.Focus()
-                        Exit Sub
-                    End If
-                Next
-                Cursor = Cursors.WaitCursor
-                Dim oDatosCredito As New frmClientesCartera()
-                oDatosCredito.MdiParent = Me
-                oDatosCredito.WindowState = FormWindowState.Maximized
-                oDatosCredito.Show()
-                Cursor = Cursors.Default
+            For Each f In Me.MdiChildren
+                If f.Name = "frmClientesCartera" Then
+                    f.Focus()
+                    Exit Sub
+                End If
+            Next
+            Cursor = Cursors.WaitCursor
+            Dim oDatosCredito As New frmClientesCartera()
+            oDatosCredito.MdiParent = Me
+            oDatosCredito.WindowState = FormWindowState.Maximized
+            oDatosCredito.Show()
+            Cursor = Cursors.Default
         End Try
     End Sub
 
@@ -2259,5 +2266,20 @@ Public Class frmPrincipal
                 mniBuroCredito.Enabled = False
             End If
         End If
+    End Sub
+
+    Private Sub MnuCuentaBancariaCliente_Click(sender As Object, e As EventArgs) Handles MnuCuentaBancariaCliente.Click
+        Cursor = Cursors.WaitCursor
+        Dim f As Form
+        For Each f In Me.MdiChildren
+            If f.Name = "frmCatCuentaBancariaCliente" Then
+                f.Focus()
+                Exit Sub
+            End If
+        Next
+        Cursor = Cursors.Default
+        Dim Descuentos As New frmCatCuentaBancariaCliente()
+        Descuentos.MdiParent = Me
+        Descuentos.Show()
     End Sub
 End Class

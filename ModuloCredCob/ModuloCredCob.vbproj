@@ -328,6 +328,12 @@
     <Compile Include="Descuentos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmAltaEditaCuentaBancariaCliente .Designer.vb">
+      <DependentUpon>frmAltaEditaCuentaBancariaCliente .vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaEditaCuentaBancariaCliente .vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmCapCobranza.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -350,6 +356,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCargosPendientesEmpleado.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatCuentaBancariaCliente.Designer.vb">
+      <DependentUpon>frmCatCuentaBancariaCliente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCatCuentaBancariaCliente.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCatMotivoCancelacionMovCaja.vb">
@@ -406,12 +418,22 @@
     <Compile Include="Main.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Splash.vb">
       <SubType>Form</SubType>
     </Compile>
     <Content Include="ModuloCyC.ico" />
+    <None Include="Resources\boton-guardar1.png" />
+    <None Include="Resources\boton-guardar.png" />
     <EmbeddedResource Include="Descuentos.resx">
       <DependentUpon>Descuentos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaEditaCuentaBancariaCliente .resx">
+      <DependentUpon>frmAltaEditaCuentaBancariaCliente .vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCapCobranza.resx">
       <DependentUpon>frmCapCobranza.vb</DependentUpon>
@@ -436,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCargosPendientesEmpleado.resx">
       <DependentUpon>frmCargosPendientesEmpleado.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatCuentaBancariaCliente.resx">
+      <DependentUpon>frmCatCuentaBancariaCliente.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCatMotivoCancelacionMovCaja.resx">
       <DependentUpon>frmCatMotivoCancelacionMovCaja.vb</DependentUpon>
@@ -487,6 +512,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTipoGestionCobranza.resx">
       <DependentUpon>frmTipoGestionCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Splash.resx">
       <DependentUpon>Splash.vb</DependentUpon>
