@@ -2280,7 +2280,7 @@ Public Class frmPrincipal
                 Exit Sub
             End If
         Next
-        Dim CuentaBancariaClientees As New SigaMetClasses.frmCatCuentaBancariaCliente()
+        Dim CuentaBancariaClientees As New SigaMetClasses.frmCatCuentaBancariaCliente(GLOBAL_IDUsuario)
         CuentaBancariaClientees.MdiParent = Me
         CuentaBancariaClientees.Text = "Catálogo de cuentas bancarias del cliente"
         CuentaBancariaClientees.Show()
