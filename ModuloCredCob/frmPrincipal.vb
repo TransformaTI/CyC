@@ -2036,8 +2036,7 @@ Public Class frmPrincipal
             strURLGateway = ConsultaURLGateway()
 
             If (ValidaURL(strURLGateway)) Then
-                cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo,
-                    GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes, strURLGateway)
+                'cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo, GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes, strURLGateway)
             Else
                 cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo,
                     GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
