@@ -1,6 +1,8 @@
 Imports System.Data.SqlClient
 Imports ExportData
 Imports CobranzaExterna
+Imports RTGMGateway
+
 Public Class frmRelacionCobranza
     Inherits System.Windows.Forms.Form
     Private _Cobranza As Integer
@@ -12,6 +14,7 @@ Public Class frmRelacionCobranza
     Private Titulo As String = "Relaciones de cobranza"
     Private _PedidoReferencia As String
     Private _RelacionEjecutivo As Boolean
+    Private _UrlGateway As String
 
     'Captura de solicitudes de cobranza
     Private _tipoOperacionCobranza As Integer = TipoCapturaCobranza.Captura
@@ -1024,15 +1027,15 @@ Public Class frmRelacionCobranza
         'End If
 
         If _tipoOperacionCobranza = TipoCapturaCobranza.Captura Then
-            If Not oSeguridad.TieneAcceso("RELACIONES_CAPTURA_FULL") OrElse _
+            If Not oSeguridad.TieneAcceso("RELACIONES_CAPTURA_FULL") OrElse
             Not oSeguridad.TieneAcceso("RELACIONES_CAPTURA_OWN") Then
-                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, _
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion,
                     MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
         Else
             If Not oSeguridad.TieneAcceso("PRECAPT_COBRANZA") Then
-                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, _
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion,
                     MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
@@ -1118,7 +1121,7 @@ Public Class frmRelacionCobranza
 
     Private Sub relacionCobranzaAutomaticaOperador()
         If Not oSeguridad.TieneAcceso("RELACIONES_CAPTURA_FULL") Then
-            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, _
+            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion,
                 MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
@@ -1271,7 +1274,7 @@ Public Class frmRelacionCobranza
 
                     'Validar el tipo de cobranza y los permisos
                     If Not AutorizaCapturaCobranza(CType(_TipoCobranza, Byte)) Then
-                        MessageBox.Show("No tiene permiso para modificar este tipo de cobranza", _
+                        MessageBox.Show("No tiene permiso para modificar este tipo de cobranza",
                             Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -1499,9 +1502,19 @@ Public Class frmRelacionCobranza
         'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
         CargarDetallePedidos(_Cobranza)
         '_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
+        Dim drow As DataRow
+        Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+        Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+        objGateway.URLServicio = _UrlGateway
+        If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
+            For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
+                objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
+                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                drow("Nombre") = Trim(objRtgCore.Nombre)
+            Next
+        End If
         grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
         grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
-
         lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
         lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString
         If Not IsDBNull(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12)) Then
