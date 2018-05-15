@@ -28,6 +28,7 @@ Public Class frmRelacionCobranza
         InitializeComponent()
         _UrlGateway = URLGateway
         MensajeURLGATEWAY()
+
         'Add any initialization after the InitializeComponent() call
 
     End Sub
@@ -1704,8 +1705,11 @@ Public Class frmRelacionCobranza
     End Function
 
     Public Sub MensajeURLGATEWAY()
-        If _UrlGateway Is Nothing Then
-            MessageBox.Show("El parametro URLGateway no existe.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If _UrlGateway = "" Then
+            If _UrlGateway Is Nothing Then
+            Else
+                MessageBox.Show("El parametro URLGateway esta vacio.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
     End Sub
 End Class
