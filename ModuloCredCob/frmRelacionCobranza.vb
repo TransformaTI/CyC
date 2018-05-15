@@ -21,12 +21,12 @@ Public Class frmRelacionCobranza
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
+    Public Sub New(URLGateway As String)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
-
+        _UrlGateway = URLGateway
         'Add any initialization after the InitializeComponent() call
 
     End Sub
@@ -1502,19 +1502,25 @@ Public Class frmRelacionCobranza
         'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
         CargarDetallePedidos(_Cobranza)
         '_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
-        Dim drow As DataRow
-        Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-        Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
-        objGateway.URLServicio = _UrlGateway
-        If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
-            For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
-                objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
-                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                drow("Nombre") = Trim(objRtgCore.Nombre)
-            Next
-        End If
-        grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
-        grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
+        Try
+            If _UrlGateway <> "" Then
+                Dim drow As DataRow
+                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                objGateway.URLServicio = _UrlGateway
+                If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
+                    For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
+                        objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
+                        Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                        drow("Nombre") = Trim(objRtgCore.Nombre)
+                    Next
+                End If
+            End If
+            grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
+            grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
+        Catch ex As Exception
+            MessageBox.Show("Error parametro URLGateway no encontrado" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
         lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
         lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString
         If Not IsDBNull(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12)) Then

@@ -1345,7 +1345,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        Dim frmRelCob As New frmRelacionCobranza()
+        Dim frmRelCob As New frmRelacionCobranza(_URLGateway)
         frmRelCob.MdiParent = Me
         frmRelCob.WindowState = FormWindowState.Maximized
         frmRelCob.Show()
