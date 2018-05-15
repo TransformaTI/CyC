@@ -27,6 +27,7 @@ Public Class frmRelacionCobranza
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         _UrlGateway = URLGateway
+        MensajeURLGATEWAY()
         'Add any initialization after the InitializeComponent() call
 
     End Sub
@@ -1701,4 +1702,10 @@ Public Class frmRelacionCobranza
 
         Return URLGateway
     End Function
+
+    Public Sub MensajeURLGATEWAY()
+        If _UrlGateway Is Nothing Then
+            MessageBox.Show("El parametro URLGateway no existe.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
 End Class
