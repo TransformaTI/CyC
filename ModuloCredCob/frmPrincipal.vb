@@ -1350,6 +1350,7 @@ Public Class frmPrincipal
         frmRelCob.WindowState = FormWindowState.Maximized
         frmRelCob.Show()
         Cursor = Cursors.Default
+
     End Sub
 
     Private Sub ConsultaFactura()

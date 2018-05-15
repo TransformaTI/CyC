@@ -1498,7 +1498,6 @@ Public Class frmRelacionCobranza
 
         Dim Filtro As String = "Cobranza = " & _Cobranza.ToString
         grdCobranza.Select(grdCobranza.CurrentRowIndex)
-
         'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
         CargarDetallePedidos(_Cobranza)
         '_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
