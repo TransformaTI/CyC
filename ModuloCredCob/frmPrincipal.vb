@@ -122,6 +122,7 @@ Public Class frmPrincipal
     Friend WithEvents mniAbonosExternos As System.Windows.Forms.MenuItem
     Friend WithEvents btnEntregaNotas As System.Windows.Forms.ToolBarButton
     Friend WithEvents MnuCuentasBancariasClientes As MenuItem
+    Friend WithEvents MenuItem11 As MenuItem
     Friend WithEvents mnuExportacionReportes As System.Windows.Forms.MenuItem
     Public Property _URLGateway As String
 
@@ -172,6 +173,7 @@ Public Class frmPrincipal
         Me.mnuEjecutivoCyC = New System.Windows.Forms.MenuItem()
         Me.mniRespResguardo = New System.Windows.Forms.MenuItem()
         Me.mniFiliales = New System.Windows.Forms.MenuItem()
+        Me.MnuCuentasBancariasClientes = New System.Windows.Forms.MenuItem()
         Me.mnuReportes = New System.Windows.Forms.MenuItem()
         Me.mnuConsultaReportes = New System.Windows.Forms.MenuItem()
         Me.mnuReportesEspeciales = New System.Windows.Forms.MenuItem()
@@ -219,7 +221,7 @@ Public Class frmPrincipal
         Me.btnResguardo = New System.Windows.Forms.ToolBarButton()
         Me.btnEntregaNotas = New System.Windows.Forms.ToolBarButton()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
-        Me.MnuCuentasBancariasClientes = New System.Windows.Forms.MenuItem()
+        Me.MenuItem11 = New System.Windows.Forms.MenuItem()
         CType(Me.sbpUsuario, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpUsuarioNombre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpDepartamento, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -430,7 +432,7 @@ Public Class frmPrincipal
         'mnuCatalogos
         '
         Me.mnuCatalogos.Index = 1
-        Me.mnuCatalogos.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuOperador, Me.mnuTarjetaCredito, Me.mnuCatMotivoCancelacionMovCaja, Me.mnuCatEmpresas, Me.mnuCatClientesDescuento, Me.mnuEjecutivoCyC, Me.mniRespResguardo, Me.mniFiliales, Me.MnuCuentasBancariasClientes})
+        Me.mnuCatalogos.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuOperador, Me.mnuTarjetaCredito, Me.mnuCatMotivoCancelacionMovCaja, Me.mnuCatEmpresas, Me.mnuCatClientesDescuento, Me.mnuEjecutivoCyC, Me.mniRespResguardo, Me.mniFiliales, Me.MnuCuentasBancariasClientes, Me.MenuItem11})
         Me.mnuCatalogos.Text = "Catálogos"
         '
         'mnuOperador
@@ -472,6 +474,11 @@ Public Class frmPrincipal
         '
         Me.mniFiliales.Index = 7
         Me.mniFiliales.Text = "&Filiales"
+        '
+        'MnuCuentasBancariasClientes
+        '
+        Me.MnuCuentasBancariasClientes.Index = 8
+        Me.MnuCuentasBancariasClientes.Text = "Cuentas bancarias por cliente"
         '
         'mnuReportes
         '
@@ -771,10 +778,10 @@ Public Class frmPrincipal
         Me.ImageList1.Images.SetKeyName(10, "")
         Me.ImageList1.Images.SetKeyName(11, "")
         '
-        'MnuCuentasBancariasClientes
+        'MenuItem11
         '
-        Me.MnuCuentasBancariasClientes.Index = 8
-        Me.MnuCuentasBancariasClientes.Text = "Cuentas bancarias por cliente"
+        Me.MenuItem11.Index = 9
+        Me.MenuItem11.Text = "Alta pago tarjeta"
         '
         'frmPrincipal
         '
@@ -2289,5 +2296,22 @@ Public Class frmPrincipal
         CuentaBancariaClientees.Show()
 
 
+    End Sub
+
+    Private Sub MenuItem11_Click(sender As Object, e As EventArgs) Handles MenuItem11.Click
+        Dim f As Form
+        For Each f In Me.MdiChildren
+            If f.Name = "frmAltaPagoTarjeta" Then
+                f.Focus()
+                Exit Sub
+            End If
+        Next
+        Cursor = Cursors.WaitCursor
+        Dim CuentaBancariaClientees As New SigaMetClasses.frmAltaPagoTarjeta()
+        CuentaBancariaClientees.MdiParent = Me
+        'CuentaBancariaClientees.WindowState = FormWindowState.Maximized
+        Cursor = Cursors.Default
+
+        CuentaBancariaClientees.Show()
     End Sub
 End Class
