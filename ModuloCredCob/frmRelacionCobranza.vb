@@ -1708,7 +1708,7 @@ Public Class frmRelacionCobranza
         If _UrlGateway = "" Then
             If _UrlGateway Is Nothing Then
             Else
-                MessageBox.Show("El parametro URLGateway esta vacio.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("El parámetro URLGateway está vacío.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub

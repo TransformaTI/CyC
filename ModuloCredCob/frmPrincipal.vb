@@ -2275,15 +2275,19 @@ Public Class frmPrincipal
     Private Sub CatalogoCuentaBancaria()
         Dim f As Form
         For Each f In Me.MdiChildren
-            If f.Name = "CuentaBancaria" Then
+            If f.Name = "frmCatCuentaBancariaCliente" Then
                 f.Focus()
                 Exit Sub
             End If
         Next
+        Cursor = Cursors.WaitCursor
         Dim CuentaBancariaClientees As New SigaMetClasses.frmCatCuentaBancariaCliente(GLOBAL_IDUsuario)
         CuentaBancariaClientees.MdiParent = Me
+        'CuentaBancariaClientees.WindowState = FormWindowState.Maximized
+        Cursor = Cursors.Default
         CuentaBancariaClientees.Text = "Catálogo de cuentas bancarias del cliente"
         CuentaBancariaClientees.Show()
+
 
     End Sub
 End Class
