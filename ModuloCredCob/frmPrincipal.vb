@@ -2307,7 +2307,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        Dim CuentaBancariaClientees As New SigaMetClasses.frmAltaPagoTarjeta()
+        Dim CuentaBancariaClientees As New SigaMetClasses.frmAltaPagoTarjeta(GLOBAL_IDUsuario)
         CuentaBancariaClientees.MdiParent = Me
         'CuentaBancariaClientees.WindowState = FormWindowState.Maximized
         Cursor = Cursors.Default
