@@ -123,6 +123,7 @@ Public Class frmPrincipal
     Friend WithEvents btnEntregaNotas As System.Windows.Forms.ToolBarButton
     Friend WithEvents MnuCuentasBancariasClientes As MenuItem
     Friend WithEvents MenuItem11 As MenuItem
+    Friend WithEvents mnuIngresosSaldoAFavor As MenuItem
     Friend WithEvents mnuExportacionReportes As System.Windows.Forms.MenuItem
     Public Property _URLGateway As String
 
@@ -174,6 +175,7 @@ Public Class frmPrincipal
         Me.mniRespResguardo = New System.Windows.Forms.MenuItem()
         Me.mniFiliales = New System.Windows.Forms.MenuItem()
         Me.MnuCuentasBancariasClientes = New System.Windows.Forms.MenuItem()
+        Me.MenuItem11 = New System.Windows.Forms.MenuItem()
         Me.mnuReportes = New System.Windows.Forms.MenuItem()
         Me.mnuConsultaReportes = New System.Windows.Forms.MenuItem()
         Me.mnuReportesEspeciales = New System.Windows.Forms.MenuItem()
@@ -221,7 +223,7 @@ Public Class frmPrincipal
         Me.btnResguardo = New System.Windows.Forms.ToolBarButton()
         Me.btnEntregaNotas = New System.Windows.Forms.ToolBarButton()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
-        Me.MenuItem11 = New System.Windows.Forms.MenuItem()
+        Me.mnuIngresosSaldoAFavor = New System.Windows.Forms.MenuItem()
         CType(Me.sbpUsuario, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpUsuarioNombre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpDepartamento, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -290,7 +292,7 @@ Public Class frmPrincipal
         'mnuArchivo
         '
         Me.mnuArchivo.Index = 0
-        Me.mnuArchivo.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuConsultaMovimientos, Me.mnuConsultaDocumento, Me.mnuConsultaFactura, Me.mnuCheques, Me.mnuConsultaEmpresa, Me.mnuConsultaCliente, Me.MenuItem2, Me.mnuDatosCredito, Me.mnuClientesNuevos, Me.mnuClientesCreditoRebasado, Me.mniAutorizacionCredito, Me.MenuItem1, Me.mnuCargoPendiente, Me.mnuCargoPendienteEmpleado, Me.MenuItem5, Me.mnuLiqDesc, Me.mnuMovCancel, Me.mniAjustes, Me.mniAjustesPlanta, Me.MenuItem3, Me.mnuRelCobranza, Me.MenuItem10, Me.MenuItem8, Me.mnuArqueo, Me.MenuItem9, Me.mnuSalir})
+        Me.mnuArchivo.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuConsultaMovimientos, Me.mnuConsultaDocumento, Me.mnuConsultaFactura, Me.mnuCheques, Me.mnuConsultaEmpresa, Me.mnuConsultaCliente, Me.MenuItem2, Me.mnuDatosCredito, Me.mnuClientesNuevos, Me.mnuClientesCreditoRebasado, Me.mniAutorizacionCredito, Me.MenuItem1, Me.mnuCargoPendiente, Me.mnuCargoPendienteEmpleado, Me.MenuItem5, Me.mnuLiqDesc, Me.mnuMovCancel, Me.mniAjustes, Me.mniAjustesPlanta, Me.MenuItem3, Me.mnuRelCobranza, Me.MenuItem10, Me.mnuIngresosSaldoAFavor, Me.MenuItem8, Me.mnuArqueo, Me.MenuItem9, Me.mnuSalir})
         Me.mnuArchivo.Text = "&Archivo"
         '
         'mnuConsultaMovimientos
@@ -411,22 +413,22 @@ Public Class frmPrincipal
         '
         'MenuItem8
         '
-        Me.MenuItem8.Index = 22
+        Me.MenuItem8.Index = 23
         Me.MenuItem8.Text = "-"
         '
         'mnuArqueo
         '
-        Me.mnuArqueo.Index = 23
+        Me.mnuArqueo.Index = 24
         Me.mnuArqueo.Text = "&Arqueo"
         '
         'MenuItem9
         '
-        Me.MenuItem9.Index = 24
+        Me.MenuItem9.Index = 25
         Me.MenuItem9.Text = "-"
         '
         'mnuSalir
         '
-        Me.mnuSalir.Index = 25
+        Me.mnuSalir.Index = 26
         Me.mnuSalir.Text = "&Salir"
         '
         'mnuCatalogos
@@ -479,6 +481,11 @@ Public Class frmPrincipal
         '
         Me.MnuCuentasBancariasClientes.Index = 8
         Me.MnuCuentasBancariasClientes.Text = "Cuentas bancarias por cliente"
+        '
+        'MenuItem11
+        '
+        Me.MenuItem11.Index = 9
+        Me.MenuItem11.Text = "Alta pago tarjeta"
         '
         'mnuReportes
         '
@@ -778,10 +785,10 @@ Public Class frmPrincipal
         Me.ImageList1.Images.SetKeyName(10, "")
         Me.ImageList1.Images.SetKeyName(11, "")
         '
-        'MenuItem11
+        'mnuIngresosSaldoAFavor
         '
-        Me.MenuItem11.Index = 9
-        Me.MenuItem11.Text = "Alta pago tarjeta"
+        Me.mnuIngresosSaldoAFavor.Index = 22
+        Me.mnuIngresosSaldoAFavor.Text = "Ingresos generados por saldo a favor"
         '
         'frmPrincipal
         '
@@ -2313,5 +2320,26 @@ Public Class frmPrincipal
         Cursor = Cursors.Default
 
         CuentaBancariaClientees.Show()
+    End Sub
+
+    Private Sub mnuIngresosSaldoAFavor_Click(sender As Object, e As EventArgs) Handles mnuIngresosSaldoAFavor.Click
+        ConsultaIngresos()
+    End Sub
+
+    Private Sub ConsultaIngresos()
+        Try
+            Dim f As Form
+            For Each f In Me.MdiChildren
+                If f.Name = "frmConsultaIngresosSaldoAFavor" Then
+                    f.Focus()
+                    Exit Sub
+                End If
+            Next
+            Dim frmConsultaIngresos As New SigaMetClasses.frmConsultaIngresosSaldoAFavor
+            frmConsultaIngresos.MdiParent = Me
+            frmConsultaIngresos.Show()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
     End Sub
 End Class
