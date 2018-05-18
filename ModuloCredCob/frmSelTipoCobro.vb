@@ -1,3 +1,4 @@
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
 
 Public Class frmSelTipoCobro
@@ -18,6 +19,8 @@ Public Class frmSelTipoCobro
     'Control de cheques posfechados
     Private _ChequePosfechado As Boolean
 
+    Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
+
     Public ReadOnly Property Posfechado() As Boolean
         Get
             Return _ChequePosfechado
@@ -25,10 +28,10 @@ Public Class frmSelTipoCobro
     End Property
 
     'Constructor para la captura normal de cobranza
-    Public Sub New(ByVal intConsecutivo As Integer, _
-                   ByVal TipoMovimientoCaja As Byte, _
-                   ByVal ListaCobros As ListBox, _
-          Optional ByVal SoloDocumentosCartera As Boolean = True, _
+    Public Sub New(ByVal intConsecutivo As Integer,
+                   ByVal TipoMovimientoCaja As Byte,
+                   ByVal ListaCobros As ListBox,
+          Optional ByVal SoloDocumentosCartera As Boolean = True,
           Optional ByVal CapturaDetalle As Boolean = True)
         MyBase.New()
         InitializeComponent()
@@ -48,9 +51,9 @@ Public Class frmSelTipoCobro
     End Sub
 
     'Constructor para las Relaciones de Cobranza
-    Public Sub New(ByVal intConsecutivo As Integer, _
-                   ByVal ListaCobros As ListBox, _
-                   ByVal RelacionCobranza As ArrayList, _
+    Public Sub New(ByVal intConsecutivo As Integer,
+                   ByVal ListaCobros As ListBox,
+                   ByVal RelacionCobranza As ArrayList,
                    ByVal TipoMovimientoCaja As Byte)
         MyBase.New()
         InitializeComponent()
@@ -1319,10 +1322,10 @@ Public Class frmSelTipoCobro
             Exit Sub
         End If
 
-        If rbCheque.Checked = True AndAlso _
-            Not (txtNumeroCuenta.Text.Trim.Length >= CType(Main.GLOBAL_MinLenCuenta, Integer) AndAlso _
+        If rbCheque.Checked = True AndAlso
+            Not (txtNumeroCuenta.Text.Trim.Length >= CType(Main.GLOBAL_MinLenCuenta, Integer) AndAlso
                 txtNumeroCuenta.Text.Trim.Length <= CType(Main.GLOBAL_MaxLenCuenta, Integer)) Then
-            MessageBox.Show(mensajeNumeroCuenta(Main.GLOBAL_MinLenCuenta, Main.GLOBAL_MaxLenCuenta) & vbCrLf & _
+            MessageBox.Show(mensajeNumeroCuenta(Main.GLOBAL_MinLenCuenta, Main.GLOBAL_MaxLenCuenta) & vbCrLf &
                 "verifique.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             txtDocumento.Focus()
             txtDocumento.SelectAll()
@@ -1332,18 +1335,18 @@ Public Class frmSelTipoCobro
         'Validar aquí el consecutivo del número de cheque, parametrizar
         If rbCheque.Checked = True AndAlso GLOBAL_ValidarConsCheque Then
             Try
-                If Not numeroCuentaClienteValido(SigaMetClasses.DataLayer.Conexion, CType(txtClienteCheque.Text, Integer), _
+                If Not numeroCuentaClienteValido(SigaMetClasses.DataLayer.Conexion, CType(txtClienteCheque.Text, Integer),
                     CType(ComboBanco.SelectedValue, Short), Trim(txtNumeroCuenta.Text)) Then
-                    Dim _mensajeChequeErroneo As String = "El cliente " & txtClienteCheque.Text.Trim & _
+                    Dim _mensajeChequeErroneo As String = "El cliente " & txtClienteCheque.Text.Trim &
                         " no paga regularmente con el número de cuenta que capturó."
                     'Usuario no autorizado para esta captura, no se permite realizarla
                     If Not oSeguridad.TieneAcceso("CAPT_CHQ_CONSECUTIVOERR") Then
-                        MessageBox.Show(_mensajeChequeErroneo & vbCrLf & _
+                        MessageBox.Show(_mensajeChequeErroneo & vbCrLf &
                         "No podrá continuar con el registro.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                         Exit Sub
                     Else
                         'Autorización para captura del documento con consecutivo erróneo
-                        If MessageBox.Show(_mensajeChequeErroneo & vbCrLf & _
+                        If MessageBox.Show(_mensajeChequeErroneo & vbCrLf &
                             "¿Desea continuar con su registro?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) _
                             <> DialogResult.Yes Then
                             Exit Sub
@@ -1363,7 +1366,7 @@ Public Class frmSelTipoCobro
         If rbCheque.Checked = True And GLOBAL_Posfechado Then
             'Comparar contra el periodo máximo
             If DateDiff(DateInterval.Day, DateTime.Today.Date, dtpFechaCheque.Value.Date) > GLOBAL_LimitePosfechado Then
-                If MessageBox.Show("Este documento se registrará como posfechado" & vbCrLf & _
+                If MessageBox.Show("Este documento se registrará como posfechado" & vbCrLf &
                                         "¿Desea continuar con su registro?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) _
                                         <> DialogResult.Yes Then
                     Exit Sub
@@ -1393,8 +1396,8 @@ Public Class frmSelTipoCobro
                 Exit Sub
             End If
 
-            If BuscaCobroGlobal(UCase(Trim(txtDocumento.Text)), _
-                                            CType(Trim(txtClienteCheque.Text), Integer), _
+            If BuscaCobroGlobal(UCase(Trim(txtDocumento.Text)),
+                                            CType(Trim(txtClienteCheque.Text), Integer),
                                             CType(ComboBanco.SelectedValue, Short)) = False Then
 
                 Dim frmCaptura As frmCapCobranzaDoc
@@ -1412,7 +1415,7 @@ Public Class frmSelTipoCobro
                 'Validar el contrato en la aplicación de pagos con cheque
                 If GLOBAL_ValidarClienteCheque Then
                     Dim ClientesRelacionados As New CyCSaldoAFavor.saldoAFavor()
-                    frmCaptura.ClientesRelacionados(CType(Val(txtClienteCheque.Text), Integer)) = _
+                    frmCaptura.ClientesRelacionados(CType(Val(txtClienteCheque.Text), Integer)) =
                         ClientesRelacionados.ClientesRelacionados(CType(Val(txtClienteCheque.Text), Integer), GLOBAL_connection)
                 End If
                 '****
@@ -1450,8 +1453,8 @@ Public Class frmSelTipoCobro
                     If _cuentaErronea Then
                         'Registrar en bitácora si se realiza el registro
                         Try
-                            Main.BitacoraCheque(SigaMetClasses.DataLayer.Conexion, Nothing, Nothing, CType(txtClienteCheque.Text, Integer), _
-                                "Registro de cheque con cuenta errónea: " & CType(CType(ComboBanco.SelectedItem(), DataRowView)(1), String).Trim & _
+                            Main.BitacoraCheque(SigaMetClasses.DataLayer.Conexion, Nothing, Nothing, CType(txtClienteCheque.Text, Integer),
+                                "Registro de cheque con cuenta errónea: " & CType(CType(ComboBanco.SelectedItem(), DataRowView)(1), String).Trim &
                                 " " & Trim(txtNumeroCuenta.Text) & " " & Trim(txtDocumento.Text), GLOBAL_IDUsuario)
                         Catch ex As Exception
                             EventLog.WriteEntry("Application", ex.ToString)
@@ -1491,13 +1494,13 @@ Public Class frmSelTipoCobro
 #End Region
 
 
-    Private Function BuscaCobroGlobal(ByVal Documento As String, _
-                                      ByVal Cliente As Integer, _
+    Private Function BuscaCobroGlobal(ByVal Documento As String,
+                                      ByVal Cliente As Integer,
                                       ByVal Banco As Short) As Boolean
         Dim _sCobro As SigaMetClasses.sCobro
         For Each _sCobro In _ListaCobros.Items
-            If _sCobro.NoCheque = Documento And _
-                _sCobro.Cliente = Cliente And _
+            If _sCobro.NoCheque = Documento And
+                _sCobro.Cliente = Cliente And
                 _sCobro.Banco = Banco Then
                 Return True
                 Exit Function
@@ -1592,7 +1595,7 @@ Public Class frmSelTipoCobro
 
         'Modificación para captura de transferencias bancarias
         '23-03-2005 Jorge A. Guerrero Domínguez
-        If GLOBAL_TransferenciaActiva AndAlso _
+        If GLOBAL_TransferenciaActiva AndAlso
            _TipoMovimientoCaja = GLOBAL_TipoMovimientoTransferencia Then 'Transferencia bancaria
             rbTransferencia.Enabled = True
             'rbTransferencia.Checked = True
@@ -1628,9 +1631,10 @@ Public Class frmSelTipoCobro
         lblVigencia.Text = ""
     End Sub
 
-    Private Sub ConsultaTarjetaCredito(ByVal Cliente As Integer)
+    Private Function ConsultaTarjetaCredito(ByVal Cliente As Integer) As Boolean
         Dim oTC As New SigaMetClasses.cTarjetaCredito()
         Dim dr As SqlDataReader
+        Dim existe As Boolean
         dr = oTC.ConsultaActiva(Cliente)
         Do While dr.Read
             lblClienteNombre.Text = CType(dr("ClienteNombre"), String)
@@ -1641,31 +1645,51 @@ Public Class frmSelTipoCobro
             lblTipoTarjetaCredito.Text = CType(dr("TipoTarjetaCreditoDescripcion"), String)
             lblVigencia.Text = CType(dr("MesVigencia"), String) & " / " & CType(dr("AñoVigencia"), String)
         Loop
+        existe = dr.HasRows
         dr.Close()
-    End Sub
+        Return existe
+    End Function
 
     Private Sub btnBuscarClienteTC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarClienteTC.Click
         If txtClienteTC.Text <> "" And IsNumeric(txtClienteTC.Text) Then
             LimpiaInfoTarjetaCredito()
             If Not chkCapturaTPV.Checked Then
-                ConsultaTarjetaCredito(CType(txtClienteTC.Text, Integer))
-            Else
-                TPVConsultaCliente()
-            End If
-            'TODO: Validacion de clientes hijos de edificios adminstrados 13/10/2004
-            If GLOBAL_AplicaAdmEdificios Then
-                btnAceptarTarjetaCredito.Enabled = True
-                Dim oCliente As New SigaMetClasses.cCliente(CType(txtClienteTC.Text, Integer))
-                If Not (validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo, _
-                        GLOBAL_ClientePadreEdificio)) Then
-                    btnAceptarTarjetaCredito.Enabled = False
+                If ConsultaTarjetaCredito(CType(txtClienteTC.Text, Integer)) Then
+                    Dim CargosTarjetas As List(Of SigaMetClasses.CargoTarjeta)
+                    Dim objCargoTarjetaDatos As New SigaMetClasses.CargoTarjetaDatos
+                    CargosTarjetas = objCargoTarjetaDatos.consultarCargoTarjeta(txtClienteTC.Text)
+                    If CargosTarjetas.Count > 0 Then
+                        Dim frmConsultaCargo As SigaMetClasses.frmConsultaCargoTarjetaCliente
+                        frmConsultaCargo = New SigaMetClasses.frmConsultaCargoTarjetaCliente
+                        frmConsultaCargo.Cliente = txtClienteTC.Text
+                        If frmConsultaCargo.ShowDialog() = DialogResult.OK Then
+                            lblTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
+                            lblBancoNombre.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
+                            lblTipoTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
+                            txtImporteTC.Text = CType(frmConsultaCargo.CargoTarjeta.Importe, String)
+
+                            CargoTarjetaSeleccionado = frmConsultaCargo.CargoTarjeta
+
+                        End If
+                    End If
+                Else
+                    TPVConsultaCliente()
                 End If
-            End If
-            'Fin de la validacion de edificios admistrados
-            If lblTarjetaCredito.Text = "" AndAlso Not chkCapturaTPV.Checked Then
-                MessageBox.Show("No existen tarjetas de crédito del cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Else
-                txtImporteTC.Focus()
+                'TODO: Validacion de clientes hijos de edificios adminstrados 13/10/2004
+                If GLOBAL_AplicaAdmEdificios Then
+                    btnAceptarTarjetaCredito.Enabled = True
+                    Dim oCliente As New SigaMetClasses.cCliente(CType(txtClienteTC.Text, Integer))
+                    If Not (validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo,
+                        GLOBAL_ClientePadreEdificio)) Then
+                        btnAceptarTarjetaCredito.Enabled = False
+                    End If
+                End If
+                'Fin de la validacion de edificios admistrados
+                If lblTarjetaCredito.Text = "" AndAlso Not chkCapturaTPV.Checked Then
+                    MessageBox.Show("No existen tarjetas de crédito del cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    txtImporteTC.Focus()
+                End If
             End If
         End If
     End Sub
