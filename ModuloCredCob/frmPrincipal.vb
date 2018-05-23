@@ -161,6 +161,7 @@ Public Class frmPrincipal
         Me.MenuItem3 = New System.Windows.Forms.MenuItem()
         Me.mnuRelCobranza = New System.Windows.Forms.MenuItem()
         Me.MenuItem10 = New System.Windows.Forms.MenuItem()
+        Me.mnuIngresosSaldoAFavor = New System.Windows.Forms.MenuItem()
         Me.MenuItem8 = New System.Windows.Forms.MenuItem()
         Me.mnuArqueo = New System.Windows.Forms.MenuItem()
         Me.MenuItem9 = New System.Windows.Forms.MenuItem()
@@ -223,7 +224,6 @@ Public Class frmPrincipal
         Me.btnResguardo = New System.Windows.Forms.ToolBarButton()
         Me.btnEntregaNotas = New System.Windows.Forms.ToolBarButton()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
-        Me.mnuIngresosSaldoAFavor = New System.Windows.Forms.MenuItem()
         CType(Me.sbpUsuario, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpUsuarioNombre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpDepartamento, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -410,6 +410,12 @@ Public Class frmPrincipal
         '
         Me.MenuItem10.Index = 21
         Me.MenuItem10.Text = "Cierre de relaciones pagadas"
+        '
+        'mnuIngresosSaldoAFavor
+        '
+        Me.mnuIngresosSaldoAFavor.Enabled = False
+        Me.mnuIngresosSaldoAFavor.Index = 22
+        Me.mnuIngresosSaldoAFavor.Text = "Ingresos generados por saldo a favor"
         '
         'MenuItem8
         '
@@ -785,11 +791,6 @@ Public Class frmPrincipal
         Me.ImageList1.Images.SetKeyName(10, "")
         Me.ImageList1.Images.SetKeyName(11, "")
         '
-        'mnuIngresosSaldoAFavor
-        '
-        Me.mnuIngresosSaldoAFavor.Index = 22
-        Me.mnuIngresosSaldoAFavor.Text = "Ingresos generados por saldo a favor"
-        '
         'frmPrincipal
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
@@ -933,6 +934,12 @@ Public Class frmPrincipal
         'Pagos referenciados, para no mostrar los botones en la toolbar si no tienen acceso
         If Not oSeguridad.TieneAcceso("EntregaNotasBlancas") Then
             tbrPrincipal.Buttons.Remove(btnEntregaNotas)
+        End If
+
+        'Ingresos por saldo a favor, habilitar la opción si el usuario tiene acceso
+        If oSeguridad.TieneAcceso("SaldoAFavorCALIDAD") Or
+            oSeguridad.TieneAcceso("SaldoAFavorUSCAP") Then
+            mnuIngresosSaldoAFavor.Enabled = True
         End If
 
     End Sub
@@ -2267,8 +2274,10 @@ Public Class frmPrincipal
         Return Uri.TryCreate(URL, UriKind.Absolute, uriValidada)
     End Function
 
-    ' Deshabilita opciones de menú si se encuentra un parámetro válido
-    ' URLGateway en la tabla 'Parametro'
+    ''' <summary>
+    ''' Deshabilita opciones de menú si se encuentra un parámetro válido
+    ''' URLGateway en la tabla 'Parametro'
+    ''' </summary>
     Private Sub DeshabilitaOpcionesMenu()
         Dim strURL As String = ConsultaURLGateway()
 
@@ -2323,23 +2332,46 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub mnuIngresosSaldoAFavor_Click(sender As Object, e As EventArgs) Handles mnuIngresosSaldoAFavor.Click
-        ConsultaIngresos()
+        ConsultaIngresosSaldoAFavor()
     End Sub
 
-    Private Sub ConsultaIngresos()
+    Private Sub ConsultaIngresosSaldoAFavor()
+        Dim frmConsultaIngresos As SigaMetClasses.frmConsultaIngresosSaldoAFavor
+        Dim accesoCalidad As Boolean
+        Dim accesoUSCAP As Boolean
+
         Try
-            Dim f As Form
-            For Each f In Me.MdiChildren
-                If f.Name = "frmConsultaIngresosSaldoAFavor" Then
-                    f.Focus()
-                    Exit Sub
+            accesoCalidad = oSeguridad.TieneAcceso("SaldoAFavorCALIDAD")
+            accesoUSCAP = oSeguridad.TieneAcceso("SaldoAFavorUSCAP")
+
+            If (Not accesoCalidad) And (Not accesoUSCAP) Then
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            ElseIf (accesoCalidad And accesoUSCAP) Then
+                ' No puede tener los dos privilegios 
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            ElseIf (accesoCalidad Or accesoUSCAP) Then
+                Dim f As Form
+                For Each f In Me.MdiChildren
+                    If f.Name = "frmConsultaIngresosSaldoAFavor" Then
+                        f.Focus()
+                        Exit Sub
+                    End If
+                Next
+
+                If (accesoCalidad) Then
+                    frmConsultaIngresos = New SigaMetClasses.frmConsultaIngresosSaldoAFavor("CALIDAD")
+                    frmConsultaIngresos.MdiParent = Me
+                    frmConsultaIngresos.Show()
+                ElseIf (accesoUSCAP) Then
+                    frmConsultaIngresos = New SigaMetClasses.frmConsultaIngresosSaldoAFavor("USCAP")
+                    frmConsultaIngresos.MdiParent = Me
+                    frmConsultaIngresos.Show()
                 End If
-            Next
-            Dim frmConsultaIngresos As New SigaMetClasses.frmConsultaIngresosSaldoAFavor
-            frmConsultaIngresos.MdiParent = Me
-            frmConsultaIngresos.Show()
+            End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 End Class
