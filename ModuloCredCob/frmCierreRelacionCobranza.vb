@@ -18,6 +18,8 @@ Public Class frmCierreRelacionCobranza
     'Control de cheques posfechados
     Private _chequesPosfechados As Boolean = False
     '*****
+    'CargoTarjeta Seleccionado desde caja.frmSelTipoCobro
+    Private CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public Sub New()
         MyBase.New()
@@ -1114,7 +1116,7 @@ Public Class frmCierreRelacionCobranza
 
                 Next
                 Dim oCobranza As New SigaMetClasses.cCobranza()
-                oCobranza.Cierra(_Cobranza, ListaPedidos, strMovimientoCajaClave)
+                oCobranza.Cierra(_Cobranza, ListaPedidos, CargoTarjetaSeleccionado, strMovimientoCajaClave)
                 Dim strMensaje As String = "La relación fue cerrada exitosamente."
 
                 Dim msgBoxButton As MessageBoxButtons = MessageBoxButtons.OK
@@ -1244,11 +1246,16 @@ Public Class frmCierreRelacionCobranza
     Private Sub btnAgregarCobro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregarCobro.Click
         intCobro += 1
 
-        Dim oCapCobro As New frmSelTipoCobro(intCobro, lstCobro, GeneraListaDocumentos, _TipoMovimientoCaja)
+        'Dim oCapCobro As New frmSelTipoCobro(intCobro, lstCobro, GeneraListaDocumentos, _TipoMovimientoCaja)
+        'If oCapCobro.ShowDialog() = DialogResult.OK Then
+        Dim oCapCobro As New ModuloCaja.frmSelTipoCobro(intCobro, True, 0)
+        oCapCobro.ConString = Main.ConString
         If oCapCobro.ShowDialog() = DialogResult.OK Then
             lstCobro.Items.Add(oCapCobro.Cobro)
             CalculaSaldoDocumento2()
+            CargoTarjetaSeleccionado = oCapCobro.CargoTarjetaSeleccionado
         End If
+
     End Sub
 
     Private Sub frmCierreRelacionCobranza_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
