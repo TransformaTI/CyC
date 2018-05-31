@@ -26,7 +26,7 @@ Public Class frmCapCobranzaDoc
 
     'Vales de crédito con serie
     Private _folioDocumento As DocumentosBSR.SerieDocumento
-
+    Private _URLGateway As String = ""
 #Region "Variables y propiedades"
     Dim decImporteTotalCobranza As Decimal
     Dim aListaPedidos As New ArrayList()
@@ -1367,25 +1367,30 @@ Public Class frmCapCobranzaDoc
     End Sub
 
     Private Sub ConsultaDocumenosClientePorPeriodo()
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+
+
         If txtCliente.Text <> "" Then
             If Not chkAutocalcular.Checked And Not ImporteCobro > 0 Then
-                MessageBox.Show("Seleccione la casilla 'autocalcular' para" & vbCrLf & _
+                MessageBox.Show("Seleccione la casilla 'autocalcular' para" & vbCrLf &
                     "realizar la consulta de documentos.", "CyC", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return
             End If
 
             Dim frmConCliente As SigaMetClasses.frmConsultaClienteMultiple
 
-            frmConCliente = New SigaMetClasses.frmConsultaClienteMultiple(CType(txtCliente.Text, Integer), _
-                                    aListaPedidos, _
-                                    _ListaCobros, _
-                                    ImporteRestante, _
-                                    chkAutocalcular.Checked, _
-                                    oSeguridad.TieneAcceso("ABONO_CARTERAESPECIAL"), _
-                                    GLOBAL_NoAbonarClientePadreEdificio, _
-                                    oSeguridad.TieneAcceso("NoAbonarAClientePadreEdif"), _
-                                    PermiteSeleccionarDocumento:=True, _
-                                    SoloDocumentosACredito:=True)
+            frmConCliente = New SigaMetClasses.frmConsultaClienteMultiple(CType(txtCliente.Text, Integer),
+                                    aListaPedidos,
+                                    _ListaCobros,
+                                    ImporteRestante,
+                                    chkAutocalcular.Checked,
+                                    oSeguridad.TieneAcceso("ABONO_CARTERAESPECIAL"),
+                                    GLOBAL_NoAbonarClientePadreEdificio,
+                                    oSeguridad.TieneAcceso("NoAbonarAClientePadreEdif"),
+                                    PermiteSeleccionarDocumento:=True,
+                                    SoloDocumentosACredito:=True, URLGateway:=_URLGateway)
 
             If frmConCliente.ShowDialog() = DialogResult.OK Then
                 Dim documento As SigaMetClasses.DocumentoCliente
