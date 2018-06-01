@@ -1000,7 +1000,7 @@ Public Class frmCapRelacionCobranza
                 oPedido.SubItems.Add("")
             End If
             oPedido.SubItems.Add(CType(drLista("Cliente"), String))
-            If String.IsNullOrEmpty(URLGateway) Then
+            If String.IsNullOrEmpty(_URLGateway) Then
                 oPedido.SubItems.Add(Trim(CType(drLista("Nombre"), String)))
             Else
                 oPedido.SubItems.Add(consultaClienteCRM(CType(drLista("Cliente"), Integer)))
@@ -1818,7 +1818,7 @@ Public Class frmCapRelacionCobranza
                 Gateway = New RTGMGateway.RTGMGateway
                 Gateway.URLServicio = URLGateway
                 Solicitud = New RTGMGateway.SolicitudGateway() With {
-                    .Fuente = RTGMCore.Fuente.Sigamet,
+                    .Fuente = RTGMCore.Fuente.CRM,
                     .IDCliente = cliente,
                     .IDEmpresa = 0
                 }
