@@ -831,6 +831,10 @@ Public Class frmCapRelacionCobranza
     End Sub
 
     Private Sub LlenaLista(ByVal drLista As SqlDataReader)
+
+
+
+
         'NO MODIFICAR
         'ATTE. RDC
         Dim _Agregado As Boolean
@@ -996,7 +1000,11 @@ Public Class frmCapRelacionCobranza
                 oPedido.SubItems.Add("")
             End If
             oPedido.SubItems.Add(CType(drLista("Cliente"), String))
-            oPedido.SubItems.Add(Trim(CType(drLista("Nombre"), String)))
+            If String.IsNullOrEmpty(URLGateway) Then
+                oPedido.SubItems.Add(Trim(CType(drLista("Nombre"), String)))
+            Else
+                oPedido.SubItems.Add(consultaClienteCRM(CType(drLista("Cliente"), Integer)))
+            End If
             oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
             oPedido.SubItems.Add(CType(drLista("Saldo"), Decimal).ToString("N"))
             If Not IsDBNull(drLista("Factura")) Then
