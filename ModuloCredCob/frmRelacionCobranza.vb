@@ -1098,7 +1098,7 @@ Public Class frmRelacionCobranza
         Dim da As New SqlDataAdapter(cmd)
 
         da.Fill(_dsCobranza, "RelacionCobranza")
-        Dim objCierre As New frmCierreRelacionCobranza(_dsCobranza, _Cobranza)
+        Dim objCierre As New frmCierreRelacionCobranza(_dsCobranza, _Cobranza, _UrlGateway)
         If objCierre.ShowDialog() = DialogResult.OK Then
             CargaDatos(dtpFCobranza.Value.Date)
         End If

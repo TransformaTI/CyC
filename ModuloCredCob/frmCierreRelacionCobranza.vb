@@ -14,7 +14,7 @@ Public Class frmCierreRelacionCobranza
     Private _EmpleadoNombre As String
     Private _FCobranza As Date
     Private _TipoMovimientoCaja As Byte
-
+    Private _URLGateway As String
     'Control de cheques posfechados
     Private _chequesPosfechados As Boolean = False
     '*****
@@ -746,6 +746,17 @@ Public Class frmCierreRelacionCobranza
 
     Private Sub CargaGestionCobranza()
         Dim dr As DataRow
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Dim lClienteNombre As String
+        Dim lCliente As Integer
+
+        oGateway = New RTGMGateway.RTGMGateway()
+        oSolicitud = New RTGMGateway.SolicitudGateway()
+        oGateway.URLServicio = _URLGateway
+        oSolicitud.Fuente = RTGMCore.Fuente.CRM
+
 
         Dim i As Integer = 0
         For Each dr In _dsCobranza.Tables("PedidoCobranza").Rows
@@ -753,6 +764,15 @@ Public Class frmCierreRelacionCobranza
                 i += 1
                 _TotalSaldoReal += CType(dr("Saldo"), Decimal)
                 objGestionCob = New SigaMetClasses.GestionCobranza()
+
+                lCliente = CType(dr("Cliente"), Integer)
+                If Not String.IsNullOrEmpty(_URLGateway) Then
+                    oSolicitud.IDCliente = lCliente
+                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                    lClienteNombre = oDireccionEntrega.Nombre
+                Else
+                    lClienteNombre = Trim(CType(dr("Nombre"), String))
+                End If
 
                 With objGestionCob
                     .Top = i * objGestionCob.Height
@@ -767,7 +787,7 @@ Public Class frmCierreRelacionCobranza
                         .Empresa = CType(dr("Empresa"), Integer)
                     End If
 
-                    .Nombre = Trim(CType(dr("Nombre"), String))
+                    .Nombre = lClienteNombre
                     .DiasCredito = CType(dr("DiasCredito"), Short)
                     .SaldoReal = CType(dr("Saldo"), Decimal)
                     If Not IsDBNull(dr("ValeCredito")) Then
@@ -1034,10 +1054,11 @@ Public Class frmCierreRelacionCobranza
     End Sub
 #End Region
 
-    Public Sub New(ByVal dsCobranza As DataSet, _
-                   ByVal Cobranza As Integer)
+    Public Sub New(ByVal dsCobranza As DataSet,
+                   ByVal Cobranza As Integer, Optional URLGateway As String = "")
         MyBase.New()
         InitializeComponent()
+        _UrlGateway = URLGateway
         _dsCobranza = dsCobranza
         _Cobranza = Cobranza
         CargaGestionCobranza()
