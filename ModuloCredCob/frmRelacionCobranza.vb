@@ -15,6 +15,7 @@ Public Class frmRelacionCobranza
     Private _PedidoReferencia As String
     Private _RelacionEjecutivo As Boolean
     Private _UrlGateway As String
+    Private CLIENTETEMP As Integer
 
     'Captura de solicitudes de cobranza
     Private _tipoOperacionCobranza As Integer = TipoCapturaCobranza.Captura
@@ -1504,16 +1505,25 @@ Public Class frmRelacionCobranza
         CargarDetallePedidos(_Cobranza)
         '_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
         Try
+            Dim oGateway As RTGMGateway.RTGMGateway
+            Dim oSolicitud As RTGMGateway.SolicitudGateway
+            Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
             If _UrlGateway <> "" Then
                 Dim drow As DataRow
-                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
-                objGateway.URLServicio = _UrlGateway
+
+                oGateway = New RTGMGateway.RTGMGateway()
+                oSolicitud = New RTGMGateway.SolicitudGateway()
+                oGateway.URLServicio = _UrlGateway
+                oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
                     For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
-                        objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
-                        Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                        drow("Nombre") = Trim(objRtgCore.Nombre)
+                        CLIENTETEMP = (CType(drow("Cliente"), Integer))
+                        oSolicitud.IDCliente = CLIENTETEMP
+                        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                        If Not IsNothing(oDireccionEntrega) Then
+                            drow("Nombre") = Trim(oDireccionEntrega.Nombre.Trim())
+                        End If
                     Next
                 End If
             End If
