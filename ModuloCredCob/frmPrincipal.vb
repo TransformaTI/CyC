@@ -1319,7 +1319,7 @@ Public Class frmPrincipal
             Dim _CambioClientePadre As Boolean =
                         oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
 
-            oConfig = New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+            oConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
             strURLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
 
             If (String.IsNullOrEmpty(strURLGateway)) Then
@@ -2096,7 +2096,7 @@ Public Class frmPrincipal
 
     Private Sub mniReprogramacion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mniReprogramacion.Click
         If oSeguridad.TieneAcceso("ReprogramacionCobranza") Then
-            Dim frmReprogramacion As New RelacionCobranza.ReprogramacionCobranza(GLOBAL_IDUsuario)
+            Dim frmReprogramacion As New RelacionCobranza.ReprogramacionCobranza(GLOBAL_IDUsuario, _URLGateway)
             frmReprogramacion.ShowDialog()
         Else
             MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

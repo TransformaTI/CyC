@@ -1360,7 +1360,8 @@ Public Class frmCapRelacionCobranza
                 Main.DSCatalogos.Tables("EjecutivosCyC"),
                 CType(cboEmpleado.SelectedValue, Integer),
                 GLOBAL_connection,
-                GLOBAL_CargaClientesSinDatosPrg)
+                GLOBAL_CargaClientesSinDatosPrg,
+                 _URLGateway)
 
             programacioncobranza.PermitirTodosEjecutivos = oSeguridad.TieneAcceso("INTEGRAR_SOL_COB")
 
