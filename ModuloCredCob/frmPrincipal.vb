@@ -938,7 +938,8 @@ Public Class frmPrincipal
 
         'Ingresos por saldo a favor, habilitar la opción si el usuario tiene acceso
         If oSeguridad.TieneAcceso("SaldoAFavorCALIDAD") Or
-            oSeguridad.TieneAcceso("SaldoAFavorUSCAP") Then
+            oSeguridad.TieneAcceso("SaldoAFavorUSCAP") Or
+            oSeguridad.TieneAcceso("SaldoAFavorCONSULTA") Then
             mnuIngresosSaldoAFavor.Enabled = True
         End If
 
@@ -2337,21 +2338,24 @@ Public Class frmPrincipal
 
     Private Sub ConsultaIngresosSaldoAFavor()
         Dim frmConsultaIngresos As SigaMetClasses.frmConsultaIngresosSaldoAFavor
+        Const M_DOS_PRIVILEGIOS As String = "No puede tener los privilegios CALIDAD y USCAP al mismo tiempo."
         Dim accesoCalidad As Boolean
         Dim accesoUSCAP As Boolean
+        Dim accesoConsulta As Boolean
 
         Try
             accesoCalidad = oSeguridad.TieneAcceso("SaldoAFavorCALIDAD")
             accesoUSCAP = oSeguridad.TieneAcceso("SaldoAFavorUSCAP")
+            accesoCONSULTA = oSeguridad.TieneAcceso("SaldoAFavorCONSULTA")
 
-            If (Not accesoCalidad) And (Not accesoUSCAP) Then
+            If (Not accesoCalidad) And (Not accesoUSCAP) And (Not accesoConsulta) Then
                 MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             ElseIf (accesoCalidad And accesoUSCAP) Then
                 ' No puede tener los dos privilegios 
-                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(M_DOS_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
-            ElseIf (accesoCalidad Or accesoUSCAP) Then
+            ElseIf (accesoCalidad Or accesoUSCAP Or accesoConsulta) Then
                 Dim f As Form
                 For Each f In Me.MdiChildren
                     If f.Name = "frmConsultaIngresosSaldoAFavor" Then
@@ -2364,12 +2368,20 @@ Public Class frmPrincipal
                     frmConsultaIngresos = New SigaMetClasses.frmConsultaIngresosSaldoAFavor("CALIDAD")
                     frmConsultaIngresos.MdiParent = Me
                     frmConsultaIngresos.Show()
+                    Exit Sub
                 ElseIf (accesoUSCAP) Then
                     frmConsultaIngresos = New SigaMetClasses.frmConsultaIngresosSaldoAFavor("USCAP")
                     frmConsultaIngresos.MdiParent = Me
                     frmConsultaIngresos.Show()
+                    Exit Sub
+                ElseIf (accesoConsulta) Then
+                    frmConsultaIngresos = New SigaMetClasses.frmConsultaIngresosSaldoAFavor("CONSULTA")
+                    frmConsultaIngresos.MdiParent = Me
+                    frmConsultaIngresos.Show()
+                    Exit Sub
                 End If
             End If
+
         Catch ex As Exception
             MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
