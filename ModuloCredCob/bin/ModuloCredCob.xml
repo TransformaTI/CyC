@@ -6,5 +6,11 @@ ModuloCredCob
 </name>
 </assembly>
 <members>
+<member name="M:ModuloCredCob.frmPrincipal.DeshabilitaOpcionesMenu">
+ <summary>
+ Deshabilita opciones de menú si se encuentra un parámetro válido
+ URLGateway en la tabla 'Parametro'
+ </summary>
+</member>
 </members>
 </doc>

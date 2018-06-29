@@ -657,12 +657,12 @@ Public Class frmCapCobranza
             Dim frmSelTipoCobro As frmSelTipoCobro
             If Me.cboTipoMovCaja.NotaIngreso = False Then
                 If cboTipoMovCaja.TipoMovimientoCaja <> 28 Then
-                    frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro)
+                    frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro, txtCliente.Text, lblNombreCliente.Text)
                 Else
-                    frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro, False, True)
+                    frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro, txtCliente.Text, lblNombreCliente.Text, False, True)
                 End If
             Else
-                frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro, True, False)
+                frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro, txtCliente.Text, lblNombreCliente.Text, True, False)
             End If
 
             If frmSelTipoCobro.ShowDialog() = DialogResult.OK Then

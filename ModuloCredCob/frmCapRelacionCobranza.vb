@@ -1354,20 +1354,20 @@ Public Class frmCapRelacionCobranza
 
     Private Sub PreCarga2()
         If _tipoOperacionCaptura <> TipoCapturaCobranza.Entrega Then
-            Dim programacioncobranza As New _
-                ProgramacionCobranza.ConsultaProgramaCobranza(Main.DSCatalogos.Tables("Celulas"),
-                DirectCast(cboEmpleado.DataSource, DataTable),
-                Main.DSCatalogos.Tables("EjecutivosCyC"),
-                CType(cboEmpleado.SelectedValue, Integer),
-                GLOBAL_connection,
-                GLOBAL_CargaClientesSinDatosPrg,
-                 _URLGateway)
+            'Dim programacioncobranza As New _
+            'ProgramacionCobranza.ConsultaProgramaCobranza(Main.DSCatalogos.Tables("Celulas"),
+            '    DirectCast(cboEmpleado.DataSource, DataTable),
+            '    Main.DSCatalogos.Tables("EjecutivosCyC"),
+            '    CType(cboEmpleado.SelectedValue, Integer),
+            '    GLOBAL_connection,
+            '    GLOBAL_CargaClientesSinDatosPrg,
+            '     _URLGateway)
 
-            programacioncobranza.PermitirTodosEjecutivos = oSeguridad.TieneAcceso("INTEGRAR_SOL_COB")
+            'programacioncobranza.PermitirTodosEjecutivos = oSeguridad.TieneAcceso("INTEGRAR_SOL_COB")
 
-            If programacioncobranza.ShowDialog() = DialogResult.OK Then
-                cargaAutomatica(programacioncobranza.ListaDocumentos)
-            End If
+            'If programacioncobranza.ShowDialog() = DialogResult.OK Then
+            '    cargaAutomatica(programacioncobranza.ListaDocumentos)
+            'End If
         Else
             mensajeOperacionInvalidaEntrega()
         End If

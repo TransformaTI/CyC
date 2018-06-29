@@ -2097,7 +2097,7 @@ Public Class frmPrincipal
 
     Private Sub mniReprogramacion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mniReprogramacion.Click
         If oSeguridad.TieneAcceso("ReprogramacionCobranza") Then
-            Dim frmReprogramacion As New RelacionCobranza.ReprogramacionCobranza(GLOBAL_IDUsuario, _URLGateway)
+            Dim frmReprogramacion As New RelacionCobranza.ReprogramacionCobranza(GLOBAL_IDUsuario)
             frmReprogramacion.ShowDialog()
         Else
             MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
