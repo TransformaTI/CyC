@@ -18,7 +18,21 @@ Public Class frmSelTipoCobro
 
     'Control de cheques posfechados
     Private _ChequePosfechado As Boolean
-
+    Friend WithEvents tbDacionDePago As TabPage
+    Friend WithEvents grpDacionPago As GroupBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents lblDPCliente As Label
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label17 As Label
+    Friend WithEvents txtDPDescripcion As TextBox
+    Friend WithEvents txtDPMonto As TextBox
+    Friend WithEvents dtpDPFechaAplicacion As DateTimePicker
+    Friend WithEvents dtpDPFechaConvenio As DateTimePicker
+    Friend WithEvents btnAceptarDacionPago As ControlesBase.BotonBase
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
@@ -195,7 +209,7 @@ Public Class frmSelTipoCobro
     Friend WithEvents btnBusquedaCliente As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmSelTipoCobro))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSelTipoCobro))
         Me.tabTipoCobro = New System.Windows.Forms.TabControl()
         Me.tbEfectivoVales = New System.Windows.Forms.TabPage()
         Me.grpEfectivoVales = New System.Windows.Forms.GroupBox()
@@ -234,6 +248,7 @@ Public Class frmSelTipoCobro
         Me.rbNotaIngreso = New System.Windows.Forms.RadioButton()
         Me.btnAceptarChequeFicha = New ControlesBase.BotonBase()
         Me.grpChequeFicha = New System.Windows.Forms.GroupBox()
+        Me.btnBusquedaCliente = New System.Windows.Forms.Button()
         Me.cboNumeroCuenta = New SigaMetClasses.Controles.cboNumeroEntero()
         Me.txtDocumento = New System.Windows.Forms.TextBox()
         Me.lblNombre = New System.Windows.Forms.Label()
@@ -285,11 +300,25 @@ Public Class frmSelTipoCobro
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtSFClave = New System.Windows.Forms.TextBox()
+        Me.tbDacionDePago = New System.Windows.Forms.TabPage()
+        Me.grpDacionPago = New System.Windows.Forms.GroupBox()
+        Me.dtpDPFechaAplicacion = New System.Windows.Forms.DateTimePicker()
+        Me.dtpDPFechaConvenio = New System.Windows.Forms.DateTimePicker()
+        Me.txtDPDescripcion = New System.Windows.Forms.TextBox()
+        Me.txtDPMonto = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.lblDPCliente = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.btnBusquedaCliente = New System.Windows.Forms.Button()
+        Me.btnAceptarDacionPago = New ControlesBase.BotonBase()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -300,34 +329,43 @@ Public Class frmSelTipoCobro
         Me.tbSaldoAFavor.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.grpOrigen.SuspendLayout()
+        Me.tbDacionDePago.SuspendLayout()
+        Me.grpDacionPago.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabTipoCobro
         '
         Me.tabTipoCobro.Alignment = System.Windows.Forms.TabAlignment.Bottom
-        Me.tabTipoCobro.Controls.AddRange(New System.Windows.Forms.Control() {Me.tbEfectivoVales, Me.tbTarjetaCredito, Me.tbChequeFicha, Me.tbSaldoAFavor})
+        Me.tabTipoCobro.Controls.Add(Me.tbEfectivoVales)
+        Me.tabTipoCobro.Controls.Add(Me.tbTarjetaCredito)
+        Me.tabTipoCobro.Controls.Add(Me.tbChequeFicha)
+        Me.tabTipoCobro.Controls.Add(Me.tbSaldoAFavor)
+        Me.tabTipoCobro.Controls.Add(Me.tbDacionDePago)
         Me.tabTipoCobro.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabTipoCobro.HotTrack = True
+        Me.tabTipoCobro.Location = New System.Drawing.Point(0, 0)
         Me.tabTipoCobro.Multiline = True
         Me.tabTipoCobro.Name = "tabTipoCobro"
         Me.tabTipoCobro.SelectedIndex = 0
-        Me.tabTipoCobro.Size = New System.Drawing.Size(474, 396)
+        Me.tabTipoCobro.Size = New System.Drawing.Size(520, 396)
         Me.tabTipoCobro.TabIndex = 0
         '
         'tbEfectivoVales
         '
         Me.tbEfectivoVales.BackColor = System.Drawing.SystemColors.Control
-        Me.tbEfectivoVales.Controls.AddRange(New System.Windows.Forms.Control() {Me.grpEfectivoVales, Me.btnAceptarEfectivoVales})
+        Me.tbEfectivoVales.Controls.Add(Me.grpEfectivoVales)
+        Me.tbEfectivoVales.Controls.Add(Me.btnAceptarEfectivoVales)
         Me.tbEfectivoVales.ImageIndex = 0
         Me.tbEfectivoVales.Location = New System.Drawing.Point(4, 4)
         Me.tbEfectivoVales.Name = "tbEfectivoVales"
-        Me.tbEfectivoVales.Size = New System.Drawing.Size(466, 370)
+        Me.tbEfectivoVales.Size = New System.Drawing.Size(512, 370)
         Me.tbEfectivoVales.TabIndex = 3
         Me.tbEfectivoVales.Text = "Efectivo y / o vales"
         '
         'grpEfectivoVales
         '
-        Me.grpEfectivoVales.Controls.AddRange(New System.Windows.Forms.Control() {Me.txtTotalEfectivoVales, Me.lblTotalEfectivoVales})
+        Me.grpEfectivoVales.Controls.Add(Me.txtTotalEfectivoVales)
+        Me.grpEfectivoVales.Controls.Add(Me.lblTotalEfectivoVales)
         Me.grpEfectivoVales.Location = New System.Drawing.Point(48, 138)
         Me.grpEfectivoVales.Name = "grpEfectivoVales"
         Me.grpEfectivoVales.Size = New System.Drawing.Size(272, 48)
@@ -341,37 +379,39 @@ Public Class frmSelTipoCobro
         Me.txtTotalEfectivoVales.Name = "txtTotalEfectivoVales"
         Me.txtTotalEfectivoVales.Size = New System.Drawing.Size(120, 21)
         Me.txtTotalEfectivoVales.TabIndex = 0
-        Me.txtTotalEfectivoVales.Text = ""
         '
         'lblTotalEfectivoVales
         '
         Me.lblTotalEfectivoVales.AutoSize = True
         Me.lblTotalEfectivoVales.Location = New System.Drawing.Point(16, 19)
         Me.lblTotalEfectivoVales.Name = "lblTotalEfectivoVales"
-        Me.lblTotalEfectivoVales.Size = New System.Drawing.Size(74, 14)
+        Me.lblTotalEfectivoVales.Size = New System.Drawing.Size(74, 13)
         Me.lblTotalEfectivoVales.TabIndex = 28
         Me.lblTotalEfectivoVales.Text = "Importe total:"
         '
         'btnAceptarEfectivoVales
         '
-        Me.btnAceptarEfectivoVales.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnAceptarEfectivoVales.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAceptarEfectivoVales.BackColor = System.Drawing.SystemColors.Control
-        Me.btnAceptarEfectivoVales.Image = CType(resources.GetObject("btnAceptarEfectivoVales.Image"), System.Drawing.Bitmap)
+        Me.btnAceptarEfectivoVales.Image = CType(resources.GetObject("btnAceptarEfectivoVales.Image"), System.Drawing.Image)
         Me.btnAceptarEfectivoVales.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarEfectivoVales.Location = New System.Drawing.Point(368, 150)
+        Me.btnAceptarEfectivoVales.Location = New System.Drawing.Point(371, 150)
         Me.btnAceptarEfectivoVales.Name = "btnAceptarEfectivoVales"
         Me.btnAceptarEfectivoVales.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarEfectivoVales.TabIndex = 1
         Me.btnAceptarEfectivoVales.Text = "&Aceptar"
         Me.btnAceptarEfectivoVales.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnAceptarEfectivoVales.UseVisualStyleBackColor = False
         '
         'tbTarjetaCredito
         '
-        Me.tbTarjetaCredito.Controls.AddRange(New System.Windows.Forms.Control() {Me.chkCapturaTPV, Me.btnAceptarTarjetaCredito, Me.grpTarjetaCredito})
+        Me.tbTarjetaCredito.Controls.Add(Me.chkCapturaTPV)
+        Me.tbTarjetaCredito.Controls.Add(Me.btnAceptarTarjetaCredito)
+        Me.tbTarjetaCredito.Controls.Add(Me.grpTarjetaCredito)
         Me.tbTarjetaCredito.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbTarjetaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbTarjetaCredito.Name = "tbTarjetaCredito"
-        Me.tbTarjetaCredito.Size = New System.Drawing.Size(466, 370)
+        Me.tbTarjetaCredito.Size = New System.Drawing.Size(520, 370)
         Me.tbTarjetaCredito.TabIndex = 0
         Me.tbTarjetaCredito.Text = "Tarjeta de crédito"
         '
@@ -385,10 +425,10 @@ Public Class frmSelTipoCobro
         '
         'btnAceptarTarjetaCredito
         '
-        Me.btnAceptarTarjetaCredito.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
-        Me.btnAceptarTarjetaCredito.Image = CType(resources.GetObject("btnAceptarTarjetaCredito.Image"), System.Drawing.Bitmap)
+        Me.btnAceptarTarjetaCredito.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAceptarTarjetaCredito.Image = CType(resources.GetObject("btnAceptarTarjetaCredito.Image"), System.Drawing.Image)
         Me.btnAceptarTarjetaCredito.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(368, 150)
+        Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(422, 150)
         Me.btnAceptarTarjetaCredito.Name = "btnAceptarTarjetaCredito"
         Me.btnAceptarTarjetaCredito.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarTarjetaCredito.TabIndex = 3
@@ -397,7 +437,26 @@ Public Class frmSelTipoCobro
         '
         'grpTarjetaCredito
         '
-        Me.grpTarjetaCredito.Controls.AddRange(New System.Windows.Forms.Control() {Me.txtImporteTC, Me.txtClienteTC, Me.lblBanco, Me.LabelBase7, Me.lblClienteNombre, Me.LabelBase6, Me.lblVigencia, Me.LabelBase5, Me.lblTipoTarjetaCredito, Me.LabelBase4, Me.lblBancoNombre, Me.LabelBase3, Me.lblTarjetaCredito, Me.lblTxtTarjeta, Me.LabelBase1, Me.Label20, Me.lblTitular, Me.btnBuscarClienteTC, Me.txtNumeroTarjeta, Me.comboBancoTDC})
+        Me.grpTarjetaCredito.Controls.Add(Me.txtImporteTC)
+        Me.grpTarjetaCredito.Controls.Add(Me.txtClienteTC)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblBanco)
+        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase7)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblClienteNombre)
+        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase6)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblVigencia)
+        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase5)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblTipoTarjetaCredito)
+        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase4)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblBancoNombre)
+        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase3)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblTarjetaCredito)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblTxtTarjeta)
+        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase1)
+        Me.grpTarjetaCredito.Controls.Add(Me.Label20)
+        Me.grpTarjetaCredito.Controls.Add(Me.lblTitular)
+        Me.grpTarjetaCredito.Controls.Add(Me.btnBuscarClienteTC)
+        Me.grpTarjetaCredito.Controls.Add(Me.txtNumeroTarjeta)
+        Me.grpTarjetaCredito.Controls.Add(Me.comboBancoTDC)
         Me.grpTarjetaCredito.Location = New System.Drawing.Point(48, 48)
         Me.grpTarjetaCredito.Name = "grpTarjetaCredito"
         Me.grpTarjetaCredito.Size = New System.Drawing.Size(280, 253)
@@ -411,14 +470,13 @@ Public Class frmSelTipoCobro
         Me.txtImporteTC.Name = "txtImporteTC"
         Me.txtImporteTC.Size = New System.Drawing.Size(160, 21)
         Me.txtImporteTC.TabIndex = 4
-        Me.txtImporteTC.Text = ""
         '
         'txtClienteTC
         '
         Me.txtClienteTC.Location = New System.Drawing.Point(104, 32)
         Me.txtClienteTC.Name = "txtClienteTC"
+        Me.txtClienteTC.Size = New System.Drawing.Size(100, 21)
         Me.txtClienteTC.TabIndex = 0
-        Me.txtClienteTC.Text = ""
         '
         'lblBanco
         '
@@ -435,7 +493,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase7.AutoSize = True
         Me.LabelBase7.Location = New System.Drawing.Point(16, 65)
         Me.LabelBase7.Name = "LabelBase7"
-        Me.LabelBase7.Size = New System.Drawing.Size(48, 14)
+        Me.LabelBase7.Size = New System.Drawing.Size(48, 13)
         Me.LabelBase7.TabIndex = 40
         Me.LabelBase7.Text = "Nombre:"
         '
@@ -453,7 +511,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase6.AutoSize = True
         Me.LabelBase6.Location = New System.Drawing.Point(16, 219)
         Me.LabelBase6.Name = "LabelBase6"
-        Me.LabelBase6.Size = New System.Drawing.Size(48, 14)
+        Me.LabelBase6.Size = New System.Drawing.Size(49, 13)
         Me.LabelBase6.TabIndex = 39
         Me.LabelBase6.Text = "Importe:"
         '
@@ -471,7 +529,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase5.AutoSize = True
         Me.LabelBase5.Location = New System.Drawing.Point(16, 195)
         Me.LabelBase5.Name = "LabelBase5"
-        Me.LabelBase5.Size = New System.Drawing.Size(50, 14)
+        Me.LabelBase5.Size = New System.Drawing.Size(50, 13)
         Me.LabelBase5.TabIndex = 37
         Me.LabelBase5.Text = "Vigencia:"
         '
@@ -489,7 +547,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase4.AutoSize = True
         Me.LabelBase4.Location = New System.Drawing.Point(16, 171)
         Me.LabelBase4.Name = "LabelBase4"
-        Me.LabelBase4.Size = New System.Drawing.Size(82, 14)
+        Me.LabelBase4.Size = New System.Drawing.Size(82, 13)
         Me.LabelBase4.TabIndex = 35
         Me.LabelBase4.Text = "Tipo de tarjeta:"
         '
@@ -507,7 +565,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase3.AutoSize = True
         Me.LabelBase3.Location = New System.Drawing.Point(16, 147)
         Me.LabelBase3.Name = "LabelBase3"
-        Me.LabelBase3.Size = New System.Drawing.Size(38, 14)
+        Me.LabelBase3.Size = New System.Drawing.Size(40, 13)
         Me.LabelBase3.TabIndex = 33
         Me.LabelBase3.Text = "Banco:"
         '
@@ -525,7 +583,7 @@ Public Class frmSelTipoCobro
         Me.lblTxtTarjeta.AutoSize = True
         Me.lblTxtTarjeta.Location = New System.Drawing.Point(16, 123)
         Me.lblTxtTarjeta.Name = "lblTxtTarjeta"
-        Me.lblTxtTarjeta.Size = New System.Drawing.Size(64, 14)
+        Me.lblTxtTarjeta.Size = New System.Drawing.Size(66, 13)
         Me.lblTxtTarjeta.TabIndex = 26
         Me.lblTxtTarjeta.Text = "No. Tarjeta:"
         '
@@ -534,7 +592,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase1.AutoSize = True
         Me.LabelBase1.Location = New System.Drawing.Point(16, 99)
         Me.LabelBase1.Name = "LabelBase1"
-        Me.LabelBase1.Size = New System.Drawing.Size(40, 14)
+        Me.LabelBase1.Size = New System.Drawing.Size(41, 13)
         Me.LabelBase1.TabIndex = 24
         Me.LabelBase1.Text = "Titular:"
         '
@@ -543,7 +601,7 @@ Public Class frmSelTipoCobro
         Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(16, 35)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(42, 14)
+        Me.Label20.Size = New System.Drawing.Size(44, 13)
         Me.Label20.TabIndex = 22
         Me.Label20.Text = "Cliente:"
         '
@@ -558,7 +616,7 @@ Public Class frmSelTipoCobro
         '
         'btnBuscarClienteTC
         '
-        Me.btnBuscarClienteTC.Image = CType(resources.GetObject("btnBuscarClienteTC.Image"), System.Drawing.Bitmap)
+        Me.btnBuscarClienteTC.Image = CType(resources.GetObject("btnBuscarClienteTC.Image"), System.Drawing.Image)
         Me.btnBuscarClienteTC.Location = New System.Drawing.Point(216, 32)
         Me.btnBuscarClienteTC.Name = "btnBuscarClienteTC"
         Me.btnBuscarClienteTC.Size = New System.Drawing.Size(48, 21)
@@ -570,7 +628,6 @@ Public Class frmSelTipoCobro
         Me.txtNumeroTarjeta.Name = "txtNumeroTarjeta"
         Me.txtNumeroTarjeta.Size = New System.Drawing.Size(160, 21)
         Me.txtNumeroTarjeta.TabIndex = 2
-        Me.txtNumeroTarjeta.Text = ""
         Me.txtNumeroTarjeta.Visible = False
         '
         'comboBancoTDC
@@ -584,10 +641,20 @@ Public Class frmSelTipoCobro
         '
         'tbChequeFicha
         '
-        Me.tbChequeFicha.Controls.AddRange(New System.Windows.Forms.Control() {Me.rbTransferencia, Me.chkCargarNI, Me.LabelBase8, Me.txtCodigo, Me.rbNotaIngreso, Me.btnAceptarChequeFicha, Me.grpChequeFicha, Me.rbNotaCredito, Me.rbFicha, Me.rbCheque, Me.btnLeerCodigo})
+        Me.tbChequeFicha.Controls.Add(Me.rbTransferencia)
+        Me.tbChequeFicha.Controls.Add(Me.chkCargarNI)
+        Me.tbChequeFicha.Controls.Add(Me.LabelBase8)
+        Me.tbChequeFicha.Controls.Add(Me.txtCodigo)
+        Me.tbChequeFicha.Controls.Add(Me.rbNotaIngreso)
+        Me.tbChequeFicha.Controls.Add(Me.btnAceptarChequeFicha)
+        Me.tbChequeFicha.Controls.Add(Me.grpChequeFicha)
+        Me.tbChequeFicha.Controls.Add(Me.rbNotaCredito)
+        Me.tbChequeFicha.Controls.Add(Me.rbFicha)
+        Me.tbChequeFicha.Controls.Add(Me.rbCheque)
+        Me.tbChequeFicha.Controls.Add(Me.btnLeerCodigo)
         Me.tbChequeFicha.Location = New System.Drawing.Point(4, 4)
         Me.tbChequeFicha.Name = "tbChequeFicha"
-        Me.tbChequeFicha.Size = New System.Drawing.Size(466, 370)
+        Me.tbChequeFicha.Size = New System.Drawing.Size(512, 370)
         Me.tbChequeFicha.TabIndex = 2
         Me.tbChequeFicha.Text = "Cheque / Ficha de deposito"
         '
@@ -616,7 +683,7 @@ Public Class frmSelTipoCobro
         Me.LabelBase8.AutoSize = True
         Me.LabelBase8.Location = New System.Drawing.Point(24, 64)
         Me.LabelBase8.Name = "LabelBase8"
-        Me.LabelBase8.Size = New System.Drawing.Size(62, 14)
+        Me.LabelBase8.Size = New System.Drawing.Size(63, 13)
         Me.LabelBase8.TabIndex = 37
         Me.LabelBase8.Text = "Usar lector:"
         '
@@ -629,7 +696,6 @@ Public Class frmSelTipoCobro
         Me.txtCodigo.Name = "txtCodigo"
         Me.txtCodigo.Size = New System.Drawing.Size(240, 18)
         Me.txtCodigo.TabIndex = 0
-        Me.txtCodigo.Text = ""
         Me.ttMensaje.SetToolTip(Me.txtCodigo, "Posicione el cursor en este lugar y deslice el cheque por el lector de código")
         '
         'rbNotaIngreso
@@ -642,10 +708,10 @@ Public Class frmSelTipoCobro
         '
         'btnAceptarChequeFicha
         '
-        Me.btnAceptarChequeFicha.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
-        Me.btnAceptarChequeFicha.Image = CType(resources.GetObject("btnAceptarChequeFicha.Image"), System.Drawing.Bitmap)
+        Me.btnAceptarChequeFicha.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAceptarChequeFicha.Image = CType(resources.GetObject("btnAceptarChequeFicha.Image"), System.Drawing.Image)
         Me.btnAceptarChequeFicha.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarChequeFicha.Location = New System.Drawing.Point(368, 150)
+        Me.btnAceptarChequeFicha.Location = New System.Drawing.Point(371, 150)
         Me.btnAceptarChequeFicha.Name = "btnAceptarChequeFicha"
         Me.btnAceptarChequeFicha.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarChequeFicha.TabIndex = 2
@@ -654,12 +720,42 @@ Public Class frmSelTipoCobro
         '
         'grpChequeFicha
         '
-        Me.grpChequeFicha.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnBusquedaCliente, Me.cboNumeroCuenta, Me.txtDocumento, Me.lblNombre, Me.btnBuscarCliente, Me.txtImporteDocumento, Me.txtClienteCheque, Me.txtNumeroCuenta, Me.txtObservaciones, Me.ComboBanco, Me.lblBancoDestino, Me.lblObservaciones, Me.dtpFechaCheque, Me.lblNoCheque, Me.lblFechaCheque, Me.lblNoCuenta, Me.lblImporte, Me.lblCliente, Me.lblBancoOrigen, Me.ComboBancoOrigen, Me.txtNumeroCuentaOrigen, Me.lblCtaDestino})
+        Me.grpChequeFicha.Controls.Add(Me.btnBusquedaCliente)
+        Me.grpChequeFicha.Controls.Add(Me.cboNumeroCuenta)
+        Me.grpChequeFicha.Controls.Add(Me.txtDocumento)
+        Me.grpChequeFicha.Controls.Add(Me.lblNombre)
+        Me.grpChequeFicha.Controls.Add(Me.btnBuscarCliente)
+        Me.grpChequeFicha.Controls.Add(Me.txtImporteDocumento)
+        Me.grpChequeFicha.Controls.Add(Me.txtClienteCheque)
+        Me.grpChequeFicha.Controls.Add(Me.txtNumeroCuenta)
+        Me.grpChequeFicha.Controls.Add(Me.txtObservaciones)
+        Me.grpChequeFicha.Controls.Add(Me.ComboBanco)
+        Me.grpChequeFicha.Controls.Add(Me.lblBancoDestino)
+        Me.grpChequeFicha.Controls.Add(Me.lblObservaciones)
+        Me.grpChequeFicha.Controls.Add(Me.dtpFechaCheque)
+        Me.grpChequeFicha.Controls.Add(Me.lblNoCheque)
+        Me.grpChequeFicha.Controls.Add(Me.lblFechaCheque)
+        Me.grpChequeFicha.Controls.Add(Me.lblNoCuenta)
+        Me.grpChequeFicha.Controls.Add(Me.lblImporte)
+        Me.grpChequeFicha.Controls.Add(Me.lblCliente)
+        Me.grpChequeFicha.Controls.Add(Me.lblBancoOrigen)
+        Me.grpChequeFicha.Controls.Add(Me.ComboBancoOrigen)
+        Me.grpChequeFicha.Controls.Add(Me.txtNumeroCuentaOrigen)
+        Me.grpChequeFicha.Controls.Add(Me.lblCtaDestino)
         Me.grpChequeFicha.Location = New System.Drawing.Point(24, 80)
         Me.grpChequeFicha.Name = "grpChequeFicha"
         Me.grpChequeFicha.Size = New System.Drawing.Size(328, 285)
         Me.grpChequeFicha.TabIndex = 0
         Me.grpChequeFicha.TabStop = False
+        '
+        'btnBusquedaCliente
+        '
+        Me.btnBusquedaCliente.Image = CType(resources.GetObject("btnBusquedaCliente.Image"), System.Drawing.Image)
+        Me.btnBusquedaCliente.Location = New System.Drawing.Point(228, 96)
+        Me.btnBusquedaCliente.Name = "btnBusquedaCliente"
+        Me.btnBusquedaCliente.Size = New System.Drawing.Size(40, 21)
+        Me.btnBusquedaCliente.TabIndex = 36
+        Me.btnBusquedaCliente.Tag = "Búsqueda de clientes"
         '
         'cboNumeroCuenta
         '
@@ -677,7 +773,6 @@ Public Class frmSelTipoCobro
         Me.txtDocumento.Name = "txtDocumento"
         Me.txtDocumento.Size = New System.Drawing.Size(192, 21)
         Me.txtDocumento.TabIndex = 0
-        Me.txtDocumento.Text = ""
         '
         'lblNombre
         '
@@ -690,7 +785,7 @@ Public Class frmSelTipoCobro
         '
         'btnBuscarCliente
         '
-        Me.btnBuscarCliente.Image = CType(resources.GetObject("btnBuscarCliente.Image"), System.Drawing.Bitmap)
+        Me.btnBuscarCliente.Image = CType(resources.GetObject("btnBuscarCliente.Image"), System.Drawing.Image)
         Me.btnBuscarCliente.Location = New System.Drawing.Point(272, 96)
         Me.btnBuscarCliente.Name = "btnBuscarCliente"
         Me.btnBuscarCliente.Size = New System.Drawing.Size(40, 21)
@@ -703,7 +798,6 @@ Public Class frmSelTipoCobro
         Me.txtImporteDocumento.Name = "txtImporteDocumento"
         Me.txtImporteDocumento.Size = New System.Drawing.Size(192, 21)
         Me.txtImporteDocumento.TabIndex = 7
-        Me.txtImporteDocumento.Text = ""
         '
         'txtClienteCheque
         '
@@ -711,7 +805,6 @@ Public Class frmSelTipoCobro
         Me.txtClienteCheque.Name = "txtClienteCheque"
         Me.txtClienteCheque.Size = New System.Drawing.Size(104, 21)
         Me.txtClienteCheque.TabIndex = 4
-        Me.txtClienteCheque.Text = ""
         '
         'txtNumeroCuenta
         '
@@ -719,17 +812,14 @@ Public Class frmSelTipoCobro
         Me.txtNumeroCuenta.Name = "txtNumeroCuenta"
         Me.txtNumeroCuenta.Size = New System.Drawing.Size(192, 21)
         Me.txtNumeroCuenta.TabIndex = 2
-        Me.txtNumeroCuenta.Text = ""
         '
         'txtObservaciones
         '
-        Me.txtObservaciones.AutoSize = False
         Me.txtObservaciones.Location = New System.Drawing.Point(120, 240)
         Me.txtObservaciones.Multiline = True
         Me.txtObservaciones.Name = "txtObservaciones"
         Me.txtObservaciones.Size = New System.Drawing.Size(192, 32)
         Me.txtObservaciones.TabIndex = 8
-        Me.txtObservaciones.Text = ""
         '
         'ComboBanco
         '
@@ -745,7 +835,7 @@ Public Class frmSelTipoCobro
         Me.lblBancoDestino.AutoSize = True
         Me.lblBancoDestino.Location = New System.Drawing.Point(8, 147)
         Me.lblBancoDestino.Name = "lblBancoDestino"
-        Me.lblBancoDestino.Size = New System.Drawing.Size(38, 14)
+        Me.lblBancoDestino.Size = New System.Drawing.Size(40, 13)
         Me.lblBancoDestino.TabIndex = 15
         Me.lblBancoDestino.Text = "Banco:"
         '
@@ -754,13 +844,13 @@ Public Class frmSelTipoCobro
         Me.lblObservaciones.AutoSize = True
         Me.lblObservaciones.Location = New System.Drawing.Point(8, 240)
         Me.lblObservaciones.Name = "lblObservaciones"
-        Me.lblObservaciones.Size = New System.Drawing.Size(80, 14)
+        Me.lblObservaciones.Size = New System.Drawing.Size(82, 13)
         Me.lblObservaciones.TabIndex = 21
         Me.lblObservaciones.Text = "Observaciones:"
         '
         'dtpFechaCheque
         '
-        Me.dtpFechaCheque.Format = System.Windows.Forms.DateTimePickerFormat.Short
+        Me.dtpFechaCheque.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpFechaCheque.Location = New System.Drawing.Point(120, 48)
         Me.dtpFechaCheque.Name = "dtpFechaCheque"
         Me.dtpFechaCheque.Size = New System.Drawing.Size(192, 21)
@@ -771,7 +861,7 @@ Public Class frmSelTipoCobro
         Me.lblNoCheque.AutoSize = True
         Me.lblNoCheque.Location = New System.Drawing.Point(8, 27)
         Me.lblNoCheque.Name = "lblNoCheque"
-        Me.lblNoCheque.Size = New System.Drawing.Size(86, 14)
+        Me.lblNoCheque.Size = New System.Drawing.Size(85, 13)
         Me.lblNoCheque.TabIndex = 3
         Me.lblNoCheque.Text = "No. Documento:"
         '
@@ -780,7 +870,7 @@ Public Class frmSelTipoCobro
         Me.lblFechaCheque.AutoSize = True
         Me.lblFechaCheque.Location = New System.Drawing.Point(8, 51)
         Me.lblFechaCheque.Name = "lblFechaCheque"
-        Me.lblFechaCheque.Size = New System.Drawing.Size(97, 14)
+        Me.lblFechaCheque.Size = New System.Drawing.Size(96, 13)
         Me.lblFechaCheque.TabIndex = 16
         Me.lblFechaCheque.Text = "Fecha documento:"
         '
@@ -789,7 +879,7 @@ Public Class frmSelTipoCobro
         Me.lblNoCuenta.AutoSize = True
         Me.lblNoCuenta.Location = New System.Drawing.Point(8, 75)
         Me.lblNoCuenta.Name = "lblNoCuenta"
-        Me.lblNoCuenta.Size = New System.Drawing.Size(64, 14)
+        Me.lblNoCuenta.Size = New System.Drawing.Size(66, 13)
         Me.lblNoCuenta.TabIndex = 12
         Me.lblNoCuenta.Text = "No. Cuenta:"
         '
@@ -798,7 +888,7 @@ Public Class frmSelTipoCobro
         Me.lblImporte.AutoSize = True
         Me.lblImporte.Location = New System.Drawing.Point(8, 171)
         Me.lblImporte.Name = "lblImporte"
-        Me.lblImporte.Size = New System.Drawing.Size(48, 14)
+        Me.lblImporte.Size = New System.Drawing.Size(49, 13)
         Me.lblImporte.TabIndex = 19
         Me.lblImporte.Text = "Importe:"
         '
@@ -807,7 +897,7 @@ Public Class frmSelTipoCobro
         Me.lblCliente.AutoSize = True
         Me.lblCliente.Location = New System.Drawing.Point(8, 104)
         Me.lblCliente.Name = "lblCliente"
-        Me.lblCliente.Size = New System.Drawing.Size(42, 14)
+        Me.lblCliente.Size = New System.Drawing.Size(44, 13)
         Me.lblCliente.TabIndex = 13
         Me.lblCliente.Text = "Cliente:"
         '
@@ -816,7 +906,7 @@ Public Class frmSelTipoCobro
         Me.lblBancoOrigen.AutoSize = True
         Me.lblBancoOrigen.Location = New System.Drawing.Point(8, 195)
         Me.lblBancoOrigen.Name = "lblBancoOrigen"
-        Me.lblBancoOrigen.Size = New System.Drawing.Size(73, 14)
+        Me.lblBancoOrigen.Size = New System.Drawing.Size(73, 13)
         Me.lblBancoOrigen.TabIndex = 35
         Me.lblBancoOrigen.Text = "Banco origen:"
         '
@@ -837,14 +927,13 @@ Public Class frmSelTipoCobro
         Me.txtNumeroCuentaOrigen.Name = "txtNumeroCuentaOrigen"
         Me.txtNumeroCuentaOrigen.Size = New System.Drawing.Size(192, 21)
         Me.txtNumeroCuentaOrigen.TabIndex = 3
-        Me.txtNumeroCuentaOrigen.Text = ""
         '
         'lblCtaDestino
         '
         Me.lblCtaDestino.AutoSize = True
         Me.lblCtaDestino.Location = New System.Drawing.Point(8, 219)
         Me.lblCtaDestino.Name = "lblCtaDestino"
-        Me.lblCtaDestino.Size = New System.Drawing.Size(101, 14)
+        Me.lblCtaDestino.Size = New System.Drawing.Size(101, 13)
         Me.lblCtaDestino.TabIndex = 33
         Me.lblCtaDestino.Text = "No. Cuenta Origen:"
         '
@@ -877,7 +966,7 @@ Public Class frmSelTipoCobro
         'btnLeerCodigo
         '
         Me.btnLeerCodigo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnLeerCodigo.Image = CType(resources.GetObject("btnLeerCodigo.Image"), System.Drawing.Bitmap)
+        Me.btnLeerCodigo.Image = CType(resources.GetObject("btnLeerCodigo.Image"), System.Drawing.Image)
         Me.btnLeerCodigo.Location = New System.Drawing.Point(320, 64)
         Me.btnLeerCodigo.Name = "btnLeerCodigo"
         Me.btnLeerCodigo.Size = New System.Drawing.Size(32, 18)
@@ -887,19 +976,21 @@ Public Class frmSelTipoCobro
         '
         'tbSaldoAFavor
         '
-        Me.tbSaldoAFavor.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnAceptarSF, Me.GroupBox1, Me.grpOrigen})
+        Me.tbSaldoAFavor.Controls.Add(Me.btnAceptarSF)
+        Me.tbSaldoAFavor.Controls.Add(Me.GroupBox1)
+        Me.tbSaldoAFavor.Controls.Add(Me.grpOrigen)
         Me.tbSaldoAFavor.Location = New System.Drawing.Point(4, 4)
         Me.tbSaldoAFavor.Name = "tbSaldoAFavor"
-        Me.tbSaldoAFavor.Size = New System.Drawing.Size(466, 370)
+        Me.tbSaldoAFavor.Size = New System.Drawing.Size(512, 370)
         Me.tbSaldoAFavor.TabIndex = 4
         Me.tbSaldoAFavor.Text = "Saldo a favor"
         '
         'btnAceptarSF
         '
-        Me.btnAceptarSF.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
-        Me.btnAceptarSF.Image = CType(resources.GetObject("btnAceptarSF.Image"), System.Drawing.Bitmap)
+        Me.btnAceptarSF.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAceptarSF.Image = CType(resources.GetObject("btnAceptarSF.Image"), System.Drawing.Image)
         Me.btnAceptarSF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarSF.Location = New System.Drawing.Point(378, 161)
+        Me.btnAceptarSF.Location = New System.Drawing.Point(424, 161)
         Me.btnAceptarSF.Name = "btnAceptarSF"
         Me.btnAceptarSF.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarSF.TabIndex = 4
@@ -908,7 +999,19 @@ Public Class frmSelTipoCobro
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblSFAñoCobro, Me.Label15, Me.lblSFImporte, Me.Label13, Me.Label12, Me.Label11, Me.Label10, Me.lblSFCobro, Me.lblSFTipo, Me.lblSFMovimientoOrigen, Me.lblSaldoAFavorNombre, Me.lblSFCliente, Me.Label9})
+        Me.GroupBox1.Controls.Add(Me.lblSFAñoCobro)
+        Me.GroupBox1.Controls.Add(Me.Label15)
+        Me.GroupBox1.Controls.Add(Me.lblSFImporte)
+        Me.GroupBox1.Controls.Add(Me.Label13)
+        Me.GroupBox1.Controls.Add(Me.Label12)
+        Me.GroupBox1.Controls.Add(Me.Label11)
+        Me.GroupBox1.Controls.Add(Me.Label10)
+        Me.GroupBox1.Controls.Add(Me.lblSFCobro)
+        Me.GroupBox1.Controls.Add(Me.lblSFTipo)
+        Me.GroupBox1.Controls.Add(Me.lblSFMovimientoOrigen)
+        Me.GroupBox1.Controls.Add(Me.lblSaldoAFavorNombre)
+        Me.GroupBox1.Controls.Add(Me.lblSFCliente)
+        Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Location = New System.Drawing.Point(15, 141)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(358, 210)
@@ -929,7 +1032,7 @@ Public Class frmSelTipoCobro
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(12, 176)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(48, 14)
+        Me.Label15.Size = New System.Drawing.Size(49, 13)
         Me.Label15.TabIndex = 15
         Me.Label15.Text = "Importe:"
         '
@@ -947,7 +1050,7 @@ Public Class frmSelTipoCobro
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(12, 147)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(30, 14)
+        Me.Label13.Size = New System.Drawing.Size(31, 13)
         Me.Label13.TabIndex = 13
         Me.Label13.Text = "Tipo:"
         '
@@ -956,7 +1059,7 @@ Public Class frmSelTipoCobro
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(12, 120)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(38, 14)
+        Me.Label12.Size = New System.Drawing.Size(40, 13)
         Me.Label12.TabIndex = 12
         Me.Label12.Text = "Cobro:"
         '
@@ -965,7 +1068,7 @@ Public Class frmSelTipoCobro
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(12, 94)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(101, 14)
+        Me.Label11.Size = New System.Drawing.Size(98, 13)
         Me.Label11.TabIndex = 11
         Me.Label11.Text = "Movimiento origen:"
         '
@@ -974,7 +1077,7 @@ Public Class frmSelTipoCobro
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(12, 48)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(48, 14)
+        Me.Label10.Size = New System.Drawing.Size(48, 13)
         Me.Label10.TabIndex = 10
         Me.Label10.Text = "Nombre:"
         '
@@ -1027,13 +1130,21 @@ Public Class frmSelTipoCobro
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(12, 25)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(42, 14)
+        Me.Label9.Size = New System.Drawing.Size(44, 13)
         Me.Label9.TabIndex = 9
         Me.Label9.Text = "Cliente:"
         '
         'grpOrigen
         '
-        Me.grpOrigen.Controls.AddRange(New System.Windows.Forms.Control() {Me.txtSFAñoAtt, Me.btnSFBuscar, Me.txtSFFolioAtt, Me.Label4, Me.Label3, Me.txtSFCliente, Me.Label2, Me.Label1, Me.txtSFClave})
+        Me.grpOrigen.Controls.Add(Me.txtSFAñoAtt)
+        Me.grpOrigen.Controls.Add(Me.btnSFBuscar)
+        Me.grpOrigen.Controls.Add(Me.txtSFFolioAtt)
+        Me.grpOrigen.Controls.Add(Me.Label4)
+        Me.grpOrigen.Controls.Add(Me.Label3)
+        Me.grpOrigen.Controls.Add(Me.txtSFCliente)
+        Me.grpOrigen.Controls.Add(Me.Label2)
+        Me.grpOrigen.Controls.Add(Me.Label1)
+        Me.grpOrigen.Controls.Add(Me.txtSFClave)
         Me.grpOrigen.Location = New System.Drawing.Point(14, 16)
         Me.grpOrigen.Name = "grpOrigen"
         Me.grpOrigen.Size = New System.Drawing.Size(359, 120)
@@ -1047,11 +1158,10 @@ Public Class frmSelTipoCobro
         Me.txtSFAñoAtt.Name = "txtSFAñoAtt"
         Me.txtSFAñoAtt.Size = New System.Drawing.Size(147, 21)
         Me.txtSFAñoAtt.TabIndex = 9
-        Me.txtSFAñoAtt.Text = ""
         '
         'btnSFBuscar
         '
-        Me.btnSFBuscar.Image = CType(resources.GetObject("btnSFBuscar.Image"), System.Drawing.Bitmap)
+        Me.btnSFBuscar.Image = CType(resources.GetObject("btnSFBuscar.Image"), System.Drawing.Image)
         Me.btnSFBuscar.Location = New System.Drawing.Point(301, 20)
         Me.btnSFBuscar.Name = "btnSFBuscar"
         Me.btnSFBuscar.Size = New System.Drawing.Size(48, 21)
@@ -1063,14 +1173,13 @@ Public Class frmSelTipoCobro
         Me.txtSFFolioAtt.Name = "txtSFFolioAtt"
         Me.txtSFFolioAtt.Size = New System.Drawing.Size(147, 21)
         Me.txtSFFolioAtt.TabIndex = 7
-        Me.txtSFFolioAtt.Text = ""
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(12, 93)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(32, 14)
+        Me.Label4.Size = New System.Drawing.Size(33, 13)
         Me.Label4.TabIndex = 6
         Me.Label4.Text = "Folio:"
         '
@@ -1079,7 +1188,7 @@ Public Class frmSelTipoCobro
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(12, 70)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(41, 14)
+        Me.Label3.Size = New System.Drawing.Size(44, 13)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Añoatt:"
         '
@@ -1089,14 +1198,13 @@ Public Class frmSelTipoCobro
         Me.txtSFCliente.Name = "txtSFCliente"
         Me.txtSFCliente.Size = New System.Drawing.Size(147, 21)
         Me.txtSFCliente.TabIndex = 3
-        Me.txtSFCliente.Text = ""
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(12, 47)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(42, 14)
+        Me.Label2.Size = New System.Drawing.Size(44, 13)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Cliente:"
         '
@@ -1105,7 +1213,7 @@ Public Class frmSelTipoCobro
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 24)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(115, 14)
+        Me.Label1.Size = New System.Drawing.Size(112, 13)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Clave del movimiento:"
         '
@@ -1115,7 +1223,142 @@ Public Class frmSelTipoCobro
         Me.txtSFClave.Name = "txtSFClave"
         Me.txtSFClave.Size = New System.Drawing.Size(147, 21)
         Me.txtSFClave.TabIndex = 0
-        Me.txtSFClave.Text = ""
+        '
+        'tbDacionDePago
+        '
+        Me.tbDacionDePago.BackColor = System.Drawing.SystemColors.Control
+        Me.tbDacionDePago.Controls.Add(Me.btnAceptarDacionPago)
+        Me.tbDacionDePago.Controls.Add(Me.grpDacionPago)
+        Me.tbDacionDePago.Location = New System.Drawing.Point(4, 4)
+        Me.tbDacionDePago.Name = "tbDacionDePago"
+        Me.tbDacionDePago.Size = New System.Drawing.Size(512, 370)
+        Me.tbDacionDePago.TabIndex = 5
+        Me.tbDacionDePago.Text = "Dación de pago"
+        '
+        'grpDacionPago
+        '
+        Me.grpDacionPago.Controls.Add(Me.dtpDPFechaAplicacion)
+        Me.grpDacionPago.Controls.Add(Me.dtpDPFechaConvenio)
+        Me.grpDacionPago.Controls.Add(Me.txtDPDescripcion)
+        Me.grpDacionPago.Controls.Add(Me.txtDPMonto)
+        Me.grpDacionPago.Controls.Add(Me.Label17)
+        Me.grpDacionPago.Controls.Add(Me.lblDPCliente)
+        Me.grpDacionPago.Controls.Add(Me.Label16)
+        Me.grpDacionPago.Controls.Add(Me.Label14)
+        Me.grpDacionPago.Controls.Add(Me.Label8)
+        Me.grpDacionPago.Controls.Add(Me.Label7)
+        Me.grpDacionPago.Controls.Add(Me.Label6)
+        Me.grpDacionPago.Controls.Add(Me.Label5)
+        Me.grpDacionPago.Location = New System.Drawing.Point(9, 9)
+        Me.grpDacionPago.Name = "grpDacionPago"
+        Me.grpDacionPago.Size = New System.Drawing.Size(383, 349)
+        Me.grpDacionPago.TabIndex = 0
+        Me.grpDacionPago.TabStop = False
+        '
+        'dtpDPFechaAplicacion
+        '
+        Me.dtpDPFechaAplicacion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpDPFechaAplicacion.Location = New System.Drawing.Point(111, 94)
+        Me.dtpDPFechaAplicacion.Name = "dtpDPFechaAplicacion"
+        Me.dtpDPFechaAplicacion.Size = New System.Drawing.Size(101, 21)
+        Me.dtpDPFechaAplicacion.TabIndex = 3
+        '
+        'dtpDPFechaConvenio
+        '
+        Me.dtpDPFechaConvenio.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpDPFechaConvenio.Location = New System.Drawing.Point(111, 68)
+        Me.dtpDPFechaConvenio.Name = "dtpDPFechaConvenio"
+        Me.dtpDPFechaConvenio.Size = New System.Drawing.Size(101, 21)
+        Me.dtpDPFechaConvenio.TabIndex = 2
+        '
+        'txtDPDescripcion
+        '
+        Me.txtDPDescripcion.Location = New System.Drawing.Point(112, 146)
+        Me.txtDPDescripcion.Multiline = True
+        Me.txtDPDescripcion.Name = "txtDPDescripcion"
+        Me.txtDPDescripcion.Size = New System.Drawing.Size(245, 66)
+        Me.txtDPDescripcion.TabIndex = 5
+        '
+        'txtDPMonto
+        '
+        Me.txtDPMonto.Location = New System.Drawing.Point(112, 120)
+        Me.txtDPMonto.Name = "txtDPMonto"
+        Me.txtDPMonto.Size = New System.Drawing.Size(100, 21)
+        Me.txtDPMonto.TabIndex = 4
+        '
+        'Label17
+        '
+        Me.Label17.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label17.Location = New System.Drawing.Point(112, 42)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(245, 21)
+        Me.Label17.TabIndex = 1
+        Me.Label17.Text = "Label17"
+        Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblDPCliente
+        '
+        Me.lblDPCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.lblDPCliente.Location = New System.Drawing.Point(112, 16)
+        Me.lblDPCliente.Name = "lblDPCliente"
+        Me.lblDPCliente.Size = New System.Drawing.Size(101, 21)
+        Me.lblDPCliente.TabIndex = 0
+        Me.lblDPCliente.Text = "Label17"
+        Me.lblDPCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(44, 149)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(65, 13)
+        Me.Label16.TabIndex = 5
+        Me.Label16.Text = "Descripción:"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(68, 123)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(41, 13)
+        Me.Label14.TabIndex = 4
+        Me.Label14.Text = "Monto:"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(5, 97)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(104, 13)
+        Me.Label8.TabIndex = 3
+        Me.Label8.Text = "Fecha de aplicación:"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 71)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(103, 13)
+        Me.Label7.TabIndex = 2
+        Me.Label7.Text = "Fecha del convenio:"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(61, 46)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(48, 13)
+        Me.Label6.TabIndex = 1
+        Me.Label6.Text = "Nombre:"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(65, 20)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(44, 13)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "Cliente:"
         '
         'imgLista
         '
@@ -1128,6 +1371,7 @@ Public Class frmSelTipoCobro
         Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnCancelar.Location = New System.Drawing.Point(128, 56)
         Me.btnCancelar.Name = "btnCancelar"
+        Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 1
         Me.btnCancelar.Text = "&Cancelar"
         '
@@ -1138,21 +1382,24 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
         '
-        'btnBusquedaCliente
+        'btnAceptarDacionPago
         '
-        Me.btnBusquedaCliente.Image = CType(resources.GetObject("btnBusquedaCliente.Image"), System.Drawing.Bitmap)
-        Me.btnBusquedaCliente.Location = New System.Drawing.Point(228, 96)
-        Me.btnBusquedaCliente.Name = "btnBusquedaCliente"
-        Me.btnBusquedaCliente.Size = New System.Drawing.Size(40, 21)
-        Me.btnBusquedaCliente.TabIndex = 36
-        Me.btnBusquedaCliente.Tag = "Búsqueda de clientes"
+        Me.btnAceptarDacionPago.Image = CType(resources.GetObject("btnAceptarDacionPago.Image"), System.Drawing.Image)
+        Me.btnAceptarDacionPago.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnAceptarDacionPago.Location = New System.Drawing.Point(411, 95)
+        Me.btnAceptarDacionPago.Name = "btnAceptarDacionPago"
+        Me.btnAceptarDacionPago.Size = New System.Drawing.Size(80, 24)
+        Me.btnAceptarDacionPago.TabIndex = 6
+        Me.btnAceptarDacionPago.Text = "&Aceptar"
+        Me.btnAceptarDacionPago.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmSelTipoCobro
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(474, 396)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.tabTipoCobro, Me.btnCancelar})
+        Me.ClientSize = New System.Drawing.Size(520, 396)
+        Me.Controls.Add(Me.tabTipoCobro)
+        Me.Controls.Add(Me.btnCancelar)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -1163,13 +1410,22 @@ Public Class frmSelTipoCobro
         Me.tabTipoCobro.ResumeLayout(False)
         Me.tbEfectivoVales.ResumeLayout(False)
         Me.grpEfectivoVales.ResumeLayout(False)
+        Me.grpEfectivoVales.PerformLayout()
         Me.tbTarjetaCredito.ResumeLayout(False)
         Me.grpTarjetaCredito.ResumeLayout(False)
+        Me.grpTarjetaCredito.PerformLayout()
         Me.tbChequeFicha.ResumeLayout(False)
+        Me.tbChequeFicha.PerformLayout()
         Me.grpChequeFicha.ResumeLayout(False)
+        Me.grpChequeFicha.PerformLayout()
         Me.tbSaldoAFavor.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.grpOrigen.ResumeLayout(False)
+        Me.grpOrigen.PerformLayout()
+        Me.tbDacionDePago.ResumeLayout(False)
+        Me.grpDacionPago.ResumeLayout(False)
+        Me.grpDacionPago.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
