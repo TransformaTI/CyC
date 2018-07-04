@@ -5,7 +5,8 @@ Public Class frmSelTipoCobro
     Inherits System.Windows.Forms.Form
     Private Titulo As String = "Captura de cobranza"
     Private _Consecutivo As Integer
-    Public Cobro As SigaMetClasses.sCobro
+    'Public Cobro As SigaMetClasses.sCobro
+    Private _Cobro As New SigaMetClasses.sCobro
     Public ImporteTotalCobro As Decimal = 0
     Private _TipoCobro As SigaMetClasses.Enumeradores.enumTipoCobro
     Private _TipoMovimientoCaja As Byte
@@ -52,12 +53,18 @@ Public Class frmSelTipoCobro
     Friend WithEvents Label5 As Label
     Friend WithEvents txtDPDescripcion As TextBox
     Friend WithEvents btnAceptarDP As ControlesBase.BotonBase
-    Friend WithEvents txtDPMonto As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents txtDPImporte As SigaMetClasses.Controles.txtNumeroDecimal
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
         Get
             Return _ChequePosfechado
+        End Get
+    End Property
+
+    Public ReadOnly Property Cobro() As SigaMetClasses.sCobro
+        Get
+            Return _Cobro
         End Get
     End Property
 
@@ -346,6 +353,7 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago = New System.Windows.Forms.TabPage()
         Me.btnAceptarDP = New ControlesBase.BotonBase()
         Me.grpDacionPago = New System.Windows.Forms.GroupBox()
+        Me.txtDPImporte = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.txtDPDescripcion = New System.Windows.Forms.TextBox()
         Me.dtpDPFechaAplicacion = New System.Windows.Forms.DateTimePicker()
         Me.dtpDPFechaConvenio = New System.Windows.Forms.DateTimePicker()
@@ -361,7 +369,6 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.txtDPMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1469,7 +1476,7 @@ Public Class frmSelTipoCobro
         '
         'grpDacionPago
         '
-        Me.grpDacionPago.Controls.Add(Me.txtDPMonto)
+        Me.grpDacionPago.Controls.Add(Me.txtDPImporte)
         Me.grpDacionPago.Controls.Add(Me.txtDPDescripcion)
         Me.grpDacionPago.Controls.Add(Me.dtpDPFechaAplicacion)
         Me.grpDacionPago.Controls.Add(Me.dtpDPFechaConvenio)
@@ -1487,6 +1494,13 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.TabIndex = 0
         Me.grpDacionPago.TabStop = False
         Me.grpDacionPago.Text = "Dación en pago:"
+        '
+        'txtDPImporte
+        '
+        Me.txtDPImporte.Location = New System.Drawing.Point(121, 129)
+        Me.txtDPImporte.Name = "txtDPImporte"
+        Me.txtDPImporte.Size = New System.Drawing.Size(100, 21)
+        Me.txtDPImporte.TabIndex = 5
         '
         'txtDPDescripcion
         '
@@ -1540,11 +1554,11 @@ Public Class frmSelTipoCobro
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(74, 129)
+        Me.Label14.Location = New System.Drawing.Point(66, 129)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(41, 13)
+        Me.Label14.Size = New System.Drawing.Size(49, 13)
         Me.Label14.TabIndex = 4
-        Me.Label14.Text = "Monto:"
+        Me.Label14.Text = "Importe:"
         '
         'Label8
         '
@@ -1603,13 +1617,6 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
-        '
-        'txtDPMonto
-        '
-        Me.txtDPMonto.Location = New System.Drawing.Point(121, 129)
-        Me.txtDPMonto.Name = "txtDPMonto"
-        Me.txtDPMonto.Size = New System.Drawing.Size(100, 21)
-        Me.txtDPMonto.TabIndex = 5
         '
         'frmSelTipoCobro
         '
@@ -1678,7 +1685,7 @@ Public Class frmSelTipoCobro
                     frmCaptura.ImporteCobro = CType(txtTotalEfectivoVales.Text, Decimal)
 
                     If frmCaptura.ShowDialog = DialogResult.OK Then
-                        With Cobro
+                        With _Cobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales
@@ -1690,7 +1697,7 @@ Public Class frmSelTipoCobro
                     End If
 
                 Else
-                    With Cobro
+                    With _Cobro
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
                         .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales
@@ -1724,7 +1731,7 @@ Public Class frmSelTipoCobro
                     frmCaptura.ImporteCobro = CType(txtImporteTC.Text, Decimal)
 
                     If frmCaptura.ShowDialog = DialogResult.OK Then
-                        With Cobro
+                        With _Cobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
@@ -1738,7 +1745,7 @@ Public Class frmSelTipoCobro
                         DialogResult = DialogResult.OK
                     End If
                 Else
-                    With Cobro
+                    With _Cobro
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
                         .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
@@ -1898,7 +1905,7 @@ Public Class frmSelTipoCobro
                 '****
 
                 If frmCaptura.ShowDialog() = DialogResult.OK Then
-                    With Cobro
+                    With _Cobro
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
                         .TipoCobro = _TipoCobro
@@ -1940,7 +1947,7 @@ Public Class frmSelTipoCobro
                     '*****
 
                     'Control de cheques posfechados
-                    _ChequePosfechado = Cobro.Posfechado
+                    _ChequePosfechado = _Cobro.Posfechado
                     '*****
 
                     DialogResult = DialogResult.OK
@@ -1949,7 +1956,7 @@ Public Class frmSelTipoCobro
                 MessageBox.Show("El cobro ya existe en el movimiento.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Else
-            With Cobro
+            With _Cobro
                 .Consecutivo = _Consecutivo
                 .AnoCobro = CType(FechaOperacion.Year, Short)
                 .TipoCobro = _TipoCobro
@@ -1987,7 +1994,7 @@ Public Class frmSelTipoCobro
                     frmCaptura.ImporteCobro = CType(lblImpoteDato.Text, Decimal)
 
                     If frmCaptura.ShowDialog = DialogResult.OK Then
-                        With Cobro
+                        With _Cobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
@@ -2001,7 +2008,7 @@ Public Class frmSelTipoCobro
                         DialogResult = DialogResult.OK
                     End If
                 Else
-                    With Cobro
+                    With _Cobro
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
                         .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
@@ -2657,7 +2664,7 @@ Public Class frmSelTipoCobro
             ClientesRelacionados.ClientesRelacionados(CType(Val(lblSFCliente.Text), Integer), GLOBAL_connection)
 
         If frmCaptura.ShowDialog() = DialogResult.OK Then
-            With Cobro
+            With _Cobro
                 .Consecutivo = _Consecutivo
                 .AnoCobro = CType(FechaOperacion.Year, Short)
                 .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.SaldoAFavor
@@ -2904,7 +2911,43 @@ Public Class frmSelTipoCobro
 
     End Sub
 
-    Private Sub tbDacionPago_Click(sender As Object, e As EventArgs) Handles tbDacionPago.Click
+    Private Sub btnAceptarDP_Click(sender As Object, e As EventArgs) Handles btnAceptarDP.Click
+        Dim frmCaptura As frmCapCobranzaDoc
+        Dim importe As Decimal
+        Dim importeCorrecto As Boolean
+        Dim cliente As Integer
+
+        If txtDPImporte.Text = "" Then
+            MessageBox.Show("Ingresa el importe del cobro", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        importeCorrecto = Decimal.TryParse(txtDPImporte.Text, importe)
+        cliente = If(_IdCliente IsNot Nothing And _IdCliente > "", Convert.ToInt32(_IdCliente), 0)
+
+        If Not importeCorrecto Then
+            MessageBox.Show("Ingresa un importe válido", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        With _Cobro
+            .AnoCobro       = Convert.ToInt16(dtpDPFechaAplicacion.Value.Year)
+            .Observaciones  = txtDPDescripcion.Text
+            .Saldo          = 0
+            .TipoCobro      = SigaMetClasses.Enumeradores.enumTipoCobro.DacionEnPago
+            .Total          = importe
+            .Cliente = cliente
+        End With
+
+        If Not _EsRelacionCobranza Then
+            frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)
+        Else
+            frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros, _RelacionCobranza)
+        End If
+
+        frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales
+        frmCaptura.ImporteCobro = CType(txtTotalEfectivoVales.Text, Decimal)
+
 
     End Sub
     '*****
