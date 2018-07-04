@@ -50,9 +50,9 @@ Public Class frmSelTipoCobro
     Friend WithEvents Label7 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
-    Friend WithEvents txtDPMonto As TextBox
     Friend WithEvents txtDPDescripcion As TextBox
     Friend WithEvents btnAceptarDP As ControlesBase.BotonBase
+    Friend WithEvents txtDPMonto As SigaMetClasses.Controles.txtNumeroDecimal
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
@@ -344,9 +344,9 @@ Public Class frmSelTipoCobro
         Me.lblNombreClienteDato = New System.Windows.Forms.Label()
         Me.btnAceptarNC = New ControlesBase.BotonBase()
         Me.tbDacionPago = New System.Windows.Forms.TabPage()
+        Me.btnAceptarDP = New ControlesBase.BotonBase()
         Me.grpDacionPago = New System.Windows.Forms.GroupBox()
         Me.txtDPDescripcion = New System.Windows.Forms.TextBox()
-        Me.txtDPMonto = New System.Windows.Forms.TextBox()
         Me.dtpDPFechaAplicacion = New System.Windows.Forms.DateTimePicker()
         Me.dtpDPFechaConvenio = New System.Windows.Forms.DateTimePicker()
         Me.lblDPNombre = New System.Windows.Forms.Label()
@@ -361,7 +361,7 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.btnAceptarDP = New ControlesBase.BotonBase()
+        Me.txtDPMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1451,12 +1451,26 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago.Name = "tbDacionPago"
         Me.tbDacionPago.Size = New System.Drawing.Size(610, 370)
         Me.tbDacionPago.TabIndex = 6
-        Me.tbDacionPago.Text = "Dación de pago"
+        Me.tbDacionPago.Text = "Dación en pago"
+        '
+        'btnAceptarDP
+        '
+        Me.btnAceptarDP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAceptarDP.BackColor = System.Drawing.SystemColors.Control
+        Me.btnAceptarDP.Image = CType(resources.GetObject("btnAceptarDP.Image"), System.Drawing.Image)
+        Me.btnAceptarDP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnAceptarDP.Location = New System.Drawing.Point(519, 109)
+        Me.btnAceptarDP.Name = "btnAceptarDP"
+        Me.btnAceptarDP.Size = New System.Drawing.Size(80, 24)
+        Me.btnAceptarDP.TabIndex = 7
+        Me.btnAceptarDP.Text = "&Aceptar"
+        Me.btnAceptarDP.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnAceptarDP.UseVisualStyleBackColor = False
         '
         'grpDacionPago
         '
-        Me.grpDacionPago.Controls.Add(Me.txtDPDescripcion)
         Me.grpDacionPago.Controls.Add(Me.txtDPMonto)
+        Me.grpDacionPago.Controls.Add(Me.txtDPDescripcion)
         Me.grpDacionPago.Controls.Add(Me.dtpDPFechaAplicacion)
         Me.grpDacionPago.Controls.Add(Me.dtpDPFechaConvenio)
         Me.grpDacionPago.Controls.Add(Me.lblDPNombre)
@@ -1467,64 +1481,57 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.Controls.Add(Me.Label7)
         Me.grpDacionPago.Controls.Add(Me.Label6)
         Me.grpDacionPago.Controls.Add(Me.Label5)
-        Me.grpDacionPago.Location = New System.Drawing.Point(9, 9)
+        Me.grpDacionPago.Location = New System.Drawing.Point(19, 13)
         Me.grpDacionPago.Name = "grpDacionPago"
-        Me.grpDacionPago.Size = New System.Drawing.Size(394, 267)
+        Me.grpDacionPago.Size = New System.Drawing.Size(402, 264)
         Me.grpDacionPago.TabIndex = 0
         Me.grpDacionPago.TabStop = False
-        Me.grpDacionPago.Text = "Dación de pago:"
+        Me.grpDacionPago.Text = "Dación en pago:"
         '
         'txtDPDescripcion
         '
-        Me.txtDPDescripcion.Location = New System.Drawing.Point(115, 158)
+        Me.txtDPDescripcion.Location = New System.Drawing.Point(121, 155)
         Me.txtDPDescripcion.Multiline = True
         Me.txtDPDescripcion.Name = "txtDPDescripcion"
         Me.txtDPDescripcion.Size = New System.Drawing.Size(260, 84)
-        Me.txtDPDescripcion.TabIndex = 11
-        '
-        'txtDPMonto
-        '
-        Me.txtDPMonto.Location = New System.Drawing.Point(115, 132)
-        Me.txtDPMonto.Name = "txtDPMonto"
-        Me.txtDPMonto.Size = New System.Drawing.Size(100, 21)
-        Me.txtDPMonto.TabIndex = 10
+        Me.txtDPDescripcion.TabIndex = 6
         '
         'dtpDPFechaAplicacion
         '
         Me.dtpDPFechaAplicacion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpDPFechaAplicacion.Location = New System.Drawing.Point(115, 106)
+        Me.dtpDPFechaAplicacion.Location = New System.Drawing.Point(121, 103)
         Me.dtpDPFechaAplicacion.Name = "dtpDPFechaAplicacion"
         Me.dtpDPFechaAplicacion.Size = New System.Drawing.Size(100, 21)
-        Me.dtpDPFechaAplicacion.TabIndex = 9
+        Me.dtpDPFechaAplicacion.TabIndex = 4
         '
         'dtpDPFechaConvenio
         '
         Me.dtpDPFechaConvenio.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpDPFechaConvenio.Location = New System.Drawing.Point(115, 80)
+        Me.dtpDPFechaConvenio.Location = New System.Drawing.Point(121, 77)
         Me.dtpDPFechaConvenio.Name = "dtpDPFechaConvenio"
         Me.dtpDPFechaConvenio.Size = New System.Drawing.Size(100, 21)
-        Me.dtpDPFechaConvenio.TabIndex = 8
+        Me.dtpDPFechaConvenio.TabIndex = 3
         '
         'lblDPNombre
         '
         Me.lblDPNombre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblDPNombre.Location = New System.Drawing.Point(115, 54)
+        Me.lblDPNombre.Location = New System.Drawing.Point(121, 51)
         Me.lblDPNombre.Name = "lblDPNombre"
         Me.lblDPNombre.Size = New System.Drawing.Size(260, 21)
-        Me.lblDPNombre.TabIndex = 7
+        Me.lblDPNombre.TabIndex = 2
         '
         'lblDPCliente
         '
         Me.lblDPCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblDPCliente.Location = New System.Drawing.Point(115, 28)
+        Me.lblDPCliente.Location = New System.Drawing.Point(121, 25)
         Me.lblDPCliente.Name = "lblDPCliente"
         Me.lblDPCliente.Size = New System.Drawing.Size(100, 21)
-        Me.lblDPCliente.TabIndex = 6
+        Me.lblDPCliente.TabIndex = 1
         '
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(44, 158)
+        Me.Label16.Location = New System.Drawing.Point(50, 155)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(65, 13)
         Me.Label16.TabIndex = 5
@@ -1533,7 +1540,7 @@ Public Class frmSelTipoCobro
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(68, 132)
+        Me.Label14.Location = New System.Drawing.Point(74, 129)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(41, 13)
         Me.Label14.TabIndex = 4
@@ -1542,7 +1549,7 @@ Public Class frmSelTipoCobro
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(5, 106)
+        Me.Label8.Location = New System.Drawing.Point(11, 103)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(104, 13)
         Me.Label8.TabIndex = 3
@@ -1551,7 +1558,7 @@ Public Class frmSelTipoCobro
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(6, 80)
+        Me.Label7.Location = New System.Drawing.Point(12, 77)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(103, 13)
         Me.Label7.TabIndex = 2
@@ -1560,7 +1567,7 @@ Public Class frmSelTipoCobro
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(61, 54)
+        Me.Label6.Location = New System.Drawing.Point(67, 51)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(48, 13)
         Me.Label6.TabIndex = 1
@@ -1569,7 +1576,7 @@ Public Class frmSelTipoCobro
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(65, 28)
+        Me.Label5.Location = New System.Drawing.Point(71, 25)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(44, 13)
         Me.Label5.TabIndex = 0
@@ -1597,19 +1604,12 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
         '
-        'btnAceptarDP
+        'txtDPMonto
         '
-        Me.btnAceptarDP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAceptarDP.BackColor = System.Drawing.SystemColors.Control
-        Me.btnAceptarDP.Image = CType(resources.GetObject("btnAceptarDP.Image"), System.Drawing.Image)
-        Me.btnAceptarDP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarDP.Location = New System.Drawing.Point(519, 109)
-        Me.btnAceptarDP.Name = "btnAceptarDP"
-        Me.btnAceptarDP.Size = New System.Drawing.Size(80, 24)
-        Me.btnAceptarDP.TabIndex = 4
-        Me.btnAceptarDP.Text = "&Aceptar"
-        Me.btnAceptarDP.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnAceptarDP.UseVisualStyleBackColor = False
+        Me.txtDPMonto.Location = New System.Drawing.Point(121, 129)
+        Me.txtDPMonto.Name = "txtDPMonto"
+        Me.txtDPMonto.Size = New System.Drawing.Size(100, 21)
+        Me.txtDPMonto.TabIndex = 5
         '
         'frmSelTipoCobro
         '
@@ -2901,6 +2901,10 @@ Public Class frmSelTipoCobro
             txtFolio.Select()
 
         End If
+
+    End Sub
+
+    Private Sub tbDacionPago_Click(sender As Object, e As EventArgs) Handles tbDacionPago.Click
 
     End Sub
     '*****
