@@ -1266,6 +1266,11 @@ Public Class frmCierreRelacionCobranza
         intCobro += 1
 
         Dim oCapCobro As New frmSelTipoCobro(intCobro, lstCobro, GeneraListaDocumentos, _TipoMovimientoCaja)
+
+        If oSeguridad.TieneAcceso("AreaDacionEnPago") Then
+            oCapCobro.HabilitarDacionEnPago = True
+        End If
+
         If oCapCobro.ShowDialog() = DialogResult.OK Then
             lstCobro.Items.Add(oCapCobro.Cobro)
             CalculaSaldoDocumento2()

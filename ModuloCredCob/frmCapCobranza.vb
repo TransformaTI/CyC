@@ -665,6 +665,10 @@ Public Class frmCapCobranza
                 frmSelTipoCobro = New frmSelTipoCobro(Consecutivo, cboTipoMovCaja.TipoMovimientoCaja, lstCobro, txtCliente.Text, lblNombreCliente.Text, True, False)
             End If
 
+            If oSeguridad.TieneAcceso("AreaDacionEnPago") Then
+                frmSelTipoCobro.HabilitarDacionEnPago = True
+            End If
+
             If frmSelTipoCobro.ShowDialog() = DialogResult.OK Then
                 ListaCobros.Add(frmSelTipoCobro.Cobro)
                 'lstCobro.Items.Add(frmSelTipoCobro.Cobro)
