@@ -622,6 +622,7 @@ Public Class frmSelTipoCobro
         'txtTarjetaCreditoConfirmaAutorizacion
         '
         Me.txtTarjetaCreditoConfirmaAutorizacion.Location = New System.Drawing.Point(104, 240)
+        Me.txtTarjetaCreditoConfirmaAutorizacion.MaxLength = 20
         Me.txtTarjetaCreditoConfirmaAutorizacion.Name = "txtTarjetaCreditoConfirmaAutorizacion"
         Me.txtTarjetaCreditoConfirmaAutorizacion.Size = New System.Drawing.Size(160, 21)
         Me.txtTarjetaCreditoConfirmaAutorizacion.TabIndex = 4
@@ -629,6 +630,7 @@ Public Class frmSelTipoCobro
         'txtTarjetaCreditoAutorizacion
         '
         Me.txtTarjetaCreditoAutorizacion.Location = New System.Drawing.Point(104, 217)
+        Me.txtTarjetaCreditoAutorizacion.MaxLength = 20
         Me.txtTarjetaCreditoAutorizacion.Name = "txtTarjetaCreditoAutorizacion"
         Me.txtTarjetaCreditoAutorizacion.Size = New System.Drawing.Size(160, 21)
         Me.txtTarjetaCreditoAutorizacion.TabIndex = 4
@@ -1887,6 +1889,12 @@ Public Class frmSelTipoCobro
             If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito) Then
                 Exit Sub
             End If
+        End If
+
+        'Validar que los números de autorización sean idénticos y se hayan proporcionado
+        If (txtTarjetaCreditoAutorizacion.Text.Trim() = "" Or txtTarjetaCreditoConfirmaAutorizacion.Text.Trim() = "") Or (txtTarjetaCreditoAutorizacion.Text.Trim() <> txtTarjetaCreditoConfirmaAutorizacion.Text.Trim()) Then
+            MessageBox.Show("El número de autorización debe ser capturado y confirmado, por favor verifique su captura.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
         End If
 
         If lblClienteNombre.Text <> "" Then
