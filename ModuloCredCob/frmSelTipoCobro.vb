@@ -41,14 +41,15 @@ Public Class frmSelTipoCobro
     Friend WithEvents tbAnticipo As TabPage
     Friend WithEvents TxtAntMonto As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents LblMonto As ControlesBase.LabelBase
-    Friend WithEvents LstAnticipos As ListBox
     Friend WithEvents LblSaldo As ControlesBase.LabelBase
-    Friend WithEvents TxtAntNombre As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents LabelBase9 As ControlesBase.LabelBase
-    Friend WithEvents TxtAntCliente As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents LabelBase2 As ControlesBase.LabelBase
     Friend WithEvents TxtNumeroEntero1 As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents LblObservacion As ControlesBase.LabelBase
+    Friend WithEvents TxtAntCliente As TextBox
+    Friend WithEvents TxtAntNombre As TextBox
+    Friend WithEvents LstAnticipos As ListBox
+    Friend WithEvents cmdAceptar As Button
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
@@ -339,21 +340,22 @@ Public Class frmSelTipoCobro
         Me.txtSerie = New System.Windows.Forms.TextBox()
         Me.lblNombreClienteDato = New System.Windows.Forms.Label()
         Me.btnAceptarNC = New ControlesBase.BotonBase()
+        Me.tbAnticipo = New System.Windows.Forms.TabPage()
+        Me.TxtAntCliente = New System.Windows.Forms.TextBox()
+        Me.TxtAntNombre = New System.Windows.Forms.TextBox()
+        Me.TxtNumeroEntero1 = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.LblObservacion = New ControlesBase.LabelBase()
+        Me.TxtAntMonto = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.LblMonto = New ControlesBase.LabelBase()
+        Me.LstAnticipos = New System.Windows.Forms.ListBox()
+        Me.LblSaldo = New ControlesBase.LabelBase()
+        Me.LabelBase9 = New ControlesBase.LabelBase()
+        Me.LabelBase2 = New ControlesBase.LabelBase()
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.tbAnticipo = New System.Windows.Forms.TabPage()
-        Me.TxtAntCliente = New SigaMetClasses.Controles.txtNumeroEntero()
-        Me.LabelBase2 = New ControlesBase.LabelBase()
-        Me.TxtAntNombre = New SigaMetClasses.Controles.txtNumeroEntero()
-        Me.LabelBase9 = New ControlesBase.LabelBase()
-        Me.LblSaldo = New ControlesBase.LabelBase()
-        Me.LstAnticipos = New System.Windows.Forms.ListBox()
-        Me.TxtAntMonto = New SigaMetClasses.Controles.txtNumeroEntero()
-        Me.LblMonto = New ControlesBase.LabelBase()
-        Me.LblObservacion = New ControlesBase.LabelBase()
-        Me.TxtNumeroEntero1 = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.cmdAceptar = New System.Windows.Forms.Button()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1433,6 +1435,114 @@ Public Class frmSelTipoCobro
         Me.btnAceptarNC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptarNC.UseVisualStyleBackColor = False
         '
+        'tbAnticipo
+        '
+        Me.tbAnticipo.BackColor = System.Drawing.SystemColors.Control
+        Me.tbAnticipo.Controls.Add(Me.cmdAceptar)
+        Me.tbAnticipo.Controls.Add(Me.TxtAntCliente)
+        Me.tbAnticipo.Controls.Add(Me.TxtAntNombre)
+        Me.tbAnticipo.Controls.Add(Me.TxtNumeroEntero1)
+        Me.tbAnticipo.Controls.Add(Me.LblObservacion)
+        Me.tbAnticipo.Controls.Add(Me.TxtAntMonto)
+        Me.tbAnticipo.Controls.Add(Me.LblMonto)
+        Me.tbAnticipo.Controls.Add(Me.LstAnticipos)
+        Me.tbAnticipo.Controls.Add(Me.LblSaldo)
+        Me.tbAnticipo.Controls.Add(Me.LabelBase9)
+        Me.tbAnticipo.Controls.Add(Me.LabelBase2)
+        Me.tbAnticipo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbAnticipo.Location = New System.Drawing.Point(4, 4)
+        Me.tbAnticipo.Name = "tbAnticipo"
+        Me.tbAnticipo.Size = New System.Drawing.Size(470, 352)
+        Me.tbAnticipo.TabIndex = 6
+        Me.tbAnticipo.Text = "Aplicación de Anticipo"
+        '
+        'TxtAntCliente
+        '
+        Me.TxtAntCliente.Location = New System.Drawing.Point(106, 38)
+        Me.TxtAntCliente.Name = "TxtAntCliente"
+        Me.TxtAntCliente.Size = New System.Drawing.Size(102, 21)
+        Me.TxtAntCliente.TabIndex = 34
+        '
+        'TxtAntNombre
+        '
+        Me.TxtAntNombre.Location = New System.Drawing.Point(108, 70)
+        Me.TxtAntNombre.Name = "TxtAntNombre"
+        Me.TxtAntNombre.Size = New System.Drawing.Size(250, 21)
+        Me.TxtAntNombre.TabIndex = 33
+        '
+        'TxtNumeroEntero1
+        '
+        Me.TxtNumeroEntero1.Location = New System.Drawing.Point(108, 212)
+        Me.TxtNumeroEntero1.Multiline = True
+        Me.TxtNumeroEntero1.Name = "TxtNumeroEntero1"
+        Me.TxtNumeroEntero1.Size = New System.Drawing.Size(255, 54)
+        Me.TxtNumeroEntero1.TabIndex = 32
+        '
+        'LblObservacion
+        '
+        Me.LblObservacion.AutoSize = True
+        Me.LblObservacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblObservacion.Location = New System.Drawing.Point(20, 212)
+        Me.LblObservacion.Name = "LblObservacion"
+        Me.LblObservacion.Size = New System.Drawing.Size(80, 13)
+        Me.LblObservacion.TabIndex = 31
+        Me.LblObservacion.Text = "Observación:"
+        '
+        'TxtAntMonto
+        '
+        Me.TxtAntMonto.Location = New System.Drawing.Point(108, 174)
+        Me.TxtAntMonto.Name = "TxtAntMonto"
+        Me.TxtAntMonto.Size = New System.Drawing.Size(100, 21)
+        Me.TxtAntMonto.TabIndex = 29
+        '
+        'LblMonto
+        '
+        Me.LblMonto.AutoSize = True
+        Me.LblMonto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblMonto.Location = New System.Drawing.Point(51, 177)
+        Me.LblMonto.Name = "LblMonto"
+        Me.LblMonto.Size = New System.Drawing.Size(46, 13)
+        Me.LblMonto.TabIndex = 30
+        Me.LblMonto.Text = "Monto:"
+        '
+        'LstAnticipos
+        '
+        Me.LstAnticipos.FormattingEnabled = True
+        Me.LstAnticipos.Location = New System.Drawing.Point(108, 99)
+        Me.LstAnticipos.Name = "LstAnticipos"
+        Me.LstAnticipos.Size = New System.Drawing.Size(250, 69)
+        Me.LstAnticipos.TabIndex = 28
+        '
+        'LblSaldo
+        '
+        Me.LblSaldo.AutoSize = True
+        Me.LblSaldo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblSaldo.Location = New System.Drawing.Point(51, 99)
+        Me.LblSaldo.Name = "LblSaldo"
+        Me.LblSaldo.Size = New System.Drawing.Size(41, 13)
+        Me.LblSaldo.TabIndex = 27
+        Me.LblSaldo.Text = "Saldo:"
+        '
+        'LabelBase9
+        '
+        Me.LabelBase9.AutoSize = True
+        Me.LabelBase9.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBase9.Location = New System.Drawing.Point(51, 75)
+        Me.LabelBase9.Name = "LabelBase9"
+        Me.LabelBase9.Size = New System.Drawing.Size(54, 13)
+        Me.LabelBase9.TabIndex = 26
+        Me.LabelBase9.Text = "Nombre:"
+        '
+        'LabelBase2
+        '
+        Me.LabelBase2.AutoSize = True
+        Me.LabelBase2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBase2.Location = New System.Drawing.Point(51, 46)
+        Me.LabelBase2.Name = "LabelBase2"
+        Me.LabelBase2.Size = New System.Drawing.Size(49, 13)
+        Me.LabelBase2.TabIndex = 24
+        Me.LabelBase2.Text = "Cliente:"
+        '
         'imgLista
         '
         Me.imgLista.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
@@ -1455,112 +1565,14 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
         '
-        'tbAnticipo
+        'cmdAceptar
         '
-        Me.tbAnticipo.BackColor = System.Drawing.SystemColors.Control
-        Me.tbAnticipo.Controls.Add(Me.TxtNumeroEntero1)
-        Me.tbAnticipo.Controls.Add(Me.LblObservacion)
-        Me.tbAnticipo.Controls.Add(Me.TxtAntMonto)
-        Me.tbAnticipo.Controls.Add(Me.LblMonto)
-        Me.tbAnticipo.Controls.Add(Me.LstAnticipos)
-        Me.tbAnticipo.Controls.Add(Me.LblSaldo)
-        Me.tbAnticipo.Controls.Add(Me.TxtAntNombre)
-        Me.tbAnticipo.Controls.Add(Me.LabelBase9)
-        Me.tbAnticipo.Controls.Add(Me.TxtAntCliente)
-        Me.tbAnticipo.Controls.Add(Me.LabelBase2)
-        Me.tbAnticipo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbAnticipo.Location = New System.Drawing.Point(4, 4)
-        Me.tbAnticipo.Name = "tbAnticipo"
-        Me.tbAnticipo.Size = New System.Drawing.Size(470, 352)
-        Me.tbAnticipo.TabIndex = 6
-        Me.tbAnticipo.Text = "Aplicación de Anticipo"
-        '
-        'TxtAntCliente
-        '
-        Me.TxtAntCliente.Location = New System.Drawing.Point(139, 43)
-        Me.TxtAntCliente.Name = "TxtAntCliente"
-        Me.TxtAntCliente.Size = New System.Drawing.Size(100, 21)
-        Me.TxtAntCliente.TabIndex = 23
-        '
-        'LabelBase2
-        '
-        Me.LabelBase2.AutoSize = True
-        Me.LabelBase2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelBase2.Location = New System.Drawing.Point(82, 46)
-        Me.LabelBase2.Name = "LabelBase2"
-        Me.LabelBase2.Size = New System.Drawing.Size(49, 13)
-        Me.LabelBase2.TabIndex = 24
-        Me.LabelBase2.Text = "Cliente:"
-        '
-        'TxtAntNombre
-        '
-        Me.TxtAntNombre.Location = New System.Drawing.Point(139, 72)
-        Me.TxtAntNombre.Name = "TxtAntNombre"
-        Me.TxtAntNombre.Size = New System.Drawing.Size(250, 21)
-        Me.TxtAntNombre.TabIndex = 25
-        '
-        'LabelBase9
-        '
-        Me.LabelBase9.AutoSize = True
-        Me.LabelBase9.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelBase9.Location = New System.Drawing.Point(82, 75)
-        Me.LabelBase9.Name = "LabelBase9"
-        Me.LabelBase9.Size = New System.Drawing.Size(54, 13)
-        Me.LabelBase9.TabIndex = 26
-        Me.LabelBase9.Text = "Nombre:"
-        '
-        'LblSaldo
-        '
-        Me.LblSaldo.AutoSize = True
-        Me.LblSaldo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblSaldo.Location = New System.Drawing.Point(82, 99)
-        Me.LblSaldo.Name = "LblSaldo"
-        Me.LblSaldo.Size = New System.Drawing.Size(41, 13)
-        Me.LblSaldo.TabIndex = 27
-        Me.LblSaldo.Text = "Saldo:"
-        '
-        'LstAnticipos
-        '
-        Me.LstAnticipos.FormattingEnabled = True
-        Me.LstAnticipos.Location = New System.Drawing.Point(139, 99)
-        Me.LstAnticipos.Name = "LstAnticipos"
-        Me.LstAnticipos.Size = New System.Drawing.Size(250, 69)
-        Me.LstAnticipos.TabIndex = 28
-        '
-        'TxtAntMonto
-        '
-        Me.TxtAntMonto.Location = New System.Drawing.Point(139, 174)
-        Me.TxtAntMonto.Name = "TxtAntMonto"
-        Me.TxtAntMonto.Size = New System.Drawing.Size(100, 21)
-        Me.TxtAntMonto.TabIndex = 29
-        '
-        'LblMonto
-        '
-        Me.LblMonto.AutoSize = True
-        Me.LblMonto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblMonto.Location = New System.Drawing.Point(82, 177)
-        Me.LblMonto.Name = "LblMonto"
-        Me.LblMonto.Size = New System.Drawing.Size(46, 13)
-        Me.LblMonto.TabIndex = 30
-        Me.LblMonto.Text = "Monto:"
-        '
-        'LblObservacion
-        '
-        Me.LblObservacion.AutoSize = True
-        Me.LblObservacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblObservacion.Location = New System.Drawing.Point(51, 212)
-        Me.LblObservacion.Name = "LblObservacion"
-        Me.LblObservacion.Size = New System.Drawing.Size(80, 13)
-        Me.LblObservacion.TabIndex = 31
-        Me.LblObservacion.Text = "Observación:"
-        '
-        'TxtNumeroEntero1
-        '
-        Me.TxtNumeroEntero1.Location = New System.Drawing.Point(139, 212)
-        Me.TxtNumeroEntero1.Multiline = True
-        Me.TxtNumeroEntero1.Name = "TxtNumeroEntero1"
-        Me.TxtNumeroEntero1.Size = New System.Drawing.Size(255, 54)
-        Me.TxtNumeroEntero1.TabIndex = 32
+        Me.cmdAceptar.Location = New System.Drawing.Point(384, 114)
+        Me.cmdAceptar.Name = "cmdAceptar"
+        Me.cmdAceptar.Size = New System.Drawing.Size(75, 23)
+        Me.cmdAceptar.TabIndex = 35
+        Me.cmdAceptar.Text = "Aceptar"
+        Me.cmdAceptar.UseVisualStyleBackColor = True
         '
         'frmSelTipoCobro
         '
@@ -2851,6 +2863,40 @@ Public Class frmSelTipoCobro
             txtFolio.Select()
 
         End If
+
+    End Sub
+
+    Private Sub TxtAntCliente_TextChanged(sender As Object, e As EventArgs) Handles TxtAntCliente.TextChanged
+
+
+    End Sub
+
+    Private Sub ConsultaPagosAnticipados()
+        Dim oTC As New SigaMetClasses.Anticpo
+        Dim dt As DataTable = oTC.ConsultaPagosAnticipados(Integer.Parse(TxtAntCliente.Text))
+
+        If Not dt Is Nothing Then
+            TxtAntNombre.Text = dt.Rows(0).Item(1).ToString()
+
+            LstAnticipos.DisplayMember = "Saldo"
+            LstAnticipos.ValueMember = "Saldo"
+            LstAnticipos.DataSource = dt
+        End If
+
+
+
+    End Sub
+
+    Private Sub TxtAntCliente_Leave(sender As Object, e As EventArgs) Handles TxtAntCliente.Leave
+        ConsultaPagosAnticipados()
+    End Sub
+
+
+
+
+    Private Sub LstAnticipos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstAnticipos.SelectedIndexChanged
+        Dim cad As String() = LstAnticipos.SelectedValue.ToString().Split(New Char() {","c})
+        TxtAntMonto.Text = cad(0)
 
     End Sub
     '*****
