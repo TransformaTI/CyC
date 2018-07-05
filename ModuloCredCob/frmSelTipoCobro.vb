@@ -2342,10 +2342,14 @@ Public Class frmSelTipoCobro
 
     Private Sub frmSelTipoCobro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ComboBanco.CargaDatos(CargaBancoCero:=True, MostrarClaves:=True, SoloActivos:=True)
+
         'ComboProveedor.CargaDatos()
+
+        ComboProveedor.Items.Add("SI VALE")
         ComboTipoVale.CargaDatos()
-        'TDC
-        comboBancoTDC.CargaDatos(CargaBancoCero:=False, MostrarClaves:=True, SoloActivos:=True)
+
+            'TDC
+            comboBancoTDC.CargaDatos(CargaBancoCero:=False, MostrarClaves:=True, SoloActivos:=True)
 
         If _TipoMovimientoCaja = 35 Then
 
