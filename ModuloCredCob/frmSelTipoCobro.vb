@@ -2328,6 +2328,21 @@ Public Class frmSelTipoCobro
 
         'Permitir Solo notas de crédito capturadas
         chkCargarNI.Enabled = Not GLOBAL_SoloNICapturada
+
+        'Cargar el combo de afiliaciones de tarjeta de crédito
+        Dim Diccionario As New Dictionary(Of Int32, String)
+        Diccionario = Main.cargaListaAfiliaciones(SigaMetClasses.DataLayer.Conexion)
+        cboTarjetaCreditoAfiliacion.ValueMember = "Key"
+        cboTarjetaCreditoAfiliacion.DisplayMember = "Value"
+        cboTarjetaCreditoAfiliacion.DataSource = New BindingSource(Diccionario, Nothing)
+
+        'Cargar el combo de tipo de tarjeta
+        Dim DiccionarioTipoTarjeta As New Dictionary(Of Int32, String)
+        DiccionarioTipoTarjeta.Add(1, "Tarjeta de débito")
+        DiccionarioTipoTarjeta.Add(2, "Tarjeta de crédito")
+        cboTarjetaCreditoAfiliacion.ValueMember = "Key"
+        cboTarjetaCreditoAfiliacion.DisplayMember = "Value"
+        cboTarjetaCreditoTipoTarjeta.DataSource = New BindingSource(DiccionarioTipoTarjeta, Nothing)
     End Sub
 
     Private Sub txtClienteTC_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
