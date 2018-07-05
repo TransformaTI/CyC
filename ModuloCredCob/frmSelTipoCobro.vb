@@ -2930,14 +2930,14 @@ Public Class frmSelTipoCobro
             Exit Sub
         End If
 
-        With _Cobro
-            .AnoCobro       = Convert.ToInt16(dtpDPFechaAplicacion.Value.Year)
-            .Observaciones  = txtDPDescripcion.Text
-            .Saldo          = 0
-            .TipoCobro      = SigaMetClasses.Enumeradores.enumTipoCobro.DacionEnPago
-            .Total          = importe
-            .Cliente = cliente
-        End With
+        'With _Cobro
+        '    .AnoCobro       = Convert.ToInt16(dtpDPFechaAplicacion.Value.Year)
+        '    .Observaciones  = txtDPDescripcion.Text
+        '    .Saldo          = 0
+        '    .TipoCobro      = SigaMetClasses.Enumeradores.enumTipoCobro.DacionEnPago
+        '    .Total          = importe
+        '    .Cliente        = cliente
+        'End With
 
         If Not _EsRelacionCobranza Then
             frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)
@@ -2945,9 +2945,23 @@ Public Class frmSelTipoCobro
             frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros, _RelacionCobranza)
         End If
 
-        frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales
-        frmCaptura.ImporteCobro = CType(txtTotalEfectivoVales.Text, Decimal)
+        frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.DacionEnPago
+        frmCaptura.ImporteCobro = importe
 
+        If frmCaptura.ShowDialog = DialogResult.OK Then
+            With _Cobro
+                .Consecutivo        = _Consecutivo
+                .AnoCobro           = CType(FechaOperacion.Year, Short)
+                .TipoCobro          = SigaMetClasses.Enumeradores.enumTipoCobro.DacionEnPago
+                .Total              = frmCaptura.ImporteCobro
+                .ListaPedidos       = frmCaptura.ListaCobroPedido
+                ImporteTotalCobro   = .Total
+
+                .Saldo              = 0
+                .Cliente            = cliente
+            End With
+            DialogResult = DialogResult.OK
+        End If
 
     End Sub
     '*****
