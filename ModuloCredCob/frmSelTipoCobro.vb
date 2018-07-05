@@ -703,6 +703,7 @@ Public Class frmSelTipoCobro
         Me.lblTipoTarjetaCredito.Size = New System.Drawing.Size(160, 21)
         Me.lblTipoTarjetaCredito.TabIndex = 36
         Me.lblTipoTarjetaCredito.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblTipoTarjetaCredito.Visible = False
         '
         'LabelBase4
         '
@@ -721,6 +722,7 @@ Public Class frmSelTipoCobro
         Me.lblBancoNombre.Size = New System.Drawing.Size(160, 21)
         Me.lblBancoNombre.TabIndex = 34
         Me.lblBancoNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblBancoNombre.Visible = False
         '
         'lblTarjetaCreditoConfirmaAutorizacion
         '
