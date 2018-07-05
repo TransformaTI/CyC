@@ -1057,6 +1057,7 @@ Public Class frmCapCobranzaDoc
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Cheque _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.FichaDeposito _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaIngreso Then
                 If MessageBox.Show(M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
                         = DialogResult.Yes Then

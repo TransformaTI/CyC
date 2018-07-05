@@ -3211,6 +3211,10 @@ Public Class frmSelTipoCobro
                             '.FechaCheque = CDate(FechaDocumentoVales.Text)
                             'ComboProveedor
                             'ComboTipoVale
+                            If frmCaptura.SaldoAFavor = True Then
+                                .SaldoAFavor = frmCaptura.SaldoAFavor
+                                .Saldo = frmCaptura.ImporteRestante
+                            End If
                             .Observaciones = TextObservacionesVales.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             ImporteTotalCobro = .Total
