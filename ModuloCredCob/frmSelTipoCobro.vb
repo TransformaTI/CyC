@@ -67,6 +67,7 @@ Public Class frmSelTipoCobro
     Friend WithEvents txtTarjetaCreditoConfirmaAutorizacion As SigaMetClasses.Controles.txtNumeroDecimal
     Friend WithEvents tbTarjetaCreditoObservaciones As TextBox
     Friend WithEvents lblTarjetaCreditoObservaciones As ControlesBase.LabelBase
+    Friend WithEvents cboTarjetaCreditoBanco As ComboBox
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
@@ -395,6 +396,7 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
+        Me.cboTarjetaCreditoBanco = New System.Windows.Forms.ComboBox()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -521,6 +523,7 @@ Public Class frmSelTipoCobro
         '
         'grpTarjetaCredito
         '
+        Me.grpTarjetaCredito.Controls.Add(Me.cboTarjetaCreditoBanco)
         Me.grpTarjetaCredito.Controls.Add(Me.tbTarjetaCreditoObservaciones)
         Me.grpTarjetaCredito.Controls.Add(Me.cboTarjetaCreditoBancoTarjeta)
         Me.grpTarjetaCredito.Controls.Add(Me.cboTarjetaCreditoTipoTarjeta)
@@ -1772,6 +1775,14 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
         '
+        'cboTarjetaCreditoBanco
+        '
+        Me.cboTarjetaCreditoBanco.FormattingEnabled = True
+        Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
+        Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
+        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
+        Me.cboTarjetaCreditoBanco.TabIndex = 47
+        '
         'frmSelTipoCobro
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
@@ -2344,6 +2355,13 @@ Public Class frmSelTipoCobro
         cboTarjetaCreditoTipoTarjeta.ValueMember = "Key"
         cboTarjetaCreditoTipoTarjeta.DisplayMember = "Value"
         cboTarjetaCreditoTipoTarjeta.DataSource = New BindingSource(DiccionarioTipoTarjeta, Nothing)
+
+        'Cargar el combo banco de tarjetas de crédito
+        Dim DiccionarioBancoTC As New Dictionary(Of Int32, String)
+        DiccionarioBancoTC = Main.cargaListaBancosTC(SigaMetClasses.DataLayer.Conexion)
+        cboTarjetaCreditoBanco.ValueMember = "Key"
+        cboTarjetaCreditoBanco.DisplayMember = "Value"
+        cboTarjetaCreditoBanco.DataSource = New BindingSource(DiccionarioBancoTC, Nothing)
 
         'Cargar el combo de bancos de tarjeta de crédito
         Dim DiccionarioBancosTC As New Dictionary(Of Int32, String)
