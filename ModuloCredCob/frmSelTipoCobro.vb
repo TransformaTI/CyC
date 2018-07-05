@@ -19,6 +19,7 @@ Public Class frmSelTipoCobro
     Private _IdCliente As String
     Private _NombreCliente As String
     Private _FacturaNC As Integer
+    Private _HabilitarDacionEnPago As Boolean = False
 
     'Control de cheques posfechados
     Private _ChequePosfechado As Boolean
@@ -68,6 +69,12 @@ Public Class frmSelTipoCobro
         End Get
     End Property
 
+    Public WriteOnly Property HabilitarDacionEnPago() As Boolean
+        Set(value As Boolean)
+            _HabilitarDacionEnPago = value
+        End Set
+    End Property
+
     'Constructor para la captura normal de cobranza
     Public Sub New(ByVal intConsecutivo As Integer,
                    ByVal TipoMovimientoCaja As Byte,
@@ -91,9 +98,7 @@ Public Class frmSelTipoCobro
         _CapturaDetalle = CapturaDetalle
         _ListaCobros = ListaCobros
         _IdCliente = IdCliente
-        _NombreCliente = Cliente
-
-
+        _NombreCliente = Cliente.Trim()
     End Sub
 
     'Constructor para las Relaciones de Cobranza
@@ -116,7 +121,6 @@ Public Class frmSelTipoCobro
         tabTipoCobro.SelectedTab = tbChequeFicha
         txtDocumento.Focus()
         txtDocumento.SelectAll()
-
     End Sub
 
 #Region " Windows Form Designer generated code "
@@ -2174,6 +2178,12 @@ Public Class frmSelTipoCobro
 
         'Permitir Solo notas de crédito capturadas
         chkCargarNI.Enabled = Not GLOBAL_SoloNICapturada
+
+        ' Dación en pago
+        lblDPCliente.Text = _IdCliente
+        lblDPNombre.Text = _NombreCliente
+        ConmutarDacionEnPago()
+
     End Sub
 
     Private Sub txtClienteTC_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2964,5 +2974,15 @@ Public Class frmSelTipoCobro
         End If
 
     End Sub
+
+    Private Sub ConmutarDacionEnPago()
+        If _HabilitarDacionEnPago Then
+            tbDacionPago.Enabled = True
+        Else
+            tbDacionPago.Enabled = False
+            tabTipoCobro.TabPages.Remove(tbDacionPago)
+        End If
+    End Sub
+
     '*****
 End Class
