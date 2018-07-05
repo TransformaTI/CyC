@@ -1352,7 +1352,8 @@ Public Class frmCapCobranzaDoc
             Case SigaMetClasses.Enumeradores.enumTipoCobro.Cheque,
                  SigaMetClasses.Enumeradores.enumTipoCobro.FichaDeposito,
                  SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia,
-                 SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
+                 SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito,
+                SigaMetClasses.Enumeradores.enumTipoCobro.Vales
                 _AceptaSaldoAFavor = True
             Case Else
                 _AceptaSaldoAFavor = False

@@ -3201,15 +3201,20 @@ Public Class frmSelTipoCobro
 
                     frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
                     frmCaptura.ImporteCobro = CType(TxtMontoVales.Text, Decimal)
-
                     If frmCaptura.ShowDialog = DialogResult.OK Then
                         With _Cobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
                             .Total = frmCaptura.ImporteCobro
+                            .Cliente = CInt(txtClienteVales.Text)
+                            '.FechaCheque = CDate(FechaDocumentoVales.Text)
+                            'ComboProveedor
+                            'ComboTipoVale
+                            .Observaciones = TextObservacionesVales.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             ImporteTotalCobro = .Total
+
                         End With
                         DialogResult = DialogResult.OK
                     End If
