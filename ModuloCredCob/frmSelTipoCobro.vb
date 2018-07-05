@@ -383,6 +383,7 @@ Public Class frmSelTipoCobro
         Me.btnAceptarEfectivoVales = New ControlesBase.BotonBase()
         Me.tabTipoCobro = New System.Windows.Forms.TabControl()
         Me.tabvalesdespensa = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.TextObservacionesVales = New System.Windows.Forms.TextBox()
         Me.TxtMontoVales = New SigaMetClasses.Controles.txtNumeroDecimal()
@@ -399,7 +400,6 @@ Public Class frmSelTipoCobro
         Me.LabelBase27 = New ControlesBase.LabelBase()
         Me.LabelBase30 = New ControlesBase.LabelBase()
         Me.btnAceptarVales1 = New ControlesBase.BotonBase()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.tbDacionPago.SuspendLayout()
         Me.grpDacionPago.SuspendLayout()
         Me.tbNotaCredito.SuspendLayout()
@@ -469,7 +469,7 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago.Controls.Add(Me.grpDacionPago)
         Me.tbDacionPago.Location = New System.Drawing.Point(4, 4)
         Me.tbDacionPago.Name = "tbDacionPago"
-        Me.tbDacionPago.Size = New System.Drawing.Size(611, 345)
+        Me.tbDacionPago.Size = New System.Drawing.Size(611, 363)
         Me.tbDacionPago.TabIndex = 6
         Me.tbDacionPago.Text = "Dación en pago"
         '
@@ -549,7 +549,6 @@ Public Class frmSelTipoCobro
         '
         'lblDPCliente
         '
-
         Me.lblDPCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblDPCliente.Location = New System.Drawing.Point(121, 25)
         Me.lblDPCliente.Name = "lblDPCliente"
@@ -616,7 +615,7 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito.Controls.Add(Me.btnAceptarNC)
         Me.tbNotaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbNotaCredito.Name = "tbNotaCredito"
-        Me.tbNotaCredito.Size = New System.Drawing.Size(611, 345)
+        Me.tbNotaCredito.Size = New System.Drawing.Size(611, 363)
         Me.tbNotaCredito.TabIndex = 5
         Me.tbNotaCredito.Text = "Nota de Credito"
         Me.tbNotaCredito.UseVisualStyleBackColor = True
@@ -789,7 +788,7 @@ Public Class frmSelTipoCobro
         Me.tbSaldoAFavor.Controls.Add(Me.grpOrigen)
         Me.tbSaldoAFavor.Location = New System.Drawing.Point(4, 4)
         Me.tbSaldoAFavor.Name = "tbSaldoAFavor"
-        Me.tbSaldoAFavor.Size = New System.Drawing.Size(611, 345)
+        Me.tbSaldoAFavor.Size = New System.Drawing.Size(611, 363)
         Me.tbSaldoAFavor.TabIndex = 4
         Me.tbSaldoAFavor.Text = "Saldo a favor"
         '
@@ -1047,7 +1046,7 @@ Public Class frmSelTipoCobro
         Me.tbChequeFicha.Controls.Add(Me.btnLeerCodigo)
         Me.tbChequeFicha.Location = New System.Drawing.Point(4, 4)
         Me.tbChequeFicha.Name = "tbChequeFicha"
-        Me.tbChequeFicha.Size = New System.Drawing.Size(611, 345)
+        Me.tbChequeFicha.Size = New System.Drawing.Size(611, 363)
         Me.tbChequeFicha.TabIndex = 2
         Me.tbChequeFicha.Text = "Cheque / Ficha de deposito"
         '
@@ -1353,7 +1352,7 @@ Public Class frmSelTipoCobro
         Me.tbTarjetaCredito.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbTarjetaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbTarjetaCredito.Name = "tbTarjetaCredito"
-        Me.tbTarjetaCredito.Size = New System.Drawing.Size(611, 345)
+        Me.tbTarjetaCredito.Size = New System.Drawing.Size(611, 363)
         Me.tbTarjetaCredito.TabIndex = 0
         Me.tbTarjetaCredito.Text = "Tarjeta de crédito"
         '
@@ -1666,6 +1665,15 @@ Public Class frmSelTipoCobro
         Me.tabvalesdespensa.TabIndex = 8
         Me.tabvalesdespensa.Text = "Vales de despensa"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(487, 185)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 34
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.TextObservacionesVales)
@@ -1738,7 +1746,7 @@ Public Class frmSelTipoCobro
         '
         Me.ComboProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboProveedor.DropDownWidth = 200
-        Me.ComboProveedor.Location = New System.Drawing.Point(120, 122)
+        Me.ComboProveedor.Location = New System.Drawing.Point(121, 119)
         Me.ComboProveedor.Name = "ComboProveedor"
         Me.ComboProveedor.Nombre = Nothing
         Me.ComboProveedor.Size = New System.Drawing.Size(192, 21)
@@ -1827,15 +1835,6 @@ Public Class frmSelTipoCobro
         Me.btnAceptarVales1.Text = "&Aceptar"
         Me.btnAceptarVales1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptarVales1.UseVisualStyleBackColor = False
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(495, 206)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 34
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'frmSelTipoCobro
         '
