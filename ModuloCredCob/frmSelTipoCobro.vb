@@ -1913,7 +1913,7 @@ Public Class frmSelTipoCobro
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
                             .Total = frmCaptura.ImporteCobro
                             .Cliente = CType(txtClienteTC.Text, Integer)
-                            .Banco = CType(lblBanco.Text, Short)
+                            .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
                             .NoCuenta = lblTarjetaCredito.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             ImporteTotalCobro = .Total
