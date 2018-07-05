@@ -186,10 +186,10 @@
   </data>
   <data name="btnLeerCodigo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAFZJREFUOE9jYBgW
-        4D/QF5Rghv/kgIaGBpilEAMOHDhAEMNcClJLlgEwlxJlAHq4oLsQqwuIDUycLkAOTHTDkOWI8gJ6zOD1
-        Asg/5GCoKylKRKC0MNQBABmndZNS2muxAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAT0lEQVQ4T92MUQoAIAjF3tE9mjcrCg2T
+        QtCvGgwMbfiDVhQtAxHtAWYOlQ9zTgWUMYcBWS79/hjQ48hrwKLHquUasHr8fguMR8YVKPo2QAcZp3WT
+        H3w++AAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="btnAceptarSF.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -219,5 +219,8 @@
   </data>
   <metadata name="imgLista.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="ttMensaje.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>110, 17</value>
   </metadata>
 </root>
