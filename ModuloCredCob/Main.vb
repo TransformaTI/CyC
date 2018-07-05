@@ -1,3 +1,4 @@
+Imports System.Collections.Generic
 Imports System.Windows.Forms
 Module Main
 
@@ -553,6 +554,25 @@ Module Main
             EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    Public Function cargaListaAfiliaciones(ByVal Connection As System.Data.SqlClient.SqlConnection) As Dictionary(Of Int32, String)
+        Dim Diccionario As New Dictionary(Of Int32, String)
+        Dim dtAfiliaciones As New DataTable()
+        Dim data As New SGDAC.DAC(Connection)
+        Dim param(0) As SqlClient.SqlParameter
+        param(0) = New SqlClient.SqlParameter("@Ruta", DBNull.Value)
+        Try
+            data.LoadData(dtAfiliaciones, "spLiqConsultaAfiliacion", CommandType.StoredProcedure, param, True)
+            Dim dr As DataRow
+            For Each dr In dtAfiliaciones.Rows
+                Diccionario.Add(Convert.ToInt32(dr(0)), Convert.ToString(dr(1)))
+            Next
+        Catch ex As Exception
+            EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
+        End Try
+        Return Diccionario
+    End Function
+
 
     Friend Function consultaMovimientoCobranza(ByVal Connection As System.Data.SqlClient.SqlConnection, _
             ByVal Clave As String) As DataTable
