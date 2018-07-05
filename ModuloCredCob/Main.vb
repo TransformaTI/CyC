@@ -573,6 +573,23 @@ Module Main
         Return Diccionario
     End Function
 
+    Public Function cargaListaBancosTC(ByVal Connection As System.Data.SqlClient.SqlConnection) As Dictionary(Of Int32, String)
+        Dim Diccionario As New Dictionary(Of Int32, String)
+        Dim dtBancosTC As New DataTable()
+        Dim data As New SGDAC.DAC(Connection)
+
+        Try
+            data.LoadData(dtBancosTC, "spLIQ2ConsultaBancos", CommandType.StoredProcedure, True)
+            Dim dr As DataRow
+            For Each dr In dtBancosTC.Rows
+                Diccionario.Add(Convert.ToInt32(dr(0)), Convert.ToString(dr(1)))
+            Next
+        Catch ex As Exception
+            EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
+        End Try
+        Return Diccionario
+    End Function
+
 
     Friend Function consultaMovimientoCobranza(ByVal Connection As System.Data.SqlClient.SqlConnection, _
             ByVal Clave As String) As DataTable
