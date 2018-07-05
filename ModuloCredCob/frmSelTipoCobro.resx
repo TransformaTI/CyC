@@ -117,7 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="imgLista.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="ttMensaje.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>110, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnLeerCodigo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAT0lEQVQ4T92MUQoAIAjF3tE9mjcrCg2T
+        QtCvGgwMbfiDVhQtAxHtAWYOlQ9zTgWUMYcBWS79/hjQ48hrwKLHquUasHr8fguMR8YVKPo2QAcZp3WT
+        H3w++AAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="btnAceptarDP.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
@@ -126,7 +140,7 @@
         d3d3d3d3oiJHd3d3d3d6IiR3d3d3d3eiIkd3d3d3d3oiJHd3d3d3d6Ikd3d3d3d3eiJ3d3d3d3d3pw==
 </value>
   </data>
-  <data name="btnAceptarEfectivoVales.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnAceptarNC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3d3
@@ -134,7 +148,7 @@
         d3d3d3d3oiJHd3d3d3d6IiR3d3d3d3eiIkd3d3d3d3oiJHd3d3d3d6Ikd3d3d3d3eiJ3d3d3d3d3pw==
 </value>
   </data>
-  <data name="btnAceptarTarjetaCredito.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnAceptarSF.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3d3
@@ -142,7 +156,7 @@
         d3d3d3d3oiJHd3d3d3d6IiR3d3d3d3eiIkd3d3d3d3oiJHd3d3d3d6Ikd3d3d3d3eiJ3d3d3d3d3pw==
 </value>
   </data>
-  <data name="btnBuscarClienteTC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnSFBuscar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk32AAAAAAAAAHYAAAAoAAAAEAAAABAAAAABAAQAAAAAAAAAAADEDgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/4CAgP/AwMD/AAD//wD/AP8A/////wAA//8A/////wD//////4iI
@@ -151,9 +165,6 @@
         iIiIiIiI
 </value>
   </data>
-  <metadata name="ttMensaje.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>110, 17</value>
-  </metadata>
   <data name="btnAceptarChequeFicha.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
@@ -192,15 +203,7 @@
         iIiIiIiI
 </value>
   </data>
-  <data name="btnLeerCodigo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAT0lEQVQ4T92MUQoAIAjF3tE9mjcrCg2T
-        QtCvGgwMbfiDVhQtAxHtAWYOlQ9zTgWUMYcBWS79/hjQ48hrwKLHquUasHr8fguMR8YVKPo2QAcZp3WT
-        H3w++AAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="btnAceptarSF.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnAceptarTarjetaCredito.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3d3
@@ -208,7 +211,7 @@
         d3d3d3d3oiJHd3d3d3d6IiR3d3d3d3eiIkd3d3d3d3oiJHd3d3d3d6Ikd3d3d3d3eiJ3d3d3d3d3pw==
 </value>
   </data>
-  <data name="btnSFBuscar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnBuscarClienteTC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk32AAAAAAAAAHYAAAAoAAAAEAAAABAAAAABAAQAAAAAAAAAAADEDgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/4CAgP/AwMD/AAD//wD/AP8A/////wAA//8A/////wD//////4iI
@@ -217,7 +220,7 @@
         iIiIiIiI
 </value>
   </data>
-  <data name="btnAceptarNC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnAceptarEfectivoVales.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3d3
@@ -225,10 +228,7 @@
         d3d3d3d3oiJHd3d3d3d6IiR3d3d3d3eiIkd3d3d3d3oiJHd3d3d3d6Ikd3d3d3d3eiJ3d3d3d3d3pw==
 </value>
   </data>
-  <metadata name="imgLista.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ttMensaje.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>110, 17</value>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
   </metadata>
 </root>
