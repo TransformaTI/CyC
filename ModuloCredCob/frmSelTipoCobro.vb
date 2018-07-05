@@ -727,9 +727,9 @@ Public Class frmSelTipoCobro
         Me.lblTarjetaCreditoConfirmaAutorizacion.AutoSize = True
         Me.lblTarjetaCreditoConfirmaAutorizacion.Location = New System.Drawing.Point(16, 243)
         Me.lblTarjetaCreditoConfirmaAutorizacion.Name = "lblTarjetaCreditoConfirmaAutorizacion"
-        Me.lblTarjetaCreditoConfirmaAutorizacion.Size = New System.Drawing.Size(70, 13)
+        Me.lblTarjetaCreditoConfirmaAutorizacion.Size = New System.Drawing.Size(88, 13)
         Me.lblTarjetaCreditoConfirmaAutorizacion.TabIndex = 33
-        Me.lblTarjetaCreditoConfirmaAutorizacion.Text = "Autorización:"
+        Me.lblTarjetaCreditoConfirmaAutorizacion.Text = "Repetir autoriza:"
         '
         'lblTarjetaCreditoAutorizacion
         '
