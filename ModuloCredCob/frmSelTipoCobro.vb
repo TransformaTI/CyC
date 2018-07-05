@@ -517,7 +517,7 @@ Public Class frmSelTipoCobro
         Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(498, 150)
         Me.btnAceptarTarjetaCredito.Name = "btnAceptarTarjetaCredito"
         Me.btnAceptarTarjetaCredito.Size = New System.Drawing.Size(80, 24)
-        Me.btnAceptarTarjetaCredito.TabIndex = 3
+        Me.btnAceptarTarjetaCredito.TabIndex = 12
         Me.btnAceptarTarjetaCredito.Text = "&Aceptar"
         Me.btnAceptarTarjetaCredito.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -566,7 +566,7 @@ Public Class frmSelTipoCobro
         Me.tbTarjetaCreditoObservaciones.Multiline = True
         Me.tbTarjetaCreditoObservaciones.Name = "tbTarjetaCreditoObservaciones"
         Me.tbTarjetaCreditoObservaciones.Size = New System.Drawing.Size(361, 44)
-        Me.tbTarjetaCreditoObservaciones.TabIndex = 46
+        Me.tbTarjetaCreditoObservaciones.TabIndex = 11
         '
         'cboTarjetaCreditoBancoTarjeta
         '
@@ -574,7 +574,7 @@ Public Class frmSelTipoCobro
         Me.cboTarjetaCreditoBancoTarjeta.Location = New System.Drawing.Point(104, 187)
         Me.cboTarjetaCreditoBancoTarjeta.Name = "cboTarjetaCreditoBancoTarjeta"
         Me.cboTarjetaCreditoBancoTarjeta.Size = New System.Drawing.Size(121, 21)
-        Me.cboTarjetaCreditoBancoTarjeta.TabIndex = 45
+        Me.cboTarjetaCreditoBancoTarjeta.TabIndex = 7
         '
         'cboTarjetaCreditoTipoTarjeta
         '
@@ -582,7 +582,7 @@ Public Class frmSelTipoCobro
         Me.cboTarjetaCreditoTipoTarjeta.Location = New System.Drawing.Point(104, 115)
         Me.cboTarjetaCreditoTipoTarjeta.Name = "cboTarjetaCreditoTipoTarjeta"
         Me.cboTarjetaCreditoTipoTarjeta.Size = New System.Drawing.Size(121, 21)
-        Me.cboTarjetaCreditoTipoTarjeta.TabIndex = 45
+        Me.cboTarjetaCreditoTipoTarjeta.TabIndex = 4
         '
         'cboTarjetaCreditoAfiliacion
         '
@@ -590,7 +590,7 @@ Public Class frmSelTipoCobro
         Me.cboTarjetaCreditoAfiliacion.Location = New System.Drawing.Point(104, 88)
         Me.cboTarjetaCreditoAfiliacion.Name = "cboTarjetaCreditoAfiliacion"
         Me.cboTarjetaCreditoAfiliacion.Size = New System.Drawing.Size(121, 21)
-        Me.cboTarjetaCreditoAfiliacion.TabIndex = 45
+        Me.cboTarjetaCreditoAfiliacion.TabIndex = 3
         '
         'Label17
         '
@@ -617,7 +617,7 @@ Public Class frmSelTipoCobro
         Me.dtpTarjetaCreditoFDocto.Location = New System.Drawing.Point(104, 59)
         Me.dtpTarjetaCreditoFDocto.Name = "dtpTarjetaCreditoFDocto"
         Me.dtpTarjetaCreditoFDocto.Size = New System.Drawing.Size(160, 21)
-        Me.dtpTarjetaCreditoFDocto.TabIndex = 43
+        Me.dtpTarjetaCreditoFDocto.TabIndex = 2
         '
         'txtTarjetaCreditoConfirmaAutorizacion
         '
@@ -625,7 +625,7 @@ Public Class frmSelTipoCobro
         Me.txtTarjetaCreditoConfirmaAutorizacion.MaxLength = 20
         Me.txtTarjetaCreditoConfirmaAutorizacion.Name = "txtTarjetaCreditoConfirmaAutorizacion"
         Me.txtTarjetaCreditoConfirmaAutorizacion.Size = New System.Drawing.Size(160, 21)
-        Me.txtTarjetaCreditoConfirmaAutorizacion.TabIndex = 4
+        Me.txtTarjetaCreditoConfirmaAutorizacion.TabIndex = 9
         '
         'txtTarjetaCreditoAutorizacion
         '
@@ -633,14 +633,14 @@ Public Class frmSelTipoCobro
         Me.txtTarjetaCreditoAutorizacion.MaxLength = 20
         Me.txtTarjetaCreditoAutorizacion.Name = "txtTarjetaCreditoAutorizacion"
         Me.txtTarjetaCreditoAutorizacion.Size = New System.Drawing.Size(160, 21)
-        Me.txtTarjetaCreditoAutorizacion.TabIndex = 4
+        Me.txtTarjetaCreditoAutorizacion.TabIndex = 8
         '
         'txtImporteTC
         '
         Me.txtImporteTC.Location = New System.Drawing.Point(104, 267)
         Me.txtImporteTC.Name = "txtImporteTC"
         Me.txtImporteTC.Size = New System.Drawing.Size(160, 21)
-        Me.txtImporteTC.TabIndex = 4
+        Me.txtImporteTC.TabIndex = 10
         '
         'txtClienteTC
         '
@@ -802,7 +802,7 @@ Public Class frmSelTipoCobro
         Me.txtNumeroTarjeta.MaxLength = 4
         Me.txtNumeroTarjeta.Name = "txtNumeroTarjeta"
         Me.txtNumeroTarjeta.Size = New System.Drawing.Size(160, 21)
-        Me.txtNumeroTarjeta.TabIndex = 2
+        Me.txtNumeroTarjeta.TabIndex = 5
         '
         'comboBancoTDC
         '
@@ -1785,7 +1785,7 @@ Public Class frmSelTipoCobro
         Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
         Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
         Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
-        Me.cboTarjetaCreditoBanco.TabIndex = 47
+        Me.cboTarjetaCreditoBanco.TabIndex = 6
         '
         'frmSelTipoCobro
         '
