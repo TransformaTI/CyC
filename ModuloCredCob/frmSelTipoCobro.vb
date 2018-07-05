@@ -413,7 +413,7 @@ Public Class frmSelTipoCobro
         Me.tbEfectivoVales.Name = "tbEfectivoVales"
         Me.tbEfectivoVales.Size = New System.Drawing.Size(610, 370)
         Me.tbEfectivoVales.TabIndex = 3
-        Me.tbEfectivoVales.Text = "Efectivo y / o vales"
+        Me.tbEfectivoVales.Text = "Efectivo"
         '
         'grpEfectivoVales
         '
@@ -424,7 +424,7 @@ Public Class frmSelTipoCobro
         Me.grpEfectivoVales.Size = New System.Drawing.Size(272, 48)
         Me.grpEfectivoVales.TabIndex = 32
         Me.grpEfectivoVales.TabStop = False
-        Me.grpEfectivoVales.Text = "Datos del efectivo o vales de despensa"
+        Me.grpEfectivoVales.Text = "Efectivo"
         '
         'txtTotalEfectivoVales
         '
