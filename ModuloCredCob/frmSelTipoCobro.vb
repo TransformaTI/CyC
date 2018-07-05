@@ -2344,6 +2344,14 @@ Public Class frmSelTipoCobro
         cboTarjetaCreditoTipoTarjeta.ValueMember = "Key"
         cboTarjetaCreditoTipoTarjeta.DisplayMember = "Value"
         cboTarjetaCreditoTipoTarjeta.DataSource = New BindingSource(DiccionarioTipoTarjeta, Nothing)
+
+        'Cargar el combo de bancos de tarjeta de crédito
+        Dim DiccionarioBancosTC As New Dictionary(Of Int32, String)
+        DiccionarioBancosTC = Main.cargaListaBancosTC(SigaMetClasses.DataLayer.Conexion)
+        cboTarjetaCreditoBancoTarjeta.ValueMember = "Key"
+        cboTarjetaCreditoBancoTarjeta.DisplayMember = "Value"
+        cboTarjetaCreditoBancoTarjeta.DataSource = New BindingSource(DiccionarioBancosTC, Nothing)
+
     End Sub
 
     Private Sub txtClienteTC_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
