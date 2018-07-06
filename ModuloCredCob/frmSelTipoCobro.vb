@@ -1831,12 +1831,27 @@ Public Class frmSelTipoCobro
         '
         'GroupBox4
         '
-        Me.GroupBox4.Controls.Add(Me.Button1)
-        Me.GroupBox4.Location = New System.Drawing.Point(58, 52)
+
+        Me.GroupBox4.Controls.Add(Me.TextObservacionesVales)
+        Me.GroupBox4.Controls.Add(Me.TxtMontoVales)
+        Me.GroupBox4.Controls.Add(Me.LabelBase20)
+        Me.GroupBox4.Controls.Add(Me.LabelBase25)
+        Me.GroupBox4.Controls.Add(Me.ComboTipoVale)
+        Me.GroupBox4.Controls.Add(Me.ComboProveedor)
+        Me.GroupBox4.Controls.Add(Me.LabelBase28)
+        Me.GroupBox4.Controls.Add(Me.FechaDocumentoVales)
+        Me.GroupBox4.Controls.Add(Me.LabelBase29)
+        Me.GroupBox4.Controls.Add(Me.txtClienteVales)
+        Me.GroupBox4.Controls.Add(Me.LabelBase19)
+        Me.GroupBox4.Controls.Add(Me.LabelNombreVales)
+        Me.GroupBox4.Controls.Add(Me.LabelBase27)
+        Me.GroupBox4.Controls.Add(Me.LabelBase30)
+        Me.GroupBox4.Location = New System.Drawing.Point(46, 38)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(200, 100)
-        Me.GroupBox4.TabIndex = 0
+        Me.GroupBox4.Size = New System.Drawing.Size(342, 261)
+        Me.GroupBox4.TabIndex = 33
         Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Datos de los vales de Despensa"
         '
         'btnAceptarVales1
         '
