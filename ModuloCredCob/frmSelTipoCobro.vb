@@ -163,9 +163,6 @@ Public Class frmSelTipoCobro
     Friend WithEvents Label16 As Label
     Friend WithEvents Label14 As Label
     Friend WithEvents Label8 As Label
-    Friend WithEvents Label7 As Label
-    Friend WithEvents Label6 As Label
-    Friend WithEvents Label5 As Label
     Friend WithEvents txtDPDescripcion As TextBox
     Friend WithEvents btnAceptarDP As ControlesBase.BotonBase
     Friend WithEvents txtDPImporte As SigaMetClasses.Controles.txtNumeroDecimal
@@ -183,6 +180,9 @@ Public Class frmSelTipoCobro
     Friend WithEvents tbTarjetaCreditoObservaciones As TextBox
     Friend WithEvents lblTarjetaCreditoObservaciones As ControlesBase.LabelBase
     Friend WithEvents cboTarjetaCreditoBanco As ComboBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
@@ -417,13 +417,13 @@ Public Class frmSelTipoCobro
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1770,9 +1770,11 @@ Public Class frmSelTipoCobro
         '
         'grpDacionPago
         '
+        Me.grpDacionPago.Controls.Add(Me.Label7)
+        Me.grpDacionPago.Controls.Add(Me.Label6)
+        Me.grpDacionPago.Controls.Add(Me.Label5)
         Me.grpDacionPago.Controls.Add(Me.txtDPImporte)
         Me.grpDacionPago.Controls.Add(Me.txtDPDescripcion)
-        Me.grpDacionPago.Controls.Add(Me.Label5)
         Me.grpDacionPago.Controls.Add(Me.dtpDPFechaAplicacion)
         Me.grpDacionPago.Controls.Add(Me.dtpDPFechaConvenio)
         Me.grpDacionPago.Controls.Add(Me.lblDPNombre)
@@ -1780,8 +1782,6 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.Controls.Add(Me.Label16)
         Me.grpDacionPago.Controls.Add(Me.Label14)
         Me.grpDacionPago.Controls.Add(Me.Label8)
-        Me.grpDacionPago.Controls.Add(Me.Label7)
-        Me.grpDacionPago.Controls.Add(Me.Label6)
         Me.grpDacionPago.Location = New System.Drawing.Point(19, 13)
         Me.grpDacionPago.Name = "grpDacionPago"
         Me.grpDacionPago.Size = New System.Drawing.Size(402, 264)
@@ -1839,7 +1839,7 @@ Public Class frmSelTipoCobro
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(50, 155)
+        Me.Label16.Location = New System.Drawing.Point(12, 155)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(65, 13)
         Me.Label16.TabIndex = 5
@@ -1848,7 +1848,7 @@ Public Class frmSelTipoCobro
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(66, 129)
+        Me.Label14.Location = New System.Drawing.Point(12, 129)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(49, 13)
         Me.Label14.TabIndex = 4
@@ -1857,35 +1857,11 @@ Public Class frmSelTipoCobro
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(11, 103)
+        Me.Label8.Location = New System.Drawing.Point(12, 103)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(104, 13)
         Me.Label8.TabIndex = 3
         Me.Label8.Text = "Fecha de aplicación:"
-        '
-        'Label7
-        '
-        Me.Label7.Location = New System.Drawing.Point(11, 26)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(100, 23)
-        Me.Label7.TabIndex = 7
-        Me.Label7.Text = "Cliente:"
-        '
-        'Label6
-        '
-        Me.Label6.Location = New System.Drawing.Point(11, 52)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(100, 23)
-        Me.Label6.TabIndex = 8
-        Me.Label6.Text = "Nombre:"
-        '
-        'Label5
-        '
-        Me.Label5.Location = New System.Drawing.Point(11, 75)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(100, 23)
-        Me.Label5.TabIndex = 9
-        Me.Label5.Text = "Fecha:"
         '
         'imgLista
         '
@@ -1907,6 +1883,33 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(12, 26)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(44, 13)
+        Me.Label5.TabIndex = 7
+        Me.Label5.Text = "Cliente:"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(12, 52)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(48, 13)
+        Me.Label6.TabIndex = 8
+        Me.Label6.Text = "Nombre:"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(12, 77)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(103, 13)
+        Me.Label7.TabIndex = 9
+        Me.Label7.Text = "Fecha del convenio:"
         '
         'frmSelTipoCobro
         '
