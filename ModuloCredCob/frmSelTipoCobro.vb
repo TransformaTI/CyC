@@ -68,8 +68,27 @@ Public Class frmSelTipoCobro
     Friend WithEvents tbTarjetaCreditoObservaciones As TextBox
     Friend WithEvents lblTarjetaCreditoObservaciones As ControlesBase.LabelBase
     Friend WithEvents cboTarjetaCreditoBanco As ComboBox
+    Friend WithEvents LabelBase7 As ControlesBase.LabelBase
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
-
+    Friend WithEvents LabelBase6 As ControlesBase.LabelBase
+    Friend WithEvents tabvalesdespensa As TabPage
+    Friend WithEvents Button1 As Button
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents TextObservacionesVales As TextBox
+    Friend WithEvents TxtMontoVales As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents LabelBase20 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase25 As ControlesBase.LabelBase
+    Friend WithEvents ComboTipoVale As SigaMetClasses.Combos.ComboValeTipo
+    Friend WithEvents ComboProveedor As SigaMetClasses.Combos.ComboProveedor
+    Friend WithEvents LabelBase28 As ControlesBase.LabelBase
+    Friend WithEvents FechaDocumentoVales As DateTimePicker
+    Friend WithEvents LabelBase29 As ControlesBase.LabelBase
+    Friend WithEvents txtClienteVales As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents LabelBase19 As ControlesBase.LabelBase
+    Friend WithEvents LabelNombreVales As Label
+    Friend WithEvents LabelBase27 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase30 As ControlesBase.LabelBase
+    Friend WithEvents btnAceptarVales1 As ControlesBase.BotonBase
     Public ReadOnly Property Posfechado() As Boolean
         Get
             Return _ChequePosfechado
@@ -270,6 +289,7 @@ Public Class frmSelTipoCobro
         Me.chkCapturaTPV = New System.Windows.Forms.CheckBox()
         Me.btnAceptarTarjetaCredito = New ControlesBase.BotonBase()
         Me.grpTarjetaCredito = New System.Windows.Forms.GroupBox()
+        Me.cboTarjetaCreditoBanco = New System.Windows.Forms.ComboBox()
         Me.tbTarjetaCreditoObservaciones = New System.Windows.Forms.TextBox()
         Me.cboTarjetaCreditoBancoTarjeta = New System.Windows.Forms.ComboBox()
         Me.cboTarjetaCreditoTipoTarjeta = New System.Windows.Forms.ComboBox()
@@ -395,11 +415,30 @@ Public Class frmSelTipoCobro
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.LabelBase7 = New ControlesBase.LabelBase()
+        Me.LabelBase6 = New ControlesBase.LabelBase()
+        Me.tabvalesdespensa = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.TextObservacionesVales = New System.Windows.Forms.TextBox()
+        Me.TxtMontoVales = New SigaMetClasses.Controles.txtNumeroDecimal()
+        Me.LabelBase20 = New ControlesBase.LabelBase()
+        Me.LabelBase25 = New ControlesBase.LabelBase()
+        Me.ComboTipoVale = New SigaMetClasses.Combos.ComboValeTipo()
+        Me.ComboProveedor = New SigaMetClasses.Combos.ComboProveedor()
+        Me.LabelBase28 = New ControlesBase.LabelBase()
+        Me.FechaDocumentoVales = New System.Windows.Forms.DateTimePicker()
+        Me.LabelBase29 = New ControlesBase.LabelBase()
+        Me.txtClienteVales = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.LabelBase19 = New ControlesBase.LabelBase()
+        Me.LabelNombreVales = New System.Windows.Forms.Label()
+        Me.LabelBase27 = New ControlesBase.LabelBase()
+        Me.LabelBase30 = New ControlesBase.LabelBase()
+        Me.btnAceptarVales1 = New ControlesBase.BotonBase()
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.cboTarjetaCreditoBanco = New System.Windows.Forms.ComboBox()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -489,13 +528,13 @@ Public Class frmSelTipoCobro
         '
         'tbTarjetaCredito
         '
-        Me.tbTarjetaCredito.Controls.Add(Me.chkCapturaTPV)
-        Me.tbTarjetaCredito.Controls.Add(Me.btnAceptarTarjetaCredito)
-        Me.tbTarjetaCredito.Controls.Add(Me.grpTarjetaCredito)
         Me.tbTarjetaCredito.Controls.Add(Me.LabelBase1)
         Me.tbTarjetaCredito.Controls.Add(Me.lblTitular)
         Me.tbTarjetaCredito.Controls.Add(Me.lblVigencia)
         Me.tbTarjetaCredito.Controls.Add(Me.LabelBase5)
+        Me.tbTarjetaCredito.Controls.Add(Me.chkCapturaTPV)
+        Me.tbTarjetaCredito.Controls.Add(Me.btnAceptarTarjetaCredito)
+        Me.tbTarjetaCredito.Controls.Add(Me.grpTarjetaCredito)
         Me.tbTarjetaCredito.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbTarjetaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbTarjetaCredito.Name = "tbTarjetaCredito"
@@ -505,7 +544,7 @@ Public Class frmSelTipoCobro
         '
         'chkCapturaTPV
         '
-        Me.chkCapturaTPV.Location = New System.Drawing.Point(498, 304)
+        Me.chkCapturaTPV.Location = New System.Drawing.Point(497, 324)
         Me.chkCapturaTPV.Name = "chkCapturaTPV"
         Me.chkCapturaTPV.Size = New System.Drawing.Size(160, 24)
         Me.chkCapturaTPV.TabIndex = 31
@@ -517,7 +556,7 @@ Public Class frmSelTipoCobro
         Me.btnAceptarTarjetaCredito.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAceptarTarjetaCredito.Image = CType(resources.GetObject("btnAceptarTarjetaCredito.Image"), System.Drawing.Image)
         Me.btnAceptarTarjetaCredito.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(498, 150)
+        Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(497, 150)
         Me.btnAceptarTarjetaCredito.Name = "btnAceptarTarjetaCredito"
         Me.btnAceptarTarjetaCredito.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarTarjetaCredito.TabIndex = 12
@@ -562,6 +601,14 @@ Public Class frmSelTipoCobro
         Me.grpTarjetaCredito.TabIndex = 30
         Me.grpTarjetaCredito.TabStop = False
         Me.grpTarjetaCredito.Text = "Datos de la tarjeta de crédito o débito"
+        '
+        'cboTarjetaCreditoBanco
+        '
+        Me.cboTarjetaCreditoBanco.FormattingEnabled = True
+        Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
+        Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
+        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
+        Me.cboTarjetaCreditoBanco.TabIndex = 6
         '
         'tbTarjetaCreditoObservaciones
         '
@@ -1760,6 +1807,171 @@ Public Class frmSelTipoCobro
         Me.Label5.TabIndex = 0
         Me.Label5.Text = "Cliente:"
         '
+        'LabelBase7
+        '
+        Me.LabelBase7.AutoSize = True
+        Me.LabelBase7.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase7.Name = "LabelBase7"
+        Me.LabelBase7.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase7.TabIndex = 0
+        '
+        'LabelBase6
+        '
+        Me.LabelBase6.AutoSize = True
+        Me.LabelBase6.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase6.Name = "LabelBase6"
+        Me.LabelBase6.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase6.TabIndex = 0
+        '
+        'tabvalesdespensa
+        '
+        Me.tabvalesdespensa.Location = New System.Drawing.Point(0, 0)
+        Me.tabvalesdespensa.Name = "tabvalesdespensa"
+        Me.tabvalesdespensa.Size = New System.Drawing.Size(200, 100)
+        Me.tabvalesdespensa.TabIndex = 0
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(0, 0)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 0
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Location = New System.Drawing.Point(0, 0)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox4.TabIndex = 0
+        Me.GroupBox4.TabStop = False
+        '
+        'TextObservacionesVales
+        '
+        Me.TextObservacionesVales.Location = New System.Drawing.Point(0, 0)
+        Me.TextObservacionesVales.Name = "TextObservacionesVales"
+        Me.TextObservacionesVales.Size = New System.Drawing.Size(100, 20)
+        Me.TextObservacionesVales.TabIndex = 0
+        '
+        'TxtMontoVales
+        '
+        Me.TxtMontoVales.Location = New System.Drawing.Point(0, 0)
+        Me.TxtMontoVales.Name = "TxtMontoVales"
+        Me.TxtMontoVales.Size = New System.Drawing.Size(100, 20)
+        Me.TxtMontoVales.TabIndex = 0
+        '
+        'LabelBase20
+        '
+        Me.LabelBase20.AutoSize = True
+        Me.LabelBase20.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase20.Name = "LabelBase20"
+        Me.LabelBase20.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase20.TabIndex = 0
+        '
+        'LabelBase25
+        '
+        Me.LabelBase25.AutoSize = True
+        Me.LabelBase25.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase25.Name = "LabelBase25"
+        Me.LabelBase25.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase25.TabIndex = 0
+        '
+        'ComboTipoVale
+        '
+        Me.ComboTipoVale.Descripcion = Nothing
+        Me.ComboTipoVale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboTipoVale.Location = New System.Drawing.Point(0, 0)
+        Me.ComboTipoVale.Name = "ComboTipoVale"
+        Me.ComboTipoVale.Size = New System.Drawing.Size(121, 21)
+        Me.ComboTipoVale.Status = Nothing
+        Me.ComboTipoVale.TabIndex = 0
+        Me.ComboTipoVale.ValeTipo = 0
+        '
+        'ComboProveedor
+        '
+        Me.ComboProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboProveedor.DropDownWidth = 200
+        Me.ComboProveedor.Location = New System.Drawing.Point(120, 122)
+        Me.ComboProveedor.Name = "ComboProveedor"
+        Me.ComboProveedor.Nombre = Nothing
+        Me.ComboProveedor.Size = New System.Drawing.Size(192, 21)
+        Me.ComboProveedor.Status = Nothing
+        Me.ComboProveedor.TabIndex = 46
+        Me.ComboProveedor.ValeProveedor = 0
+        '
+        'LabelBase28
+        '
+        Me.LabelBase28.AutoSize = True
+        Me.LabelBase28.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase28.Name = "LabelBase28"
+        Me.LabelBase28.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase28.TabIndex = 0
+        '
+        'FechaDocumentoVales
+        '
+        Me.FechaDocumentoVales.Location = New System.Drawing.Point(0, 0)
+        Me.FechaDocumentoVales.Name = "FechaDocumentoVales"
+        Me.FechaDocumentoVales.Size = New System.Drawing.Size(200, 20)
+        Me.FechaDocumentoVales.TabIndex = 0
+        '
+        'LabelBase29
+        '
+        Me.LabelBase29.AutoSize = True
+        Me.LabelBase29.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase29.Name = "LabelBase29"
+        Me.LabelBase29.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase29.TabIndex = 0
+        '
+        'txtClienteVales
+        '
+        Me.txtClienteVales.Location = New System.Drawing.Point(0, 0)
+        Me.txtClienteVales.Name = "txtClienteVales"
+        Me.txtClienteVales.Size = New System.Drawing.Size(100, 20)
+        Me.txtClienteVales.TabIndex = 0
+        '
+        'LabelBase19
+        '
+        Me.LabelBase19.AutoSize = True
+        Me.LabelBase19.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase19.Name = "LabelBase19"
+        Me.LabelBase19.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase19.TabIndex = 0
+        '
+        'LabelNombreVales
+        '
+        Me.LabelNombreVales.Location = New System.Drawing.Point(0, 0)
+        Me.LabelNombreVales.Name = "LabelNombreVales"
+        Me.LabelNombreVales.Size = New System.Drawing.Size(100, 23)
+        Me.LabelNombreVales.TabIndex = 0
+        '
+        'LabelBase27
+        '
+        Me.LabelBase27.AutoSize = True
+        Me.LabelBase27.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase27.Name = "LabelBase27"
+        Me.LabelBase27.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase27.TabIndex = 0
+        '
+        'LabelBase30
+        '
+        Me.LabelBase30.AutoSize = True
+        Me.LabelBase30.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase30.Name = "LabelBase30"
+        Me.LabelBase30.Size = New System.Drawing.Size(100, 23)
+        Me.LabelBase30.TabIndex = 0
+        '
+        'btnAceptarVales1
+        '
+        Me.btnAceptarVales1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAceptarVales1.BackColor = System.Drawing.SystemColors.Control
+        Me.btnAceptarVales1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnAceptarVales1.Location = New System.Drawing.Point(482, 140)
+        Me.btnAceptarVales1.Name = "btnAceptarVales1"
+        Me.btnAceptarVales1.Size = New System.Drawing.Size(80, 24)
+        Me.btnAceptarVales1.TabIndex = 32
+        Me.btnAceptarVales1.Text = "&Aceptar"
+        Me.btnAceptarVales1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnAceptarVales1.UseVisualStyleBackColor = False
+        '
         'imgLista
         '
         Me.imgLista.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
@@ -1781,14 +1993,6 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
-        '
-        'cboTarjetaCreditoBanco
-        '
-        Me.cboTarjetaCreditoBanco.FormattingEnabled = True
-        Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
-        Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
-        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
-        Me.cboTarjetaCreditoBanco.TabIndex = 6
         '
         'frmSelTipoCobro
         '
