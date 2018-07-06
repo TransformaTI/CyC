@@ -87,8 +87,8 @@ Public Class frmSelTipoCobro
     Friend WithEvents LabelBase19 As ControlesBase.LabelBase
     Friend WithEvents LabelNombreVales As Label
     Friend WithEvents LabelBase27 As ControlesBase.LabelBase
+    Friend WithEvents BotonBase1 As ControlesBase.BotonBase
     Friend WithEvents LabelBase30 As ControlesBase.LabelBase
-    Friend WithEvents btnAceptarVales1 As ControlesBase.BotonBase
     Public ReadOnly Property Posfechado() As Boolean
         Get
             Return _ChequePosfechado
@@ -431,7 +431,6 @@ Public Class frmSelTipoCobro
         Me.LabelNombreVales = New System.Windows.Forms.Label()
         Me.LabelBase27 = New ControlesBase.LabelBase()
         Me.LabelBase30 = New ControlesBase.LabelBase()
-        Me.btnAceptarVales1 = New ControlesBase.BotonBase()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.LabelBase7 = New ControlesBase.LabelBase()
         Me.LabelBase6 = New ControlesBase.LabelBase()
@@ -439,6 +438,7 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
+        Me.BotonBase1 = New ControlesBase.BotonBase()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1813,8 +1813,8 @@ Public Class frmSelTipoCobro
         'tabvalesdespensa
         '
         Me.tabvalesdespensa.BackColor = System.Drawing.SystemColors.Control
+        Me.tabvalesdespensa.Controls.Add(Me.BotonBase1)
         Me.tabvalesdespensa.Controls.Add(Me.GroupBox4)
-        Me.tabvalesdespensa.Controls.Add(Me.btnAceptarVales1)
         Me.tabvalesdespensa.Location = New System.Drawing.Point(4, 4)
         Me.tabvalesdespensa.Name = "tabvalesdespensa"
         Me.tabvalesdespensa.Padding = New System.Windows.Forms.Padding(3)
@@ -1971,19 +1971,6 @@ Public Class frmSelTipoCobro
         Me.LabelBase30.TabIndex = 22
         Me.LabelBase30.Text = "Cliente:"
         '
-        'btnAceptarVales1
-        '
-        Me.btnAceptarVales1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAceptarVales1.BackColor = System.Drawing.SystemColors.Control
-        Me.btnAceptarVales1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarVales1.Location = New System.Drawing.Point(482, 140)
-        Me.btnAceptarVales1.Name = "btnAceptarVales1"
-        Me.btnAceptarVales1.Size = New System.Drawing.Size(80, 24)
-        Me.btnAceptarVales1.TabIndex = 32
-        Me.btnAceptarVales1.Text = "&Aceptar"
-        Me.btnAceptarVales1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnAceptarVales1.UseVisualStyleBackColor = False
-        '
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(487, 185)
@@ -2030,6 +2017,18 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
+        '
+        'BotonBase1
+        '
+        Me.BotonBase1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BotonBase1.Image = CType(resources.GetObject("BotonBase1.Image"), System.Drawing.Image)
+        Me.BotonBase1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BotonBase1.Location = New System.Drawing.Point(478, 135)
+        Me.BotonBase1.Name = "BotonBase1"
+        Me.BotonBase1.Size = New System.Drawing.Size(80, 24)
+        Me.BotonBase1.TabIndex = 34
+        Me.BotonBase1.Text = "&Aceptar"
+        Me.BotonBase1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmSelTipoCobro
         '
@@ -2555,6 +2554,8 @@ Public Class frmSelTipoCobro
 
     Private Sub frmSelTipoCobro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ComboBanco.CargaDatos(CargaBancoCero:=True, MostrarClaves:=True, SoloActivos:=True)
+        ComboTipoVale.CargaDatos()
+        ComboProveedor.Items.Add("vales si")
         'TDC
         comboBancoTDC.CargaDatos(CargaBancoCero:=False, MostrarClaves:=True, SoloActivos:=True)
 
@@ -3446,8 +3447,83 @@ Public Class frmSelTipoCobro
         End If
     End Sub
 
-    Private Sub btnAceptarVales1_Click(sender As Object, e As EventArgs) Handles btnAceptarVales1.Click
+    Private Sub btnAceptarVales1_Click(sender As Object, e As EventArgs)
 
+    End Sub
+
+    Private Sub BotonBase1_Click(sender As Object, e As EventArgs) Handles BotonBase1.Click
+        If GLOBAL_ValidarTipoCobro Then
+            If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales) Then
+                Exit Sub
+            End If
+        End If
+
+        If CapturaEfectivoVales = False Then
+            If txtClienteVales.Text <> "" And IsNumeric(TxtMontoVales.Text) Then
+                If _CapturaDetalle = True Then
+                    Dim frmCaptura As frmCapCobranzaDoc
+                    If Not _EsRelacionCobranza Then
+                        frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)
+                    Else
+                        frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros, _RelacionCobranza)
+                    End If
+
+                    frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
+                    frmCaptura.ImporteCobro = CType(TxtMontoVales.Text, Decimal)
+                    If frmCaptura.ShowDialog = DialogResult.OK Then
+                        With _Cobro
+                            .Consecutivo = _Consecutivo
+                            .AnoCobro = CType(FechaOperacion.Year, Short)
+                            .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
+                            .Total = frmCaptura.ImporteCobro
+                            .Cliente = CInt(txtClienteVales.Text)
+                            '.FechaCheque = CDate(FechaDocumentoVales.Text)
+                            'ComboProveedor
+                            'ComboTipoVale
+                            If frmCaptura.SaldoAFavor = True Then
+                                .SaldoAFavor = frmCaptura.SaldoAFavor
+                                .Saldo = frmCaptura.ImporteRestante
+                            End If
+                            .Observaciones = TextObservacionesVales.Text
+                            .ListaPedidos = frmCaptura.ListaCobroPedido
+                            ImporteTotalCobro = .Total
+
+                        End With
+                        DialogResult = DialogResult.OK
+                    End If
+
+                Else
+                    With _Cobro
+                        .Consecutivo = _Consecutivo
+                        .AnoCobro = CType(FechaOperacion.Year, Short)
+                        .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
+                        .Total = CType(txtTotalEfectivoVales.Text, Decimal)
+                        ImporteTotalCobro = .Total
+                        .ListaPedidos = Nothing
+                    End With
+                    DialogResult = DialogResult.OK
+                End If
+
+            End If
+        Else
+            MessageBox.Show("Ya capturó  vales")
+        End If
+    End Sub
+
+    Private Sub txtClienteVales_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtClienteVales.KeyPress
+        If Asc(e.KeyChar) <> 8 Then
+            If Asc(e.KeyChar) < 46 Or Asc(e.KeyChar) < 48 Or Asc(e.KeyChar) > 57 Then
+                e.Handled = True
+            End If
+        End If
+
+    End Sub
+
+    Private Sub txtClienteVales_Leave(sender As Object, e As EventArgs) Handles txtClienteVales.Leave
+        Dim oCliente As New SigaMetClasses.cCliente()
+        oCliente.Consulta(CType(txtClienteVales.Text, Integer))
+        LabelNombreVales.Text = oCliente.Nombre
+        oCliente = Nothing
     End Sub
 
 
