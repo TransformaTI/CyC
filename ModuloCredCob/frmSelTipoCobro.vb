@@ -38,6 +38,10 @@ Public Class frmSelTipoCobro
     Friend WithEvents Label7 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
+<<<<<<< HEAD
+    Friend WithEvents txtDPDescripcion As TextBox
+    Friend WithEvents btnAceptarDP As ControlesBase.BotonBase
+    Friend WithEvents txtDPImporte As SigaMetClasses.Controles.txtNumeroDecimal
     Friend WithEvents cboTarjetaCreditoBancoTarjeta As ComboBox
     Friend WithEvents cboTarjetaCreditoTipoTarjeta As ComboBox
     Friend WithEvents cboTarjetaCreditoAfiliacion As ComboBox
@@ -52,6 +56,7 @@ Public Class frmSelTipoCobro
     Friend WithEvents tbTarjetaCreditoObservaciones As TextBox
     Friend WithEvents lblTarjetaCreditoObservaciones As ControlesBase.LabelBase
     Friend WithEvents cboTarjetaCreditoBanco As ComboBox
+=======
     Friend WithEvents tbNotaCredito As TabPage
     Friend WithEvents gpbNotaCredito As GroupBox
     Friend WithEvents lblNombreCliente As Label
@@ -138,8 +143,6 @@ Public Class frmSelTipoCobro
     Friend WithEvents lblBanco As Label
     Friend WithEvents LabelBase7 As ControlesBase.LabelBase
     Friend WithEvents lblClienteNombre As Label
-    Friend WithEvents lblTarjetaCreditoNombre As Label
-    Friend WithEvents lblTarjetaCreditoMonto As Label
     Friend WithEvents LabelBase6 As ControlesBase.LabelBase
     Friend WithEvents lblVigencia As Label
     Friend WithEvents LabelBase5 As ControlesBase.LabelBase
@@ -179,6 +182,7 @@ Public Class frmSelTipoCobro
     Friend WithEvents LabelBase30 As ControlesBase.LabelBase
     Friend WithEvents btnAceptarVales1 As ControlesBase.BotonBase
     Friend WithEvents Button1 As Button
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
     Public CargoTarjetaSeleccionado As SigaMetClasses.CargoTarjeta
 
     Public ReadOnly Property Posfechado() As Boolean
@@ -269,6 +273,47 @@ Public Class frmSelTipoCobro
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
     Friend WithEvents imgLista As System.Windows.Forms.ImageList
+<<<<<<< HEAD
+    Friend WithEvents tbTarjetaCredito As System.Windows.Forms.TabPage
+    Friend WithEvents grpTarjetaCredito As System.Windows.Forms.GroupBox
+    Friend WithEvents Label20 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase1 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase3 As ControlesBase.LabelBase
+    Friend WithEvents btnAceptarTarjetaCredito As ControlesBase.BotonBase
+    Friend WithEvents lblTarjetaCredito As System.Windows.Forms.Label
+    Friend WithEvents lblTitular As System.Windows.Forms.Label
+    Friend WithEvents lblTipoTarjetaCredito As System.Windows.Forms.Label
+    Friend WithEvents LabelBase4 As ControlesBase.LabelBase
+    Friend WithEvents lblVigencia As System.Windows.Forms.Label
+    Friend WithEvents LabelBase5 As ControlesBase.LabelBase
+    Friend WithEvents btnBuscarClienteTC As System.Windows.Forms.Button
+    Friend WithEvents lblTarjetaCreditoMonto As ControlesBase.LabelBase
+    Friend WithEvents lblBancoNombre As System.Windows.Forms.Label
+    Friend WithEvents lblTarjetaCreditoNombre As ControlesBase.LabelBase
+    Friend WithEvents lblClienteNombre As System.Windows.Forms.Label
+    Friend WithEvents lblBanco As System.Windows.Forms.Label
+    Friend WithEvents ComboBanco As SigaMetClasses.Combos.ComboBanco
+    Friend WithEvents txtObservaciones As System.Windows.Forms.TextBox
+    Friend WithEvents txtTotalEfectivoVales As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents txtNumeroCuenta As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents txtClienteCheque As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents txtClienteTC As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents txtImporteTC As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents btnAceptarChequeFicha As ControlesBase.BotonBase
+    Friend WithEvents tbChequeFicha As System.Windows.Forms.TabPage
+    Friend WithEvents grpChequeFicha As System.Windows.Forms.GroupBox
+    Friend WithEvents rbCheque As System.Windows.Forms.RadioButton
+    Friend WithEvents rbFicha As System.Windows.Forms.RadioButton
+    Friend WithEvents txtImporteDocumento As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents btnBuscarCliente As System.Windows.Forms.Button
+    Friend WithEvents lblNombre As System.Windows.Forms.Label
+    Friend WithEvents rbNotaCredito As System.Windows.Forms.RadioButton
+    Friend WithEvents rbNotaIngreso As System.Windows.Forms.RadioButton
+    Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
+    Friend WithEvents btnLeerCodigo As System.Windows.Forms.Button
+    Friend WithEvents LabelBase8 As ControlesBase.LabelBase
+=======
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
     Friend WithEvents ttMensaje As System.Windows.Forms.ToolTip
     Friend WithEvents btnCancelar As System.Windows.Forms.Button
     Friend WithEvents ComboBanco1 As SigaMetClasses.Combos.ComboBanco
@@ -276,6 +321,7 @@ Public Class frmSelTipoCobro
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSelTipoCobro))
+<<<<<<< HEAD
         Me.tabTipoCobro = New System.Windows.Forms.TabControl()
         Me.tbEfectivoVales = New System.Windows.Forms.TabPage()
         Me.grpEfectivoVales = New System.Windows.Forms.GroupBox()
@@ -319,6 +365,7 @@ Public Class frmSelTipoCobro
         Me.lblTitular = New System.Windows.Forms.Label()
         Me.lblVigencia = New System.Windows.Forms.Label()
         Me.LabelBase5 = New ControlesBase.LabelBase()
+=======
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnLeerCodigo = New System.Windows.Forms.Button()
@@ -383,6 +430,7 @@ Public Class frmSelTipoCobro
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtSFClave = New System.Windows.Forms.TextBox()
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
         Me.tbChequeFicha = New System.Windows.Forms.TabPage()
         Me.rbTransferencia = New System.Windows.Forms.RadioButton()
         Me.chkCargarNI = New System.Windows.Forms.CheckBox()
@@ -415,6 +463,7 @@ Public Class frmSelTipoCobro
         Me.rbNotaCredito = New System.Windows.Forms.RadioButton()
         Me.rbFicha = New System.Windows.Forms.RadioButton()
         Me.rbCheque = New System.Windows.Forms.RadioButton()
+<<<<<<< HEAD
         Me.btnLeerCodigo = New System.Windows.Forms.Button()
         Me.tbSaldoAFavor = New System.Windows.Forms.TabPage()
         Me.btnAceptarSF = New ControlesBase.BotonBase()
@@ -486,6 +535,7 @@ Public Class frmSelTipoCobro
         Me.grpTarjetaCredito.SuspendLayout()
         Me.tbChequeFicha.SuspendLayout()
         Me.grpChequeFicha.SuspendLayout()
+=======
         Me.tbTarjetaCredito = New System.Windows.Forms.TabPage()
         Me.chkCapturaTPV = New System.Windows.Forms.CheckBox()
         Me.btnAceptarTarjetaCredito = New ControlesBase.BotonBase()
@@ -538,6 +588,7 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.SuspendLayout()
         Me.tbNotaCredito.SuspendLayout()
         Me.gpbNotaCredito.SuspendLayout()
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
         Me.tbSaldoAFavor.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.grpOrigen.SuspendLayout()
@@ -552,6 +603,7 @@ Public Class frmSelTipoCobro
         Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
+<<<<<<< HEAD
         'tabTipoCobro
         '
         Me.tabTipoCobro.Alignment = System.Windows.Forms.TabAlignment.Bottom
@@ -1030,7 +1082,9 @@ Public Class frmSelTipoCobro
         Me.chkCargarNI.TabIndex = 38
         Me.chkCargarNI.Text = "Usar nota de ingreso capturada"
         Me.chkCargarNI.Visible = False
+=======
         'imgLista
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
         '
         Me.imgLista.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
         Me.imgLista.ImageSize = New System.Drawing.Size(16, 16)
@@ -2471,6 +2525,7 @@ Public Class frmSelTipoCobro
         Me.Name = "frmSelTipoCobro"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Captura de cobros"
+<<<<<<< HEAD
         Me.tabTipoCobro.ResumeLayout(False)
         Me.tbEfectivoVales.ResumeLayout(False)
         Me.grpEfectivoVales.ResumeLayout(False)
@@ -2483,12 +2538,14 @@ Public Class frmSelTipoCobro
         Me.tbChequeFicha.PerformLayout()
         Me.grpChequeFicha.ResumeLayout(False)
         Me.grpChequeFicha.PerformLayout()
+=======
         Me.tbDacionPago.ResumeLayout(False)
         Me.grpDacionPago.ResumeLayout(False)
         Me.grpDacionPago.PerformLayout()
         Me.tbNotaCredito.ResumeLayout(False)
         Me.gpbNotaCredito.ResumeLayout(False)
         Me.gpbNotaCredito.PerformLayout()
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
         Me.tbSaldoAFavor.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
@@ -3042,7 +3099,7 @@ Public Class frmSelTipoCobro
         'Permitir Solo notas de crédito capturadas
         chkCargarNI.Enabled = Not GLOBAL_SoloNICapturada
 
-
+<<<<<<< HEAD
 
         'Cargar el combo de afiliaciones de tarjeta de crédito
         Dim Diccionario As New Dictionary(Of Int32, String)
@@ -3078,6 +3135,9 @@ Public Class frmSelTipoCobro
         lblDPNombre.Text = _NombreCliente
         ConmutarDacionEnPago()
 
+
+=======
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
     End Sub
 
     Private Sub txtClienteTC_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -3869,6 +3929,7 @@ Public Class frmSelTipoCobro
 
     End Sub
 
+<<<<<<< HEAD
 
     Private Sub txtNumeroTarjeta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtNumeroTarjeta.KeyPress
         '97 - 122 = Ascii codes for simple letters
@@ -3891,6 +3952,7 @@ Public Class frmSelTipoCobro
     End Sub
 
 
+=======
     Private Sub BtnBuscarClienteVales_Click(sender As Object, e As EventArgs)
 
     End Sub
@@ -3973,6 +4035,6 @@ Public Class frmSelTipoCobro
         LabelNombreVales.Text = oCliente.Nombre
         oCliente = Nothing
     End Sub
-
+>>>>>>> origin/ER_Feature_CreateFormValesYFormaPago_05_07_2018
     '*****
 End Class
