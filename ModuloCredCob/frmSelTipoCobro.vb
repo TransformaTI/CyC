@@ -408,6 +408,9 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago = New System.Windows.Forms.TabPage()
         Me.btnAceptarDP = New ControlesBase.BotonBase()
         Me.grpDacionPago = New System.Windows.Forms.GroupBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.txtDPImporte = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.txtDPDescripcion = New System.Windows.Forms.TextBox()
         Me.dtpDPFechaAplicacion = New System.Windows.Forms.DateTimePicker()
@@ -421,9 +424,6 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1789,6 +1789,33 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.TabStop = False
         Me.grpDacionPago.Text = "Dación en pago:"
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(12, 77)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(103, 13)
+        Me.Label7.TabIndex = 9
+        Me.Label7.Text = "Fecha del convenio:"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(12, 52)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(48, 13)
+        Me.Label6.TabIndex = 8
+        Me.Label6.Text = "Nombre:"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(12, 26)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(44, 13)
+        Me.Label5.TabIndex = 7
+        Me.Label5.Text = "Cliente:"
+        '
         'txtDPImporte
         '
         Me.txtDPImporte.Location = New System.Drawing.Point(121, 129)
@@ -1883,33 +1910,6 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(12, 26)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(44, 13)
-        Me.Label5.TabIndex = 7
-        Me.Label5.Text = "Cliente:"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(12, 52)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(48, 13)
-        Me.Label6.TabIndex = 8
-        Me.Label6.Text = "Nombre:"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(12, 77)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(103, 13)
-        Me.Label7.TabIndex = 9
-        Me.Label7.Text = "Fecha del convenio:"
         '
         'frmSelTipoCobro
         '
@@ -3325,6 +3325,34 @@ Public Class frmSelTipoCobro
         End If
     End Sub
 
+    Private Sub ConsultaPagosAnticipados()
+        Dim oTC As New SigaMetClasses.Anticpo
+        Dim dt As DataTable = oTC.ConsultaPagosAnticipados(Integer.Parse(TxtAntCliente.Text))
+
+        If Not dt Is Nothing Then
+            TxtAntNombre.Text = dt.Rows(0).Item(1).ToString()
+
+            LstAnticipos.DisplayMember = "Saldo"
+            LstAnticipos.ValueMember = "Saldo"
+            LstAnticipos.DataSource = dt
+        End If
+
+
+
+    End Sub
+
+    Private Sub TxtAntCliente_Leave(sender As Object, e As EventArgs) Handles TxtAntCliente.Leave
+        ConsultaPagosAnticipados()
+    End Sub
+    Private Sub LstAnticipos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstAnticipos.SelectedIndexChanged
+        Dim cad As String() = LstAnticipos.SelectedValue.ToString().Split(New Char() {","c})
+        TxtAntMonto.Text = cad(0)
+
+    End Sub
+
+    Private Sub TxtAntCliente_TextChanged(sender As Object, e As EventArgs) Handles TxtAntCliente.TextChanged
+
+    End Sub
 
     '*****
 End Class
