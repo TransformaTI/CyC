@@ -20,7 +20,6 @@ Public Class frmSelTipoCobro
     Private _NombreCliente As String
     Private _FacturaNC As Integer
     Private _HabilitarDacionEnPago As Boolean = False
-
     'Control de cheques posfechados
     Private _ChequePosfechado As Boolean
     Friend WithEvents tbNotaCredito As TabPage
