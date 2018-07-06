@@ -21,6 +21,108 @@ Public Class frmSelTipoCobro
     Private _FacturaNC As Integer
     Private _HabilitarDacionEnPago As Boolean = False
 
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents tabTipoCobro As System.Windows.Forms.TabControl
+    Friend WithEvents dtpFechaCheque As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblObservaciones As ControlesBase.LabelBase
+    Friend WithEvents lblNoCheque As ControlesBase.LabelBase
+    Friend WithEvents lblFechaCheque As ControlesBase.LabelBase
+    Friend WithEvents lblNoCuenta As ControlesBase.LabelBase
+    Friend WithEvents lblImporte As ControlesBase.LabelBase
+    Friend WithEvents lblCliente As ControlesBase.LabelBase
+    Friend WithEvents tbEfectivoVales As System.Windows.Forms.TabPage
+    Friend WithEvents btnAceptarEfectivoVales As ControlesBase.BotonBase
+    Friend WithEvents grpEfectivoVales As System.Windows.Forms.GroupBox
+    Friend WithEvents lblTotalEfectivoVales As ControlesBase.LabelBase
+    Friend WithEvents imgLista As System.Windows.Forms.ImageList
+    Friend WithEvents tbTarjetaCredito As System.Windows.Forms.TabPage
+    Friend WithEvents grpTarjetaCredito As System.Windows.Forms.GroupBox
+    Friend WithEvents Label20 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase1 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase3 As ControlesBase.LabelBase
+    Friend WithEvents btnAceptarTarjetaCredito As ControlesBase.BotonBase
+    Friend WithEvents lblTarjetaCredito As System.Windows.Forms.Label
+    Friend WithEvents lblTitular As System.Windows.Forms.Label
+    Friend WithEvents lblTipoTarjetaCredito As System.Windows.Forms.Label
+    Friend WithEvents LabelBase4 As ControlesBase.LabelBase
+    Friend WithEvents lblVigencia As System.Windows.Forms.Label
+    Friend WithEvents LabelBase5 As ControlesBase.LabelBase
+    Friend WithEvents btnBuscarClienteTC As System.Windows.Forms.Button
+    Friend WithEvents lblTarjetaCreditoMonto As ControlesBase.LabelBase
+    Friend WithEvents lblBancoNombre As System.Windows.Forms.Label
+    Friend WithEvents lblTarjetaCreditoNombre As ControlesBase.LabelBase
+    Friend WithEvents lblClienteNombre As System.Windows.Forms.Label
+    Friend WithEvents lblBanco As System.Windows.Forms.Label
+    Friend WithEvents ComboBanco As SigaMetClasses.Combos.ComboBanco
+    Friend WithEvents txtObservaciones As System.Windows.Forms.TextBox
+    Friend WithEvents txtTotalEfectivoVales As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents txtNumeroCuenta As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents txtClienteCheque As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents txtClienteTC As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents txtImporteTC As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents btnAceptarChequeFicha As ControlesBase.BotonBase
+    Friend WithEvents tbChequeFicha As System.Windows.Forms.TabPage
+    Friend WithEvents grpChequeFicha As System.Windows.Forms.GroupBox
+    Friend WithEvents rbCheque As System.Windows.Forms.RadioButton
+    Friend WithEvents rbFicha As System.Windows.Forms.RadioButton
+    Friend WithEvents txtImporteDocumento As SigaMetClasses.Controles.txtNumeroDecimal
+    Friend WithEvents btnBuscarCliente As System.Windows.Forms.Button
+    Friend WithEvents lblNombre As System.Windows.Forms.Label
+    Friend WithEvents rbNotaCredito As System.Windows.Forms.RadioButton
+    Friend WithEvents rbNotaIngreso As System.Windows.Forms.RadioButton
+    Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
+    Friend WithEvents btnLeerCodigo As System.Windows.Forms.Button
+    Friend WithEvents LabelBase8 As ControlesBase.LabelBase
+    Friend WithEvents ttMensaje As System.Windows.Forms.ToolTip
+    Friend WithEvents chkCargarNI As System.Windows.Forms.CheckBox
+    Friend WithEvents txtDocumento As System.Windows.Forms.TextBox
+    Friend WithEvents btnCancelar As System.Windows.Forms.Button
+    Friend WithEvents rbTransferencia As System.Windows.Forms.RadioButton
+    Friend WithEvents lblCtaDestino As ControlesBase.LabelBase
+    Friend WithEvents ComboBancoOrigen As SigaMetClasses.Combos.ComboBanco
+    Friend WithEvents lblBancoDestino As ControlesBase.LabelBase
+    Friend WithEvents lblBancoOrigen As ControlesBase.LabelBase
+    Friend WithEvents txtNumeroCuentaOrigen As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents tbSaldoAFavor As System.Windows.Forms.TabPage
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents grpOrigen As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents lblSFCliente As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents btnSFBuscar As System.Windows.Forms.Button
+    Friend WithEvents txtSFAñoAtt As System.Windows.Forms.TextBox
+    Friend WithEvents txtSFFolioAtt As System.Windows.Forms.TextBox
+    Friend WithEvents txtSFCliente As System.Windows.Forms.TextBox
+    Friend WithEvents txtSFClave As System.Windows.Forms.TextBox
+    Friend WithEvents lblSFImporte As System.Windows.Forms.Label
+    Friend WithEvents lblSaldoAFavorNombre As System.Windows.Forms.Label
+    Friend WithEvents btnAceptarSF As ControlesBase.BotonBase
+    Friend WithEvents lblSFCobro As System.Windows.Forms.Label
+    Friend WithEvents lblSFTipo As System.Windows.Forms.Label
+    Friend WithEvents lblSFMovimientoOrigen As System.Windows.Forms.Label
+    Friend WithEvents lblSFAñoCobro As System.Windows.Forms.Label
+    'Friend WithEvents cboNumeroCuenta As System.Windows.Forms.ComboBox
+    Friend WithEvents cboNumeroCuenta As SigaMetClasses.Controles.cboNumeroEntero
+    Friend WithEvents chkCapturaTPV As System.Windows.Forms.CheckBox
+    Friend WithEvents lblTxtTarjeta As ControlesBase.LabelBase
+    Friend WithEvents txtNumeroTarjeta As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents comboBancoTDC As SigaMetClasses.Combos.ComboBanco
+    Friend WithEvents ComboBanco1 As SigaMetClasses.Combos.ComboBanco
+    Friend WithEvents btnBusquedaCliente As System.Windows.Forms.Button
+    Friend WithEvents btnAceptarNotaCredito As ControlesBase.BotonBase
     'Control de cheques posfechados
     Private _ChequePosfechado As Boolean
     Friend WithEvents tbNotaCredito As TabPage
@@ -40,6 +142,18 @@ Public Class frmSelTipoCobro
     Friend WithEvents lblNombreCliente As Label
     Friend WithEvents lblIdClienteDato As Label
     Friend WithEvents lblIdCliente As Label
+    Friend WithEvents tbAnticipo As TabPage
+    Friend WithEvents TxtAntMonto As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents LblMonto As ControlesBase.LabelBase
+    Friend WithEvents LblSaldo As ControlesBase.LabelBase
+    Friend WithEvents LabelBase9 As ControlesBase.LabelBase
+    Friend WithEvents LabelBase2 As ControlesBase.LabelBase
+    Friend WithEvents TxtNumeroEntero1 As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents LblObservacion As ControlesBase.LabelBase
+    Friend WithEvents TxtAntCliente As TextBox
+    Friend WithEvents TxtAntNombre As TextBox
+    Friend WithEvents LstAnticipos As ListBox
+    Friend WithEvents cmdAceptar As Button
     Friend WithEvents tbDacionPago As TabPage
     Friend WithEvents grpDacionPago As GroupBox
     Friend WithEvents dtpDPFechaAplicacion As DateTimePicker
@@ -156,108 +270,7 @@ Public Class frmSelTipoCobro
         MyBase.Dispose(disposing)
     End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    Friend WithEvents tabTipoCobro As System.Windows.Forms.TabControl
-    Friend WithEvents dtpFechaCheque As System.Windows.Forms.DateTimePicker
-    Friend WithEvents lblObservaciones As ControlesBase.LabelBase
-    Friend WithEvents lblNoCheque As ControlesBase.LabelBase
-    Friend WithEvents lblFechaCheque As ControlesBase.LabelBase
-    Friend WithEvents lblNoCuenta As ControlesBase.LabelBase
-    Friend WithEvents lblImporte As ControlesBase.LabelBase
-    Friend WithEvents lblCliente As ControlesBase.LabelBase
-    Friend WithEvents tbEfectivoVales As System.Windows.Forms.TabPage
-    Friend WithEvents btnAceptarEfectivoVales As ControlesBase.BotonBase
-    Friend WithEvents grpEfectivoVales As System.Windows.Forms.GroupBox
-    Friend WithEvents lblTotalEfectivoVales As ControlesBase.LabelBase
-    Friend WithEvents imgLista As System.Windows.Forms.ImageList
-    Friend WithEvents tbTarjetaCredito As System.Windows.Forms.TabPage
-    Friend WithEvents grpTarjetaCredito As System.Windows.Forms.GroupBox
-    Friend WithEvents Label20 As ControlesBase.LabelBase
-    Friend WithEvents LabelBase1 As ControlesBase.LabelBase
-    Friend WithEvents LabelBase3 As ControlesBase.LabelBase
-    Friend WithEvents btnAceptarTarjetaCredito As ControlesBase.BotonBase
-    Friend WithEvents lblTarjetaCredito As System.Windows.Forms.Label
-    Friend WithEvents lblTitular As System.Windows.Forms.Label
-    Friend WithEvents lblTipoTarjetaCredito As System.Windows.Forms.Label
-    Friend WithEvents LabelBase4 As ControlesBase.LabelBase
-    Friend WithEvents lblVigencia As System.Windows.Forms.Label
-    Friend WithEvents LabelBase5 As ControlesBase.LabelBase
-    Friend WithEvents btnBuscarClienteTC As System.Windows.Forms.Button
-    Friend WithEvents lblTarjetaCreditoMonto As ControlesBase.LabelBase
-    Friend WithEvents lblBancoNombre As System.Windows.Forms.Label
-    Friend WithEvents lblTarjetaCreditoNombre As ControlesBase.LabelBase
-    Friend WithEvents lblClienteNombre As System.Windows.Forms.Label
-    Friend WithEvents lblBanco As System.Windows.Forms.Label
-    Friend WithEvents ComboBanco As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents txtObservaciones As System.Windows.Forms.TextBox
-    Friend WithEvents txtTotalEfectivoVales As SigaMetClasses.Controles.txtNumeroDecimal
-    Friend WithEvents txtNumeroCuenta As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents txtClienteCheque As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents txtClienteTC As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents txtImporteTC As SigaMetClasses.Controles.txtNumeroDecimal
-    Friend WithEvents btnAceptarChequeFicha As ControlesBase.BotonBase
-    Friend WithEvents tbChequeFicha As System.Windows.Forms.TabPage
-    Friend WithEvents grpChequeFicha As System.Windows.Forms.GroupBox
-    Friend WithEvents rbCheque As System.Windows.Forms.RadioButton
-    Friend WithEvents rbFicha As System.Windows.Forms.RadioButton
-    Friend WithEvents txtImporteDocumento As SigaMetClasses.Controles.txtNumeroDecimal
-    Friend WithEvents btnBuscarCliente As System.Windows.Forms.Button
-    Friend WithEvents lblNombre As System.Windows.Forms.Label
-    Friend WithEvents rbNotaCredito As System.Windows.Forms.RadioButton
-    Friend WithEvents rbNotaIngreso As System.Windows.Forms.RadioButton
-    Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
-    Friend WithEvents btnLeerCodigo As System.Windows.Forms.Button
-    Friend WithEvents LabelBase8 As ControlesBase.LabelBase
-    Friend WithEvents ttMensaje As System.Windows.Forms.ToolTip
-    Friend WithEvents chkCargarNI As System.Windows.Forms.CheckBox
-    Friend WithEvents txtDocumento As System.Windows.Forms.TextBox
-    Friend WithEvents btnCancelar As System.Windows.Forms.Button
-    Friend WithEvents rbTransferencia As System.Windows.Forms.RadioButton
-    Friend WithEvents lblCtaDestino As ControlesBase.LabelBase
-    Friend WithEvents ComboBancoOrigen As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents lblBancoDestino As ControlesBase.LabelBase
-    Friend WithEvents lblBancoOrigen As ControlesBase.LabelBase
-    Friend WithEvents txtNumeroCuentaOrigen As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents tbSaldoAFavor As System.Windows.Forms.TabPage
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents grpOrigen As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblSFCliente As System.Windows.Forms.Label
-    Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents Label15 As System.Windows.Forms.Label
-    Friend WithEvents btnSFBuscar As System.Windows.Forms.Button
-    Friend WithEvents txtSFAñoAtt As System.Windows.Forms.TextBox
-    Friend WithEvents txtSFFolioAtt As System.Windows.Forms.TextBox
-    Friend WithEvents txtSFCliente As System.Windows.Forms.TextBox
-    Friend WithEvents txtSFClave As System.Windows.Forms.TextBox
-    Friend WithEvents lblSFImporte As System.Windows.Forms.Label
-    Friend WithEvents lblSaldoAFavorNombre As System.Windows.Forms.Label
-    Friend WithEvents btnAceptarSF As ControlesBase.BotonBase
-    Friend WithEvents lblSFCobro As System.Windows.Forms.Label
-    Friend WithEvents lblSFTipo As System.Windows.Forms.Label
-    Friend WithEvents lblSFMovimientoOrigen As System.Windows.Forms.Label
-    Friend WithEvents lblSFAñoCobro As System.Windows.Forms.Label
-    'Friend WithEvents cboNumeroCuenta As System.Windows.Forms.ComboBox
-    Friend WithEvents cboNumeroCuenta As SigaMetClasses.Controles.cboNumeroEntero
-    Friend WithEvents chkCapturaTPV As System.Windows.Forms.CheckBox
-    Friend WithEvents lblTxtTarjeta As ControlesBase.LabelBase
-    Friend WithEvents txtNumeroTarjeta As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents comboBancoTDC As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents ComboBanco1 As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents btnBusquedaCliente As System.Windows.Forms.Button
-    Friend WithEvents btnAceptarNotaCredito As ControlesBase.BotonBase
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSelTipoCobro))
@@ -303,8 +316,6 @@ Public Class frmSelTipoCobro
         Me.comboBancoTDC = New SigaMetClasses.Combos.ComboBanco()
         Me.LabelBase1 = New ControlesBase.LabelBase()
         Me.lblTitular = New System.Windows.Forms.Label()
-        Me.lblVigencia = New System.Windows.Forms.Label()
-        Me.LabelBase5 = New ControlesBase.LabelBase()
         Me.tbChequeFicha = New System.Windows.Forms.TabPage()
         Me.rbTransferencia = New System.Windows.Forms.RadioButton()
         Me.chkCargarNI = New System.Windows.Forms.CheckBox()
@@ -382,6 +393,18 @@ Public Class frmSelTipoCobro
         Me.txtSerie = New System.Windows.Forms.TextBox()
         Me.lblNombreClienteDato = New System.Windows.Forms.Label()
         Me.btnAceptarNC = New ControlesBase.BotonBase()
+        Me.tbAnticipo = New System.Windows.Forms.TabPage()
+        Me.cmdAceptar = New System.Windows.Forms.Button()
+        Me.TxtAntCliente = New System.Windows.Forms.TextBox()
+        Me.TxtAntNombre = New System.Windows.Forms.TextBox()
+        Me.TxtNumeroEntero1 = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.LblObservacion = New ControlesBase.LabelBase()
+        Me.TxtAntMonto = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.LblMonto = New ControlesBase.LabelBase()
+        Me.LstAnticipos = New System.Windows.Forms.ListBox()
+        Me.LblSaldo = New ControlesBase.LabelBase()
+        Me.LabelBase9 = New ControlesBase.LabelBase()
+        Me.LabelBase2 = New ControlesBase.LabelBase()
         Me.tbDacionPago = New System.Windows.Forms.TabPage()
         Me.btnAceptarDP = New ControlesBase.BotonBase()
         Me.grpDacionPago = New System.Windows.Forms.GroupBox()
@@ -413,6 +436,7 @@ Public Class frmSelTipoCobro
         Me.grpOrigen.SuspendLayout()
         Me.tbNotaCredito.SuspendLayout()
         Me.gpbNotaCredito.SuspendLayout()
+        Me.tbAnticipo.SuspendLayout()
         Me.tbDacionPago.SuspendLayout()
         Me.grpDacionPago.SuspendLayout()
         Me.SuspendLayout()
@@ -425,6 +449,7 @@ Public Class frmSelTipoCobro
         Me.tabTipoCobro.Controls.Add(Me.tbChequeFicha)
         Me.tabTipoCobro.Controls.Add(Me.tbSaldoAFavor)
         Me.tabTipoCobro.Controls.Add(Me.tbNotaCredito)
+        Me.tabTipoCobro.Controls.Add(Me.tbAnticipo)
         Me.tabTipoCobro.Controls.Add(Me.tbDacionPago)
         Me.tabTipoCobro.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabTipoCobro.HotTrack = True
@@ -432,7 +457,7 @@ Public Class frmSelTipoCobro
         Me.tabTipoCobro.Multiline = True
         Me.tabTipoCobro.Name = "tabTipoCobro"
         Me.tabTipoCobro.SelectedIndex = 0
-        Me.tabTipoCobro.Size = New System.Drawing.Size(618, 396)
+        Me.tabTipoCobro.Size = New System.Drawing.Size(714, 396)
         Me.tabTipoCobro.TabIndex = 0
         '
         'tbEfectivoVales
@@ -443,7 +468,7 @@ Public Class frmSelTipoCobro
         Me.tbEfectivoVales.ImageIndex = 0
         Me.tbEfectivoVales.Location = New System.Drawing.Point(4, 4)
         Me.tbEfectivoVales.Name = "tbEfectivoVales"
-        Me.tbEfectivoVales.Size = New System.Drawing.Size(610, 370)
+        Me.tbEfectivoVales.Size = New System.Drawing.Size(610, 352)
         Me.tbEfectivoVales.TabIndex = 3
         Me.tbEfectivoVales.Text = "Efectivo"
         '
@@ -495,12 +520,10 @@ Public Class frmSelTipoCobro
         Me.tbTarjetaCredito.Controls.Add(Me.grpTarjetaCredito)
         Me.tbTarjetaCredito.Controls.Add(Me.LabelBase1)
         Me.tbTarjetaCredito.Controls.Add(Me.lblTitular)
-        Me.tbTarjetaCredito.Controls.Add(Me.lblVigencia)
-        Me.tbTarjetaCredito.Controls.Add(Me.LabelBase5)
         Me.tbTarjetaCredito.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbTarjetaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbTarjetaCredito.Name = "tbTarjetaCredito"
-        Me.tbTarjetaCredito.Size = New System.Drawing.Size(610, 370)
+        Me.tbTarjetaCredito.Size = New System.Drawing.Size(610, 352)
         Me.tbTarjetaCredito.TabIndex = 0
         Me.tbTarjetaCredito.Text = "Tarjeta de crédito"
         '
@@ -649,10 +672,10 @@ Public Class frmSelTipoCobro
         '
         'txtImporteTC
         '
-        Me.txtImporteTC.Location = New System.Drawing.Point(104, 267)
+        Me.txtImporteTC.Location = New System.Drawing.Point(104, 216)
         Me.txtImporteTC.Name = "txtImporteTC"
         Me.txtImporteTC.Size = New System.Drawing.Size(160, 21)
-        Me.txtImporteTC.TabIndex = 10
+        Me.txtImporteTC.TabIndex = 4
         '
         'txtClienteTC
         '
@@ -810,15 +833,16 @@ Public Class frmSelTipoCobro
         '
         'txtNumeroTarjeta
         '
-        Me.txtNumeroTarjeta.Location = New System.Drawing.Point(104, 139)
+        Me.txtNumeroTarjeta.Location = New System.Drawing.Point(104, 120)
         Me.txtNumeroTarjeta.MaxLength = 4
         Me.txtNumeroTarjeta.Name = "txtNumeroTarjeta"
         Me.txtNumeroTarjeta.Size = New System.Drawing.Size(160, 21)
-        Me.txtNumeroTarjeta.TabIndex = 5
+        Me.txtNumeroTarjeta.TabIndex = 2
+        Me.txtNumeroTarjeta.Visible = False
         '
         'comboBancoTDC
         '
-        Me.comboBancoTDC.Location = New System.Drawing.Point(104, 163)
+        Me.comboBancoTDC.Location = New System.Drawing.Point(104, 144)
         Me.comboBancoTDC.Name = "comboBancoTDC"
         Me.comboBancoTDC.Size = New System.Drawing.Size(160, 21)
         Me.comboBancoTDC.TabIndex = 3
@@ -845,26 +869,6 @@ Public Class frmSelTipoCobro
         Me.lblTitular.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTitular.Visible = False
         '
-        'lblVigencia
-        '
-        Me.lblVigencia.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblVigencia.Location = New System.Drawing.Point(501, 291)
-        Me.lblVigencia.Name = "lblVigencia"
-        Me.lblVigencia.Size = New System.Drawing.Size(160, 21)
-        Me.lblVigencia.TabIndex = 38
-        Me.lblVigencia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblVigencia.Visible = False
-        '
-        'LabelBase5
-        '
-        Me.LabelBase5.AutoSize = True
-        Me.LabelBase5.Location = New System.Drawing.Point(537, 278)
-        Me.LabelBase5.Name = "LabelBase5"
-        Me.LabelBase5.Size = New System.Drawing.Size(50, 13)
-        Me.LabelBase5.TabIndex = 37
-        Me.LabelBase5.Text = "Vigencia:"
-        Me.LabelBase5.Visible = False
-        '
         'tbChequeFicha
         '
         Me.tbChequeFicha.Controls.Add(Me.rbTransferencia)
@@ -880,7 +884,7 @@ Public Class frmSelTipoCobro
         Me.tbChequeFicha.Controls.Add(Me.btnLeerCodigo)
         Me.tbChequeFicha.Location = New System.Drawing.Point(4, 4)
         Me.tbChequeFicha.Name = "tbChequeFicha"
-        Me.tbChequeFicha.Size = New System.Drawing.Size(610, 370)
+        Me.tbChequeFicha.Size = New System.Drawing.Size(610, 352)
         Me.tbChequeFicha.TabIndex = 2
         Me.tbChequeFicha.Text = "Cheque / Ficha de deposito"
         '
@@ -1207,7 +1211,7 @@ Public Class frmSelTipoCobro
         Me.tbSaldoAFavor.Controls.Add(Me.grpOrigen)
         Me.tbSaldoAFavor.Location = New System.Drawing.Point(4, 4)
         Me.tbSaldoAFavor.Name = "tbSaldoAFavor"
-        Me.tbSaldoAFavor.Size = New System.Drawing.Size(610, 370)
+        Me.tbSaldoAFavor.Size = New System.Drawing.Size(610, 352)
         Me.tbSaldoAFavor.TabIndex = 4
         Me.tbSaldoAFavor.Text = "Saldo a favor"
         '
@@ -1456,7 +1460,7 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito.Controls.Add(Me.btnAceptarNC)
         Me.tbNotaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbNotaCredito.Name = "tbNotaCredito"
-        Me.tbNotaCredito.Size = New System.Drawing.Size(610, 370)
+        Me.tbNotaCredito.Size = New System.Drawing.Size(610, 352)
         Me.tbNotaCredito.TabIndex = 5
         Me.tbNotaCredito.Text = "Nota de Credito"
         Me.tbNotaCredito.UseVisualStyleBackColor = True
@@ -1622,6 +1626,123 @@ Public Class frmSelTipoCobro
         Me.btnAceptarNC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptarNC.UseVisualStyleBackColor = False
         '
+        'tbAnticipo
+        '
+        Me.tbAnticipo.BackColor = System.Drawing.SystemColors.Control
+        Me.tbAnticipo.Controls.Add(Me.cmdAceptar)
+        Me.tbAnticipo.Controls.Add(Me.TxtAntCliente)
+        Me.tbAnticipo.Controls.Add(Me.TxtAntNombre)
+        Me.tbAnticipo.Controls.Add(Me.TxtNumeroEntero1)
+        Me.tbAnticipo.Controls.Add(Me.LblObservacion)
+        Me.tbAnticipo.Controls.Add(Me.TxtAntMonto)
+        Me.tbAnticipo.Controls.Add(Me.LblMonto)
+        Me.tbAnticipo.Controls.Add(Me.LstAnticipos)
+        Me.tbAnticipo.Controls.Add(Me.LblSaldo)
+        Me.tbAnticipo.Controls.Add(Me.LabelBase9)
+        Me.tbAnticipo.Controls.Add(Me.LabelBase2)
+        Me.tbAnticipo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbAnticipo.Location = New System.Drawing.Point(4, 4)
+        Me.tbAnticipo.Name = "tbAnticipo"
+        Me.tbAnticipo.Size = New System.Drawing.Size(610, 352)
+        Me.tbAnticipo.TabIndex = 6
+        Me.tbAnticipo.Text = "Aplicación de Anticipo"
+        '
+        'cmdAceptar
+        '
+        Me.cmdAceptar.Location = New System.Drawing.Point(395, 114)
+        Me.cmdAceptar.Name = "cmdAceptar"
+        Me.cmdAceptar.Size = New System.Drawing.Size(75, 23)
+        Me.cmdAceptar.TabIndex = 35
+        Me.cmdAceptar.Text = "Aceptar"
+        Me.cmdAceptar.UseVisualStyleBackColor = True
+        '
+        'TxtAntCliente
+        '
+        Me.TxtAntCliente.Location = New System.Drawing.Point(106, 38)
+        Me.TxtAntCliente.Name = "TxtAntCliente"
+        Me.TxtAntCliente.Size = New System.Drawing.Size(102, 21)
+        Me.TxtAntCliente.TabIndex = 34
+        '
+        'TxtAntNombre
+        '
+        Me.TxtAntNombre.Location = New System.Drawing.Point(108, 70)
+        Me.TxtAntNombre.Name = "TxtAntNombre"
+        Me.TxtAntNombre.Size = New System.Drawing.Size(250, 21)
+        Me.TxtAntNombre.TabIndex = 33
+        '
+        'TxtNumeroEntero1
+        '
+        Me.TxtNumeroEntero1.Location = New System.Drawing.Point(108, 212)
+        Me.TxtNumeroEntero1.Multiline = True
+        Me.TxtNumeroEntero1.Name = "TxtNumeroEntero1"
+        Me.TxtNumeroEntero1.Size = New System.Drawing.Size(255, 54)
+        Me.TxtNumeroEntero1.TabIndex = 32
+        '
+        'LblObservacion
+        '
+        Me.LblObservacion.AutoSize = True
+        Me.LblObservacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblObservacion.Location = New System.Drawing.Point(20, 212)
+        Me.LblObservacion.Name = "LblObservacion"
+        Me.LblObservacion.Size = New System.Drawing.Size(80, 13)
+        Me.LblObservacion.TabIndex = 31
+        Me.LblObservacion.Text = "Observación:"
+        '
+        'TxtAntMonto
+        '
+        Me.TxtAntMonto.Location = New System.Drawing.Point(108, 174)
+        Me.TxtAntMonto.Name = "TxtAntMonto"
+        Me.TxtAntMonto.Size = New System.Drawing.Size(100, 21)
+        Me.TxtAntMonto.TabIndex = 29
+        '
+        'LblMonto
+        '
+        Me.LblMonto.AutoSize = True
+        Me.LblMonto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblMonto.Location = New System.Drawing.Point(51, 177)
+        Me.LblMonto.Name = "LblMonto"
+        Me.LblMonto.Size = New System.Drawing.Size(46, 13)
+        Me.LblMonto.TabIndex = 30
+        Me.LblMonto.Text = "Monto:"
+        '
+        'LstAnticipos
+        '
+        Me.LstAnticipos.FormattingEnabled = True
+        Me.LstAnticipos.Location = New System.Drawing.Point(108, 99)
+        Me.LstAnticipos.Name = "LstAnticipos"
+        Me.LstAnticipos.Size = New System.Drawing.Size(250, 69)
+        Me.LstAnticipos.TabIndex = 28
+        '
+        'LblSaldo
+        '
+        Me.LblSaldo.AutoSize = True
+        Me.LblSaldo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblSaldo.Location = New System.Drawing.Point(51, 99)
+        Me.LblSaldo.Name = "LblSaldo"
+        Me.LblSaldo.Size = New System.Drawing.Size(41, 13)
+        Me.LblSaldo.TabIndex = 27
+        Me.LblSaldo.Text = "Saldo:"
+        '
+        'LabelBase9
+        '
+        Me.LabelBase9.AutoSize = True
+        Me.LabelBase9.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBase9.Location = New System.Drawing.Point(51, 75)
+        Me.LabelBase9.Name = "LabelBase9"
+        Me.LabelBase9.Size = New System.Drawing.Size(54, 13)
+        Me.LabelBase9.TabIndex = 26
+        Me.LabelBase9.Text = "Nombre:"
+        '
+        'LabelBase2
+        '
+        Me.LabelBase2.AutoSize = True
+        Me.LabelBase2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelBase2.Location = New System.Drawing.Point(51, 46)
+        Me.LabelBase2.Name = "LabelBase2"
+        Me.LabelBase2.Size = New System.Drawing.Size(49, 13)
+        Me.LabelBase2.TabIndex = 24
+        Me.LabelBase2.Text = "Cliente:"
+        '
         'tbDacionPago
         '
         Me.tbDacionPago.BackColor = System.Drawing.SystemColors.Control
@@ -1629,7 +1750,7 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago.Controls.Add(Me.grpDacionPago)
         Me.tbDacionPago.Location = New System.Drawing.Point(4, 4)
         Me.tbDacionPago.Name = "tbDacionPago"
-        Me.tbDacionPago.Size = New System.Drawing.Size(610, 370)
+        Me.tbDacionPago.Size = New System.Drawing.Size(706, 370)
         Me.tbDacionPago.TabIndex = 6
         Me.tbDacionPago.Text = "Dación en pago"
         '
@@ -1639,7 +1760,7 @@ Public Class frmSelTipoCobro
         Me.btnAceptarDP.BackColor = System.Drawing.SystemColors.Control
         Me.btnAceptarDP.Image = CType(resources.GetObject("btnAceptarDP.Image"), System.Drawing.Image)
         Me.btnAceptarDP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarDP.Location = New System.Drawing.Point(519, 109)
+        Me.btnAceptarDP.Location = New System.Drawing.Point(615, 109)
         Me.btnAceptarDP.Name = "btnAceptarDP"
         Me.btnAceptarDP.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarDP.TabIndex = 7
@@ -1744,30 +1865,24 @@ Public Class frmSelTipoCobro
         '
         'Label7
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(12, 77)
+        Me.Label7.Location = New System.Drawing.Point(0, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(103, 13)
-        Me.Label7.TabIndex = 2
-        Me.Label7.Text = "Fecha del convenio:"
+        Me.Label7.Size = New System.Drawing.Size(100, 23)
+        Me.Label7.TabIndex = 7
         '
         'Label6
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(67, 51)
+        Me.Label6.Location = New System.Drawing.Point(0, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(48, 13)
-        Me.Label6.TabIndex = 1
-        Me.Label6.Text = "Nombre:"
+        Me.Label6.Size = New System.Drawing.Size(100, 23)
+        Me.Label6.TabIndex = 8
         '
         'Label5
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(71, 25)
+        Me.Label5.Location = New System.Drawing.Point(0, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(44, 13)
-        Me.Label5.TabIndex = 0
-        Me.Label5.Text = "Cliente:"
+        Me.Label5.Size = New System.Drawing.Size(100, 23)
+        Me.Label5.TabIndex = 9
         '
         'imgLista
         '
@@ -1778,11 +1893,10 @@ Public Class frmSelTipoCobro
         'btnCancelar
         '
         Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancelar.Location = New System.Drawing.Point(128, 56)
+        Me.btnCancelar.Location = New System.Drawing.Point(0, 0)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 1
-        Me.btnCancelar.Text = "&Cancelar"
         '
         'ComboBanco1
         '
@@ -1795,7 +1909,7 @@ Public Class frmSelTipoCobro
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(618, 396)
+        Me.ClientSize = New System.Drawing.Size(714, 396)
         Me.Controls.Add(Me.tabTipoCobro)
         Me.Controls.Add(Me.btnCancelar)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1825,6 +1939,8 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito.ResumeLayout(False)
         Me.gpbNotaCredito.ResumeLayout(False)
         Me.gpbNotaCredito.PerformLayout()
+        Me.tbAnticipo.ResumeLayout(False)
+        Me.tbAnticipo.PerformLayout()
         Me.tbDacionPago.ResumeLayout(False)
         Me.grpDacionPago.ResumeLayout(False)
         Me.grpDacionPago.PerformLayout()
