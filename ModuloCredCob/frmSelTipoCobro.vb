@@ -271,6 +271,7 @@ Public Class frmSelTipoCobro
         Me.chkCapturaTPV = New System.Windows.Forms.CheckBox()
         Me.btnAceptarTarjetaCredito = New ControlesBase.BotonBase()
         Me.grpTarjetaCredito = New System.Windows.Forms.GroupBox()
+        Me.cboTarjetaCreditoBanco = New System.Windows.Forms.ComboBox()
         Me.tbTarjetaCreditoObservaciones = New System.Windows.Forms.TextBox()
         Me.cboTarjetaCreditoBancoTarjeta = New System.Windows.Forms.ComboBox()
         Me.cboTarjetaCreditoTipoTarjeta = New System.Windows.Forms.ComboBox()
@@ -400,7 +401,6 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.cboTarjetaCreditoBanco = New System.Windows.Forms.ComboBox()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -506,7 +506,7 @@ Public Class frmSelTipoCobro
         '
         'chkCapturaTPV
         '
-        Me.chkCapturaTPV.Location = New System.Drawing.Point(498, 304)
+        Me.chkCapturaTPV.Location = New System.Drawing.Point(498, 315)
         Me.chkCapturaTPV.Name = "chkCapturaTPV"
         Me.chkCapturaTPV.Size = New System.Drawing.Size(160, 24)
         Me.chkCapturaTPV.TabIndex = 31
@@ -563,6 +563,14 @@ Public Class frmSelTipoCobro
         Me.grpTarjetaCredito.TabIndex = 30
         Me.grpTarjetaCredito.TabStop = False
         Me.grpTarjetaCredito.Text = "Datos de la tarjeta de crédito o débito"
+        '
+        'cboTarjetaCreditoBanco
+        '
+        Me.cboTarjetaCreditoBanco.FormattingEnabled = True
+        Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
+        Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
+        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
+        Me.cboTarjetaCreditoBanco.TabIndex = 6
         '
         'tbTarjetaCreditoObservaciones
         '
@@ -1782,14 +1790,6 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
-        '
-        'cboTarjetaCreditoBanco
-        '
-        Me.cboTarjetaCreditoBanco.FormattingEnabled = True
-        Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
-        Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
-        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
-        Me.cboTarjetaCreditoBanco.TabIndex = 6
         '
         'frmSelTipoCobro
         '
