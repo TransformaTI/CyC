@@ -416,11 +416,7 @@ Public Class frmSelTipoCobro
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.tabvalesdespensa = New System.Windows.Forms.TabPage()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.btnAceptarVales1 = New ControlesBase.BotonBase()
-        Me.LabelBase7 = New ControlesBase.LabelBase()
-        Me.LabelBase6 = New ControlesBase.LabelBase()
         Me.TextObservacionesVales = New System.Windows.Forms.TextBox()
         Me.TxtMontoVales = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.LabelBase20 = New ControlesBase.LabelBase()
@@ -435,6 +431,10 @@ Public Class frmSelTipoCobro
         Me.LabelNombreVales = New System.Windows.Forms.Label()
         Me.LabelBase27 = New ControlesBase.LabelBase()
         Me.LabelBase30 = New ControlesBase.LabelBase()
+        Me.btnAceptarVales1 = New ControlesBase.BotonBase()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.LabelBase7 = New ControlesBase.LabelBase()
+        Me.LabelBase6 = New ControlesBase.LabelBase()
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
@@ -1822,16 +1822,8 @@ Public Class frmSelTipoCobro
         Me.tabvalesdespensa.TabIndex = 8
         Me.tabvalesdespensa.Text = "Vales de despensa"
         '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(33, 34)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 0
-        '
         'GroupBox4
         '
-
         Me.GroupBox4.Controls.Add(Me.TextObservacionesVales)
         Me.GroupBox4.Controls.Add(Me.TxtMontoVales)
         Me.GroupBox4.Controls.Add(Me.LabelBase20)
@@ -1853,18 +1845,153 @@ Public Class frmSelTipoCobro
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Datos de los vales de Despensa"
         '
+        'TextObservacionesVales
+        '
+        Me.TextObservacionesVales.Location = New System.Drawing.Point(121, 197)
+        Me.TextObservacionesVales.Multiline = True
+        Me.TextObservacionesVales.Name = "TextObservacionesVales"
+        Me.TextObservacionesVales.Size = New System.Drawing.Size(192, 48)
+        Me.TextObservacionesVales.TabIndex = 52
+        '
+        'TxtMontoVales
+        '
+        Me.TxtMontoVales.Location = New System.Drawing.Point(121, 171)
+        Me.TxtMontoVales.Name = "TxtMontoVales"
+        Me.TxtMontoVales.Size = New System.Drawing.Size(192, 21)
+        Me.TxtMontoVales.TabIndex = 51
+        '
+        'LabelBase20
+        '
+        Me.LabelBase20.AutoSize = True
+        Me.LabelBase20.Location = New System.Drawing.Point(17, 201)
+        Me.LabelBase20.Name = "LabelBase20"
+        Me.LabelBase20.Size = New System.Drawing.Size(82, 13)
+        Me.LabelBase20.TabIndex = 50
+        Me.LabelBase20.Text = "Observaciones:"
+        '
+        'LabelBase25
+        '
+        Me.LabelBase25.AutoSize = True
+        Me.LabelBase25.Location = New System.Drawing.Point(17, 174)
+        Me.LabelBase25.Name = "LabelBase25"
+        Me.LabelBase25.Size = New System.Drawing.Size(41, 13)
+        Me.LabelBase25.TabIndex = 49
+        Me.LabelBase25.Text = "Monto:"
+        '
+        'ComboTipoVale
+        '
+        Me.ComboTipoVale.Descripcion = Nothing
+        Me.ComboTipoVale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboTipoVale.DropDownWidth = 200
+        Me.ComboTipoVale.Location = New System.Drawing.Point(120, 147)
+        Me.ComboTipoVale.Name = "ComboTipoVale"
+        Me.ComboTipoVale.Size = New System.Drawing.Size(192, 21)
+        Me.ComboTipoVale.Status = Nothing
+        Me.ComboTipoVale.TabIndex = 48
+        Me.ComboTipoVale.ValeTipo = 0
+        '
+        'ComboProveedor
+        '
+        Me.ComboProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboProveedor.DropDownWidth = 200
+        Me.ComboProveedor.Location = New System.Drawing.Point(121, 119)
+        Me.ComboProveedor.Name = "ComboProveedor"
+        Me.ComboProveedor.Nombre = Nothing
+        Me.ComboProveedor.Size = New System.Drawing.Size(192, 21)
+        Me.ComboProveedor.Status = Nothing
+        Me.ComboProveedor.TabIndex = 46
+        Me.ComboProveedor.ValeProveedor = 0
+        '
+        'LabelBase28
+        '
+        Me.LabelBase28.AutoSize = True
+        Me.LabelBase28.Location = New System.Drawing.Point(17, 122)
+        Me.LabelBase28.Name = "LabelBase28"
+        Me.LabelBase28.Size = New System.Drawing.Size(61, 13)
+        Me.LabelBase28.TabIndex = 45
+        Me.LabelBase28.Text = "Proveedor:"
+        '
+        'FechaDocumentoVales
+        '
+        Me.FechaDocumentoVales.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.FechaDocumentoVales.Location = New System.Drawing.Point(120, 94)
+        Me.FechaDocumentoVales.Name = "FechaDocumentoVales"
+        Me.FechaDocumentoVales.Size = New System.Drawing.Size(192, 21)
+        Me.FechaDocumentoVales.TabIndex = 43
+        '
+        'LabelBase29
+        '
+        Me.LabelBase29.AutoSize = True
+        Me.LabelBase29.Location = New System.Drawing.Point(17, 97)
+        Me.LabelBase29.Name = "LabelBase29"
+        Me.LabelBase29.Size = New System.Drawing.Size(96, 13)
+        Me.LabelBase29.TabIndex = 44
+        Me.LabelBase29.Text = "Fecha documento:"
+        '
+        'txtClienteVales
+        '
+        Me.txtClienteVales.Location = New System.Drawing.Point(104, 32)
+        Me.txtClienteVales.Name = "txtClienteVales"
+        Me.txtClienteVales.Size = New System.Drawing.Size(100, 21)
+        Me.txtClienteVales.TabIndex = 53
+        '
+        'LabelBase19
+        '
+        Me.LabelBase19.AutoSize = True
+        Me.LabelBase19.Location = New System.Drawing.Point(0, 0)
+        Me.LabelBase19.Name = "LabelBase19"
+        Me.LabelBase19.Size = New System.Drawing.Size(48, 13)
+        Me.LabelBase19.TabIndex = 0
+        Me.LabelBase19.Text = "Nombre:"
+        '
+        'LabelNombreVales
+        '
+        Me.LabelNombreVales.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LabelNombreVales.Location = New System.Drawing.Point(104, 56)
+        Me.LabelNombreVales.Name = "LabelNombreVales"
+        Me.LabelNombreVales.Size = New System.Drawing.Size(208, 32)
+        Me.LabelNombreVales.TabIndex = 41
+        Me.LabelNombreVales.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'LabelBase27
+        '
+        Me.LabelBase27.AutoSize = True
+        Me.LabelBase27.Location = New System.Drawing.Point(17, 147)
+        Me.LabelBase27.Name = "LabelBase27"
+        Me.LabelBase27.Size = New System.Drawing.Size(69, 13)
+        Me.LabelBase27.TabIndex = 33
+        Me.LabelBase27.Text = "Tipo de vale:"
+        '
+        'LabelBase30
+        '
+        Me.LabelBase30.AutoSize = True
+        Me.LabelBase30.Location = New System.Drawing.Point(17, 35)
+        Me.LabelBase30.Name = "LabelBase30"
+        Me.LabelBase30.Size = New System.Drawing.Size(44, 13)
+        Me.LabelBase30.TabIndex = 22
+        Me.LabelBase30.Text = "Cliente:"
+        '
         'btnAceptarVales1
         '
         Me.btnAceptarVales1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAceptarVales1.BackColor = System.Drawing.SystemColors.Control
         Me.btnAceptarVales1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarVales1.Location = New System.Drawing.Point(890, 143)
+        Me.btnAceptarVales1.Location = New System.Drawing.Point(482, 140)
         Me.btnAceptarVales1.Name = "btnAceptarVales1"
         Me.btnAceptarVales1.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarVales1.TabIndex = 32
         Me.btnAceptarVales1.Text = "&Aceptar"
         Me.btnAceptarVales1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptarVales1.UseVisualStyleBackColor = False
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(487, 185)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 34
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'LabelBase7
         '
@@ -1881,120 +2008,6 @@ Public Class frmSelTipoCobro
         Me.LabelBase6.Name = "LabelBase6"
         Me.LabelBase6.Size = New System.Drawing.Size(100, 23)
         Me.LabelBase6.TabIndex = 0
-        '
-        'TextObservacionesVales
-        '
-        Me.TextObservacionesVales.Location = New System.Drawing.Point(0, 0)
-        Me.TextObservacionesVales.Name = "TextObservacionesVales"
-        Me.TextObservacionesVales.Size = New System.Drawing.Size(100, 20)
-        Me.TextObservacionesVales.TabIndex = 0
-        '
-        'TxtMontoVales
-        '
-        Me.TxtMontoVales.Location = New System.Drawing.Point(0, 0)
-        Me.TxtMontoVales.Name = "TxtMontoVales"
-        Me.TxtMontoVales.Size = New System.Drawing.Size(100, 20)
-        Me.TxtMontoVales.TabIndex = 0
-        '
-        'LabelBase20
-        '
-        Me.LabelBase20.AutoSize = True
-        Me.LabelBase20.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase20.Name = "LabelBase20"
-        Me.LabelBase20.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase20.TabIndex = 0
-        '
-        'LabelBase25
-        '
-        Me.LabelBase25.AutoSize = True
-        Me.LabelBase25.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase25.Name = "LabelBase25"
-        Me.LabelBase25.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase25.TabIndex = 0
-        '
-        'ComboTipoVale
-        '
-        Me.ComboTipoVale.Descripcion = Nothing
-        Me.ComboTipoVale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboTipoVale.Location = New System.Drawing.Point(0, 0)
-        Me.ComboTipoVale.Name = "ComboTipoVale"
-        Me.ComboTipoVale.Size = New System.Drawing.Size(121, 21)
-        Me.ComboTipoVale.Status = Nothing
-        Me.ComboTipoVale.TabIndex = 0
-        Me.ComboTipoVale.ValeTipo = 0
-        '
-        'ComboProveedor
-        '
-        Me.ComboProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboProveedor.DropDownWidth = 200
-        Me.ComboProveedor.Location = New System.Drawing.Point(120, 122)
-        Me.ComboProveedor.Name = "ComboProveedor"
-        Me.ComboProveedor.Nombre = Nothing
-        Me.ComboProveedor.Size = New System.Drawing.Size(192, 21)
-        Me.ComboProveedor.Status = Nothing
-        Me.ComboProveedor.TabIndex = 46
-        Me.ComboProveedor.ValeProveedor = 0
-        '
-        'LabelBase28
-        '
-        Me.LabelBase28.AutoSize = True
-        Me.LabelBase28.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase28.Name = "LabelBase28"
-        Me.LabelBase28.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase28.TabIndex = 0
-        '
-        'FechaDocumentoVales
-        '
-        Me.FechaDocumentoVales.Location = New System.Drawing.Point(0, 0)
-        Me.FechaDocumentoVales.Name = "FechaDocumentoVales"
-        Me.FechaDocumentoVales.Size = New System.Drawing.Size(200, 20)
-        Me.FechaDocumentoVales.TabIndex = 0
-        '
-        'LabelBase29
-        '
-        Me.LabelBase29.AutoSize = True
-        Me.LabelBase29.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase29.Name = "LabelBase29"
-        Me.LabelBase29.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase29.TabIndex = 0
-        '
-        'txtClienteVales
-        '
-        Me.txtClienteVales.Location = New System.Drawing.Point(0, 0)
-        Me.txtClienteVales.Name = "txtClienteVales"
-        Me.txtClienteVales.Size = New System.Drawing.Size(100, 20)
-        Me.txtClienteVales.TabIndex = 0
-        '
-        'LabelBase19
-        '
-        Me.LabelBase19.AutoSize = True
-        Me.LabelBase19.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase19.Name = "LabelBase19"
-        Me.LabelBase19.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase19.TabIndex = 0
-        '
-        'LabelNombreVales
-        '
-        Me.LabelNombreVales.Location = New System.Drawing.Point(0, 0)
-        Me.LabelNombreVales.Name = "LabelNombreVales"
-        Me.LabelNombreVales.Size = New System.Drawing.Size(100, 23)
-        Me.LabelNombreVales.TabIndex = 0
-        '
-        'LabelBase27
-        '
-        Me.LabelBase27.AutoSize = True
-        Me.LabelBase27.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase27.Name = "LabelBase27"
-        Me.LabelBase27.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase27.TabIndex = 0
-        '
-        'LabelBase30
-        '
-        Me.LabelBase30.AutoSize = True
-        Me.LabelBase30.Location = New System.Drawing.Point(0, 0)
-        Me.LabelBase30.Name = "LabelBase30"
-        Me.LabelBase30.Size = New System.Drawing.Size(100, 23)
-        Me.LabelBase30.TabIndex = 0
         '
         'imgLista
         '
@@ -2057,6 +2070,7 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.PerformLayout()
         Me.tabvalesdespensa.ResumeLayout(False)
         Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
