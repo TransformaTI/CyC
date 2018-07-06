@@ -1843,7 +1843,7 @@ Public Class frmSelTipoCobro
         Me.GroupBox4.Size = New System.Drawing.Size(342, 261)
         Me.GroupBox4.TabIndex = 33
         Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Datos de los vales de Despensa"
+        Me.GroupBox4.Text = "Datos de los vales de despensa"
         '
         'TextObservacionesVales
         '
