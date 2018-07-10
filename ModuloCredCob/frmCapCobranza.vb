@@ -637,10 +637,10 @@ Public Class frmCapCobranza
             Dim re As Regex = New Regex(
                             "^(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]",
                             RegexOptions.IgnoreCase)
-            Dim m As Match = re.Match(_URLGateway)
-            If m.Captures.Count = 0 Then
-                MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
-            End If
+            'Dim m As Match = re.Match(_URLGateway)
+            'If m.Captures.Count = 0 Then
+            '    MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
+            'End If
         Catch ex As Exception
             _URLGateway = ""
         End Try
