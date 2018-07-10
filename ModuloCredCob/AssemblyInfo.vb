@@ -28,7 +28,7 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("2.0.0.17")>      '1.0.2.33 nva
+<Assembly: AssemblyVersion("2.0.0.18")>      '1.0.2.33 nva
 
 'Notas de la versíón 1.0.1.84
 '****************************
