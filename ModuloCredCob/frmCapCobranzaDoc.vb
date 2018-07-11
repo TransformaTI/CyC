@@ -1224,7 +1224,7 @@ Public Class frmCapCobranzaDoc
 
 
                     'Aqui cambiar simbolo
-                    If objPedido.SePermiteAbonar <> 0 Then
+                    If objPedido.SePermiteAbonar = 0 Then
                         If MessageBox.Show("El documento: " & strPedidoReferencia & " es de tipo de cargo [" & objPedido.TipoCargoDescripcion & "]" & Chr(13) &
                                            "y no puede ser capturado en este tipo de movimiento." & Chr(13) &
                                            "¿Desea ver el detalle de este documento?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
