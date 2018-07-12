@@ -2747,6 +2747,12 @@ Public Class frmSelTipoCobro
             btnAceptarNC.Enabled = False
 
         End If
+        tabTipoCobro.TabPages.Remove(tbNotaCredito)
+        tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
+        If _TipoMovimientoCaja = 39 Then
+            tabTipoCobro.TabPages.Add(tbNotaCredito)
+            tabTipoCobro.SelectedTab = tbNotaCredito
+        End If
 
         If CapturaEfectivoVales = True Then
             btnAceptarEfectivoVales.Enabled = False
