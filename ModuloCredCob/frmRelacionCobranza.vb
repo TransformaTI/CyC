@@ -28,7 +28,7 @@ Public Class frmRelacionCobranza
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         _UrlGateway = URLGateway
-        MensajeURLGATEWAY()
+
 
         'Add any initialization after the InitializeComponent() call
 
