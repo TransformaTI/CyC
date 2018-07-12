@@ -751,12 +751,12 @@ Public Class frmCierreRelacionCobranza
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
         Dim lClienteNombre As String
         Dim lCliente As Integer
-
-        oGateway = New RTGMGateway.RTGMGateway()
-        oSolicitud = New RTGMGateway.SolicitudGateway()
-        oGateway.URLServicio = _URLGateway
-        oSolicitud.Fuente = RTGMCore.Fuente.CRM
-
+        If Not _URLGateway Is Nothing And _URLGateway.Trim() <> "" Then
+            oGateway = New RTGMGateway.RTGMGateway()
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+            oSolicitud.Fuente = RTGMCore.Fuente.CRM
+        End If
 
         Dim i As Integer = 0
         For Each dr In _dsCobranza.Tables("PedidoCobranza").Rows
