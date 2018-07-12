@@ -3597,18 +3597,19 @@ Public Class frmSelTipoCobro
 
     Private Sub ConsultaPagosAnticipados()
         Dim oTC As New SigaMetClasses.Anticpo
-        Dim dt As DataTable = oTC.ConsultaPagosAnticipados(Integer.Parse(TxtAntCliente.Text))
+        Try
+            Dim dt As DataTable = oTC.ConsultaPagosAnticipados(Integer.Parse(TxtAntCliente.Text))
 
-        If Not dt Is Nothing Then
-            TxtAntNombre.Text = dt.Rows(0).Item(1).ToString()
+            If Not dt Is Nothing And dt.Rows.Count > 0 Then
+                TxtAntNombre.Text = dt.Rows(0).Item(1).ToString()
+                LstAnticipos.DisplayMember = "Saldo"
+                LstAnticipos.ValueMember = "Saldo"
+                LstAnticipos.DataSource = dt
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Se generó el siguiente error: " + ex.Message)
 
-            LstAnticipos.DisplayMember = "Saldo"
-            LstAnticipos.ValueMember = "Saldo"
-            LstAnticipos.DataSource = dt
-        End If
-
-
-
+        End Try
     End Sub
 
     Private Sub TxtAntCliente_Leave(sender As Object, e As EventArgs) Handles TxtAntCliente.Leave
