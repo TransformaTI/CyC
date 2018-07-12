@@ -3606,8 +3606,12 @@ Public Class frmSelTipoCobro
                 LstAnticipos.ValueMember = "Saldo"
                 LstAnticipos.DataSource = dt
             End If
+
+            If dt.Rows.Count = 0 Then
+                MessageBox.Show("No se encontraron anticipos para el cliente: " + TxtAntCliente.Text, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
         Catch ex As Exception
-            MessageBox.Show("Se generó el siguiente error: " + ex.Message)
+            MessageBox.Show("Se generó el siguiente error: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
     End Sub
