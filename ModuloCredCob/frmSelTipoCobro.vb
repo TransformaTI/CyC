@@ -569,7 +569,7 @@ Public Class frmSelTipoCobro
         Me.tbTarjetaCredito.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbTarjetaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbTarjetaCredito.Name = "tbTarjetaCredito"
-        Me.tbTarjetaCredito.Size = New System.Drawing.Size(706, 352)
+        Me.tbTarjetaCredito.Size = New System.Drawing.Size(706, 370)
         Me.tbTarjetaCredito.TabIndex = 0
         Me.tbTarjetaCredito.Text = "Tarjeta de crédito"
         '
@@ -950,7 +950,7 @@ Public Class frmSelTipoCobro
         Me.tbChequeFicha.Controls.Add(Me.btnLeerCodigo)
         Me.tbChequeFicha.Location = New System.Drawing.Point(4, 4)
         Me.tbChequeFicha.Name = "tbChequeFicha"
-        Me.tbChequeFicha.Size = New System.Drawing.Size(706, 352)
+        Me.tbChequeFicha.Size = New System.Drawing.Size(706, 370)
         Me.tbChequeFicha.TabIndex = 2
         Me.tbChequeFicha.Text = "Cheque / Ficha de deposito"
         '
@@ -1277,7 +1277,7 @@ Public Class frmSelTipoCobro
         Me.tbSaldoAFavor.Controls.Add(Me.grpOrigen)
         Me.tbSaldoAFavor.Location = New System.Drawing.Point(4, 4)
         Me.tbSaldoAFavor.Name = "tbSaldoAFavor"
-        Me.tbSaldoAFavor.Size = New System.Drawing.Size(706, 352)
+        Me.tbSaldoAFavor.Size = New System.Drawing.Size(706, 370)
         Me.tbSaldoAFavor.TabIndex = 4
         Me.tbSaldoAFavor.Text = "Saldo a favor"
         '
@@ -1528,7 +1528,7 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito.Name = "tbNotaCredito"
         Me.tbNotaCredito.Size = New System.Drawing.Size(706, 352)
         Me.tbNotaCredito.TabIndex = 5
-        Me.tbNotaCredito.Text = "Nota de Credito"
+        Me.tbNotaCredito.Text = "Nota de crédito"
         Me.tbNotaCredito.UseVisualStyleBackColor = True
         '
         'gpbNotaCredito
@@ -1709,7 +1709,7 @@ Public Class frmSelTipoCobro
         Me.tbAnticipo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbAnticipo.Location = New System.Drawing.Point(4, 4)
         Me.tbAnticipo.Name = "tbAnticipo"
-        Me.tbAnticipo.Size = New System.Drawing.Size(706, 352)
+        Me.tbAnticipo.Size = New System.Drawing.Size(706, 370)
         Me.tbAnticipo.TabIndex = 6
         Me.tbAnticipo.Text = "Aplicación de Anticipo"
         '
@@ -1816,7 +1816,7 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago.Controls.Add(Me.grpDacionPago)
         Me.tbDacionPago.Location = New System.Drawing.Point(4, 4)
         Me.tbDacionPago.Name = "tbDacionPago"
-        Me.tbDacionPago.Size = New System.Drawing.Size(706, 352)
+        Me.tbDacionPago.Size = New System.Drawing.Size(706, 370)
         Me.tbDacionPago.TabIndex = 6
         Me.tbDacionPago.Text = "Dación en pago"
         '
