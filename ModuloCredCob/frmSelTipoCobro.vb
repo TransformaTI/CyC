@@ -3526,6 +3526,8 @@ Public Class frmSelTipoCobro
                     End If
                 Else
                     MessageBox.Show("No existe la nota de crédito, favor de verificar serie y folio", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    lblNotaCreditoImporte.Text = ""
+                    lblNotaCreditoFecha.Text = ""
                 End If
             Else
                 MessageBox.Show("Debe capturar una Serie", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
