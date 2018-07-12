@@ -203,6 +203,8 @@ Public Class frmSelTipoCobro
     Friend WithEvents LabelNombreVales As Label
     Friend WithEvents LabelBase27 As ControlesBase.LabelBase
     Friend WithEvents BotonBase1 As ControlesBase.BotonBase
+    Friend WithEvents lblNotaCreditoFecha As Label
+    Friend WithEvents lblNotaCreditoImporte As Label
     Friend WithEvents LabelBase30 As ControlesBase.LabelBase
     Public ReadOnly Property Posfechado() As Boolean
         Get
@@ -398,12 +400,10 @@ Public Class frmSelTipoCobro
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtSFClave = New System.Windows.Forms.TextBox()
         Me.tbNotaCredito = New System.Windows.Forms.TabPage()
-        Me.gpbNotaCredito = New System.Windows.Forms.GroupBox()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
-        Me.lblIdClienteDato = New System.Windows.Forms.Label()
+        Me.gpbNotaCredito = New System.Windows.Forms.GroupBox()
         Me.txtFolio = New System.Windows.Forms.TextBox()
         Me.lblFolio = New System.Windows.Forms.Label()
-        Me.lblIdCliente = New System.Windows.Forms.Label()
         Me.txtObserv = New System.Windows.Forms.TextBox()
         Me.lblObserv = New System.Windows.Forms.Label()
         Me.lblFechaDato = New System.Windows.Forms.Label()
@@ -412,8 +412,10 @@ Public Class frmSelTipoCobro
         Me.lblImp = New System.Windows.Forms.Label()
         Me.lblSerie = New System.Windows.Forms.Label()
         Me.txtSerie = New System.Windows.Forms.TextBox()
-        Me.lblNombreClienteDato = New System.Windows.Forms.Label()
+        Me.lblIdClienteDato = New System.Windows.Forms.Label()
         Me.btnAceptarNC = New ControlesBase.BotonBase()
+        Me.lblIdCliente = New System.Windows.Forms.Label()
+        Me.lblNombreClienteDato = New System.Windows.Forms.Label()
         Me.tbAnticipo = New System.Windows.Forms.TabPage()
         Me.cmdAceptar = New System.Windows.Forms.Button()
         Me.TxtAntCliente = New System.Windows.Forms.TextBox()
@@ -465,6 +467,8 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
+        Me.lblNotaCreditoImporte = New System.Windows.Forms.Label()
+        Me.lblNotaCreditoFecha = New System.Windows.Forms.Label()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -1535,8 +1539,20 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito.Text = "Nota de crédito"
         Me.tbNotaCredito.UseVisualStyleBackColor = True
         '
+        'lblNombreCliente
+        '
+        Me.lblNombreCliente.AutoSize = True
+        Me.lblNombreCliente.Location = New System.Drawing.Point(384, 56)
+        Me.lblNombreCliente.Name = "lblNombreCliente"
+        Me.lblNombreCliente.Size = New System.Drawing.Size(84, 13)
+        Me.lblNombreCliente.TabIndex = 12
+        Me.lblNombreCliente.Text = "Nombre Cliente:"
+        Me.lblNombreCliente.Visible = False
+        '
         'gpbNotaCredito
         '
+        Me.gpbNotaCredito.Controls.Add(Me.lblNotaCreditoFecha)
+        Me.gpbNotaCredito.Controls.Add(Me.lblNotaCreditoImporte)
         Me.gpbNotaCredito.Controls.Add(Me.txtFolio)
         Me.gpbNotaCredito.Controls.Add(Me.lblFolio)
         Me.gpbNotaCredito.Controls.Add(Me.txtObserv)
@@ -1554,27 +1570,6 @@ Public Class frmSelTipoCobro
         Me.gpbNotaCredito.TabStop = False
         Me.gpbNotaCredito.Text = "Nota de Credito"
         '
-        'lblNombreCliente
-        '
-        Me.lblNombreCliente.AutoSize = True
-        Me.lblNombreCliente.Location = New System.Drawing.Point(384, 56)
-        Me.lblNombreCliente.Name = "lblNombreCliente"
-        Me.lblNombreCliente.Size = New System.Drawing.Size(84, 13)
-        Me.lblNombreCliente.TabIndex = 12
-        Me.lblNombreCliente.Text = "Nombre Cliente:"
-        Me.lblNombreCliente.Visible = False
-        '
-        'lblIdClienteDato
-        '
-        Me.lblIdClienteDato.AutoSize = True
-        Me.lblIdClienteDato.Location = New System.Drawing.Point(474, 30)
-        Me.lblIdClienteDato.Name = "lblIdClienteDato"
-        Me.lblIdClienteDato.Size = New System.Drawing.Size(18, 13)
-        Me.lblIdClienteDato.TabIndex = 11
-        Me.lblIdClienteDato.Tag = ""
-        Me.lblIdClienteDato.Text = "ID"
-        Me.lblIdClienteDato.Visible = False
-        '
         'txtFolio
         '
         Me.txtFolio.Location = New System.Drawing.Point(108, 20)
@@ -1591,19 +1586,9 @@ Public Class frmSelTipoCobro
         Me.lblFolio.TabIndex = 3
         Me.lblFolio.Text = "Folio:"
         '
-        'lblIdCliente
-        '
-        Me.lblIdCliente.AutoSize = True
-        Me.lblIdCliente.Location = New System.Drawing.Point(424, 30)
-        Me.lblIdCliente.Name = "lblIdCliente"
-        Me.lblIdCliente.Size = New System.Drawing.Size(44, 13)
-        Me.lblIdCliente.TabIndex = 10
-        Me.lblIdCliente.Text = "Cliente:"
-        Me.lblIdCliente.Visible = False
-        '
         'txtObserv
         '
-        Me.txtObserv.Location = New System.Drawing.Point(108, 165)
+        Me.txtObserv.Location = New System.Drawing.Point(108, 168)
         Me.txtObserv.Multiline = True
         Me.txtObserv.Name = "txtObserv"
         Me.txtObserv.Size = New System.Drawing.Size(201, 75)
@@ -1672,15 +1657,16 @@ Public Class frmSelTipoCobro
         Me.txtSerie.Size = New System.Drawing.Size(201, 21)
         Me.txtSerie.TabIndex = 1
         '
-        'lblNombreClienteDato
+        'lblIdClienteDato
         '
-        Me.lblNombreClienteDato.AutoSize = True
-        Me.lblNombreClienteDato.Location = New System.Drawing.Point(474, 56)
-        Me.lblNombreClienteDato.Name = "lblNombreClienteDato"
-        Me.lblNombreClienteDato.Size = New System.Drawing.Size(21, 13)
-        Me.lblNombreClienteDato.TabIndex = 13
-        Me.lblNombreClienteDato.Text = "NC"
-        Me.lblNombreClienteDato.Visible = False
+        Me.lblIdClienteDato.AutoSize = True
+        Me.lblIdClienteDato.Location = New System.Drawing.Point(474, 30)
+        Me.lblIdClienteDato.Name = "lblIdClienteDato"
+        Me.lblIdClienteDato.Size = New System.Drawing.Size(18, 13)
+        Me.lblIdClienteDato.TabIndex = 11
+        Me.lblIdClienteDato.Tag = ""
+        Me.lblIdClienteDato.Text = "ID"
+        Me.lblIdClienteDato.Visible = False
         '
         'btnAceptarNC
         '
@@ -1695,6 +1681,26 @@ Public Class frmSelTipoCobro
         Me.btnAceptarNC.Text = "&Aceptar"
         Me.btnAceptarNC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptarNC.UseVisualStyleBackColor = False
+        '
+        'lblIdCliente
+        '
+        Me.lblIdCliente.AutoSize = True
+        Me.lblIdCliente.Location = New System.Drawing.Point(424, 30)
+        Me.lblIdCliente.Name = "lblIdCliente"
+        Me.lblIdCliente.Size = New System.Drawing.Size(44, 13)
+        Me.lblIdCliente.TabIndex = 10
+        Me.lblIdCliente.Text = "Cliente:"
+        Me.lblIdCliente.Visible = False
+        '
+        'lblNombreClienteDato
+        '
+        Me.lblNombreClienteDato.AutoSize = True
+        Me.lblNombreClienteDato.Location = New System.Drawing.Point(474, 56)
+        Me.lblNombreClienteDato.Name = "lblNombreClienteDato"
+        Me.lblNombreClienteDato.Size = New System.Drawing.Size(21, 13)
+        Me.lblNombreClienteDato.TabIndex = 13
+        Me.lblNombreClienteDato.Text = "NC"
+        Me.lblNombreClienteDato.Visible = False
         '
         'tbAnticipo
         '
@@ -2178,6 +2184,22 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Name = "ComboBanco1"
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
+        '
+        'lblNotaCreditoImporte
+        '
+        Me.lblNotaCreditoImporte.AutoSize = True
+        Me.lblNotaCreditoImporte.Location = New System.Drawing.Point(108, 104)
+        Me.lblNotaCreditoImporte.Name = "lblNotaCreditoImporte"
+        Me.lblNotaCreditoImporte.Size = New System.Drawing.Size(0, 13)
+        Me.lblNotaCreditoImporte.TabIndex = 9
+        '
+        'lblNotaCreditoFecha
+        '
+        Me.lblNotaCreditoFecha.AutoSize = True
+        Me.lblNotaCreditoFecha.Location = New System.Drawing.Point(108, 133)
+        Me.lblNotaCreditoFecha.Name = "lblNotaCreditoFecha"
+        Me.lblNotaCreditoFecha.Size = New System.Drawing.Size(0, 13)
+        Me.lblNotaCreditoFecha.TabIndex = 9
         '
         'frmSelTipoCobro
         '
@@ -3480,49 +3502,33 @@ Public Class frmSelTipoCobro
 
         If txtFolio.Text <> "" Then
             If txtSerie.Text <> "" Then
+                lblIdClienteDato.Text = "0"
 
                 Dim oNotaCredito As New SigaMetClasses.cCliente()
                 oNotaCredito.ConsultaNotaCredito(CType(txtFolio.Text, Integer),
-                                                 CType("502310203", Integer),
+                                                 CType(lblIdClienteDato.Text, Integer),
                                                  CType(txtSerie.Text, String))
 
-
                 If oNotaCredito.TotalNC > 0 Then
-
-                    lblImpoteDato.Text = oNotaCredito.TotalNC.ToString("C2")
-                    lblFechaDato.Text = oNotaCredito.FechaNC.ToString()
+                    lblNotaCreditoImporte.Text = oNotaCredito.TotalNC.ToString("C2")
+                    lblNotaCreditoFecha.Text = oNotaCredito.FechaNC.ToString()
                     _FacturaNC = oNotaCredito.FacturaNC
                     btnAceptarNC.Enabled = True
 
                     If oNotaCredito.ExisteNC Then
-
-                        MessageBox.Show("La nota de crédito con Folio " + txtFolio.Text + " y Serie " + txtSerie.Text + ", ya existe", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
+                        MessageBox.Show("La nota de crédito con folio " + txtFolio.Text + " y serie " + txtSerie.Text + ", ya existe", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     End If
-
                 Else
-
-                    MessageBox.Show("No existe la nota de crédito, favor de varificar Serie y Folio", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    txtFolio.Select()
-
+                    MessageBox.Show("No existe la nota de crédito, favor de verificar serie y folio", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
-
-
-
             Else
-
                 MessageBox.Show("Debe capturar una Serie", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 txtSerie.Select()
-
             End If
-
         Else
-
             MessageBox.Show("Debe capturar un Folio", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtFolio.Select()
-
         End If
-
     End Sub
 
     Private Sub btnAceptarDP_Click(sender As Object, e As EventArgs) Handles btnAceptarDP.Click
@@ -3711,6 +3717,10 @@ Public Class frmSelTipoCobro
         oCliente.Consulta(CType(txtClienteVales.Text, Integer))
         LabelNombreVales.Text = oCliente.Nombre
         oCliente = Nothing
+    End Sub
+
+    Private Sub txtObserv_TextChanged(sender As Object, e As EventArgs) Handles txtObserv.TextChanged
+
     End Sub
 
     '*****
