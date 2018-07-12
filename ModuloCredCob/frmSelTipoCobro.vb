@@ -2726,6 +2726,7 @@ Public Class frmSelTipoCobro
 
         End If
         tabTipoCobro.TabPages.Remove(tbNotaCredito)
+        tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
         If _TipoMovimientoCaja = 39 Then
             tabTipoCobro.TabPages.Add(tbNotaCredito)
             tabTipoCobro.SelectedTab = tbNotaCredito
