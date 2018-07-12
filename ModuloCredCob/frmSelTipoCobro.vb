@@ -569,7 +569,7 @@ Public Class frmSelTipoCobro
         Me.tbTarjetaCredito.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbTarjetaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbTarjetaCredito.Name = "tbTarjetaCredito"
-        Me.tbTarjetaCredito.Size = New System.Drawing.Size(706, 370)
+        Me.tbTarjetaCredito.Size = New System.Drawing.Size(706, 352)
         Me.tbTarjetaCredito.TabIndex = 0
         Me.tbTarjetaCredito.Text = "Tarjeta de crédito"
         '
@@ -950,7 +950,7 @@ Public Class frmSelTipoCobro
         Me.tbChequeFicha.Controls.Add(Me.btnLeerCodigo)
         Me.tbChequeFicha.Location = New System.Drawing.Point(4, 4)
         Me.tbChequeFicha.Name = "tbChequeFicha"
-        Me.tbChequeFicha.Size = New System.Drawing.Size(706, 370)
+        Me.tbChequeFicha.Size = New System.Drawing.Size(706, 352)
         Me.tbChequeFicha.TabIndex = 2
         Me.tbChequeFicha.Text = "Cheque / Ficha de deposito"
         '
@@ -1277,7 +1277,7 @@ Public Class frmSelTipoCobro
         Me.tbSaldoAFavor.Controls.Add(Me.grpOrigen)
         Me.tbSaldoAFavor.Location = New System.Drawing.Point(4, 4)
         Me.tbSaldoAFavor.Name = "tbSaldoAFavor"
-        Me.tbSaldoAFavor.Size = New System.Drawing.Size(706, 370)
+        Me.tbSaldoAFavor.Size = New System.Drawing.Size(706, 352)
         Me.tbSaldoAFavor.TabIndex = 4
         Me.tbSaldoAFavor.Text = "Saldo a favor"
         '
@@ -1522,8 +1522,12 @@ Public Class frmSelTipoCobro
         '
         'tbNotaCredito
         '
+        Me.tbNotaCredito.Controls.Add(Me.lblNombreCliente)
         Me.tbNotaCredito.Controls.Add(Me.gpbNotaCredito)
+        Me.tbNotaCredito.Controls.Add(Me.lblIdClienteDato)
         Me.tbNotaCredito.Controls.Add(Me.btnAceptarNC)
+        Me.tbNotaCredito.Controls.Add(Me.lblIdCliente)
+        Me.tbNotaCredito.Controls.Add(Me.lblNombreClienteDato)
         Me.tbNotaCredito.Location = New System.Drawing.Point(4, 4)
         Me.tbNotaCredito.Name = "tbNotaCredito"
         Me.tbNotaCredito.Size = New System.Drawing.Size(706, 352)
@@ -1533,11 +1537,8 @@ Public Class frmSelTipoCobro
         '
         'gpbNotaCredito
         '
-        Me.gpbNotaCredito.Controls.Add(Me.lblNombreCliente)
-        Me.gpbNotaCredito.Controls.Add(Me.lblIdClienteDato)
         Me.gpbNotaCredito.Controls.Add(Me.txtFolio)
         Me.gpbNotaCredito.Controls.Add(Me.lblFolio)
-        Me.gpbNotaCredito.Controls.Add(Me.lblIdCliente)
         Me.gpbNotaCredito.Controls.Add(Me.txtObserv)
         Me.gpbNotaCredito.Controls.Add(Me.lblObserv)
         Me.gpbNotaCredito.Controls.Add(Me.lblFechaDato)
@@ -1546,7 +1547,6 @@ Public Class frmSelTipoCobro
         Me.gpbNotaCredito.Controls.Add(Me.lblImp)
         Me.gpbNotaCredito.Controls.Add(Me.lblSerie)
         Me.gpbNotaCredito.Controls.Add(Me.txtSerie)
-        Me.gpbNotaCredito.Controls.Add(Me.lblNombreClienteDato)
         Me.gpbNotaCredito.Location = New System.Drawing.Point(30, 18)
         Me.gpbNotaCredito.Name = "gpbNotaCredito"
         Me.gpbNotaCredito.Size = New System.Drawing.Size(338, 313)
@@ -1557,25 +1557,27 @@ Public Class frmSelTipoCobro
         'lblNombreCliente
         '
         Me.lblNombreCliente.AutoSize = True
-        Me.lblNombreCliente.Location = New System.Drawing.Point(18, 54)
+        Me.lblNombreCliente.Location = New System.Drawing.Point(384, 56)
         Me.lblNombreCliente.Name = "lblNombreCliente"
         Me.lblNombreCliente.Size = New System.Drawing.Size(84, 13)
         Me.lblNombreCliente.TabIndex = 12
         Me.lblNombreCliente.Text = "Nombre Cliente:"
+        Me.lblNombreCliente.Visible = False
         '
         'lblIdClienteDato
         '
         Me.lblIdClienteDato.AutoSize = True
-        Me.lblIdClienteDato.Location = New System.Drawing.Point(108, 28)
+        Me.lblIdClienteDato.Location = New System.Drawing.Point(474, 30)
         Me.lblIdClienteDato.Name = "lblIdClienteDato"
         Me.lblIdClienteDato.Size = New System.Drawing.Size(18, 13)
         Me.lblIdClienteDato.TabIndex = 11
         Me.lblIdClienteDato.Tag = ""
         Me.lblIdClienteDato.Text = "ID"
+        Me.lblIdClienteDato.Visible = False
         '
         'txtFolio
         '
-        Me.txtFolio.Location = New System.Drawing.Point(108, 83)
+        Me.txtFolio.Location = New System.Drawing.Point(108, 20)
         Me.txtFolio.Name = "txtFolio"
         Me.txtFolio.Size = New System.Drawing.Size(201, 21)
         Me.txtFolio.TabIndex = 0
@@ -1583,7 +1585,7 @@ Public Class frmSelTipoCobro
         'lblFolio
         '
         Me.lblFolio.AutoSize = True
-        Me.lblFolio.Location = New System.Drawing.Point(69, 86)
+        Me.lblFolio.Location = New System.Drawing.Point(69, 23)
         Me.lblFolio.Name = "lblFolio"
         Me.lblFolio.Size = New System.Drawing.Size(33, 13)
         Me.lblFolio.TabIndex = 3
@@ -1592,15 +1594,16 @@ Public Class frmSelTipoCobro
         'lblIdCliente
         '
         Me.lblIdCliente.AutoSize = True
-        Me.lblIdCliente.Location = New System.Drawing.Point(58, 28)
+        Me.lblIdCliente.Location = New System.Drawing.Point(424, 30)
         Me.lblIdCliente.Name = "lblIdCliente"
         Me.lblIdCliente.Size = New System.Drawing.Size(44, 13)
         Me.lblIdCliente.TabIndex = 10
         Me.lblIdCliente.Text = "Cliente:"
+        Me.lblIdCliente.Visible = False
         '
         'txtObserv
         '
-        Me.txtObserv.Location = New System.Drawing.Point(108, 222)
+        Me.txtObserv.Location = New System.Drawing.Point(108, 165)
         Me.txtObserv.Multiline = True
         Me.txtObserv.Name = "txtObserv"
         Me.txtObserv.Size = New System.Drawing.Size(201, 75)
@@ -1609,7 +1612,7 @@ Public Class frmSelTipoCobro
         'lblObserv
         '
         Me.lblObserv.AutoSize = True
-        Me.lblObserv.Location = New System.Drawing.Point(20, 225)
+        Me.lblObserv.Location = New System.Drawing.Point(20, 168)
         Me.lblObserv.Name = "lblObserv"
         Me.lblObserv.Size = New System.Drawing.Size(82, 13)
         Me.lblObserv.TabIndex = 8
@@ -1638,7 +1641,7 @@ Public Class frmSelTipoCobro
         'lblFecha
         '
         Me.lblFecha.AutoSize = True
-        Me.lblFecha.Location = New System.Drawing.Point(62, 190)
+        Me.lblFecha.Location = New System.Drawing.Point(62, 133)
         Me.lblFecha.Name = "lblFecha"
         Me.lblFecha.Size = New System.Drawing.Size(40, 13)
         Me.lblFecha.TabIndex = 5
@@ -1647,7 +1650,7 @@ Public Class frmSelTipoCobro
         'lblImp
         '
         Me.lblImp.AutoSize = True
-        Me.lblImp.Location = New System.Drawing.Point(53, 161)
+        Me.lblImp.Location = New System.Drawing.Point(53, 104)
         Me.lblImp.Name = "lblImp"
         Me.lblImp.Size = New System.Drawing.Size(49, 13)
         Me.lblImp.TabIndex = 4
@@ -1656,7 +1659,7 @@ Public Class frmSelTipoCobro
         'lblSerie
         '
         Me.lblSerie.AutoSize = True
-        Me.lblSerie.Location = New System.Drawing.Point(67, 126)
+        Me.lblSerie.Location = New System.Drawing.Point(67, 63)
         Me.lblSerie.Name = "lblSerie"
         Me.lblSerie.Size = New System.Drawing.Size(35, 13)
         Me.lblSerie.TabIndex = 2
@@ -1664,7 +1667,7 @@ Public Class frmSelTipoCobro
         '
         'txtSerie
         '
-        Me.txtSerie.Location = New System.Drawing.Point(108, 123)
+        Me.txtSerie.Location = New System.Drawing.Point(108, 60)
         Me.txtSerie.Name = "txtSerie"
         Me.txtSerie.Size = New System.Drawing.Size(201, 21)
         Me.txtSerie.TabIndex = 1
@@ -1672,11 +1675,12 @@ Public Class frmSelTipoCobro
         'lblNombreClienteDato
         '
         Me.lblNombreClienteDato.AutoSize = True
-        Me.lblNombreClienteDato.Location = New System.Drawing.Point(108, 54)
+        Me.lblNombreClienteDato.Location = New System.Drawing.Point(474, 56)
         Me.lblNombreClienteDato.Name = "lblNombreClienteDato"
         Me.lblNombreClienteDato.Size = New System.Drawing.Size(21, 13)
         Me.lblNombreClienteDato.TabIndex = 13
         Me.lblNombreClienteDato.Text = "NC"
+        Me.lblNombreClienteDato.Visible = False
         '
         'btnAceptarNC
         '
@@ -1709,7 +1713,7 @@ Public Class frmSelTipoCobro
         Me.tbAnticipo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbAnticipo.Location = New System.Drawing.Point(4, 4)
         Me.tbAnticipo.Name = "tbAnticipo"
-        Me.tbAnticipo.Size = New System.Drawing.Size(706, 370)
+        Me.tbAnticipo.Size = New System.Drawing.Size(706, 352)
         Me.tbAnticipo.TabIndex = 6
         Me.tbAnticipo.Text = "Aplicación de Anticipo"
         '
@@ -1816,7 +1820,7 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago.Controls.Add(Me.grpDacionPago)
         Me.tbDacionPago.Location = New System.Drawing.Point(4, 4)
         Me.tbDacionPago.Name = "tbDacionPago"
-        Me.tbDacionPago.Size = New System.Drawing.Size(706, 370)
+        Me.tbDacionPago.Size = New System.Drawing.Size(706, 352)
         Me.tbDacionPago.TabIndex = 6
         Me.tbDacionPago.Text = "Dación en pago"
         '
@@ -2207,6 +2211,7 @@ Public Class frmSelTipoCobro
         Me.grpOrigen.ResumeLayout(False)
         Me.grpOrigen.PerformLayout()
         Me.tbNotaCredito.ResumeLayout(False)
+        Me.tbNotaCredito.PerformLayout()
         Me.gpbNotaCredito.ResumeLayout(False)
         Me.gpbNotaCredito.PerformLayout()
         Me.tbAnticipo.ResumeLayout(False)
@@ -3478,7 +3483,7 @@ Public Class frmSelTipoCobro
 
                 Dim oNotaCredito As New SigaMetClasses.cCliente()
                 oNotaCredito.ConsultaNotaCredito(CType(txtFolio.Text, Integer),
-                                                 CType(lblIdClienteDato.Text, Integer),
+                                                 CType("502310203", Integer),
                                                  CType(txtSerie.Text, String))
 
 
