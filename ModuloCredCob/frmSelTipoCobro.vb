@@ -205,6 +205,8 @@ Public Class frmSelTipoCobro
     Friend WithEvents BotonBase1 As ControlesBase.BotonBase
     Friend WithEvents lblNotaCreditoFecha As Label
     Friend WithEvents lblNotaCreditoImporte As Label
+    Friend WithEvents TxtNoTarjeta As TextBox
+    Friend WithEvents LblImporteTc As TextBox
     Friend WithEvents LabelBase30 As ControlesBase.LabelBase
     Public ReadOnly Property Posfechado() As Boolean
         Get
@@ -402,6 +404,8 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito = New System.Windows.Forms.TabPage()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
         Me.gpbNotaCredito = New System.Windows.Forms.GroupBox()
+        Me.lblNotaCreditoFecha = New System.Windows.Forms.Label()
+        Me.lblNotaCreditoImporte = New System.Windows.Forms.Label()
         Me.txtFolio = New System.Windows.Forms.TextBox()
         Me.lblFolio = New System.Windows.Forms.Label()
         Me.txtObserv = New System.Windows.Forms.TextBox()
@@ -467,8 +471,8 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
-        Me.lblNotaCreditoImporte = New System.Windows.Forms.Label()
-        Me.lblNotaCreditoFecha = New System.Windows.Forms.Label()
+        Me.TxtNoTarjeta = New System.Windows.Forms.TextBox()
+        Me.LblImporteTc = New System.Windows.Forms.TextBox()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -631,7 +635,7 @@ Public Class frmSelTipoCobro
         Me.btnAceptarTarjetaCredito.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAceptarTarjetaCredito.Image = CType(resources.GetObject("btnAceptarTarjetaCredito.Image"), System.Drawing.Image)
         Me.btnAceptarTarjetaCredito.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(594, 150)
+        Me.btnAceptarTarjetaCredito.Location = New System.Drawing.Point(596, 152)
         Me.btnAceptarTarjetaCredito.Name = "btnAceptarTarjetaCredito"
         Me.btnAceptarTarjetaCredito.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarTarjetaCredito.TabIndex = 12
@@ -640,6 +644,8 @@ Public Class frmSelTipoCobro
         '
         'grpTarjetaCredito
         '
+        Me.grpTarjetaCredito.Controls.Add(Me.LblImporteTc)
+        Me.grpTarjetaCredito.Controls.Add(Me.TxtNoTarjeta)
         Me.grpTarjetaCredito.Controls.Add(Me.cboTarjetaCreditoBanco)
         Me.grpTarjetaCredito.Controls.Add(Me.tbTarjetaCreditoObservaciones)
         Me.grpTarjetaCredito.Controls.Add(Me.cboTarjetaCreditoBancoTarjeta)
@@ -932,7 +938,7 @@ Public Class frmSelTipoCobro
         '
         'comboBancoTDC
         '
-        Me.comboBancoTDC.Location = New System.Drawing.Point(104, 144)
+        Me.comboBancoTDC.Location = New System.Drawing.Point(286, 105)
         Me.comboBancoTDC.Name = "comboBancoTDC"
         Me.comboBancoTDC.Size = New System.Drawing.Size(160, 21)
         Me.comboBancoTDC.TabIndex = 3
@@ -1570,6 +1576,22 @@ Public Class frmSelTipoCobro
         Me.gpbNotaCredito.TabStop = False
         Me.gpbNotaCredito.Text = "Nota de Credito"
         '
+        'lblNotaCreditoFecha
+        '
+        Me.lblNotaCreditoFecha.AutoSize = True
+        Me.lblNotaCreditoFecha.Location = New System.Drawing.Point(108, 133)
+        Me.lblNotaCreditoFecha.Name = "lblNotaCreditoFecha"
+        Me.lblNotaCreditoFecha.Size = New System.Drawing.Size(0, 13)
+        Me.lblNotaCreditoFecha.TabIndex = 9
+        '
+        'lblNotaCreditoImporte
+        '
+        Me.lblNotaCreditoImporte.AutoSize = True
+        Me.lblNotaCreditoImporte.Location = New System.Drawing.Point(108, 104)
+        Me.lblNotaCreditoImporte.Name = "lblNotaCreditoImporte"
+        Me.lblNotaCreditoImporte.Size = New System.Drawing.Size(0, 13)
+        Me.lblNotaCreditoImporte.TabIndex = 9
+        '
         'txtFolio
         '
         Me.txtFolio.Location = New System.Drawing.Point(108, 20)
@@ -2185,21 +2207,19 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
         '
-        'lblNotaCreditoImporte
+        'TxtNoTarjeta
         '
-        Me.lblNotaCreditoImporte.AutoSize = True
-        Me.lblNotaCreditoImporte.Location = New System.Drawing.Point(108, 104)
-        Me.lblNotaCreditoImporte.Name = "lblNotaCreditoImporte"
-        Me.lblNotaCreditoImporte.Size = New System.Drawing.Size(0, 13)
-        Me.lblNotaCreditoImporte.TabIndex = 9
+        Me.TxtNoTarjeta.Location = New System.Drawing.Point(104, 140)
+        Me.TxtNoTarjeta.Name = "TxtNoTarjeta"
+        Me.TxtNoTarjeta.Size = New System.Drawing.Size(131, 21)
+        Me.TxtNoTarjeta.TabIndex = 46
         '
-        'lblNotaCreditoFecha
+        'LblImporteTc
         '
-        Me.lblNotaCreditoFecha.AutoSize = True
-        Me.lblNotaCreditoFecha.Location = New System.Drawing.Point(108, 133)
-        Me.lblNotaCreditoFecha.Name = "lblNotaCreditoFecha"
-        Me.lblNotaCreditoFecha.Size = New System.Drawing.Size(0, 13)
-        Me.lblNotaCreditoFecha.TabIndex = 9
+        Me.LblImporteTc.Location = New System.Drawing.Point(104, 270)
+        Me.LblImporteTc.Name = "LblImporteTc"
+        Me.LblImporteTc.Size = New System.Drawing.Size(121, 21)
+        Me.LblImporteTc.TabIndex = 47
         '
         'frmSelTipoCobro
         '
@@ -2880,10 +2900,21 @@ Public Class frmSelTipoCobro
                             lblTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
                             lblBancoNombre.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
                             lblTipoTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
+                            LblImporteTc.Visible = True
+                            LblImporteTc.Text = FormatCurrency(CType(frmConsultaCargo.CargoTarjeta.Importe, String), 2)
+                            dtpTarjetaCreditoFDocto.Text = CType(frmConsultaCargo.CargoTarjeta.FAlta, String)
                             txtImporteTC.Text = CType(frmConsultaCargo.CargoTarjeta.Importe, String)
-
                             CargoTarjetaSeleccionado = frmConsultaCargo.CargoTarjeta
+                            tbTarjetaCreditoObservaciones.Text = frmConsultaCargo.CargoTarjeta.Observacion
+                            txtTarjetaCreditoAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
+                            txtTarjetaCreditoConfirmaAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
+                            cboTarjetaCreditoAfiliacion.Text = CType(frmConsultaCargo.CargoTarjeta.Afiliacion, String)
+                            TxtNoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
+                            cboTarjetaCreditoTipoTarjeta.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
+                            cboTarjetaCreditoBanco.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
+                            cboTarjetaCreditoBancoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
 
+                            InhabilitarTarjeta()
                         End If
                     End If
                 Else
@@ -3740,6 +3771,43 @@ Public Class frmSelTipoCobro
     Private Sub txtObserv_TextChanged(sender As Object, e As EventArgs) Handles txtObserv.TextChanged
 
     End Sub
+    Public Sub InhabilitarTarjeta()
+        dtpTarjetaCreditoFDocto.Enabled = False
+        cboTarjetaCreditoAfiliacion.Enabled = False
+        cboTarjetaCreditoTipoTarjeta.Enabled = False
+        comboBancoTDC.Enabled = False
+        cboTarjetaCreditoBanco.Enabled = False
+        cboTarjetaCreditoBancoTarjeta.Enabled = False
+        txtTarjetaCreditoAutorizacion.ReadOnly = True
+        tbTarjetaCreditoObservaciones.ReadOnly = True
+        txtTarjetaCreditoConfirmaAutorizacion.ReadOnly = True
+        TxtNoTarjeta.ReadOnly = True
+    End Sub
 
+    Private Sub txtTarjetaCreditoAutorizacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTarjetaCreditoAutorizacion.KeyPress
+
+        If e.KeyChar.IsDigit(e.KeyChar) Then
+            e.Handled = False  ' Aceptas la introducción de dígitos
+        ElseIf e.KeyChar.IsLetter(e.KeyChar) Then
+            e.Handled = False  ' Aceptas la introducción de letras
+        ElseIf e.KeyChar.IsControl(e.KeyChar) Then
+            e.Handled = False
+        Else
+            e.Handled = True
+        End If
+
+    End Sub
+
+    Private Sub txtTarjetaCreditoConfirmaAutorizacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTarjetaCreditoConfirmaAutorizacion.KeyPress
+        If e.KeyChar.IsDigit(e.KeyChar) Then
+            e.Handled = False  ' Aceptas la introducción de dígitos
+        ElseIf e.KeyChar.IsLetter(e.KeyChar) Then
+            e.Handled = False  ' Aceptas la introducción de letras
+        ElseIf e.KeyChar.IsControl(e.KeyChar) Then
+            e.Handled = False
+        Else
+            e.Handled = True
+        End If
+    End Sub
     '*****
 End Class
