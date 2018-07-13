@@ -2576,6 +2576,7 @@ Public Class frmSelTipoCobro
 
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
         If GLOBAL_ValidarTipoCobro Then
+            _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
             If Not ValidarTipoCobro(_TipoMovimientoCaja, _TipoCobro) Then
                 Exit Sub
             End If
@@ -2747,17 +2748,20 @@ Public Class frmSelTipoCobro
             btnAceptarNC.Enabled = False
 
         End If
-
-        tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
-        If _TipoMovimientoCaja = 39 Then
-            tabTipoCobro.SelectedTab = tbNotaCredito
-            tabTipoCobro.TabPages.Remove(tbEfectivoVales)
-            tabTipoCobro.TabPages.Remove(tbTarjetaCredito)
-            tabTipoCobro.TabPages.Remove(tbAnticipo)
-            tabTipoCobro.TabPages.Remove(tbDacionPago)
-            tabTipoCobro.TabPages.Remove(tabvalesdespensa)
-            tabTipoCobro.TabPages.Remove(tbChequeFicha)
-        End If
+        Try
+            tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
+            If _TipoMovimientoCaja = 39 Then
+                tabTipoCobro.SelectedTab = tbNotaCredito
+                tabTipoCobro.TabPages.Remove(tbEfectivoVales)
+                tabTipoCobro.TabPages.Remove(tbTarjetaCredito)
+                tabTipoCobro.TabPages.Remove(tbAnticipo)
+                tabTipoCobro.TabPages.Remove(tbDacionPago)
+                tabTipoCobro.TabPages.Remove(tabvalesdespensa)
+                tabTipoCobro.TabPages.Remove(tbChequeFicha)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
 
         If CapturaEfectivoVales = True Then
             btnAceptarEfectivoVales.Enabled = False
