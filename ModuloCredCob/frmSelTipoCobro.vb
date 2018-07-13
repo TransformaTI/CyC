@@ -2764,7 +2764,7 @@ Public Class frmSelTipoCobro
             tabTipoCobro.SelectedTab = tbNotaCredito
             lblIdClienteDato.Text = _IdCliente
             lblNombreClienteDato.Text = _NombreCliente
-            btnAceptarNC.Enabled = False
+            btnAceptarNC.Enabled = True
 
         End If
         Try
