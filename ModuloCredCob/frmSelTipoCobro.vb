@@ -2583,12 +2583,12 @@ Public Class frmSelTipoCobro
         End If
 
         If lblIdClienteDato.Text <> "" Then
-            If lblImpoteDato.Text <> "" Then
+            If lblNotaCreditoImporte.Text <> "" Then
                 If _CapturaDetalle = True Then
-                    Dim frmCaptura As New frmCapCobranzaDoc(_TipoMovimientoCaja, CType(lblImpoteDato.Text, Decimal), CType(lblIdClienteDato.Text, Integer), txtObserv.Text,
-                                                            CType(txtFolio.Text, Integer), txtSerie.Text, _FacturaNC, CType(lblFechaDato.Text, DateTime), _ListaCobros)
+                    Dim frmCaptura As New frmCapCobranzaDoc(_TipoMovimientoCaja, CType(lblNotaCreditoImporte.Text, Decimal), CType(lblIdClienteDato.Text, Integer), txtObserv.Text,
+                                                            CType(txtFolio.Text, Integer), txtSerie.Text, _FacturaNC, CType(lblNotaCreditoFecha.Text, DateTime), _ListaCobros)
                     frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
-                    frmCaptura.ImporteCobro = CType(lblImpoteDato.Text, Decimal)
+                    frmCaptura.ImporteCobro = CType(lblNotaCreditoImporte.Text, Decimal)
 
                     If frmCaptura.ShowDialog = DialogResult.OK Then
                         With _Cobro
@@ -2609,7 +2609,7 @@ Public Class frmSelTipoCobro
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
                         .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
-                        .Total = CType(lblImpoteDato.Text, Decimal)
+                        .Total = CType(lblNotaCreditoImporte.Text, Decimal)
                         .Cliente = CType(lblIdClienteDato.Text, Integer)
                         '.Banco = CType(lblBanco.Text, Short)
                         '.NoCuenta = lblTarjetaCredito.Text
@@ -2619,12 +2619,11 @@ Public Class frmSelTipoCobro
                     DialogResult = DialogResult.OK
                 End If
             Else
-                MessageBox.Show("Debe teclear el importe del cobro.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("Se nececita una nota de credito con importe", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Else
-            MessageBox.Show("Debe teclear el número de cliente.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Debe de tener un número de cliente.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
-
         If chkCapturaTPV.Checked Then
             If txtNumeroTarjeta.Text.Trim.Length = 0 Then
                 MessageBox.Show("Debe teclear el número de autorización.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
