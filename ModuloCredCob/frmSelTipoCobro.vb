@@ -2933,6 +2933,7 @@ Public Class frmSelTipoCobro
                 If lblTarjetaCredito.Text = "" AndAlso Not chkCapturaTPV.Checked Then
                     MessageBox.Show("No existen tarjetas de crédito del cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     HabilitarTarjeta()
+                    LipiarTarjeta()
                 Else
                     txtImporteTC.Focus()
                 End If
@@ -3798,7 +3799,18 @@ Public Class frmSelTipoCobro
         TxtNoTarjeta.ReadOnly = False
         LblImporteTc.ReadOnly = False
     End Sub
-
+    Public Sub LipiarTarjeta()
+        cboTarjetaCreditoAfiliacion.SelectedIndex = 0
+        cboTarjetaCreditoTipoTarjeta.SelectedIndex = 0
+        comboBancoTDC.SelectedIndex = 0
+        cboTarjetaCreditoBanco.SelectedIndex = 0
+        cboTarjetaCreditoBancoTarjeta.SelectedIndex = 0
+        txtTarjetaCreditoAutorizacion.Clear()
+        tbTarjetaCreditoObservaciones.Clear()
+        txtTarjetaCreditoConfirmaAutorizacion.Clear()
+        TxtNoTarjeta.Clear()
+        LblImporteTc.Clear()
+    End Sub
     Private Sub txtTarjetaCreditoAutorizacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTarjetaCreditoAutorizacion.KeyPress
 
         If e.KeyChar.IsDigit(e.KeyChar) Then
