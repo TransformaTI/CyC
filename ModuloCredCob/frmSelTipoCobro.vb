@@ -2594,7 +2594,7 @@ Public Class frmSelTipoCobro
 
     'Nota de Credito
     Private Sub btnAceptarNC_Click(sender As Object, e As EventArgs) Handles btnAceptarNC.Click
-
+        Dim fecha As New Date
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
         If GLOBAL_ValidarTipoCobro Then
             _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
@@ -2617,6 +2617,8 @@ Public Class frmSelTipoCobro
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito
                             .Total = frmCaptura.ImporteCobro
+
+                            .FechaCheque = fecha.Now
                             .Cliente = CType(lblIdClienteDato.Text, Integer)
                             '.Banco = CType(lblBanco.Text, Short)
                             '.NoCuenta = lblTarjetaCredito.Text
