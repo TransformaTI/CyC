@@ -686,17 +686,18 @@ Public Class frmSelTipoCobro
         '
         'LblImporteTc
         '
-        Me.LblImporteTc.Location = New System.Drawing.Point(104, 270)
+        Me.LblImporteTc.Location = New System.Drawing.Point(210, 267)
         Me.LblImporteTc.Name = "LblImporteTc"
         Me.LblImporteTc.Size = New System.Drawing.Size(121, 21)
         Me.LblImporteTc.TabIndex = 47
+        Me.LblImporteTc.Visible = False
         '
         'TxtNoTarjeta
         '
         Me.TxtNoTarjeta.Location = New System.Drawing.Point(104, 140)
         Me.TxtNoTarjeta.Name = "TxtNoTarjeta"
         Me.TxtNoTarjeta.Size = New System.Drawing.Size(131, 21)
-        Me.TxtNoTarjeta.TabIndex = 46
+        Me.TxtNoTarjeta.TabIndex = 5
         '
         'cboTarjetaCreditoBanco
         '
@@ -775,7 +776,7 @@ Public Class frmSelTipoCobro
         '
         'txtTarjetaCreditoAutorizacion
         '
-        Me.txtTarjetaCreditoAutorizacion.Location = New System.Drawing.Point(104, 217)
+        Me.txtTarjetaCreditoAutorizacion.Location = New System.Drawing.Point(104, 214)
         Me.txtTarjetaCreditoAutorizacion.MaxLength = 20
         Me.txtTarjetaCreditoAutorizacion.Name = "txtTarjetaCreditoAutorizacion"
         Me.txtTarjetaCreditoAutorizacion.Size = New System.Drawing.Size(160, 21)
@@ -783,10 +784,10 @@ Public Class frmSelTipoCobro
         '
         'txtImporteTC
         '
-        Me.txtImporteTC.Location = New System.Drawing.Point(104, 216)
+        Me.txtImporteTC.Location = New System.Drawing.Point(104, 266)
         Me.txtImporteTC.Name = "txtImporteTC"
-        Me.txtImporteTC.Size = New System.Drawing.Size(160, 21)
-        Me.txtImporteTC.TabIndex = 4
+        Me.txtImporteTC.Size = New System.Drawing.Size(100, 21)
+        Me.txtImporteTC.TabIndex = 10
         '
         'txtClienteTC
         '
@@ -3852,6 +3853,10 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub cmdAceptar_Click(sender As Object, e As EventArgs) Handles cmdAceptar.Click
+
+    End Sub
+
+    Private Sub LblImporteTc_TextChanged(sender As Object, e As EventArgs) Handles LblImporteTc.TextChanged
 
     End Sub
     '*****
