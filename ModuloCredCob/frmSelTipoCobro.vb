@@ -2900,6 +2900,7 @@ Public Class frmSelTipoCobro
                         Dim frmConsultaCargo As SigaMetClasses.frmConsultaCargoTarjetaCliente
                         frmConsultaCargo = New SigaMetClasses.frmConsultaCargoTarjetaCliente
                         frmConsultaCargo.Cliente = txtClienteTC.Text
+
                         If frmConsultaCargo.ShowDialog() = DialogResult.OK Then
                             lblTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
                             lblBancoNombre.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
