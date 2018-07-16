@@ -3853,7 +3853,55 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub cmdAceptar_Click(sender As Object, e As EventArgs) Handles cmdAceptar.Click
+        'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
+        If GLOBAL_ValidarTipoCobro Then
+            If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.Cheque) Then
+                Exit Sub
+            End If
+        End If
 
+        If CapturaEfectivoVales = False Then
+            If TxtAntMonto.Text <> "" Then
+                If _CapturaDetalle = True Then
+                    Dim frmCaptura As frmCapCobranzaDoc
+                    If Not _EsRelacionCobranza Then
+                        frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)
+                    Else
+                        frmCaptura = New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros, _RelacionCobranza)
+                    End If
+
+                    frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo
+                    frmCaptura.ImporteCobro = CType(TxtAntMonto.Text, Decimal)
+                    frmCaptura.Cliente = CInt(TxtAntCliente.Text)
+                    If frmCaptura.ShowDialog = DialogResult.OK Then
+                        With _Cobro
+                            .Consecutivo = _Consecutivo
+                            .Cliente = CInt(TxtAntCliente.Text)
+                            .AnoCobro = CType(FechaOperacion.Year, Short)
+                            .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo
+                            .Total = frmCaptura.ImporteCobro
+                            .ListaPedidos = frmCaptura.ListaCobroPedido
+                            ImporteTotalCobro = .Total
+                        End With
+                        DialogResult = DialogResult.OK
+                    End If
+
+                Else
+                    With _Cobro
+                        .Consecutivo = _Consecutivo
+                        .AnoCobro = CType(FechaOperacion.Year, Short)
+                        .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo
+                        .Total = CType(TxtAntCliente.Text, Decimal)
+                        ImporteTotalCobro = .Total
+                        .ListaPedidos = Nothing
+                    End With
+                    DialogResult = DialogResult.OK
+                End If
+
+            End If
+        Else
+            MessageBox.Show("Ya capturó efectivo o vales")
+        End If
     End Sub
 
     Private Sub LblImporteTc_TextChanged(sender As Object, e As EventArgs) Handles LblImporteTc.TextChanged
