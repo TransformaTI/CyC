@@ -1,8 +1,15 @@
 Public Class frmConsultaMovimientos
     Inherits SigaMetClasses.ConsultaMovimientos
-
+    Private _Modulo As Short
 #Region " Windows Form Designer generated code "
-
+    Public Property Modulo() As Short
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Short)
+            _Modulo = value
+        End Set
+    End Property
     Public Sub New()
         MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado)
 
@@ -53,6 +60,7 @@ Public Class frmConsultaMovimientos
             .Text = "Captura de cobranza"
             .StartPosition = FormStartPosition.CenterScreen
             Cursor = Cursors.Default
+            .Modulo = _Modulo
             If .ShowDialog = DialogResult.OK Then
                 CargaDatos()
             End If

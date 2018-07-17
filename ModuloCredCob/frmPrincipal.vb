@@ -1234,6 +1234,7 @@ Public Class frmPrincipal
                 Next
                 Dim frmConMov As New frmConsultaMovimientos()
                 frmConMov.MdiParent = Me
+                frmConMov.Modulo = GLOBAL_Modulo
                 frmConMov.Show()
 
             Else
@@ -1252,6 +1253,7 @@ Public Class frmPrincipal
 
                 Dim frmConMov As New frmConsultaMovimientos(_URLGateway)
                 frmConMov.MdiParent = Me
+                frmConMov.Modulo = GLOBAL_Modulo
                 frmConMov.Show()
             End If
         Catch ex As Exception

@@ -15,9 +15,17 @@ Public Class frmCapCobranza
     Private _Consecutivo As Byte
     Private _Caja As Byte
     Private _URLGateway As String = ""
+    Private _Modulo As Short
 
 #Region " Windows Form Designer generated code "
-
+    Public Property Modulo() As Short
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Short)
+            _Modulo = value
+        End Set
+    End Property
     Public Sub New()
         MyBase.New()
 
@@ -38,6 +46,7 @@ Public Class frmCapCobranza
         cboRuta.CargaDatos()
 
         CargaURLGateway()
+
 
     End Sub
 
@@ -222,11 +231,11 @@ Public Class frmCapCobranza
         '
         'stbEstatus
         '
-        Me.stbEstatus.Location = New System.Drawing.Point(0, 544)
+        Me.stbEstatus.Location = New System.Drawing.Point(0, 538)
         Me.stbEstatus.Name = "stbEstatus"
         Me.stbEstatus.Panels.AddRange(New System.Windows.Forms.StatusBarPanel() {Me.Documentos, Me.ImporteTotal})
         Me.stbEstatus.ShowPanels = True
-        Me.stbEstatus.Size = New System.Drawing.Size(880, 22)
+        Me.stbEstatus.Size = New System.Drawing.Size(870, 22)
         Me.stbEstatus.TabIndex = 9
         '
         'Documentos
@@ -235,7 +244,7 @@ Public Class frmCapCobranza
         Me.Documentos.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
         Me.Documentos.Name = "Documentos"
         Me.Documentos.Text = "0 cobro(s)"
-        Me.Documentos.Width = 431
+        Me.Documentos.Width = 426
         '
         'ImporteTotal
         '
@@ -243,7 +252,7 @@ Public Class frmCapCobranza
         Me.ImporteTotal.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
         Me.ImporteTotal.Name = "ImporteTotal"
         Me.ImporteTotal.Text = "$0.00"
-        Me.ImporteTotal.Width = 431
+        Me.ImporteTotal.Width = 426
         '
         'lblNombreEmpleado
         '
@@ -437,7 +446,7 @@ Public Class frmCapCobranza
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(880, 566)
+        Me.ClientSize = New System.Drawing.Size(870, 560)
         Me.Controls.Add(Me.lblWarning)
         Me.Controls.Add(Me.lblFMovimiento)
         Me.Controls.Add(Me.cboRuta)
@@ -727,7 +736,10 @@ Public Class frmCapCobranza
         End Try
 
         lblNombreEmpleado.Text = GLOBAL_IDEmpleado.ToString & " " & GLOBAL_EmpleadoNombre
-
+        If Modulo = 4 Then
+            cboTipoMovCaja.Items.RemoveAt(30)
+            ' cboTipoMovCaja.Refresh()
+        End If
     End Sub
 
     Private Sub lstCobro_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstCobro.SelectedIndexChanged
@@ -744,10 +756,10 @@ Public Class frmCapCobranza
     Private Sub lstPedido_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstPedido.SelectedIndexChanged
         If lstPedido.SelectedIndex <> -1 Then
             Dim strTip As String
-            strTip = "Documento: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).PedidoReferencia & Chr(13) & _
-                     "Cliente: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).Cliente.ToString & Chr(13) & _
-                     "Nombre: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).Nombre & Chr(13) & _
-                     "Importe del documento: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).Importe.ToString("N") & Chr(13) & _
+            strTip = "Documento: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).PedidoReferencia & Chr(13) &
+                     "Cliente: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).Cliente.ToString & Chr(13) &
+                     "Nombre: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).Nombre & Chr(13) &
+                     "Importe del documento: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).Importe.ToString("N") & Chr(13) &
                      "Importe del abono: " & CType(lstPedido.Items(lstPedido.SelectedIndex), SigaMetClasses.sPedido).ImporteAbono.ToString("N")
             ttDatosPedido.SetToolTip(lstPedido, strTip)
         End If
@@ -817,16 +829,16 @@ Public Class frmCapCobranza
                 Next
 
                 If _posfechado And _normal Then
-                    _mensajePosfechado = "Este movimiento contiene documentos posfechados" & vbCrLf & _
-                        "los cuáles no serán incluidos y serán almacenados para" & vbCrLf & _
-                        "su posterior aplicación." & vbCrLf & _
+                    _mensajePosfechado = "Este movimiento contiene documentos posfechados" & vbCrLf &
+                        "los cuáles no serán incluidos y serán almacenados para" & vbCrLf &
+                        "su posterior aplicación." & vbCrLf &
                         "¿Desea continuar?"
                 End If
 
                 If _posfechado And Not _normal Then
-                    _mensajePosfechado = "No se generará el movimiento de esta cobranza porque" & vbCrLf & _
-                        "solo contiene documentos posfechados que serán almacenados para" & vbCrLf & _
-                        "su posterior aplicación." & vbCrLf & _
+                    _mensajePosfechado = "No se generará el movimiento de esta cobranza porque" & vbCrLf &
+                        "solo contiene documentos posfechados que serán almacenados para" & vbCrLf &
+                        "su posterior aplicación." & vbCrLf &
                         "¿Desea continuar?"
                 End If
 
@@ -837,17 +849,17 @@ Public Class frmCapCobranza
                 End If
                 '*****
 
-                Dim iFolio As Integer = oMov.Alta(Main.GLOBAL_CajaUsuario, _
-                            FechaOperacion, _
-                            ConsecutivoInicioDeSesion, _
-                            _FMovimiento, _
-                            decImporteTotalCobros, _
-                            GLOBAL_IDUsuario, _
-                            CType(cboEmpleado.SelectedValue, Integer), _
-                            cboTipoMovCaja.TipoMovimientoCaja, _
-                            CType(cboRuta.SelectedValue, Short), _
-                            _Cliente, _
-                            ListaCobros, _
+                Dim iFolio As Integer = oMov.Alta(Main.GLOBAL_CajaUsuario,
+                            FechaOperacion,
+                            ConsecutivoInicioDeSesion,
+                            _FMovimiento,
+                            decImporteTotalCobros,
+                            GLOBAL_IDUsuario,
+                            CType(cboEmpleado.SelectedValue, Integer),
+                            cboTipoMovCaja.TipoMovimientoCaja,
+                            CType(cboRuta.SelectedValue, Short),
+                            _Cliente,
+                            ListaCobros,
                             GLOBAL_IDUsuario, Trim(txtObservaciones.Text))
                 CapturaEfectivoVales = False
                 CapturaMixtaEfectivoVales = False
@@ -1006,6 +1018,10 @@ Public Class frmCapCobranza
         GLOBAL_AplicaValidacionClienteHijo = True
         Return True
     End Function
+
+    Private Sub cboTipoMovCaja_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTipoMovCaja.SelectedIndexChanged
+
+    End Sub
 End Class
 
 #Region "Estructuras"
