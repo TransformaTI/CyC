@@ -184,8 +184,6 @@ C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\ModuloCredCob.exe
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\ModuloCredCob.pdb
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\ModuloCredCob.xml
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\QuejasLibrary.dll
-C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\log4net.dll
-C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\nunit.framework.dll
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\ImgCallCenter.dll
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\SeguimientoCliente.dll
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\ControlesProveedores.dll
@@ -194,12 +192,8 @@ C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\MySql.Data.dll
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\RegularValidations.dll
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\stdole.dll
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\QuejasLibrary.pdb
-C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\ResguardoCyC.pdb
-C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\RTGMGateway.pdb
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\SigaMetClasses.pdb
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\SigaMetClasses.xml
-C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\log4net.xml
-C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\bin\nunit.framework.xml
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\obj\Debug\ModuloCredCob.vbprojResolveAssemblyReference.cache
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\obj\Debug\ModuloCredCob.frmDescuentos.resources
 C:\Users\Transforma1\Source\Repos\CyC\ModuloCredCob\obj\Debug\ModuloCredCob.frmCapCobranza.resources

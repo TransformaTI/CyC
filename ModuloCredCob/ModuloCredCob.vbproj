@@ -58,7 +58,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DebugSymbols>true</DebugSymbols>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -273,7 +273,7 @@
     </Reference>
     <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
+      <HintPath>..\..\SigametLibrerias2\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SIGAMETSecurity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

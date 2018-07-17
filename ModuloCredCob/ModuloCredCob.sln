@@ -1,10 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ModuloCredCob", "ModuloCredCob.vbproj", "{BC319760-454B-4215-920F-44D522366861}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SigaMetClasses", "..\..\SigametLibrerias\SigaMetClasses\SigaMetClasses.vbproj", "{982B97F3-89F7-4612-97F0-96C875996FDA}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SigaMetClasses", "..\..\SigametLibrerias2\SigaMetClasses\SigaMetClasses.vbproj", "{982B97F3-89F7-4612-97F0-96C875996FDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
