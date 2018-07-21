@@ -1323,7 +1323,12 @@ Public Class frmPrincipal
                         oSeguridad.TieneAcceso("CAMBIO_CLIENTEPADRE")
 
             oConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
-            strURLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+            If oConfig.Parametros.Contains("URLGateway") Then
+                strURLGateway = CStr(oConfig.Parametros("URLGateway")).Trim
+            Else
+                strURLGateway = String.Empty
+            End If
+
 
             If (String.IsNullOrEmpty(strURLGateway)) Then
                 oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
