@@ -1797,11 +1797,13 @@ Public Class frmPrincipal
                 mnuClientesCreditoRebasado.Enabled = False
                 btnQueja.Enabled = False
             End If
+        Catch saex As System.ArgumentException
+            If saex.Message.Contains("Index") Then
+                _URLGateway = ""
+            End If
         Catch ex As Exception
-            MsgBox("No se encontró el parámetro URLGateway" & vbCrLf & ex.Message)
+            MessageBox.Show("Error general", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
-
     End Sub
 
 #End Region
