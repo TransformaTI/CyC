@@ -1249,7 +1249,7 @@ Public Class frmPrincipal
                 frmConMov.Show()
             End If
         Catch ex As Exception
-            MsgBox("Error con parámetro URLGateway" & vbCrLf & ex.Message)
+            MsgBox("Error: " & vbCrLf & ex.Message)
         End Try
     End Sub
 

@@ -10,6 +10,7 @@ Public Class frmConsultaMovimientos
             _Modulo = value
         End Set
     End Property
+
     Public Sub New()
         MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado)
 

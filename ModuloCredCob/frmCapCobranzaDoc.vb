@@ -1228,7 +1228,7 @@ Public Class frmCapCobranzaDoc
                         If MessageBox.Show("El documento: " & strPedidoReferencia & " es de tipo de cargo [" & objPedido.TipoCargoDescripcion & "]" & Chr(13) &
                                            "y no puede ser capturado en este tipo de movimiento." & Chr(13) &
                                            "¿Desea ver el detalle de este documento?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                            Dim frmDetalleDocumento As New SigaMetClasses.ConsultaCargo(strPedidoReferencia,,)
+                            Dim frmDetalleDocumento As New SigaMetClasses.ConsultaCargo(strPedidoReferencia)
                             frmDetalleDocumento.ShowDialog()
 
                         End If
@@ -1242,7 +1242,7 @@ Public Class frmCapCobranzaDoc
                             If MessageBox.Show("El documento: " & strPedidoReferencia & " de tipo de cargo [" & objPedido.TipoCargoDescripcion & "]" & Chr(13) &
                                                "pertenece a un cliente padre de Edificio Administrado y no puede ser abonado." & Chr(13) &
                                                "¿Desea ver el detalle de este documento?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                                Dim frmDetalleDocumento As New SigaMetClasses.ConsultaCargo(strPedidoReferencia,,)
+                                Dim frmDetalleDocumento As New SigaMetClasses.ConsultaCargo(strPedidoReferencia)
                                 frmDetalleDocumento.ShowDialog()
                             End If
                             Exit Sub
@@ -1306,7 +1306,7 @@ Public Class frmCapCobranzaDoc
                         If MessageBox.Show("El documento " & strPedidoReferencia & " no existe en la base de datos, no pertenece" & Chr(13) &
                                            "a la cartera de crédito o tiene los datos incompletos." & Chr(13) &
                                            "¿Desea ver el detalle de este documento?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                            Dim frmDetalle As New SigaMetClasses.ConsultaCargo(strPedidoReferencia,,)
+                            Dim frmDetalle As New SigaMetClasses.ConsultaCargo(strPedidoReferencia)
                             frmDetalle.ShowDialog()
                         End If
                     Else
