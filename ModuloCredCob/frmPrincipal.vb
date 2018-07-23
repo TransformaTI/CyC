@@ -1792,11 +1792,11 @@ Public Class frmPrincipal
         Try
             Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
-            If _URLGateway <> "" Then
-                mnuArqueo.Enabled = False
-                mnuClientesCreditoRebasado.Enabled = False
-                btnQueja.Enabled = False
-            End If
+            'If _URLGateway <> "" Then
+            '    mnuArqueo.Enabled = False
+            '    mnuClientesCreditoRebasado.Enabled = False
+            '    btnQueja.Enabled = False
+            'End If
         Catch saex As System.ArgumentException
             If saex.Message.Contains("Index") Then
                 _URLGateway = ""
