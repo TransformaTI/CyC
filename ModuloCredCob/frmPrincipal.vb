@@ -884,23 +884,15 @@ Public Class frmPrincipal
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         Dim strURLGateway As String
 
-        strURLGateway = ""
         Try
             strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch saex As System.ArgumentException
+            If saex.Message.Contains("Index") Then
+                strURLGateway = ""
+            End If
         Catch ex As Exception
-            MessageBox.Show("El parametro URL Gateway no esta configurado")
+            MessageBox.Show("Error general", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-        If strURLGateway = "" Then
-            mnuConsultaEmpresa.Enabled = True
-            mnuCatEmpresas.Enabled = True
-            mnuClientesNuevos.Enabled = True
-            mniAutorizacionCredito.Enabled = True
-        Else
-            mnuConsultaEmpresa.Enabled = False
-            mnuCatEmpresas.Enabled = False
-            mnuClientesNuevos.Enabled = False
-            mniAutorizacionCredito.Enabled = False
-        End If
 
         'Dim oPanelControl As New frmPanelControl()
         'oPanelControl.Show()
