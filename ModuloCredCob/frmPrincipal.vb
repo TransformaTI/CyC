@@ -1256,10 +1256,10 @@ Public Class frmPrincipal
     Private Sub ConsultaDocumento()
         Try
             Dim frmConsultaDoc As SigaMetClasses.ConsultaCargo
-            Dim oConfig As New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
-            Dim strURLGateway As String = CStr(oConfig.Parametros("URLGateway")).Trim
+			Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+			Dim strURLGateway As String = CStr(oConfig.Parametros("URLGateway")).Trim
 
-            If Not oSeguridad.TieneAcceso("DOCUMENTOS") Then
+			If Not oSeguridad.TieneAcceso("DOCUMENTOS") Then
                 MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
@@ -1275,10 +1275,10 @@ Public Class frmPrincipal
             If (String.IsNullOrEmpty(strURLGateway)) Then
                 frmConsultaDoc = New SigaMetClasses.ConsultaCargo()
             Else
-                frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway)
-            End If
+				frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway, GLOBAL_Corporativo)
+			End If
 
-            frmConsultaDoc.MdiParent = Me
+			frmConsultaDoc.MdiParent = Me
             frmConsultaDoc.Show()
         Catch ex As Exception
             MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
