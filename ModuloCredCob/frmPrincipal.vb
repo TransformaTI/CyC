@@ -2285,10 +2285,10 @@ Public Class frmPrincipal
 
         If (strURL > "") Then
             If (ValidaURL(strURL)) Then
-                mniAutorizacionCredito.Enabled = False
-                mnuCatClientesDescuento.Enabled = False
-                mnuEjecutivoCyC.Enabled = False
-                mniBuroCredito.Enabled = False
+                'mniAutorizacionCredito.Enabled = False
+                'mnuCatClientesDescuento.Enabled = False
+                'mnuEjecutivoCyC.Enabled = False
+                'mniBuroCredito.Enabled = False
             End If
         End If
     End Sub
