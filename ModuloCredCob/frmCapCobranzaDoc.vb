@@ -46,6 +46,7 @@ Public Class frmCapCobranzaDoc
     Private _ImporteRestante As Decimal 'Indica cuanto hace falta por aplicar del documento (efectivo, vale o cheque)
     'Se agregó para control de saldos a favor
     Private _SaldoAFavor As Boolean
+    Private _CobroTarjeta As SigaMetClasses.sCobro
 
     Public Property TipoCobro() As SigaMetClasses.Enumeradores.enumTipoCobro
         Get
@@ -58,6 +59,16 @@ Public Class frmCapCobranzaDoc
             End If
         End Set
     End Property
+
+    Public Property CobroTarjeta() As SigaMetClasses.sCobro
+        Get
+            Return _CobroTarjeta
+        End Get
+        Set(value As SigaMetClasses.sCobro)
+            _CobroTarjeta = value
+        End Set
+    End Property
+
 
     Public Property ImporteCobro() As Decimal
         Get
@@ -1057,6 +1068,7 @@ Public Class frmCapCobranzaDoc
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Cheque _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.FichaDeposito _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaIngreso Then
                 If MessageBox.Show(M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
@@ -1076,6 +1088,7 @@ Public Class frmCapCobranzaDoc
                                 Exit Sub
                             Else
                                 _SaldoAFavor = True
+                                _CobroTarjeta.Saldo = _ImporteRestante
                             End If
                         Else
                             'Buscar en esta sección saldos pendientes por abonar para que se agote el sobrante
@@ -1097,6 +1110,7 @@ Public Class frmCapCobranzaDoc
                                     Exit Sub
                                 Else
                                     _SaldoAFavor = True
+                                    _CobroTarjeta.Saldo = _ImporteRestante
                                 End If
                             End If
                         End If
@@ -1335,11 +1349,10 @@ Public Class frmCapCobranzaDoc
     Private Sub frmCapRelacionCobranza_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         lstDocumento.DisplayMember = "InformacionCompleta"
         lstDocumento.ValueMember = "Pedido"
-
+        txtCliente.Text = CType(Cliente, String)
         lblTipoCobro.Text = TipoCobro.ToString
         lblTotalCobro.Text = ImporteCobro.ToString("C")
         lblImportePorAplicar.Text = ImporteRestante.ToString("C")
-        txtCliente.Text = _Cliente.ToString()
 
         'Se parametriza la aplicación del saldo a favor
         If GLOBAL_SaldoAFavorActivo And oSeguridad.TieneAcceso("CAPTURA_SALDOAFAVOR") Then
@@ -1354,7 +1367,8 @@ Public Class frmCapCobranzaDoc
                  SigaMetClasses.Enumeradores.enumTipoCobro.FichaDeposito,
                  SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia,
                  SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito,
-                 SigaMetClasses.Enumeradores.enumTipoCobro.Vales
+                 SigaMetClasses.Enumeradores.enumTipoCobro.Vales,
+                 SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
                 _AceptaSaldoAFavor = True
             Case Else
                 _AceptaSaldoAFavor = False
