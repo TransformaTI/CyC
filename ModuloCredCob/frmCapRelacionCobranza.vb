@@ -831,10 +831,6 @@ Public Class frmCapRelacionCobranza
     End Sub
 
     Private Sub LlenaLista(ByVal drLista As SqlDataReader)
-
-
-
-
         'NO MODIFICAR
         'ATTE. RDC
         Dim _Agregado As Boolean
@@ -1813,25 +1809,28 @@ Public Class frmCapRelacionCobranza
         Dim Gateway As RTGMGateway.RTGMGateway
         Dim Solicitud As RTGMGateway.SolicitudGateway
         Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+        Dim Nombre As String = ""
 
         Try
             If (Not String.IsNullOrEmpty(URLGateway)) Then
-                Gateway = New RTGMGateway.RTGMGateway
+                Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 Gateway.URLServicio = URLGateway
                 Solicitud = New RTGMGateway.SolicitudGateway() With {
-                    .Fuente = RTGMCore.Fuente.CRM,
                     .IDCliente = cliente,
-                    .IDEmpresa = 0
+                    .IDEmpresa = GLOBAL_Corporativo
                 }
 
                 DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+                If DireccionEntrega.Nombre IsNot Nothing Then
+                    Nombre = DireccionEntrega.Nombre.Trim
+                End If
             End If
 
         Catch ex As Exception
             Throw ex
         End Try
 
-        Return DireccionEntrega.Nombre.Trim
+        Return Nombre
     End Function
 
     Private Sub recargaPrecapturados()

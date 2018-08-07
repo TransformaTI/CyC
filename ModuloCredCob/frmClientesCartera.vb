@@ -28,6 +28,7 @@ Public Class frmClientesCartera
 
         'Add any initialization after the InitializeComponent() call
         cboCelula.CargaDatos()
+        _URLGateway = URLGateway
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -408,22 +409,34 @@ Public Class frmClientesCartera
         Dim dt As New DataTable("Cartera")
         cmdCartera.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = cboCelula.Celula
         Try
-            Dim row As DataRow
-
-            For Each row In dt.Rows
-
-                Dim Cliente As Integer = CInt(row("Cliente"))
-                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                objSolicitudGateway.IDCliente = Cliente
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
-                objGateway.URLServicio = URLGateway
-                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                row("Nombre") = objRtgCore.Nombre
-
-            Next
-
             daCartera.Fill(dt)
             If dt.Rows.Count > 0 Then
+
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                objGateway.URLServicio = URLGateway
+                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                'Dim objRtgCore As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
+                objSolicitudGateway.IDEmpresa = GLOBAL_Corporativo
+
+                Dim row As DataRow
+
+                For Each row In dt.Rows
+                    If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
+                        GoTo SiguienteFila
+                    End If
+
+                    Dim Cliente As Integer = CInt(row("Cliente"))
+                    'Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                    objSolicitudGateway.IDCliente = Cliente
+                    'Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                    'objGateway.URLServicio = URLGateway
+                    Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                    row("Nombre") = objRtgCore.Nombre
+SiguienteFila:
+                Next
+
+                'daCartera.Fill(dt)
+                'If dt.Rows.Count > 0 Then
                 grdCartera.DataSource = dt
             End If
             grdCartera.CaptionText = "Clientes de la cartera de crédito de la célula " & cboCelula.Celula.ToString & " (" & dt.Rows.Count.ToString & " en total)"

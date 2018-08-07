@@ -1512,10 +1512,11 @@ Public Class frmRelacionCobranza
             If _UrlGateway <> "" Then
                 Dim drow As DataRow
 
-                oGateway = New RTGMGateway.RTGMGateway()
+                oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _UrlGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.CRM
+                'oSolicitud.Fuente = RTGMCore.Fuente.CRM
+                oSolicitud.IDEmpresa = GLOBAL_Corporativo
                 If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
                     For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
                         CLIENTETEMP = (CType(drow("Cliente"), Integer))
