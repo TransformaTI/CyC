@@ -1512,19 +1512,16 @@ Public Class frmRelacionCobranza
             If _UrlGateway <> "" Then
                 Dim drow As DataRow
 
-                oGateway = New RTGMGateway.RTGMGateway()
+                oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _UrlGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.CRM
-                oSolicitud.IDEmpresa = GLOBAL_Corporativo
-
                 If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
                     For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
                         CLIENTETEMP = (CType(drow("Cliente"), Integer))
                         oSolicitud.IDCliente = CLIENTETEMP
                         oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
                         If Not IsNothing(oDireccionEntrega) Then
-                            drow("Nombre") = Trim(oDireccionEntrega.Nombre.Trim())
+                            drow("Nombre") = If(IsNothing(oDireccionEntrega.Nombre), Nothing, oDireccionEntrega.Nombre.Trim())
                         End If
                     Next
                 End If
@@ -1532,7 +1529,7 @@ Public Class frmRelacionCobranza
             grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
             grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
         Catch ex As Exception
-            MessageBox.Show("Error parametro URLGateway no encontrado" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
         lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
         lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString

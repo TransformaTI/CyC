@@ -746,16 +746,17 @@ Public Class frmCierreRelacionCobranza
 
     Private Sub CargaGestionCobranza()
         Dim dr As DataRow
-        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-        Dim lClienteNombre As String
+        Dim lClienteNombre As String = ""
         Dim lCliente As Integer
         If Not _URLGateway Is Nothing And _URLGateway.Trim() <> "" Then
-            oGateway = New RTGMGateway.RTGMGateway()
+            'oGateway = New RTGMGateway.RTGMGateway()
             oSolicitud = New RTGMGateway.SolicitudGateway()
             oGateway.URLServicio = _URLGateway
-            oSolicitud.Fuente = RTGMCore.Fuente.CRM
+            'oSolicitud.Fuente = RTGMCore.Fuente.CRM
+            oSolicitud.IDEmpresa = GLOBAL_Corporativo
         End If
 
         Dim i As Integer = 0
@@ -769,7 +770,9 @@ Public Class frmCierreRelacionCobranza
                 If Not String.IsNullOrEmpty(_URLGateway) Then
                     oSolicitud.IDCliente = lCliente
                     oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-                    lClienteNombre = oDireccionEntrega.Nombre
+                    If oDireccionEntrega.Nombre IsNot Nothing Then
+                        lClienteNombre = oDireccionEntrega.Nombre
+                    End If
                 Else
                     lClienteNombre = Trim(CType(dr("Nombre"), String))
                 End If

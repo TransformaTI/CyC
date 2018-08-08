@@ -1027,64 +1027,36 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub ConsultaDatosCredito()
-        Try
-            If String.IsNullOrEmpty(_URLGateway) Then
-                If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
-                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
-                End If
+        If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
+            MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
-                Dim f As Form
-                For Each f In Me.MdiChildren
-                    If f.Name = "frmClientesCartera" Then
-                        f.Focus()
-                        Exit Sub
-                    End If
-                Next
-                Cursor = Cursors.WaitCursor
+        Dim f As Form
+        For Each f In Me.MdiChildren
+            If f.Name = "frmClientesCartera" Then
+                f.Focus()
+                Exit Sub
+            End If
+        Next
+
+        Try
+            Cursor = Cursors.WaitCursor
+
+            If String.IsNullOrEmpty(_URLGateway) Then
                 Dim oDatosCredito As New frmClientesCartera()
                 oDatosCredito.MdiParent = Me
                 oDatosCredito.WindowState = FormWindowState.Maximized
                 oDatosCredito.Show()
-                Cursor = Cursors.Default
             Else
-                If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
-                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
-                End If
-
-                Dim f As Form
-                For Each f In Me.MdiChildren
-                    If f.Name = "frmClientesCartera" Then
-                        f.Focus()
-                        Exit Sub
-                    End If
-                Next
-                Cursor = Cursors.WaitCursor
                 Dim oDatosCredito As New frmClientesCartera(_URLGateway)
                 oDatosCredito.MdiParent = Me
                 oDatosCredito.WindowState = FormWindowState.Maximized
                 oDatosCredito.Show()
-                Cursor = Cursors.Default
             End If
-        Catch
-            If Not oSeguridad.TieneAcceso("CLIENTESCARTERA") Then
-                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
-
-            Dim f As Form
-            For Each f In Me.MdiChildren
-                If f.Name = "frmClientesCartera" Then
-                    f.Focus()
-                    Exit Sub
-                End If
-            Next
-            Cursor = Cursors.WaitCursor
-            Dim oDatosCredito As New frmClientesCartera()
-            oDatosCredito.MdiParent = Me
-            oDatosCredito.WindowState = FormWindowState.Maximized
-            oDatosCredito.Show()
+        Catch ex As Exception
+            MessageBox.Show("Error" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
             Cursor = Cursors.Default
         End Try
     End Sub
@@ -1102,9 +1074,24 @@ Public Class frmPrincipal
                 Exit Sub
             End If
         Next
-        Dim frmCatOp As New frmCatOperador()
-        frmCatOp.MdiParent = Me
-        frmCatOp.Show()
+
+        Try
+            Cursor = Cursors.WaitCursor
+
+            If String.IsNullOrEmpty(_URLGateway) Then
+                Dim frmCatOp As New frmCatOperador()
+                frmCatOp.MdiParent = Me
+                frmCatOp.Show()
+            Else
+                Dim frmCatOp As New frmCatOperador(_URLGateway)
+                frmCatOp.MdiParent = Me
+                frmCatOp.Show()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub CatalogoTarjetaCredito()
@@ -1375,34 +1362,38 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub ConsultaFactura()
+        Cursor = Cursors.WaitCursor
+
         Try
-            If Trim(_URLGateway) <> "" Then
-                If Not oSeguridad.TieneAcceso("FACTURAS") Then
-                    MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If Not oSeguridad.TieneAcceso("FACTURAS") Then
+                MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            Dim f As Form
+            For Each f In Me.MdiChildren
+                If f.Name = "ConsultaFactura" Then
+                    f.Focus()
                     Exit Sub
                 End If
+            Next
 
-                Dim f As Form
-                For Each f In Me.MdiChildren
-                    If f.Name = "ConsultaFactura" Then
-                        f.Focus()
-                        Exit Sub
-                    End If
-                Next
-                Cursor = Cursors.WaitCursor
+            If Trim(_URLGateway) = "" Then
                 Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura()
                 oConsultaFactura.MdiParent = Me
                 oConsultaFactura.Show()
-                Cursor = Cursors.Default
             Else
                 Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway)
                 oConsultaFactura.MdiParent = Me
-                oConsultaFactura.Close()
-                MessageBox.Show("El parámetro _URLGateway esta vacio", Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
+                'oConsultaFactura.Close()
+                oConsultaFactura.Show()
 
+                'MessageBox.Show("El parámetro _URLGateway esta vacio", Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         Catch ex As Exception
             MsgBox("Error con parámetro URLGateway" & vbCrLf & ex.Message)
+        Finally
+            Cursor = Cursors.Default
         End Try
     End Sub
 

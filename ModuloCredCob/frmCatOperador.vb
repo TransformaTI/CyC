@@ -29,6 +29,16 @@ Public Class frmCatOperador
 
     End Sub
 
+    Public Sub New(URLGateway As String)
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+        _URLGateway = URLGateway
+    End Sub
+
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
@@ -281,22 +291,32 @@ Public Class frmCatOperador
         Dim _dtOperadores As New DataTable()
         _dtOperadores = dtOperadores
         Dim DireccionEntrega As New RTGMCore.DireccionEntrega
-        Dim objRTGMGateway As New RTGMGateway.RTGMGateway
+        Dim objRTGMGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        objRTGMGateway.URLServicio = _URLGateway
         Dim objSolicitud As RTGMGateway.SolicitudGateway
+
         For Each row As DataRow In _dtOperadores.Rows
+
+            If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
+                GoTo Linea1
+            End If
+
             Try
                 If (Not String.IsNullOrEmpty(_URLGateway)) Then
-                    objRTGMGateway = New RTGMGateway.RTGMGateway
-                    objRTGMGateway.URLServicio = _URLGateway
+                    'objRTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                    'objRTGMGateway.URLServicio = _URLGateway
                     objSolicitud = New RTGMGateway.SolicitudGateway() With {
-                        .Fuente = RTGMCore.Fuente.Sigamet,
-                        .IDCliente = CInt(row("Cliente"))
+                        .IDCliente = CInt(row("Cliente")),
+                        .IDEmpresa = GLOBAL_Corporativo
                     }
+                    DireccionEntrega = objRTGMGateway.buscarDireccionEntrega(objSolicitud)
+
                     row("Nombre") = objSolicitud.Nombre
                 End If
             Catch ex As Exception
                 Throw ex
             End Try
+Linea1:
         Next
         Return _dtOperadores
     End Function
@@ -307,7 +327,9 @@ Public Class frmCatOperador
         dtOperador = New DataTable()
         dtOperador = oOperador.Consulta()
         If dtOperador.Rows.Count > 0 Then
-            dtOperador = recargarOperadoresCRM(dtOperador)
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+                dtOperador = recargarOperadoresCRM(dtOperador)
+            End If
             grdDatos.DataSource = dtOperador
             grdDatos.CaptionText = "Operadores (" & dtOperador.Rows.Count.ToString & ")"
         End If
