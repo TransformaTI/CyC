@@ -1530,7 +1530,7 @@ Public Class frmRelacionCobranza
             grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
             grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
         Catch ex As Exception
-            MessageBox.Show("Error parametro URLGateway no encontrado" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
         lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
         lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString
