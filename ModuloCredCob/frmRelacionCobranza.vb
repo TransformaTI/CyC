@@ -1515,7 +1515,6 @@ Public Class frmRelacionCobranza
                 oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _UrlGateway
-                'oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 oSolicitud.IDEmpresa = GLOBAL_Corporativo
                 If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
                     For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
@@ -1523,7 +1522,7 @@ Public Class frmRelacionCobranza
                         oSolicitud.IDCliente = CLIENTETEMP
                         oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
                         If Not IsNothing(oDireccionEntrega) Then
-                            drow("Nombre") = Trim(oDireccionEntrega.Nombre.Trim())
+                            drow("Nombre") = If(IsNothing(oDireccionEntrega.Nombre), Nothing, oDireccionEntrega.Nombre.Trim())
                         End If
                     Next
                 End If
