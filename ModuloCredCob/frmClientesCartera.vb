@@ -416,7 +416,7 @@ Public Class frmClientesCartera
                 objGateway.URLServicio = URLGateway
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 'Dim objRtgCore As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                objSolicitudGateway.IDEmpresa = GLOBAL_Corporativo
+                'objSolicitudGateway.IDEmpresa = GLOBAL_Corporativo
 
                 Dim row As DataRow
 

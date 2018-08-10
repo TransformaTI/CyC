@@ -756,7 +756,7 @@ Public Class frmCierreRelacionCobranza
             oSolicitud = New RTGMGateway.SolicitudGateway()
             oGateway.URLServicio = _URLGateway
             'oSolicitud.Fuente = RTGMCore.Fuente.CRM
-            oSolicitud.IDEmpresa = GLOBAL_Corporativo
+            'oSolicitud.IDEmpresa = GLOBAL_Corporativo
         End If
 
         Dim i As Integer = 0

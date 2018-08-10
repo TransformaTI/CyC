@@ -1816,9 +1816,9 @@ Public Class frmCapRelacionCobranza
                 Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 Gateway.URLServicio = URLGateway
                 Solicitud = New RTGMGateway.SolicitudGateway() With {
-                    .IDCliente = cliente,
-                    .IDEmpresa = GLOBAL_Corporativo
-                }
+                    .IDCliente = cliente}
+                '.IDEmpresa = GLOBAL_Corporativo
+
 
                 DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
                 If DireccionEntrega.Nombre IsNot Nothing Then

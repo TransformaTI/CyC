@@ -306,9 +306,9 @@ Public Class frmCatOperador
                     'objRTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                     'objRTGMGateway.URLServicio = _URLGateway
                     objSolicitud = New RTGMGateway.SolicitudGateway() With {
-                        .IDCliente = CInt(row("Cliente")),
-                        .IDEmpresa = GLOBAL_Corporativo
-                    }
+                        .IDCliente = CInt(row("Cliente"))}
+                    '.IDEmpresa = GLOBAL_Corporativo
+
                     DireccionEntrega = objRTGMGateway.buscarDireccionEntrega(objSolicitud)
 
                     row("Nombre") = objSolicitud.Nombre

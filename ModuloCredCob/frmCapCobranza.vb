@@ -954,12 +954,12 @@ Public Class frmCapCobranza
 
         Try
             If (Not String.IsNullOrEmpty(_URLGateway)) Then
-                Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                'Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 Gateway.URLServicio = _URLGateway
                 Solicitud = New RTGMGateway.SolicitudGateway() With {
-                    .IDCliente = cliente,
-                    .IDEmpresa = GLOBAL_Corporativo
-                }
+                    .IDCliente = cliente}
+                '.IDEmpresa = GLOBAL_Corporativo
+
 
                 DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
                 If DireccionEntrega.Nombre IsNot Nothing Then
