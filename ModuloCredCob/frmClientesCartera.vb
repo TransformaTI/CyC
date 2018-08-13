@@ -414,9 +414,8 @@ Public Class frmClientesCartera
 
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                 objGateway.URLServicio = URLGateway
-                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                '  Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 'Dim objRtgCore As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                'objSolicitudGateway.IDEmpresa = GLOBAL_Corporativo
 
                 Dim row As DataRow
 
@@ -426,10 +425,10 @@ Public Class frmClientesCartera
                     End If
 
                     Dim Cliente As Integer = CInt(row("Cliente"))
-                    'Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                    Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                     objSolicitudGateway.IDCliente = Cliente
-                    'Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
-                    'objGateway.URLServicio = URLGateway
+                    ' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                    objGateway.URLServicio = URLGateway
                     Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
                     row("Nombre") = objRtgCore.Nombre
 SiguienteFila:
