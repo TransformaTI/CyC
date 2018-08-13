@@ -1262,8 +1262,8 @@ Public Class frmPrincipal
             If (String.IsNullOrEmpty(strURLGateway)) Then
                 frmConsultaDoc = New SigaMetClasses.ConsultaCargo()
             Else
-				frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway, GLOBAL_Corporativo)
-			End If
+                frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway)
+            End If
 
 			frmConsultaDoc.MdiParent = Me
             frmConsultaDoc.Show()
