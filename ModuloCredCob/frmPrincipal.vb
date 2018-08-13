@@ -1265,7 +1265,7 @@ Public Class frmPrincipal
                 frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway)
             End If
 
-			frmConsultaDoc.MdiParent = Me
+            frmConsultaDoc.MdiParent = Me
             frmConsultaDoc.Show()
         Catch ex As Exception
             MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -2338,7 +2338,7 @@ Public Class frmPrincipal
         Try
             accesoCalidad = oSeguridad.TieneAcceso("SaldoAFavorCALIDAD")
             accesoUSCAP = oSeguridad.TieneAcceso("SaldoAFavorUSCAP")
-            accesoCONSULTA = oSeguridad.TieneAcceso("SaldoAFavorCONSULTA")
+            accesoConsulta = oSeguridad.TieneAcceso("SaldoAFavorCONSULTA")
 
             If (Not accesoCalidad) And (Not accesoUSCAP) And (Not accesoConsulta) Then
                 MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Main.GLOBAL_NombreAplicacion, MessageBoxButtons.OK, MessageBoxIcon.Information)
