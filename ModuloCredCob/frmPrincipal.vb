@@ -1262,8 +1262,8 @@ Public Class frmPrincipal
             If (String.IsNullOrEmpty(strURLGateway)) Then
                 frmConsultaDoc = New SigaMetClasses.ConsultaCargo()
             Else
-				frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway, GLOBAL_Corporativo)
-			End If
+                frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway, GLOBAL_Corporativo)
+            End If
 
 			frmConsultaDoc.MdiParent = Me
             frmConsultaDoc.Show()
@@ -1317,7 +1317,7 @@ Public Class frmPrincipal
                             Usuario:=Main.GLOBAL_IDUsuario,
                             PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
                             PermiteCambioClientePadre:=_CambioClientePadre,
-                            DSCatalogos:=DSCatalogos)
+                            DSCatalogos:=DSCatalogos, CadCon:=ConString, Modulo:=GLOBAL_Modulo)
             Else
                 oBuscaCliente = New SigaMetClasses.BusquedaCliente(PermiteSeleccionar:=False,
                             AutoSeleccionarRegistroUnico:=False,
@@ -1327,7 +1327,7 @@ Public Class frmPrincipal
                             PermiteCambioEmpleadoNomina:=_CambioEmpleadoNomina,
                             PermiteCambioClientePadre:=_CambioClientePadre,
                             DSCatalogos:=DSCatalogos,
-                            URLGateway:=strURLGateway)
+                            URLGateway:=strURLGateway, CadCon:=ConString, Modulo:=GLOBAL_Modulo)
             End If
 
             oBuscaCliente.MdiParent = Me
