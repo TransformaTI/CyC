@@ -1230,7 +1230,7 @@ Public Class frmPrincipal
                     End If
                 Next
 
-                Dim frmConMov As New frmConsultaMovimientos(_URLGateway)
+                Dim frmConMov As New frmConsultaMovimientos(_URLGateway, GLOBAL_Modulo, ConString)
                 frmConMov.MdiParent = Me
                 frmConMov.Modulo = GLOBAL_Modulo
                 frmConMov.Show()

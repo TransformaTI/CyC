@@ -10,6 +10,7 @@ Public Class frmConsultaMovimientos
             _Modulo = value
         End Set
     End Property
+
     Public Sub New()
         MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado)
 
@@ -20,12 +21,13 @@ Public Class frmConsultaMovimientos
 
     End Sub
 
-    Public Sub New(URLGateway As String)
-        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway)
+    Public Sub New(URLGateway As String, Optional ByVal modulo As Byte = 0, Optional ByVal CadCon As String = "")
+        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway, Main.ConString)
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         'Add any initialization after the InitializeComponent() call
         _URLGatewy = URLGateway
+
     End Sub
 
     'Form overrides dispose to clean up the component list.
