@@ -21,7 +21,7 @@ Public Class frmConsultaMovimientos
     End Sub
 
     Public Sub New(URLGateway As String)
-        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway)
+        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway, ConString)
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         'Add any initialization after the InitializeComponent() call
