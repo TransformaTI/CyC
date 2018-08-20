@@ -1383,7 +1383,7 @@ Public Class frmPrincipal
                 oConsultaFactura.MdiParent = Me
                 oConsultaFactura.Show()
             Else
-                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway)
+                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway, GLOBAL_Modulo, ConString)
                 oConsultaFactura.MdiParent = Me
                 'oConsultaFactura.Close()
                 oConsultaFactura.Show()

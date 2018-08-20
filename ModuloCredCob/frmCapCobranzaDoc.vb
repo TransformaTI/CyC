@@ -1478,7 +1478,7 @@ Public Class frmCapCobranzaDoc
                                     GLOBAL_NoAbonarClientePadreEdificio,
                                     oSeguridad.TieneAcceso("NoAbonarAClientePadreEdif"),
                                     PermiteSeleccionarDocumento:=True,
-                                    SoloDocumentosACredito:=True, URLGateway:=_URLGateway)
+                                    SoloDocumentosACredito:=True, URLGateway:=_URLGateway, CadCon:=ConString, Modulo:=GLOBAL_Modulo)
 
             If frmConCliente.ShowDialog() = DialogResult.OK Then
                 Dim documento As SigaMetClasses.DocumentoCliente
