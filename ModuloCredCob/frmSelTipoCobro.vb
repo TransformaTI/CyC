@@ -2358,7 +2358,9 @@ Public Class frmSelTipoCobro
                             .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
                             .NoCuenta = lblTarjetaCredito.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
+                            .Referencia = cboTarjetaCreditoAfiliacion.Text
                             ImporteTotalCobro = .Total
+
                         End With
                         DialogResult = DialogResult.OK
                     End If
