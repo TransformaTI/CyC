@@ -935,6 +935,19 @@ Public Class frmPrincipal
             mnuIngresosSaldoAFavor.Enabled = True
         End If
 
+        If oConfig.Parametros("FuenteCRM").ToString() = "CRM" Then
+            mnuConsultaEmpresa.Enabled = False
+            mnuClientesNuevos.Enabled = False
+            mnuClientesCreditoRebasado.Enabled = False
+            mniAutorizacionCredito.Enabled = False
+            mnuCargoPendienteEmpleado.Enabled = False
+            mnuArqueo.Enabled = Enabled = False
+            mnuCatEmpresas.Enabled = False
+            mnuCatClientesDescuento.Enabled = False
+            mnuEjecutivoCyC.Enabled = False
+            mniBuroCredito.Enabled = False
+        End If
+
     End Sub
 
     Private Sub ImprimirFormatoChequeDevuelto(ByVal PedidoReferencia As String)
@@ -1262,7 +1275,8 @@ Public Class frmPrincipal
             If (String.IsNullOrEmpty(strURLGateway)) Then
                 frmConsultaDoc = New SigaMetClasses.ConsultaCargo()
             Else
-                frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway)
+
+                frmConsultaDoc = New SigaMetClasses.ConsultaCargo(strURLGateway:=strURLGateway, Empresa:=0, Modulo:=GLOBAL_Modulo, CadenaConexion:=ConString)
             End If
 
             frmConsultaDoc.MdiParent = Me
@@ -1812,7 +1826,8 @@ Public Class frmPrincipal
         Try
             QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
                 SigametSeguridad.Seguridad.Conexion, GLOBAL_IDUsuario, 1)
-            f = New QuejasLibrary.frmSeguimientoQueja(Convert.ToInt32(_URLGateway))
+            f = New QuejasLibrary.frmSeguimientoQueja(URLGateway:=_URLGateway)
+
             f.WindowState = FormWindowState.Maximized
             f.MdiParent = Me
             f.Show()
