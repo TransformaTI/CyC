@@ -310,8 +310,11 @@ Public Class frmCatOperador
 
 
                     DireccionEntrega = objRTGMGateway.buscarDireccionEntrega(objSolicitud)
-
-                    row("Nombre") = objSolicitud.Nombre
+                    If Not IsNothing(objSolicitud.Nombre) Then
+                        row("Nombre") = objSolicitud.Nombre
+                    Else
+                        row("Nombre") = ""
+                    End If
                 End If
             Catch ex As Exception
                 Throw ex

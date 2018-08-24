@@ -248,13 +248,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\ProgramacionCobranza.dll</HintPath>
     </Reference>
-    <Reference Include="QuejasLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="QuejasLibrary">
       <HintPath>..\..\SigametLibrerias\QuejasLibrary\QuejasLibrary\bin\Debug\QuejasLibrary.dll</HintPath>
     </Reference>
     <Reference Include="RelacionCobranza, Version=1.0.5606.19253, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\RelacionCobranza.dll</HintPath>
+      <HintPath>..\..\SigametLibrerias\RelacionCobranza\bin\Debug\RelacionCobranza.dll</HintPath>
     </Reference>
     <Reference Include="ReporteDinamico, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -264,8 +263,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
     </Reference>
-    <Reference Include="RTGMGateway">
-      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+    <Reference Include="RTGMGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -273,7 +273,7 @@
     </Reference>
     <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SigametLibrerias2\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
+      <HintPath>..\..\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SIGAMETSecurity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

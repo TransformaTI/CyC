@@ -72,6 +72,14 @@ SigaMetClasses
  <param name="cellCheckBox"></param>
  <param name="estatus"></param>
 </member>
+<member name="M:SigaMetClasses.Precio.calcularImporte(System.Decimal)">
+ 
+ <param name="Litros"></param>
+</member>
+<member name="M:SigaMetClasses.Precio.calcularLitros(System.Decimal)">
+ 
+ <param name="Importe"></param>
+</member>
 <member name="M:SigaMetClasses.Anticpo.ConsultaPagosAnticipados(System.Int32)">
  <summary>
  Consulta Pagos Anticipados
