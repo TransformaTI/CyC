@@ -2066,7 +2066,7 @@ Public Class frmPrincipal
             strURLGateway = ConsultaURLGateway()
 
             If (ValidaURL(strURLGateway)) Then
-                'cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo, GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes, strURLGateway)
+                cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo, GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
             Else
                 cobResguardo = New ResguardoCyC.ListaCobranza(True, GLOBAL_IDUsuario, GLOBAL_RespResguardo,
                     GLOBAL_RespResguardoCyC, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
@@ -2104,7 +2104,7 @@ Public Class frmPrincipal
 
     Private Sub mniReprogramacion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mniReprogramacion.Click
         If oSeguridad.TieneAcceso("ReprogramacionCobranza") Then
-            Dim frmReprogramacion As New RelacionCobranza.ReprogramacionCobranza(GLOBAL_IDUsuario)
+            Dim frmReprogramacion As New RelacionCobranza.ReprogramacionCobranza(User:=GLOBAL_IDUsuario, URLGateway:=_URLGateway, Modulo:=GLOBAL_Modulo, CadCon:=ConString)
             frmReprogramacion.ShowDialog()
         Else
             MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
