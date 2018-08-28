@@ -2356,9 +2356,11 @@ Public Class frmSelTipoCobro
                             .Total = frmCaptura.ImporteCobro
                             .Cliente = CType(txtClienteTC.Text, Integer)
                             .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
-                            .NoCuenta = lblTarjetaCredito.Text
+                            .NoCuenta = TxtNoTarjeta.Text.Trim().Substring(TxtNoTarjeta.TextLength - 4, 4)
+                            .NoCheque = txtTarjetaCreditoAutorizacion.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Referencia = cboTarjetaCreditoAfiliacion.Text
+                            .FechaCheque = dtpTarjetaCreditoFDocto.Value
                             ImporteTotalCobro = .Total
 
                         End With
