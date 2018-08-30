@@ -397,7 +397,7 @@ Public Class frmClientesCartera
         End If
         Dim ColumnKey(0) As DataColumn
         Dim strQuery As String =
-        "SELECT Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " &
+        "SELECT  Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " &
         "FROM vwDatosCliente " &
         "WHERE Saldo > 0 " &
         "AND Celula = @Celula ORDER BY Celula, Ruta, Cliente"
@@ -430,7 +430,7 @@ Public Class frmClientesCartera
                     ' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
                     objGateway.URLServicio = URLGateway
                     Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                    row("Nombre") = objRtgCore.Nombre
+                    row("Nombre") = IIf(Not IsNothing(objRtgCore.Nombre), objRtgCore.Nombre, String.Empty)
 SiguienteFila:
                 Next
 
