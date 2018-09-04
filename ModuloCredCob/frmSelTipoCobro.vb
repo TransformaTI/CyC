@@ -2828,6 +2828,7 @@ Public Class frmSelTipoCobro
             cboTarjetaCreditoAfiliacion.DataSource = New BindingSource(Diccionario, Nothing)
         Catch ex As Exception
             MessageBox.Show("Error con datos Tarjeta Credito Afiliacion " & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
         End Try
 
         'Cargar el combo de tipo de tarjeta
