@@ -3920,5 +3920,11 @@ Public Class frmSelTipoCobro
     Private Sub LblImporteTc_TextChanged(sender As Object, e As EventArgs) Handles LblImporteTc.TextChanged
 
     End Sub
+
+    Private Sub TxtAntMonto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtAntMonto.KeyPress
+        If e.KeyChar = "." Then
+            e.Handled = False
+        End If
+    End Sub
     '*****
 End Class
