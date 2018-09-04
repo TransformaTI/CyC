@@ -737,7 +737,13 @@ Public Class frmCapCobranza
 
         lblNombreEmpleado.Text = GLOBAL_IDEmpleado.ToString & " " & GLOBAL_EmpleadoNombre
         If Modulo = 4 Then
-            cboTipoMovCaja.Items.RemoveAt(30)
+            Try
+                If cboTipoMovCaja.SelectedItem IsNot Nothing Then
+                    cboTipoMovCaja.Items.RemoveAt(30)
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
             ' cboTipoMovCaja.Refresh()
         End If
     End Sub
