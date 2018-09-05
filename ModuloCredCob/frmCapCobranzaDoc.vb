@@ -1457,7 +1457,11 @@ Public Class frmCapCobranzaDoc
     Private Sub ConsultaDocumenosClientePorPeriodo()
 
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
-        _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
 
 
         If txtCliente.Text <> "" Then
