@@ -1394,6 +1394,8 @@ Public Class frmPrincipal
 
             If Trim(_URLGateway) = "" Then
                 Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura()
+                oConsultaFactura.sucursal = GLOBAL_Sucursal
+                oConsultaFactura.Corporativo = GLOBAL_Corporativo
                 oConsultaFactura.MdiParent = Me
                 oConsultaFactura.Show()
             Else
