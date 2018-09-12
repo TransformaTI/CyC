@@ -3826,6 +3826,7 @@ Public Class frmSelTipoCobro
         txtTarjetaCreditoConfirmaAutorizacion.Clear()
         TxtNoTarjeta.Clear()
         LblImporteTc.Clear()
+
     End Sub
     Private Sub txtTarjetaCreditoAutorizacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTarjetaCreditoAutorizacion.KeyPress
 
