@@ -16,6 +16,7 @@ Public Class frmCapCobranza
     Private _Caja As Byte
     Private _URLGateway As String = ""
     Private _Modulo As Short
+    Private _FuenteGateway As String
 
 #Region " Windows Form Designer generated code "
     Public Property Modulo() As Short
@@ -719,6 +720,8 @@ Public Class frmCapCobranza
             'End If
         End If
 
+        CargarVariablesGateway()
+
         Try
 
             If Main.GLOBAL_UsuarioCobranza = True Then
@@ -797,7 +800,15 @@ Public Class frmCapCobranza
 
         If MessageBox.Show(M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
             _FMovimiento = CType(dtpFMovimiento.Value.ToShortDateString, Date)
-            Dim oMov As New SigaMetClasses.TransaccionMovimientoCaja()
+            'Dim oMov As New SigaMetClasses.TransaccionMovimientoCaja()
+
+            Dim oMov As SigaMetClasses.TransaccionMovimientoCaja
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+                oMov = New SigaMetClasses.TransaccionMovimientoCaja(_URLGateway, ConString, GLOBAL_Modulo, _FuenteGateway)
+            Else
+                oMov = New SigaMetClasses.TransaccionMovimientoCaja()
+            End If
+
             Try
                 If Main.SesionIniciada = False Then
                     IniciarSesion(FechaInicioSesion)
@@ -935,6 +946,10 @@ Public Class frmCapCobranza
         stbEstatus.Panels(0).Text = lstCobro.Items.Count.ToString & " cobro(s)"
     End Sub
 
+    Private Sub CargarVariablesGateway()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+        _FuenteGateway = CType(oConfig.Parametros("FuenteCRM"), String)
+    End Sub
 
     Private Sub BorrarCobro()
         If CType(lstCobro.SelectedItem, SigaMetClasses.sCobro).TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales Then
