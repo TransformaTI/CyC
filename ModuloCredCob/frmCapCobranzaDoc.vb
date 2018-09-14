@@ -878,6 +878,8 @@ Public Class frmCapCobranzaDoc
                 'Para validar el abono a edificios administrados JAGD 28/12/2004
                 objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)
 
+                ' Recuperar nuevo campo IdCRM RM 14/09/2018
+                objPedido.IDCRM = DirectCast(dr("IdCRM"), Integer)
             Loop
             If objPedido.PedidoReferencia <> "" Then
                 Return True
