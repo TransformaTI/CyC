@@ -21,6 +21,7 @@ Public Class frmSelTipoCobro
     Private _FacturaNC As Integer
     Private _HabilitarDacionEnPago As Boolean = False
     Private _Cliente As Integer
+    Private _URLGateway As String
 
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
@@ -3032,8 +3033,14 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub btnBuscarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarCliente.Click
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
         If Trim(txtClienteCheque.Text) <> "" Then
-            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(CType(txtClienteCheque.Text, Integer))
+            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo)
             frmConCliente.ShowDialog()
         End If
     End Sub

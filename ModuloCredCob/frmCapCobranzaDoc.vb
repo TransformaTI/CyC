@@ -1443,11 +1443,18 @@ Public Class frmCapCobranzaDoc
     End Sub
 
     Private Sub ConsultaDocumentosCliente()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
         If txtCliente.Text <> "" Then
             Dim frmConCliente As SigaMetClasses.frmConsultaCliente
             frmConCliente = New SigaMetClasses.frmConsultaCliente(CType(txtCliente.Text, Integer),
                                      PermiteSeleccionarDocumento:=True,
-                                     SoloDocumentosACredito:=True)
+                                     SoloDocumentosACredito:=True, URLGateway:=_URLGateway, Modulo:=GLOBAL_Modulo, CadenaCon:=ConString)
             If frmConCliente.ShowDialog() = DialogResult.OK Then
                 txtPedidoReferencia.Text = frmConCliente.PedidoReferenciaSeleccionado
                 txtPedidoReferencia.Focus()
