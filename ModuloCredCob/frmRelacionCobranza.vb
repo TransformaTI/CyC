@@ -1045,7 +1045,7 @@ Public Class frmRelacionCobranza
         End If
 
         Cursor = Cursors.WaitCursor
-        Dim frmCapRel As New frmCapRelacionCobranza(_tipoOperacionCobranza)
+        Dim frmCapRel As New frmCapRelacionCobranza(_tipoOperacionCobranza, URLGateway:=_UrlGateway)
 
         If frmCapRel.ShowDialog() = DialogResult.OK Then
             chkSolicitud.Checked = (Not _tipoOperacionCobranza = TipoCapturaCobranza.Captura)
