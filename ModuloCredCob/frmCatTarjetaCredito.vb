@@ -104,7 +104,7 @@ Public Class frmCatTarjetaCredito
             Case Is = "Consultar"
                 If _Cliente > 0 And Not IsDBNull(_Cliente) Then
                     Cursor = Cursors.WaitCursor
-                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente)
+                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
                     frmConCliente.ShowDialog()
                     Cursor = Cursors.Default
                 End If

@@ -1262,7 +1262,7 @@ Public Class frmCapRelacionCobranza
 
     Private Sub ConsultaCliente(ByVal Cliente As Integer)
         Cursor = Cursors.WaitCursor
-        Dim objConsultaCliente As New SigaMetClasses.frmConsultaCliente(Cliente)
+        Dim objConsultaCliente As New SigaMetClasses.frmConsultaCliente(Cliente, Nuevo:=0)
         objConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub

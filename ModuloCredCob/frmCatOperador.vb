@@ -393,7 +393,7 @@ Linea1:
             Case Is = "Consultar"
                 If _Cliente > 0 And Not IsDBNull(_Cliente) Then
                     Cursor = Cursors.WaitCursor
-                    Dim frmConDatos As New SigaMetClasses.frmConsultaCliente(_Cliente)
+                    Dim frmConDatos As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
                     frmConDatos.ShowDialog()
                     Cursor = Cursors.Default
                 End If
