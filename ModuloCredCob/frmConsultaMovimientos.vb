@@ -78,11 +78,11 @@ Public Class frmConsultaMovimientos
     End Sub
 
     Private Sub frmConsultaMovimientos_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        If _URLGatewy = "" Then
-            CargaDatos()
-        Else
-            CargaDatos(_URLGatewy)
-        End If
+        'If _URLGatewy = "" Then
+        '    CargaDatos()
+        'Else
+        '    CargaDatos(_URLGatewy)
+        'End If
 
         Me.PermiteCapturar = GLOBAL_CapturaPermitida
         Me.PermiteModificar = GLOBAL_CapturaPermitida
