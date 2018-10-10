@@ -330,9 +330,9 @@ Linea1:
         dtOperador = New DataTable()
         dtOperador = oOperador.Consulta()
         If dtOperador.Rows.Count > 0 Then
-            If Not String.IsNullOrEmpty(_URLGateway) Then
-                dtOperador = recargarOperadoresCRM(dtOperador)
-            End If
+            'If Not String.IsNullOrEmpty(_URLGateway) Then
+            '    dtOperador = recargarOperadoresCRM(dtOperador)
+            'End If
             grdDatos.DataSource = dtOperador
             grdDatos.CaptionText = "Operadores (" & dtOperador.Rows.Count.ToString & ")"
         End If

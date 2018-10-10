@@ -936,7 +936,7 @@ Public Class frmPrincipal
         End If
 
         If oConfig.Parametros("FuenteCRM").ToString() = "CRM" Then
-            mnuConsultaEmpresa.Enabled = False
+            'mnuConsultaEmpresa.Enabled = False
             mnuClientesNuevos.Enabled = False
             mnuClientesCreditoRebasado.Enabled = False
             mniAutorizacionCredito.Enabled = False
