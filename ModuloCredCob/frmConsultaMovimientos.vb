@@ -1,6 +1,9 @@
 Public Class frmConsultaMovimientos
     Inherits SigaMetClasses.ConsultaMovimientos
     Private _Modulo As Short
+    Private _URLGatewy As String
+    Private _ConsultarPedidosGateway As Boolean
+
 #Region " Windows Form Designer generated code "
     Public Property Modulo() As Short
         Get
@@ -21,13 +24,16 @@ Public Class frmConsultaMovimientos
 
     End Sub
 
-    Public Sub New(URLGateway As String, Optional ByVal modulo As Byte = 0, Optional ByVal CadCon As String = "")
-        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway, Main.ConString)
+    Public Sub New(ByVal URLGateway As String,
+          Optional ByVal modulo As Byte = 0,
+          Optional ByVal CadCon As String = "",
+          Optional ByVal ConsultarPedidosGateway As Boolean = False)
+        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway, Main.ConString, ConsultarPedidosGateway:=ConsultarPedidosGateway)
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         'Add any initialization after the InitializeComponent() call
         _URLGatewy = URLGateway
-
+        _ConsultarPedidosGateway = ConsultarPedidosGateway
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -42,7 +48,6 @@ Public Class frmConsultaMovimientos
 
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
-    Private _URLGatewy As String
 
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  

@@ -1,6 +1,7 @@
 Public Class frmPrincipal
     Inherits System.Windows.Forms.Form
     Private WithEvents frmConCheques As SigaMetClasses.ConsultaCheques
+    Private _ConsultarPedidosGateway As Boolean
 
 #Region " Windows Form Designer generated code "
 
@@ -879,6 +880,8 @@ Public Class frmPrincipal
             sbpVersion.Text &= " NT"
         End If
 
+        CargarParametros()
+
         DeshabilitaOpcionesMenu()
 
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
@@ -1243,13 +1246,14 @@ Public Class frmPrincipal
                     End If
                 Next
 
-                Dim frmConMov As New frmConsultaMovimientos(_URLGateway, GLOBAL_Modulo, ConString)
+                Dim frmConMov As New frmConsultaMovimientos(_URLGateway, GLOBAL_Modulo, ConString, ConsultarPedidosGateway:=_ConsultarPedidosGateway)
                 frmConMov.MdiParent = Me
                 frmConMov.Modulo = GLOBAL_Modulo
                 frmConMov.Show()
             End If
         Catch ex As Exception
-            MsgBox("Error con parámetro URLGateway" & vbCrLf & ex.Message)
+            'MsgBox("Error con parámetro URLGateway" & vbCrLf & ex.Message)
+            MsgBox("Se produjo un error:" & vbCrLf & ex.Message)
         End Try
     End Sub
 
@@ -2277,6 +2281,23 @@ Public Class frmPrincipal
 
         Return URLGateway
     End Function
+
+    ''' <summary>
+    ''' Carga las configuraciones desde la tabla dbo.Parametro
+    ''' </summary>
+    Private Sub CargarParametros()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+
+        Try
+            '_SGCWebHabilitado = CType(oConfig.Parametros("PlataformaSGCWeb"), Boolean)
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
+            _ConsultarPedidosGateway = CType(oConfig.Parametros("MovimientosGateway"), Boolean)
+
+        Catch ex As Exception
+            MessageBox.Show("Se produjo un error consultando los parámetros:" & vbCrLf & ex.Message,
+                            Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
     Private Function ValidaURL(URL As String) As Boolean
         Dim uriValidada As Uri
