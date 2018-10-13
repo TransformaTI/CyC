@@ -945,7 +945,7 @@ Public Class frmPrincipal
             mniAutorizacionCredito.Enabled = False
             mnuCargoPendienteEmpleado.Enabled = False
             mnuArqueo.Enabled = Enabled = False
-            mnuCatEmpresas.Enabled = False
+            'mnuCatEmpresas.Enabled = False
             mnuCatClientesDescuento.Enabled = False
             mnuEjecutivoCyC.Enabled = False
             mniBuroCredito.Enabled = False
