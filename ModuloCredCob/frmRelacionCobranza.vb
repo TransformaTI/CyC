@@ -1290,7 +1290,7 @@ Public Class frmRelacionCobranza
                             Exit Sub
                         End If
                     Else
-                        If Not oSeguridad.TieneAcceso("RELACIONES_MODIFICA_OWN") Then
+                        If oSeguridad.TieneAcceso("RELACIONES_MODIFICA_OWN") Then
                             Modificar()
                         Else
                             MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
