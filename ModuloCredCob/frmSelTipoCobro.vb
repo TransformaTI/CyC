@@ -2778,7 +2778,8 @@ Public Class frmSelTipoCobro
         End If
         Try
             tabTipoCobro.TabPages.Remove(tbNotaCredito)
-            tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
+            ' 16/10/2018. RM - Se elimina solo si la variable GLOBAL_AplicacionSaldoAFavor tiene valor falso
+            'tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
             If _TipoMovimientoCaja = 35 Then
                 tabTipoCobro.TabPages.Add(tbNotaCredito)
                 tabTipoCobro.SelectedTab = tbNotaCredito
@@ -2811,6 +2812,7 @@ Public Class frmSelTipoCobro
         'Modificacion para captura de abonos por saldo a favor
         If Not GLOBAL_AplicacionSaldoAFavor Then
             Me.tbSaldoAFavor.Enabled = False
+            tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
         End If
 
         'Captura de recibos TPV ----Comentado ya que en cambios de alcance no se requiere de éste checkbox----
