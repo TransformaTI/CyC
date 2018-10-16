@@ -737,8 +737,14 @@ Public Class frmCapRelacionCobranza
                 cboTipoCobranza.SelectedValue = CType(dt.Rows(0).Item("TipoCobranza"), Byte)
                 _Empleado = CType(dt.Rows(0).Item("Empleado"), Integer)
                 cboEmpleado.SelectedValue = _Empleado
-                dtpFCobranza.Value = CType(dt.Rows(0).Item("FCobranza"), Date)
                 txtObservaciones.Text = CType(dt.Rows(0).Item("Observaciones"), String)
+
+                ' 16/10/2018. RM - Evitar que se genere error
+                If FechaOperacion > CType(dt.Rows(0).Item("FCobranza"), Date) Then
+                    Throw New Exception("La fecha de operación es mayor a la fecha de la cobranza.")
+                End If
+
+                dtpFCobranza.Value = CType(dt.Rows(0).Item("FCobranza"), Date)
             End If
 
         Catch ex As Exception
