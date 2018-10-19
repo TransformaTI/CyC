@@ -2291,7 +2291,9 @@ Public Class frmPrincipal
         Try
             '_SGCWebHabilitado = CType(oConfig.Parametros("PlataformaSGCWeb"), Boolean)
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
-            _ConsultarPedidosGateway = CType(oConfig.Parametros("MovimientosGateway"), Boolean)
+            If Not IsNothing(oConfig.Parametros("MovimientosGateway")) Then
+                _ConsultarPedidosGateway = CType(oConfig.Parametros("MovimientosGateway"), Boolean)
+            End If
 
         Catch ex As Exception
             MessageBox.Show("Se produjo un error consultando los parámetros:" & vbCrLf & ex.Message,

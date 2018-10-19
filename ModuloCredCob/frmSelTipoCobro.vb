@@ -209,6 +209,8 @@ Public Class frmSelTipoCobro
     Friend WithEvents TxtNoTarjeta As TextBox
     Friend WithEvents LblImporteTc As TextBox
     Friend WithEvents Txtbox_observacionAnticipos As TextBox
+    Friend WithEvents LabelBase10 As ControlesBase.LabelBase
+    Friend WithEvents dtpFechaCobro As DateTimePicker
     Friend WithEvents LabelBase30 As ControlesBase.LabelBase
     Public ReadOnly Property Posfechado() As Boolean
         Get
@@ -475,6 +477,8 @@ Public Class frmSelTipoCobro
         Me.ttMensaje = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.ComboBanco1 = New SigaMetClasses.Combos.ComboBanco()
+        Me.dtpFechaCobro = New System.Windows.Forms.DateTimePicker()
+        Me.LabelBase10 = New ControlesBase.LabelBase()
         Me.tabTipoCobro.SuspendLayout()
         Me.tbEfectivoVales.SuspendLayout()
         Me.grpEfectivoVales.SuspendLayout()
@@ -511,7 +515,7 @@ Public Class frmSelTipoCobro
         Me.tabTipoCobro.Multiline = True
         Me.tabTipoCobro.Name = "tabTipoCobro"
         Me.tabTipoCobro.SelectedIndex = 0
-        Me.tabTipoCobro.Size = New System.Drawing.Size(714, 396)
+        Me.tabTipoCobro.Size = New System.Drawing.Size(732, 435)
         Me.tabTipoCobro.TabIndex = 0
         '
         'tbEfectivoVales
@@ -977,7 +981,7 @@ Public Class frmSelTipoCobro
         Me.tbChequeFicha.Controls.Add(Me.btnLeerCodigo)
         Me.tbChequeFicha.Location = New System.Drawing.Point(4, 4)
         Me.tbChequeFicha.Name = "tbChequeFicha"
-        Me.tbChequeFicha.Size = New System.Drawing.Size(706, 352)
+        Me.tbChequeFicha.Size = New System.Drawing.Size(724, 391)
         Me.tbChequeFicha.TabIndex = 2
         Me.tbChequeFicha.Text = "Cheque / Ficha de deposito"
         '
@@ -1034,7 +1038,7 @@ Public Class frmSelTipoCobro
         Me.btnAceptarChequeFicha.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAceptarChequeFicha.Image = CType(resources.GetObject("btnAceptarChequeFicha.Image"), System.Drawing.Image)
         Me.btnAceptarChequeFicha.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptarChequeFicha.Location = New System.Drawing.Point(512, 150)
+        Me.btnAceptarChequeFicha.Location = New System.Drawing.Point(530, 150)
         Me.btnAceptarChequeFicha.Name = "btnAceptarChequeFicha"
         Me.btnAceptarChequeFicha.Size = New System.Drawing.Size(80, 24)
         Me.btnAceptarChequeFicha.TabIndex = 2
@@ -1043,6 +1047,8 @@ Public Class frmSelTipoCobro
         '
         'grpChequeFicha
         '
+        Me.grpChequeFicha.Controls.Add(Me.LabelBase10)
+        Me.grpChequeFicha.Controls.Add(Me.dtpFechaCobro)
         Me.grpChequeFicha.Controls.Add(Me.btnBusquedaCliente)
         Me.grpChequeFicha.Controls.Add(Me.cboNumeroCuenta)
         Me.grpChequeFicha.Controls.Add(Me.txtDocumento)
@@ -1067,14 +1073,14 @@ Public Class frmSelTipoCobro
         Me.grpChequeFicha.Controls.Add(Me.lblCtaDestino)
         Me.grpChequeFicha.Location = New System.Drawing.Point(24, 80)
         Me.grpChequeFicha.Name = "grpChequeFicha"
-        Me.grpChequeFicha.Size = New System.Drawing.Size(328, 285)
+        Me.grpChequeFicha.Size = New System.Drawing.Size(328, 308)
         Me.grpChequeFicha.TabIndex = 0
         Me.grpChequeFicha.TabStop = False
         '
         'btnBusquedaCliente
         '
         Me.btnBusquedaCliente.Image = CType(resources.GetObject("btnBusquedaCliente.Image"), System.Drawing.Image)
-        Me.btnBusquedaCliente.Location = New System.Drawing.Point(228, 96)
+        Me.btnBusquedaCliente.Location = New System.Drawing.Point(228, 123)
         Me.btnBusquedaCliente.Name = "btnBusquedaCliente"
         Me.btnBusquedaCliente.Size = New System.Drawing.Size(40, 21)
         Me.btnBusquedaCliente.TabIndex = 36
@@ -1083,7 +1089,7 @@ Public Class frmSelTipoCobro
         'cboNumeroCuenta
         '
         Me.cboNumeroCuenta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboNumeroCuenta.Location = New System.Drawing.Point(120, 72)
+        Me.cboNumeroCuenta.Location = New System.Drawing.Point(120, 99)
         Me.cboNumeroCuenta.Name = "cboNumeroCuenta"
         Me.cboNumeroCuenta.Size = New System.Drawing.Size(192, 21)
         Me.cboNumeroCuenta.TabIndex = 2
@@ -1100,7 +1106,7 @@ Public Class frmSelTipoCobro
         'lblNombre
         '
         Me.lblNombre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblNombre.Location = New System.Drawing.Point(120, 120)
+        Me.lblNombre.Location = New System.Drawing.Point(120, 147)
         Me.lblNombre.Name = "lblNombre"
         Me.lblNombre.Size = New System.Drawing.Size(192, 21)
         Me.lblNombre.TabIndex = 5
@@ -1109,7 +1115,7 @@ Public Class frmSelTipoCobro
         'btnBuscarCliente
         '
         Me.btnBuscarCliente.Image = CType(resources.GetObject("btnBuscarCliente.Image"), System.Drawing.Image)
-        Me.btnBuscarCliente.Location = New System.Drawing.Point(272, 96)
+        Me.btnBuscarCliente.Location = New System.Drawing.Point(272, 123)
         Me.btnBuscarCliente.Name = "btnBuscarCliente"
         Me.btnBuscarCliente.Size = New System.Drawing.Size(40, 21)
         Me.btnBuscarCliente.TabIndex = 31
@@ -1117,28 +1123,28 @@ Public Class frmSelTipoCobro
         '
         'txtImporteDocumento
         '
-        Me.txtImporteDocumento.Location = New System.Drawing.Point(120, 168)
+        Me.txtImporteDocumento.Location = New System.Drawing.Point(120, 195)
         Me.txtImporteDocumento.Name = "txtImporteDocumento"
         Me.txtImporteDocumento.Size = New System.Drawing.Size(192, 21)
         Me.txtImporteDocumento.TabIndex = 7
         '
         'txtClienteCheque
         '
-        Me.txtClienteCheque.Location = New System.Drawing.Point(120, 96)
+        Me.txtClienteCheque.Location = New System.Drawing.Point(120, 123)
         Me.txtClienteCheque.Name = "txtClienteCheque"
         Me.txtClienteCheque.Size = New System.Drawing.Size(104, 21)
         Me.txtClienteCheque.TabIndex = 4
         '
         'txtNumeroCuenta
         '
-        Me.txtNumeroCuenta.Location = New System.Drawing.Point(120, 72)
+        Me.txtNumeroCuenta.Location = New System.Drawing.Point(120, 99)
         Me.txtNumeroCuenta.Name = "txtNumeroCuenta"
         Me.txtNumeroCuenta.Size = New System.Drawing.Size(192, 21)
         Me.txtNumeroCuenta.TabIndex = 2
         '
         'txtObservaciones
         '
-        Me.txtObservaciones.Location = New System.Drawing.Point(120, 240)
+        Me.txtObservaciones.Location = New System.Drawing.Point(120, 267)
         Me.txtObservaciones.Multiline = True
         Me.txtObservaciones.Name = "txtObservaciones"
         Me.txtObservaciones.Size = New System.Drawing.Size(192, 32)
@@ -1148,7 +1154,7 @@ Public Class frmSelTipoCobro
         '
         Me.ComboBanco.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBanco.DropDownWidth = 200
-        Me.ComboBanco.Location = New System.Drawing.Point(120, 144)
+        Me.ComboBanco.Location = New System.Drawing.Point(120, 171)
         Me.ComboBanco.Name = "ComboBanco"
         Me.ComboBanco.Size = New System.Drawing.Size(192, 21)
         Me.ComboBanco.TabIndex = 6
@@ -1156,7 +1162,7 @@ Public Class frmSelTipoCobro
         'lblBancoDestino
         '
         Me.lblBancoDestino.AutoSize = True
-        Me.lblBancoDestino.Location = New System.Drawing.Point(8, 147)
+        Me.lblBancoDestino.Location = New System.Drawing.Point(8, 174)
         Me.lblBancoDestino.Name = "lblBancoDestino"
         Me.lblBancoDestino.Size = New System.Drawing.Size(40, 13)
         Me.lblBancoDestino.TabIndex = 15
@@ -1165,7 +1171,7 @@ Public Class frmSelTipoCobro
         'lblObservaciones
         '
         Me.lblObservaciones.AutoSize = True
-        Me.lblObservaciones.Location = New System.Drawing.Point(8, 240)
+        Me.lblObservaciones.Location = New System.Drawing.Point(8, 267)
         Me.lblObservaciones.Name = "lblObservaciones"
         Me.lblObservaciones.Size = New System.Drawing.Size(82, 13)
         Me.lblObservaciones.TabIndex = 21
@@ -1200,7 +1206,7 @@ Public Class frmSelTipoCobro
         'lblNoCuenta
         '
         Me.lblNoCuenta.AutoSize = True
-        Me.lblNoCuenta.Location = New System.Drawing.Point(8, 75)
+        Me.lblNoCuenta.Location = New System.Drawing.Point(8, 102)
         Me.lblNoCuenta.Name = "lblNoCuenta"
         Me.lblNoCuenta.Size = New System.Drawing.Size(66, 13)
         Me.lblNoCuenta.TabIndex = 12
@@ -1209,7 +1215,7 @@ Public Class frmSelTipoCobro
         'lblImporte
         '
         Me.lblImporte.AutoSize = True
-        Me.lblImporte.Location = New System.Drawing.Point(8, 171)
+        Me.lblImporte.Location = New System.Drawing.Point(8, 198)
         Me.lblImporte.Name = "lblImporte"
         Me.lblImporte.Size = New System.Drawing.Size(49, 13)
         Me.lblImporte.TabIndex = 19
@@ -1218,7 +1224,7 @@ Public Class frmSelTipoCobro
         'lblCliente
         '
         Me.lblCliente.AutoSize = True
-        Me.lblCliente.Location = New System.Drawing.Point(8, 104)
+        Me.lblCliente.Location = New System.Drawing.Point(8, 131)
         Me.lblCliente.Name = "lblCliente"
         Me.lblCliente.Size = New System.Drawing.Size(44, 13)
         Me.lblCliente.TabIndex = 13
@@ -1227,7 +1233,7 @@ Public Class frmSelTipoCobro
         'lblBancoOrigen
         '
         Me.lblBancoOrigen.AutoSize = True
-        Me.lblBancoOrigen.Location = New System.Drawing.Point(8, 195)
+        Me.lblBancoOrigen.Location = New System.Drawing.Point(8, 222)
         Me.lblBancoOrigen.Name = "lblBancoOrigen"
         Me.lblBancoOrigen.Size = New System.Drawing.Size(73, 13)
         Me.lblBancoOrigen.TabIndex = 35
@@ -1238,7 +1244,7 @@ Public Class frmSelTipoCobro
         Me.ComboBancoOrigen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBancoOrigen.DropDownWidth = 200
         Me.ComboBancoOrigen.Enabled = False
-        Me.ComboBancoOrigen.Location = New System.Drawing.Point(120, 192)
+        Me.ComboBancoOrigen.Location = New System.Drawing.Point(120, 219)
         Me.ComboBancoOrigen.Name = "ComboBancoOrigen"
         Me.ComboBancoOrigen.Size = New System.Drawing.Size(192, 21)
         Me.ComboBancoOrigen.TabIndex = 34
@@ -1246,7 +1252,7 @@ Public Class frmSelTipoCobro
         'txtNumeroCuentaOrigen
         '
         Me.txtNumeroCuentaOrigen.Enabled = False
-        Me.txtNumeroCuentaOrigen.Location = New System.Drawing.Point(120, 216)
+        Me.txtNumeroCuentaOrigen.Location = New System.Drawing.Point(120, 243)
         Me.txtNumeroCuentaOrigen.Name = "txtNumeroCuentaOrigen"
         Me.txtNumeroCuentaOrigen.Size = New System.Drawing.Size(192, 21)
         Me.txtNumeroCuentaOrigen.TabIndex = 3
@@ -1254,7 +1260,7 @@ Public Class frmSelTipoCobro
         'lblCtaDestino
         '
         Me.lblCtaDestino.AutoSize = True
-        Me.lblCtaDestino.Location = New System.Drawing.Point(8, 219)
+        Me.lblCtaDestino.Location = New System.Drawing.Point(8, 246)
         Me.lblCtaDestino.Name = "lblCtaDestino"
         Me.lblCtaDestino.Size = New System.Drawing.Size(101, 13)
         Me.lblCtaDestino.TabIndex = 33
@@ -2224,11 +2230,28 @@ Public Class frmSelTipoCobro
         Me.ComboBanco1.Size = New System.Drawing.Size(121, 21)
         Me.ComboBanco1.TabIndex = 0
         '
+        'dtpFechaCobro
+        '
+        Me.dtpFechaCobro.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpFechaCobro.Location = New System.Drawing.Point(120, 72)
+        Me.dtpFechaCobro.Name = "dtpFechaCobro"
+        Me.dtpFechaCobro.Size = New System.Drawing.Size(192, 21)
+        Me.dtpFechaCobro.TabIndex = 37
+        '
+        'LabelBase10
+        '
+        Me.LabelBase10.AutoSize = True
+        Me.LabelBase10.Location = New System.Drawing.Point(8, 76)
+        Me.LabelBase10.Name = "LabelBase10"
+        Me.LabelBase10.Size = New System.Drawing.Size(72, 13)
+        Me.LabelBase10.TabIndex = 38
+        Me.LabelBase10.Text = "Fecha Cobro:"
+        '
         'frmSelTipoCobro
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(714, 396)
+        Me.ClientSize = New System.Drawing.Size(732, 435)
         Me.Controls.Add(Me.tabTipoCobro)
         Me.Controls.Add(Me.btnCancelar)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2484,6 +2507,11 @@ Public Class frmSelTipoCobro
         End If
         '*****
 
+        If DateDiff(DateInterval.Day, dtpFechaCheque.Value.Date, dtpFechaCobro.Value.Date) < 0 Then
+            MessageBox.Show("La fecha de cobro debe ser mayor o igual a la fecha del documento", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         If _CargaNotaIngreso = False Then
             If Not ValidaCapturaChequeFicha() Then
                 Exit Sub
@@ -2541,6 +2569,7 @@ Public Class frmSelTipoCobro
                         .Banco = CType(ComboBanco.SelectedValue, Short)
                         .Observaciones = Trim(txtObservaciones.Text)
                         .ListaPedidos = frmCaptura.ListaCobroPedido
+                        .Fcobro = dtpFechaCobro.Value.Date
                         ImporteTotalCobro = .Total
 
                         'Se agregó para captura de transferencias bancarias
@@ -2591,6 +2620,7 @@ Public Class frmSelTipoCobro
                 .Cliente = CType(txtClienteCheque.Text, Integer)
                 .Banco = CType(ComboBanco.SelectedValue, Short)
                 .Observaciones = Trim(txtObservaciones.Text)
+                .Fcobro = dtpFechaCobro.Value.Date
                 .ListaPedidos = Nothing
                 ImporteTotalCobro = .Total
             End With
@@ -3904,6 +3934,7 @@ Public Class frmSelTipoCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Observaciones = Txtbox_observacionAnticipos.Text
                             ImporteTotalCobro = .Total
+
                         End With
                         DialogResult = DialogResult.OK
                     End If
