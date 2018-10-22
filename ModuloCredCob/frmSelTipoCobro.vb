@@ -2378,6 +2378,7 @@ Public Class frmSelTipoCobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro)
+
                             .Total = frmCaptura.ImporteCobro
                             .Cliente = CType(txtClienteTC.Text, Integer)
                             .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
