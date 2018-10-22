@@ -2369,6 +2369,7 @@ Public Class frmSelTipoCobro
             If txtImporteTC.Text <> "" And IsNumeric(txtImporteTC.Text) Then
                 If _CapturaDetalle = True Then
                     Dim frmCaptura As New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)
+
                     frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
                     frmCaptura.ImporteCobro = CType(txtImporteTC.Text, Decimal)
 
@@ -2376,7 +2377,7 @@ Public Class frmSelTipoCobro
                         With _Cobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
-                            .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
+                            .TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro)
                             .Total = frmCaptura.ImporteCobro
                             .Cliente = CType(txtClienteTC.Text, Integer)
                             .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
@@ -2387,6 +2388,7 @@ Public Class frmSelTipoCobro
                             .FechaCheque = dtpTarjetaCreditoFDocto.Value
                             ImporteTotalCobro = .Total
 
+
                         End With
                         DialogResult = DialogResult.OK
                     End If
@@ -2394,7 +2396,7 @@ Public Class frmSelTipoCobro
                     With _Cobro
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
-                        .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
+                        .TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro) ' SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
                         .Total = CType(txtImporteTC.Text, Decimal)
                         .Cliente = CType(txtClienteTC.Text, Integer)
                         .Banco = CType(lblBanco.Text, Short)
@@ -2866,8 +2868,10 @@ Public Class frmSelTipoCobro
 
         'Cargar el combo de tipo de tarjeta
         Dim DiccionarioTipoTarjeta As New Dictionary(Of Int32, String)
-        DiccionarioTipoTarjeta.Add(1, "Tarjeta de débito")
-        DiccionarioTipoTarjeta.Add(2, "Tarjeta de crédito")
+        DiccionarioTipoTarjeta.Add(19, "Tarjeta de débito")
+        DiccionarioTipoTarjeta.Add(6, "Tarjeta de crédito")
+        DiccionarioTipoTarjeta.Add(22, "Tarjeta de Servicio")
+
         cboTarjetaCreditoTipoTarjeta.ValueMember = "Key"
         cboTarjetaCreditoTipoTarjeta.DisplayMember = "Value"
         cboTarjetaCreditoTipoTarjeta.DataSource = New BindingSource(DiccionarioTipoTarjeta, Nothing)

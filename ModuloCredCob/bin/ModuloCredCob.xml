@@ -6,6 +6,11 @@ ModuloCredCob
 </name>
 </assembly>
 <members>
+<member name="M:ModuloCredCob.frmPrincipal.CargarParametros">
+ <summary>
+ Carga las configuraciones desde la tabla dbo.Parametro
+ </summary>
+</member>
 <member name="M:ModuloCredCob.frmPrincipal.DeshabilitaOpcionesMenu">
  <summary>
  Deshabilita opciones de menú si se encuentra un parámetro válido
