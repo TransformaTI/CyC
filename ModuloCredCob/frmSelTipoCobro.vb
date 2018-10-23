@@ -2370,7 +2370,8 @@ Public Class frmSelTipoCobro
                 If _CapturaDetalle = True Then
                     Dim frmCaptura As New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)
 
-                    frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
+                    'frmCaptura.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
+                    frmCaptura.TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro)
                     frmCaptura.ImporteCobro = CType(txtImporteTC.Text, Decimal)
 
                     If frmCaptura.ShowDialog = DialogResult.OK Then
@@ -2378,7 +2379,6 @@ Public Class frmSelTipoCobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
                             .TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro)
-
                             .Total = frmCaptura.ImporteCobro
                             .Cliente = CType(txtClienteTC.Text, Integer)
                             .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
