@@ -58,6 +58,8 @@ Public Class frmPrincipal
     Friend WithEvents btnMovimientos As System.Windows.Forms.ToolBarButton
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
     Friend WithEvents sbpVersion As System.Windows.Forms.StatusBarPanel
+    Friend WithEvents sbpFuenteCRM As System.Windows.Forms.StatusBarPanel
+
     Friend WithEvents mnuCargoPendiente As System.Windows.Forms.MenuItem
     Friend WithEvents mnuReportes As System.Windows.Forms.MenuItem
     Friend WithEvents mnuConsultaReportes As System.Windows.Forms.MenuItem
@@ -138,6 +140,7 @@ Public Class frmPrincipal
         Me.sbpServidor = New System.Windows.Forms.StatusBarPanel()
         Me.sbpBaseDeDatos = New System.Windows.Forms.StatusBarPanel()
         Me.sbpVersion = New System.Windows.Forms.StatusBarPanel()
+        Me.sbpFuenteCRM = New System.Windows.Forms.StatusBarPanel()
         Me.mnuPrincipal = New System.Windows.Forms.MainMenu(Me.components)
         Me.mnuArchivo = New System.Windows.Forms.MenuItem()
         Me.mnuConsultaMovimientos = New System.Windows.Forms.MenuItem()
@@ -231,6 +234,7 @@ Public Class frmPrincipal
         CType(Me.sbpServidor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpBaseDeDatos, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbpVersion, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.sbpFuenteCRM, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'stbEstatus
@@ -238,7 +242,7 @@ Public Class frmPrincipal
         Me.stbEstatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.stbEstatus.Location = New System.Drawing.Point(0, 531)
         Me.stbEstatus.Name = "stbEstatus"
-        Me.stbEstatus.Panels.AddRange(New System.Windows.Forms.StatusBarPanel() {Me.sbpUsuario, Me.sbpUsuarioNombre, Me.sbpDepartamento, Me.sbpServidor, Me.sbpBaseDeDatos, Me.sbpVersion})
+        Me.stbEstatus.Panels.AddRange(New System.Windows.Forms.StatusBarPanel() {Me.sbpUsuario, Me.sbpUsuarioNombre, Me.sbpDepartamento, Me.sbpServidor, Me.sbpBaseDeDatos, Me.sbpVersion, Me.sbpFuenteCRM})
         Me.stbEstatus.ShowPanels = True
         Me.stbEstatus.Size = New System.Drawing.Size(792, 22)
         Me.stbEstatus.TabIndex = 1
@@ -280,11 +284,32 @@ Public Class frmPrincipal
         '
         'sbpVersion
         '
-        Me.sbpVersion.Alignment = System.Windows.Forms.HorizontalAlignment.Right
-        Me.sbpVersion.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
-        Me.sbpVersion.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.None
+        'Me.sbpVersion.Alignment = System.Windows.Forms.HorizontalAlignment.Right
+        'Me.sbpVersion.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
+        'Me.sbpVersion.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.None
+        'Me.sbpVersion.Name = "sbpVersion"
+        'Me.sbpVersion.Width = 50
+
+        Me.sbpVersion.Alignment = System.Windows.Forms.HorizontalAlignment.Center
+        Me.sbpVersion.MinWidth = 100
         Me.sbpVersion.Name = "sbpVersion"
-        Me.sbpVersion.Width = 125
+        Me.sbpVersion.ToolTipText = "Versión"
+        Me.sbpVersion.Width = 150
+
+
+        Me.sbpFuenteCRM.Alignment = System.Windows.Forms.HorizontalAlignment.Center
+        Me.sbpFuenteCRM.MinWidth = 100
+        Me.sbpFuenteCRM.Name = "FuenteCRM"
+        Me.sbpFuenteCRM.ToolTipText = "FuenteCRM"
+        Me.sbpFuenteCRM.Width = 150
+
+        'Me.sbpFuenteCRM.Alignment = System.Windows.Forms.HorizontalAlignment.Right
+        'Me.sbpFuenteCRM.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring
+        'Me.sbpFuenteCRM.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.None
+        'Me.sbpFuenteCRM.Name = "FuenteCrm"
+        'Me.sbpFuenteCRM.Width = 100
+
+
         '
         'mnuPrincipal
         '
@@ -813,6 +838,7 @@ Public Class frmPrincipal
         CType(Me.sbpServidor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.sbpBaseDeDatos, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.sbpVersion, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.sbpFuenteCRM, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -872,7 +898,7 @@ Public Class frmPrincipal
         sbpDepartamento.Text = GLOBAL_CelulaDescripcion
         sbpServidor.Text = GLOBAL_Servidor
         sbpBaseDeDatos.Text = GLOBAL_Database
-        sbpVersion.Text = "CyC Versión: " & Application.ProductVersion.ToString
+        sbpVersion.Text = "CyC Versión: " & Application.ProductVersion.ToString.Trim
 
         Me.Text = Me.Text & " - " & GLOBAL_NombreEmpresa
 
@@ -949,6 +975,10 @@ Public Class frmPrincipal
             mnuCatClientesDescuento.Enabled = False
             mnuEjecutivoCyC.Enabled = False
             mniBuroCredito.Enabled = False
+        End If
+
+        If Not IsNothing(oConfig.Parametros("FuenteCRM")) Then
+            sbpFuenteCRM.Text = "SIGAMET-" & oConfig.Parametros("FuenteCRM").ToString()
         End If
 
     End Sub
