@@ -2511,6 +2511,7 @@ Public Class frmSelTipoCobro
                             .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales
                             .Total = frmCaptura.ImporteCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
+                            .NoCuentaDestino = CboCtasBanEfectivo.Text
                             ImporteTotalCobro = .Total
                         End With
                         DialogResult = DialogResult.OK
@@ -2571,6 +2572,7 @@ Public Class frmSelTipoCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Referencia = cboTarjetaCreditoAfiliacion.Text
                             .FechaCheque = dtpTarjetaCreditoFDocto.Value
+                            .NoCuentaDestino = CboCtasBanTdc.Text
                             ImporteTotalCobro = .Total
 
 
@@ -2757,6 +2759,7 @@ Public Class frmSelTipoCobro
                         .Observaciones = Trim(txtObservaciones.Text)
                         .ListaPedidos = frmCaptura.ListaCobroPedido
                         .Fcobro = dtpFechaCobro.Value.Date
+                        .NoCuentaDestino = CboCtasBanCheque.Text
                         ImporteTotalCobro = .Total
 
                         'Se agregó para captura de transferencias bancarias
@@ -2846,6 +2849,7 @@ Public Class frmSelTipoCobro
                             '.Banco = CType(lblBanco.Text, Short)
                             '.NoCuenta = lblTarjetaCredito.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
+                            .NoCuentaDestino = CboCtasBanNota.Text
                             ImporteTotalCobro = .Total
                         End With
                         DialogResult = DialogResult.OK
@@ -3686,6 +3690,7 @@ Public Class frmSelTipoCobro
                 .Cliente = CType(Val(lblSFCliente.Text), Integer)
                 .Observaciones = "ABONO DE SALDO A FAVOR"
                 .ListaPedidos = frmCaptura.ListaCobroPedido
+                .NoCuentaDestino = CboCtasBanSldo.Text
                 ImporteTotalCobro = .Total
             End With
             DialogResult = DialogResult.OK
@@ -3953,7 +3958,7 @@ Public Class frmSelTipoCobro
                 .Total = frmCaptura.ImporteCobro
                 .ListaPedidos = frmCaptura.ListaCobroPedido
                 ImporteTotalCobro = .Total
-
+                .NoCuentaDestino = CboCtasBanDacion.Text
                 .Saldo = 0
                 .Cliente = cliente
             End With
@@ -4058,6 +4063,7 @@ Public Class frmSelTipoCobro
                             End If
                             .Observaciones = TextObservacionesVales.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
+                            .NoCuentaDestino = CboCtasBanVales.Text
                             ImporteTotalCobro = .Total
 
                         End With
@@ -4206,6 +4212,7 @@ Public Class frmSelTipoCobro
                             .Total = frmCaptura.ImporteCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Observaciones = Txtbox_observacionAnticipos.Text
+                            .NoCuentaDestino = CboCtaBanAnticipo.Text
                             ImporteTotalCobro = .Total
 
                         End With

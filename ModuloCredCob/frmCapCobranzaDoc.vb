@@ -1454,7 +1454,7 @@ Public Class frmCapCobranzaDoc
             Dim frmConCliente As SigaMetClasses.frmConsultaCliente
             frmConCliente = New SigaMetClasses.frmConsultaCliente(CType(txtCliente.Text, Integer),
                                      PermiteSeleccionarDocumento:=True,
-                                     SoloDocumentosACredito:=True, URLGateway:=_URLGateway, Modulo:=GLOBAL_Modulo, CadenaCon:=ConString)
+                                     SoloDocumentosACredito:=True, URLGateway:=_URLGateway, Modulo:=GLOBAL_Modulo, CadenaCon:=ConString, Usuario:=GLOBAL_IDUsuario)
             If frmConCliente.ShowDialog() = DialogResult.OK Then
                 txtPedidoReferencia.Text = frmConCliente.PedidoReferenciaSeleccionado
                 txtPedidoReferencia.Focus()
