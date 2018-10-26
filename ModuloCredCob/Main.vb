@@ -572,6 +572,57 @@ Module Main
         End Try
         Return Diccionario
     End Function
+    Public Function ExisteTipoMovimientoCaja(ByVal Connection As System.Data.SqlClient.SqlConnection, ByVal TipoMovCaja As Int16) As DataTable
+        Dim data As New SGDAC.DAC(Connection)
+        Dim dtTipoMovCaja As New DataTable()
+        Dim param(0) As SqlClient.SqlParameter
+        param(0) = New SqlClient.SqlParameter("@TipoMovimientoCaja", TipoMovCaja)
+        Try
+            data.LoadData(dtTipoMovCaja, "spCyCConsultaCtaBanTipoMovCaja", CommandType.StoredProcedure, param, True)
+
+        Catch ex As Exception
+            EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return dtTipoMovCaja
+
+    End Function
+
+    Public Function ConsultaCuentasBancarias(ByVal Connection As System.Data.SqlClient.SqlConnection, ByVal Corporativo As Int16) As DataTable
+        Dim data As New SGDAC.DAC(Connection)
+        Dim dtTipoMovCaja As New DataTable()
+        Dim param(0) As SqlClient.SqlParameter
+        param(0) = New SqlClient.SqlParameter("@Corporativo", Corporativo)
+        Try
+            data.LoadData(dtTipoMovCaja, "spCyCConsultaCuentaBanco", CommandType.StoredProcedure, param, True)
+
+        Catch ex As Exception
+            EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return dtTipoMovCaja
+
+    End Function
+
+
+
+    Public Function CargaCuentas(ByVal Connection As System.Data.SqlClient.SqlConnection, corporativo As Int16) As Dictionary(Of Int32, String)
+        Dim Diccionario As New Dictionary(Of Int32, String)
+        Dim dtAfiliaciones As New DataTable()
+        Dim data As New SGDAC.DAC(Connection)
+        Dim param(0) As SqlClient.SqlParameter
+        param(0) = New SqlClient.SqlParameter("@Corporativo", corporativo)
+        Try
+            data.LoadData(dtAfiliaciones, "spCyCConsultaCuentaBanco", CommandType.StoredProcedure, param, True)
+            Dim dr As DataRow
+            For Each dr In dtAfiliaciones.Rows
+                Diccionario.Add(Convert.ToInt32(dr(0)), Convert.ToString(dr(1)))
+            Next
+        Catch ex As Exception
+            EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
+        End Try
+        Return Diccionario
+    End Function
 
     Public Function cargaListaBancosTC(ByVal Connection As System.Data.SqlClient.SqlConnection) As Dictionary(Of Int32, String)
         Dim Diccionario As New Dictionary(Of Int32, String)
