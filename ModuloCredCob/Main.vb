@@ -84,6 +84,8 @@ Module Main
     Public Const M_DATOS_OK As String = "Los datos fueron grabados correctamente."
     Public Const M_ACCESO As String = "No tiene acceso a esta opción."
     Public CapturaEfectivoVales As Boolean = False 'Indica si ya se capturo un cobro con efectivo o con vales.
+    Public CapturaAnticipo As Boolean = False 'Indica si ya se capturo uncobro anticipo .
+
 
     Public ConsecutivoInicioDeSesion As Byte 'Indica el número de consecutivo que el inicio de sesión tiene
     Public ConString As String

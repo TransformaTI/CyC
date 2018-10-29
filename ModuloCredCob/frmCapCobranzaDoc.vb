@@ -879,7 +879,11 @@ Public Class frmCapCobranzaDoc
                 objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)
 
                 ' Recuperar nuevo campo IdCRM RM 14/09/2018
-                objPedido.IDCRM = DirectCast(dr("IdCRM"), Integer)
+
+                If Not IsDBNull(dr("IdCRM")) Then
+                    objPedido.IDCRM = DirectCast(dr("IdCRM"), Integer)
+                End If
+
             Loop
             If objPedido.PedidoReferencia <> "" Then
                 Return True
