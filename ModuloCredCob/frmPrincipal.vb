@@ -2378,20 +2378,36 @@ Public Class frmPrincipal
     End Sub
 
     Private Sub MenuItem11_Click(sender As Object, e As EventArgs) Handles MenuItem11.Click
+        'Dim f As Form
+        'For Each f In Me.MdiChildren
+        '    If f.Name = "frmAltaPagoTarjeta" Then
+        '        f.Focus()
+        '        Exit Sub
+        '    End If
+        'Next
+        'Cursor = Cursors.WaitCursor
+        'Dim CuentaBancariaClientees As New SigaMetClasses.frmAltaPagoTarjeta(GLOBAL_IDUsuario)
+        'CuentaBancariaClientees.MdiParent = Me
+        ''CuentaBancariaClientees.WindowState = FormWindowState.Maximized
+        'Cursor = Cursors.Default
+
+        'CuentaBancariaClientees.Show()
+
+
         Dim f As Form
         For Each f In Me.MdiChildren
-            If f.Name = "frmAltaPagoTarjeta" Then
+            If f.Name = "frmConsultaPagosAreaTarjeta" Then
                 f.Focus()
                 Exit Sub
             End If
         Next
-        Cursor = Cursors.WaitCursor
-        Dim CuentaBancariaClientees As New SigaMetClasses.frmAltaPagoTarjeta(GLOBAL_IDUsuario)
-        CuentaBancariaClientees.MdiParent = Me
-        'CuentaBancariaClientees.WindowState = FormWindowState.Maximized
-        Cursor = Cursors.Default
 
-        CuentaBancariaClientees.Show()
+        Cursor = Cursors.WaitCursor
+        Dim FrmConsulta As New SigaMetClasses.frmConsultaPagosAreaTarjeta(GLOBAL_IDUsuario, ConString)
+        FrmConsulta.MdiParent = Me
+        FrmConsulta.WindowState = FormWindowState.Maximized
+        FrmConsulta.Show()
+        Cursor = Cursors.Default
     End Sub
 
     Private Sub mnuIngresosSaldoAFavor_Click(sender As Object, e As EventArgs) Handles mnuIngresosSaldoAFavor.Click
