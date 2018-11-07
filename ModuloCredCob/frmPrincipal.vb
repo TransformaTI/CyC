@@ -15,7 +15,6 @@ Public Class frmPrincipal
 
 
     End Sub
-
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
