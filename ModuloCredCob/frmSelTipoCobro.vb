@@ -3155,7 +3155,7 @@ Public Class frmSelTipoCobro
                             tbTarjetaCreditoObservaciones.Text = frmConsultaCargo.CargoTarjeta.Observacion
                             txtTarjetaCreditoAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
                             txtTarjetaCreditoConfirmaAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
-                            cboTarjetaCreditoAfiliacion.Text = CType(frmConsultaCargo.CargoTarjeta.Afiliacion, String)
+                            cboTarjetaCreditoAfiliacion.SelectedIndex = cboTarjetaCreditoAfiliacion.FindString(frmConsultaCargo.CargoTarjeta.Afiliacion.ToString())
                             TxtNoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
                             cboTarjetaCreditoTipoTarjeta.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
                             cboTarjetaCreditoBanco.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.Banco)
