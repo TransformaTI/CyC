@@ -996,6 +996,8 @@ Public Class frmCapCobranza
     End Function
 
     Private Sub txtCliente_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCliente.Leave
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         If txtCliente.Text <> "" Then
             If _URLGateway <> "" Then
                 lblNombreCliente.Text = consultaClienteCRM(CInt(txtCliente.Text))
@@ -1022,6 +1024,25 @@ Public Class frmCapCobranza
                 'Fin de la validacion de cobranza de edificios
             End If
         End If
+
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
+
+        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+            If validacionDeClientesEdificioCRM(Integer.Parse(txtCliente.Text.ToString())) = False Then
+                MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente padre de Administración de Edificios", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+            End If
+        End If
+
+
+
+
     End Sub
 
     'TODO: Funcion para validar que el cliente sea un cliente padre de edificio administrado 13/10/2004
@@ -1043,7 +1064,60 @@ Public Class frmCapCobranza
         Return True
     End Function
 
+    Private Function validacionDeClientesEdificioCRM(ByVal IDDireccioneEntrega As Integer) As Boolean
+        Dim ClientePadre As Boolean
+
+
+
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+
+
+
+        Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        Gateway.URLServicio = _URLGateway
+
+
+
+        Solicitud.IDCliente = IDDireccioneEntrega
+        Solicitud.Portatil = False
+        Solicitud.IDAutotanque = Nothing
+        Solicitud.FechaConsulta = Nothing
+
+
+        Try
+
+            DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+
+
+            If (Not DireccionEntrega.Ramo Is Nothing) Then
+
+                If (DireccionEntrega.Ramo.IDRamoCliente = 53 And Not IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClientePadre = False
+
+                ElseIf (DireccionEntrega.Ramo.IDRamoCliente = 53 And IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClientePadre = True
+                End If
+            End If
+
+        Catch ex As Exception
+            EventLog.WriteEntry(My.Application.Info.AssemblyName.ToString() & ex.Source, ex.Message, EventLogEntryType.Error)
+        Finally
+            Gateway = Nothing
+            Solicitud = Nothing
+            DireccionEntrega = Nothing
+        End Try
+
+
+        Return ClientePadre
+    End Function
+
     Private Sub cboTipoMovCaja_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTipoMovCaja.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub txtCliente_TextChanged(sender As Object, e As EventArgs) Handles txtCliente.TextChanged
 
     End Sub
 End Class
