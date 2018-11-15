@@ -1,5 +1,5 @@
 Option Strict On
-Option Explicit On 
+Option Explicit On
 Imports System.Data.SqlClient
 Imports Microsoft.VisualBasic.ControlChars
 
@@ -105,9 +105,9 @@ Public Class frmCapCobranzaDoc
 
 #End Region
 
-    Public Sub New(ByVal TipoMovimientoCaja As Byte, _
-                   ByVal SoloDocumentosCartera As Boolean, _
-                   ByVal ListaCobros As ListBox, _
+    Public Sub New(ByVal TipoMovimientoCaja As Byte,
+                   ByVal SoloDocumentosCartera As Boolean,
+                   ByVal ListaCobros As ListBox,
                    Optional ByVal AceptaSaldoAFavor As Boolean = False)
 
         MyBase.New()
@@ -817,7 +817,7 @@ Public Class frmCapCobranzaDoc
         '" WHERE p.PedidoReferencia = '" & PedidoReferencia & "'"
 
         'If _SoloDocumentosCartera Then strQuery &= " AND p.CyC = 1 " '26 de sep
-
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         Dim cn As New SqlConnection(ConString)
         cn.Open()
         'Dim cmd As New SqlCommand(strQuery)
@@ -876,8 +876,23 @@ Public Class frmCapCobranzaDoc
                 objPedido.ValeCredito = CType(dr("ValeCredito"), Integer)
 
                 'Para validar el abono a edificios administrados JAGD 28/12/2004
-                objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)
 
+                'a) Si URLGateway == NULL o URLGateway == “” entonces objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)  (como es actualmente)
+                'b) Si URLGateway!=NULL o URLGateway!=”” entonces validarClientePadre(int IDDireccioneEntrega)
+
+
+                Try
+                    _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+                Catch ex As Exception
+                    _URLGateway = ""
+                End Try
+
+
+                If (_URLGateway Is Nothing Or _URLGateway = String.Empty) Then 'MCC 15112018
+                    objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)
+                ElseIf (_URLGateway <> Nothing Or _URLGateway <> String.Empty) Then
+                    objPedido.PedidoEdificio = validarClientePadre(CType(dr("Cliente"), Integer))
+                End If
                 ' Recuperar nuevo campo IdCRM RM 14/09/2018
 
                 If Not IsDBNull(dr("IdCRM")) Then
@@ -1134,31 +1149,31 @@ Public Class frmCapCobranzaDoc
     Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
         If lstDocumento.Items.Count > 0 Then
-                If _ImporteRestante <= 0 _
-                        Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Cheque _
-                        Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaIngreso Then
-                    If MessageBox.Show(M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
-                            = DialogResult.Yes Then
-                        Dim s As SigaMetClasses.sPedido
-                        For Each s In lstDocumento.Items
-                            ListaCobroPedido.Add(s)
-                        Next
-                        'If TipoCobro = enumTipoCobro.Efectivo Or TipoCobro = enumTipoCobro.Vales Then CapturaEfectivoVales = True
-                        'Cambiado el 09 de octubre del 2002
-                        'Bloqueamos el boton para que no se captura dos veces EfectivoVales
-                        If _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales Then
-                            _ImporteCobro = Me.decImporteTotalCobranza
-                            CapturaEfectivoVales = True
-                            CapturaMixtaEfectivoVales = True
-                        End If
-                        DialogResult = DialogResult.OK
+            If _ImporteRestante <= 0 _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Cheque _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaIngreso Then
+                If MessageBox.Show(M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
+                        = DialogResult.Yes Then
+                    Dim s As SigaMetClasses.sPedido
+                    For Each s In lstDocumento.Items
+                        ListaCobroPedido.Add(s)
+                    Next
+                    'If TipoCobro = enumTipoCobro.Efectivo Or TipoCobro = enumTipoCobro.Vales Then CapturaEfectivoVales = True
+                    'Cambiado el 09 de octubre del 2002
+                    'Bloqueamos el boton para que no se captura dos veces EfectivoVales
+                    If _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales Then
+                        _ImporteCobro = Me.decImporteTotalCobranza
+                        CapturaEfectivoVales = True
+                        CapturaMixtaEfectivoVales = True
                     End If
-                Else
-                    MessageBox.Show("Falta por relacionar " & _ImporteRestante.ToString("C"), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    DialogResult = DialogResult.OK
                 End If
             Else
-                MessageBox.Show("No se han capturado documentos en la cobranza.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("Falta por relacionar " & _ImporteRestante.ToString("C"), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
+        Else
+            MessageBox.Show("No se han capturado documentos en la cobranza.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
 
     End Sub
 #End Region
@@ -1917,7 +1932,73 @@ Public Class frmCapCobranzaDoc
 
         Return documento
     End Function
+    Private Function validarClientePadre(ByVal IDDireccioneEntrega As Integer) As Boolean
+        Dim ClientePadre As Boolean
 
+
+
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+
+
+        'bool respuestaExitosa = True;
+        'Int idRamoCliente = 53;        /*  53 = Edificios administrados */
+        Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        Gateway.URLServicio = _URLGateway
+
+        'SolicitudGateway objRequest = New SolicitudGateway
+        '    {
+        '        IDCliente = Cliente,
+        '        Portatil = False,
+        '        IDAutotanque = null,
+        '        FechaConsulta = null
+        '    };
+
+        Solicitud.IDCliente = IDDireccioneEntrega
+        Solicitud.Portatil = False
+        Solicitud.IDAutotanque = Nothing
+        Solicitud.FechaConsulta = Nothing
+
+
+        'RTGMCore.DireccionEntrega objDireccionEntrega = New RTGMCore.DireccionEntrega();
+        '    Try
+        '    {
+        '        objDireccionEntrega = objGateway.buscarDireccionEntrega(objRequest);
+        '        Assert.AreEqual(idRamoCliente, objDireccionEntrega.Ramo.IDRamoCliente);
+        '        Assert.IsNull(objDireccionEntrega.IDDireccionEntregaPadreEdificio);
+        '    }
+        '    Catch (Exception)
+        '    {
+        '        respuestaExitosa = False;
+        '    }
+        Try
+
+            DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+
+
+            If (Not DireccionEntrega.Ramo Is Nothing) Then
+                'Devolver verdadero si después de consultar la dirección de entrega a través del RTGMGateway la propiedad IDRamoCliente==53 y IDDireccionEntregaPadreEdificio!=NULL
+                If (DireccionEntrega.Ramo.IDRamoCliente = 53 And Not IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClientePadre = True
+
+                    ' Devolver falso si después de consultar la dirección de entrega a través del RTGMGateway la propiedad IDRamoCliente==53 y IDDireccionEntregaPadreEdificio==NULL
+                ElseIf (DireccionEntrega.Ramo.IDRamoCliente = 53 And IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClientePadre = False
+                End If
+            End If
+
+        Catch ex As Exception
+            EventLog.WriteEntry(My.Application.Info.AssemblyName.ToString() & ex.Source, ex.Message, EventLogEntryType.Error)
+        Finally
+            Gateway = Nothing
+            Solicitud = Nothing
+            DireccionEntrega = Nothing
+        End Try
+
+
+        Return ClientePadre
+    End Function
     Private Sub btnAceptar_Click_1(sender As Object, e As EventArgs) Handles btnAceptar.Click
 
     End Sub
