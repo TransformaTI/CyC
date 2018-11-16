@@ -2605,6 +2605,10 @@ Public Class frmSelTipoCobro
                 MessageBox.Show("Debe teclear el número de autorización.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         End If
+
+
+
+
     End Sub
 
 
@@ -2766,8 +2770,8 @@ Public Class frmSelTipoCobro
                         '23-03-2005 JAG
                         If (rbTransferencia.Checked = True) Then
                             .NoCuentaDestino = txtNumeroCuentaOrigen.Text
-                        end if
-                            .BancoOrigen = CType(ComboBancoOrigen.SelectedValue, Short)
+                        End If
+                        .BancoOrigen = CType(ComboBancoOrigen.SelectedValue, Short)
 
                         .SaldoAFavor = frmCaptura.SaldoAFavor
 
@@ -2961,6 +2965,56 @@ Public Class frmSelTipoCobro
         Return True
     End Function
 
+    Private Function validacionDeClientesHijosEdificioCRM(ByVal IDDireccionEntrega As Integer) As Boolean
+        Dim ClienteHijo As Boolean
+
+
+
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+
+
+
+        Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        Gateway.URLServicio = _URLGateway
+
+
+
+        Solicitud.IDCliente = IDDireccionEntrega
+        Solicitud.Portatil = False
+        Solicitud.IDAutotanque = Nothing
+        Solicitud.FechaConsulta = Nothing
+
+
+        Try
+
+            DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+
+
+            If (Not DireccionEntrega.Ramo Is Nothing) Then
+
+                If (DireccionEntrega.Ramo.IDRamoCliente = 53 And Not IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClienteHijo = False
+
+                ElseIf (DireccionEntrega.Ramo.IDRamoCliente = 53 And IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClienteHijo = True
+                End If
+            End If
+
+        Catch ex As Exception
+            EventLog.WriteEntry(My.Application.Info.AssemblyName.ToString() & ex.Source, ex.Message, EventLogEntryType.Error)
+        Finally
+            Gateway = Nothing
+            Solicitud = Nothing
+            DireccionEntrega = Nothing
+        End Try
+
+
+        Return ClienteHijo
+    End Function
+
+
     Private Sub tabTipoCobro_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabTipoCobro.SelectedIndexChanged
         Select Case tabTipoCobro.SelectedTab.Name
             Case Is = "tbEfectivoVales"
@@ -3131,6 +3185,11 @@ Public Class frmSelTipoCobro
     End Function
 
     Private Sub btnBuscarClienteTC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarClienteTC.Click
+
+        Dim oCliente As New SigaMetClasses.cCliente
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+
         If txtClienteTC.Text <> "" And IsNumeric(txtClienteTC.Text) Then
             LimpiaInfoTarjetaCredito()
             If Not chkCapturaTPV.Checked Then
@@ -3170,7 +3229,7 @@ Public Class frmSelTipoCobro
                 'TODO: Validacion de clientes hijos de edificios adminstrados 13/10/2004
                 If GLOBAL_AplicaAdmEdificios Then
                     btnAceptarTarjetaCredito.Enabled = True
-                    Dim oCliente As New SigaMetClasses.cCliente(CType(txtClienteTC.Text, Integer))
+                    oCliente = New SigaMetClasses.cCliente(CType(txtClienteTC.Text, Integer))
                     If Not (validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo,
                         GLOBAL_ClientePadreEdificio)) Then
                         btnAceptarTarjetaCredito.Enabled = False
@@ -3186,6 +3245,28 @@ Public Class frmSelTipoCobro
                 End If
             End If
         End If
+
+
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
+
+        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+            If validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
+                btnAceptarTarjetaCredito.Enabled = False
+            End If
+        Else
+            If validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo, GLOBAL_ClientePadreEdificio) = False Then
+                btnAceptarTarjetaCredito.Enabled = False
+            End If
+
+        End If
+
+
     End Sub
     ''' <summary>
     '''Carga Cuentas Bancarias.
@@ -3357,8 +3438,12 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub txtClienteCheque_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtClienteCheque.Leave
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim oCliente As New SigaMetClasses.cCliente()
+
         If Trim(txtClienteCheque.Text) <> String.Empty Then
-            Dim oCliente As New SigaMetClasses.cCliente()
+
             oCliente.Consulta(CType(txtClienteCheque.Text, Integer))
             lblNombre.Text = oCliente.Nombre
             'TODO: Validacion para clientes de adminsitracion de edificios 13/10/2004
@@ -3372,6 +3457,31 @@ Public Class frmSelTipoCobro
             'Fin de la validacion de cobranza de edificios administrados
             oCliente = Nothing
         End If
+
+
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
+
+        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+            If validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
+                MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
+                            "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        Else
+            If validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo, GLOBAL_ClientePadreEdificio) = False Then
+                MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
+                            "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+            End If
+        End If
+
+
+
     End Sub
 
     Private Sub LeerCodigoCheque(ByVal strCodigo As String)
@@ -4247,6 +4357,10 @@ Public Class frmSelTipoCobro
         If e.KeyChar = "." Then
             e.Handled = False
         End If
+    End Sub
+
+    Private Sub txtClienteCheque_TextChanged(sender As Object, e As EventArgs) Handles txtClienteCheque.TextChanged
+
     End Sub
     '*****
 End Class
