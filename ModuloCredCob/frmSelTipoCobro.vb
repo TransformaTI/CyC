@@ -211,21 +211,21 @@ Public Class frmSelTipoCobro
     Friend WithEvents Txtbox_observacionAnticipos As TextBox
     Friend WithEvents LabelBase10 As ControlesBase.LabelBase
     Friend WithEvents dtpFechaCobro As DateTimePicker
-    Friend WithEvents LabelBase11 As ControlesBase.LabelBase
+    Friend WithEvents LblCtasBanTdc As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanTdc As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase12 As ControlesBase.LabelBase
+    Friend WithEvents lblCtasBanCheque As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanCheque As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase13 As ControlesBase.LabelBase
+    Friend WithEvents lblCtasBanSldo As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanSldo As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase14 As ControlesBase.LabelBase
+    Friend WithEvents lblCtasBanNota As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanNota As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase15 As ControlesBase.LabelBase
+    Friend WithEvents lblCtasBanAnticipo As ControlesBase.LabelBase
     Friend WithEvents CboCtaBanAnticipo As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase18 As ControlesBase.LabelBase
+    Friend WithEvents LblCtasBancariasEfectivo As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanEfectivo As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase16 As ControlesBase.LabelBase
+    Friend WithEvents lblCtasBanDacion As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanDacion As SigaMetClasses.Combos.ComboBanco
-    Friend WithEvents LabelBase17 As ControlesBase.LabelBase
+    Friend WithEvents lblCtaBanVales As ControlesBase.LabelBase
     Friend WithEvents CboCtasBanVales As SigaMetClasses.Combos.ComboBanco
     Friend WithEvents LabelBase30 As ControlesBase.LabelBase
     Public ReadOnly Property Posfechado() As Boolean
@@ -320,7 +320,7 @@ Public Class frmSelTipoCobro
         Me.tabTipoCobro = New System.Windows.Forms.TabControl()
         Me.tbEfectivoVales = New System.Windows.Forms.TabPage()
         Me.grpEfectivoVales = New System.Windows.Forms.GroupBox()
-        Me.LabelBase18 = New ControlesBase.LabelBase()
+        Me.LblCtasBancariasEfectivo = New ControlesBase.LabelBase()
         Me.CboCtasBanEfectivo = New SigaMetClasses.Combos.ComboBanco()
         Me.txtTotalEfectivoVales = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.lblTotalEfectivoVales = New ControlesBase.LabelBase()
@@ -333,7 +333,7 @@ Public Class frmSelTipoCobro
         Me.chkCapturaTPV = New System.Windows.Forms.CheckBox()
         Me.btnAceptarTarjetaCredito = New ControlesBase.BotonBase()
         Me.grpTarjetaCredito = New System.Windows.Forms.GroupBox()
-        Me.LabelBase11 = New ControlesBase.LabelBase()
+        Me.LblCtasBanTdc = New ControlesBase.LabelBase()
         Me.CboCtasBanTdc = New SigaMetClasses.Combos.ComboBanco()
         Me.LblImporteTc = New System.Windows.Forms.TextBox()
         Me.TxtNoTarjeta = New System.Windows.Forms.TextBox()
@@ -375,7 +375,7 @@ Public Class frmSelTipoCobro
         Me.rbNotaIngreso = New System.Windows.Forms.RadioButton()
         Me.btnAceptarChequeFicha = New ControlesBase.BotonBase()
         Me.grpChequeFicha = New System.Windows.Forms.GroupBox()
-        Me.LabelBase12 = New ControlesBase.LabelBase()
+        Me.lblCtasBanCheque = New ControlesBase.LabelBase()
         Me.CboCtasBanCheque = New SigaMetClasses.Combos.ComboBanco()
         Me.LabelBase10 = New ControlesBase.LabelBase()
         Me.dtpFechaCobro = New System.Windows.Forms.DateTimePicker()
@@ -408,7 +408,7 @@ Public Class frmSelTipoCobro
         Me.tbSaldoAFavor = New System.Windows.Forms.TabPage()
         Me.btnAceptarSF = New ControlesBase.BotonBase()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.LabelBase13 = New ControlesBase.LabelBase()
+        Me.lblCtasBanSldo = New ControlesBase.LabelBase()
         Me.CboCtasBanSldo = New SigaMetClasses.Combos.ComboBanco()
         Me.lblSFAñoCobro = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
@@ -436,7 +436,7 @@ Public Class frmSelTipoCobro
         Me.tbNotaCredito = New System.Windows.Forms.TabPage()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
         Me.gpbNotaCredito = New System.Windows.Forms.GroupBox()
-        Me.LabelBase14 = New ControlesBase.LabelBase()
+        Me.lblCtasBanNota = New ControlesBase.LabelBase()
         Me.CboCtasBanNota = New SigaMetClasses.Combos.ComboBanco()
         Me.lblNotaCreditoFecha = New System.Windows.Forms.Label()
         Me.lblNotaCreditoImporte = New System.Windows.Forms.Label()
@@ -455,7 +455,7 @@ Public Class frmSelTipoCobro
         Me.lblIdCliente = New System.Windows.Forms.Label()
         Me.lblNombreClienteDato = New System.Windows.Forms.Label()
         Me.tbAnticipo = New System.Windows.Forms.TabPage()
-        Me.LabelBase15 = New ControlesBase.LabelBase()
+        Me.lblCtasBanAnticipo = New ControlesBase.LabelBase()
         Me.CboCtaBanAnticipo = New SigaMetClasses.Combos.ComboBanco()
         Me.Txtbox_observacionAnticipos = New System.Windows.Forms.TextBox()
         Me.cmdAceptar = New System.Windows.Forms.Button()
@@ -471,7 +471,7 @@ Public Class frmSelTipoCobro
         Me.tbDacionPago = New System.Windows.Forms.TabPage()
         Me.btnAceptarDP = New ControlesBase.BotonBase()
         Me.grpDacionPago = New System.Windows.Forms.GroupBox()
-        Me.LabelBase16 = New ControlesBase.LabelBase()
+        Me.lblCtasBanDacion = New ControlesBase.LabelBase()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.CboCtasBanDacion = New SigaMetClasses.Combos.ComboBanco()
@@ -488,7 +488,7 @@ Public Class frmSelTipoCobro
         Me.tabvalesdespensa = New System.Windows.Forms.TabPage()
         Me.BotonBase1 = New ControlesBase.BotonBase()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.LabelBase17 = New ControlesBase.LabelBase()
+        Me.lblCtaBanVales = New ControlesBase.LabelBase()
         Me.CboCtasBanVales = New SigaMetClasses.Combos.ComboBanco()
         Me.TextObservacionesVales = New System.Windows.Forms.TextBox()
         Me.TxtMontoVales = New SigaMetClasses.Controles.txtNumeroDecimal()
@@ -564,7 +564,7 @@ Public Class frmSelTipoCobro
         '
         'grpEfectivoVales
         '
-        Me.grpEfectivoVales.Controls.Add(Me.LabelBase18)
+        Me.grpEfectivoVales.Controls.Add(Me.LblCtasBancariasEfectivo)
         Me.grpEfectivoVales.Controls.Add(Me.CboCtasBanEfectivo)
         Me.grpEfectivoVales.Controls.Add(Me.txtTotalEfectivoVales)
         Me.grpEfectivoVales.Controls.Add(Me.lblTotalEfectivoVales)
@@ -575,22 +575,25 @@ Public Class frmSelTipoCobro
         Me.grpEfectivoVales.TabStop = False
         Me.grpEfectivoVales.Text = "Efectivo"
         '
-        'LabelBase18
+        'LblCtasBancariasEfectivo
         '
-        Me.LabelBase18.AutoSize = True
-        Me.LabelBase18.Location = New System.Drawing.Point(16, 52)
-        Me.LabelBase18.Name = "LabelBase18"
-        Me.LabelBase18.Size = New System.Drawing.Size(76, 13)
-        Me.LabelBase18.TabIndex = 51
-        Me.LabelBase18.Text = "Cta. Bancaria:"
+        Me.LblCtasBancariasEfectivo.AutoSize = True
+        Me.LblCtasBancariasEfectivo.Location = New System.Drawing.Point(16, 52)
+        Me.LblCtasBancariasEfectivo.Name = "LblCtasBancariasEfectivo"
+        Me.LblCtasBancariasEfectivo.Size = New System.Drawing.Size(86, 13)
+        Me.LblCtasBancariasEfectivo.TabIndex = 51
+        Me.LblCtasBancariasEfectivo.Text = "Ctas. Bancarias:"
+        Me.LblCtasBancariasEfectivo.Visible = False
         '
         'CboCtasBanEfectivo
         '
+        Me.CboCtasBanEfectivo.Enabled = False
         Me.CboCtasBanEfectivo.Location = New System.Drawing.Point(136, 49)
         Me.CboCtasBanEfectivo.Name = "CboCtasBanEfectivo"
         Me.CboCtasBanEfectivo.Size = New System.Drawing.Size(160, 21)
         Me.CboCtasBanEfectivo.TabIndex = 50
         Me.CboCtasBanEfectivo.Text = "Seleccionar"
+        Me.CboCtasBanEfectivo.Visible = False
         '
         'txtTotalEfectivoVales
         '
@@ -701,7 +704,7 @@ Public Class frmSelTipoCobro
         '
         'grpTarjetaCredito
         '
-        Me.grpTarjetaCredito.Controls.Add(Me.LabelBase11)
+        Me.grpTarjetaCredito.Controls.Add(Me.LblCtasBanTdc)
         Me.grpTarjetaCredito.Controls.Add(Me.CboCtasBanTdc)
         Me.grpTarjetaCredito.Controls.Add(Me.LblImporteTc)
         Me.grpTarjetaCredito.Controls.Add(Me.TxtNoTarjeta)
@@ -742,14 +745,15 @@ Public Class frmSelTipoCobro
         Me.grpTarjetaCredito.TabStop = False
         Me.grpTarjetaCredito.Text = "Datos de la tarjeta de crédito o débito"
         '
-        'LabelBase11
+        'LblCtasBanTdc
         '
-        Me.LabelBase11.AutoSize = True
-        Me.LabelBase11.Location = New System.Drawing.Point(16, 217)
-        Me.LabelBase11.Name = "LabelBase11"
-        Me.LabelBase11.Size = New System.Drawing.Size(76, 13)
-        Me.LabelBase11.TabIndex = 49
-        Me.LabelBase11.Text = "Cta. Bancaria:"
+        Me.LblCtasBanTdc.AutoSize = True
+        Me.LblCtasBanTdc.Location = New System.Drawing.Point(16, 217)
+        Me.LblCtasBanTdc.Name = "LblCtasBanTdc"
+        Me.LblCtasBanTdc.Size = New System.Drawing.Size(86, 13)
+        Me.LblCtasBanTdc.TabIndex = 49
+        Me.LblCtasBanTdc.Text = "Ctas. Bancarias:"
+        Me.LblCtasBanTdc.Visible = False
         '
         'CboCtasBanTdc
         '
@@ -758,6 +762,7 @@ Public Class frmSelTipoCobro
         Me.CboCtasBanTdc.Size = New System.Drawing.Size(160, 21)
         Me.CboCtasBanTdc.TabIndex = 48
         Me.CboCtasBanTdc.Text = "Seleccionar"
+        Me.CboCtasBanTdc.Visible = False
         '
         'LblImporteTc
         '
@@ -1117,7 +1122,7 @@ Public Class frmSelTipoCobro
         '
         'grpChequeFicha
         '
-        Me.grpChequeFicha.Controls.Add(Me.LabelBase12)
+        Me.grpChequeFicha.Controls.Add(Me.lblCtasBanCheque)
         Me.grpChequeFicha.Controls.Add(Me.CboCtasBanCheque)
         Me.grpChequeFicha.Controls.Add(Me.LabelBase10)
         Me.grpChequeFicha.Controls.Add(Me.dtpFechaCobro)
@@ -1149,14 +1154,14 @@ Public Class frmSelTipoCobro
         Me.grpChequeFicha.TabIndex = 0
         Me.grpChequeFicha.TabStop = False
         '
-        'LabelBase12
+        'lblCtasBanCheque
         '
-        Me.LabelBase12.AutoSize = True
-        Me.LabelBase12.Location = New System.Drawing.Point(8, 222)
-        Me.LabelBase12.Name = "LabelBase12"
-        Me.LabelBase12.Size = New System.Drawing.Size(86, 13)
-        Me.LabelBase12.TabIndex = 51
-        Me.LabelBase12.Text = "Ctas. Bancarias:"
+        Me.lblCtasBanCheque.AutoSize = True
+        Me.lblCtasBanCheque.Location = New System.Drawing.Point(8, 222)
+        Me.lblCtasBanCheque.Name = "lblCtasBanCheque"
+        Me.lblCtasBanCheque.Size = New System.Drawing.Size(86, 13)
+        Me.lblCtasBanCheque.TabIndex = 51
+        Me.lblCtasBanCheque.Text = "Ctas. Bancarias:"
         '
         'CboCtasBanCheque
         '
@@ -1434,7 +1439,7 @@ Public Class frmSelTipoCobro
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.LabelBase13)
+        Me.GroupBox1.Controls.Add(Me.lblCtasBanSldo)
         Me.GroupBox1.Controls.Add(Me.CboCtasBanSldo)
         Me.GroupBox1.Controls.Add(Me.lblSFAñoCobro)
         Me.GroupBox1.Controls.Add(Me.Label15)
@@ -1455,14 +1460,14 @@ Public Class frmSelTipoCobro
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
-        'LabelBase13
+        'lblCtasBanSldo
         '
-        Me.LabelBase13.AutoSize = True
-        Me.LabelBase13.Location = New System.Drawing.Point(12, 210)
-        Me.LabelBase13.Name = "LabelBase13"
-        Me.LabelBase13.Size = New System.Drawing.Size(86, 13)
-        Me.LabelBase13.TabIndex = 53
-        Me.LabelBase13.Text = "Ctas. Bancarias:"
+        Me.lblCtasBanSldo.AutoSize = True
+        Me.lblCtasBanSldo.Location = New System.Drawing.Point(12, 210)
+        Me.lblCtasBanSldo.Name = "lblCtasBanSldo"
+        Me.lblCtasBanSldo.Size = New System.Drawing.Size(86, 13)
+        Me.lblCtasBanSldo.TabIndex = 53
+        Me.lblCtasBanSldo.Text = "Ctas. Bancarias:"
         '
         'CboCtasBanSldo
         '
@@ -1705,7 +1710,7 @@ Public Class frmSelTipoCobro
         '
         'gpbNotaCredito
         '
-        Me.gpbNotaCredito.Controls.Add(Me.LabelBase14)
+        Me.gpbNotaCredito.Controls.Add(Me.lblCtasBanNota)
         Me.gpbNotaCredito.Controls.Add(Me.CboCtasBanNota)
         Me.gpbNotaCredito.Controls.Add(Me.lblNotaCreditoFecha)
         Me.gpbNotaCredito.Controls.Add(Me.lblNotaCreditoImporte)
@@ -1726,14 +1731,14 @@ Public Class frmSelTipoCobro
         Me.gpbNotaCredito.TabStop = False
         Me.gpbNotaCredito.Text = "Nota de Credito"
         '
-        'LabelBase14
+        'lblCtasBanNota
         '
-        Me.LabelBase14.AutoSize = True
-        Me.LabelBase14.Location = New System.Drawing.Point(16, 149)
-        Me.LabelBase14.Name = "LabelBase14"
-        Me.LabelBase14.Size = New System.Drawing.Size(86, 13)
-        Me.LabelBase14.TabIndex = 55
-        Me.LabelBase14.Text = "Ctas. Bancarias:"
+        Me.lblCtasBanNota.AutoSize = True
+        Me.lblCtasBanNota.Location = New System.Drawing.Point(16, 149)
+        Me.lblCtasBanNota.Name = "lblCtasBanNota"
+        Me.lblCtasBanNota.Size = New System.Drawing.Size(86, 13)
+        Me.lblCtasBanNota.TabIndex = 55
+        Me.lblCtasBanNota.Text = "Ctas. Bancarias:"
         '
         'CboCtasBanNota
         '
@@ -1894,7 +1899,7 @@ Public Class frmSelTipoCobro
         'tbAnticipo
         '
         Me.tbAnticipo.BackColor = System.Drawing.SystemColors.Control
-        Me.tbAnticipo.Controls.Add(Me.LabelBase15)
+        Me.tbAnticipo.Controls.Add(Me.lblCtasBanAnticipo)
         Me.tbAnticipo.Controls.Add(Me.CboCtaBanAnticipo)
         Me.tbAnticipo.Controls.Add(Me.Txtbox_observacionAnticipos)
         Me.tbAnticipo.Controls.Add(Me.cmdAceptar)
@@ -1914,14 +1919,14 @@ Public Class frmSelTipoCobro
         Me.tbAnticipo.TabIndex = 6
         Me.tbAnticipo.Text = "Aplicación de Anticipo"
         '
-        'LabelBase15
+        'lblCtasBanAnticipo
         '
-        Me.LabelBase15.AutoSize = True
-        Me.LabelBase15.Location = New System.Drawing.Point(10, 204)
-        Me.LabelBase15.Name = "LabelBase15"
-        Me.LabelBase15.Size = New System.Drawing.Size(96, 13)
-        Me.LabelBase15.TabIndex = 57
-        Me.LabelBase15.Text = "Ctas. Bancarias:"
+        Me.lblCtasBanAnticipo.AutoSize = True
+        Me.lblCtasBanAnticipo.Location = New System.Drawing.Point(10, 204)
+        Me.lblCtasBanAnticipo.Name = "lblCtasBanAnticipo"
+        Me.lblCtasBanAnticipo.Size = New System.Drawing.Size(96, 13)
+        Me.lblCtasBanAnticipo.TabIndex = 57
+        Me.lblCtasBanAnticipo.Text = "Ctas. Bancarias:"
         '
         'CboCtaBanAnticipo
         '
@@ -2054,7 +2059,7 @@ Public Class frmSelTipoCobro
         '
         'grpDacionPago
         '
-        Me.grpDacionPago.Controls.Add(Me.LabelBase16)
+        Me.grpDacionPago.Controls.Add(Me.lblCtasBanDacion)
         Me.grpDacionPago.Controls.Add(Me.Label7)
         Me.grpDacionPago.Controls.Add(Me.Label6)
         Me.grpDacionPago.Controls.Add(Me.CboCtasBanDacion)
@@ -2075,14 +2080,14 @@ Public Class frmSelTipoCobro
         Me.grpDacionPago.TabStop = False
         Me.grpDacionPago.Text = "Dación en pago:"
         '
-        'LabelBase16
+        'lblCtasBanDacion
         '
-        Me.LabelBase16.AutoSize = True
-        Me.LabelBase16.Location = New System.Drawing.Point(12, 159)
-        Me.LabelBase16.Name = "LabelBase16"
-        Me.LabelBase16.Size = New System.Drawing.Size(86, 13)
-        Me.LabelBase16.TabIndex = 59
-        Me.LabelBase16.Text = "Ctas. Bancarias:"
+        Me.lblCtasBanDacion.AutoSize = True
+        Me.lblCtasBanDacion.Location = New System.Drawing.Point(12, 159)
+        Me.lblCtasBanDacion.Name = "lblCtasBanDacion"
+        Me.lblCtasBanDacion.Size = New System.Drawing.Size(86, 13)
+        Me.lblCtasBanDacion.TabIndex = 59
+        Me.lblCtasBanDacion.Text = "Ctas. Bancarias:"
         '
         'Label7
         '
@@ -2219,7 +2224,7 @@ Public Class frmSelTipoCobro
         '
         'GroupBox4
         '
-        Me.GroupBox4.Controls.Add(Me.LabelBase17)
+        Me.GroupBox4.Controls.Add(Me.lblCtaBanVales)
         Me.GroupBox4.Controls.Add(Me.CboCtasBanVales)
         Me.GroupBox4.Controls.Add(Me.TextObservacionesVales)
         Me.GroupBox4.Controls.Add(Me.TxtMontoVales)
@@ -2242,14 +2247,14 @@ Public Class frmSelTipoCobro
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Datos de los vales de despensa"
         '
-        'LabelBase17
+        'lblCtaBanVales
         '
-        Me.LabelBase17.AutoSize = True
-        Me.LabelBase17.Location = New System.Drawing.Point(17, 201)
-        Me.LabelBase17.Name = "LabelBase17"
-        Me.LabelBase17.Size = New System.Drawing.Size(86, 13)
-        Me.LabelBase17.TabIndex = 61
-        Me.LabelBase17.Text = "Ctas. Bancarias:"
+        Me.lblCtaBanVales.AutoSize = True
+        Me.lblCtaBanVales.Location = New System.Drawing.Point(17, 201)
+        Me.lblCtaBanVales.Name = "lblCtaBanVales"
+        Me.lblCtaBanVales.Size = New System.Drawing.Size(86, 13)
+        Me.lblCtaBanVales.TabIndex = 61
+        Me.lblCtaBanVales.Text = "Ctas. Bancarias:"
         '
         'CboCtasBanVales
         '
@@ -2258,6 +2263,7 @@ Public Class frmSelTipoCobro
         Me.CboCtasBanVales.Size = New System.Drawing.Size(192, 21)
         Me.CboCtasBanVales.TabIndex = 60
         Me.CboCtasBanVales.Text = "Seleccionar"
+        Me.CboCtasBanVales.Visible = False
         '
         'TextObservacionesVales
         '
@@ -3280,7 +3286,44 @@ Public Class frmSelTipoCobro
         Dim CtaDefault As String = ""
 
         If DtCtasTipoMovCaja.Rows.Count > 0 Then
-            CboCtasBanEfectivo.Enabled = True
+
+            'Efectivo
+            LblCtasBancariasEfectivo.Visible = True
+            CboCtasBanEfectivo.Visible = True
+
+
+            'Tarjeta de credito
+            LblCtasBanTdc.Visible = True
+            CboCtasBanTdc.Visible = True
+
+            'cheque
+            lblCtasBanCheque.Visible = True
+            CboCtasBanCheque.Visible = True
+
+            ' SLDO 
+            lblCtasBanSldo.Visible = True
+            CboCtasBanSldo.Visible = True
+
+            'Nota credito
+            lblCtasBanNota.Visible = True
+            CboCtasBanNota.Visible = True
+
+            'Anticipo
+            lblCtasBanAnticipo.Visible = True
+            CboCtaBanAnticipo.Visible = True
+
+            'dacion pago
+            lblCtasBanDacion.Visible = True
+            CboCtasBanDacion.Visible = True
+
+
+            'Vales
+            lblCtaBanVales.Visible = True
+            CboCtasBanVales.Visible = True
+
+
+
+
 
             DtCtasResultante.Columns.Add("Identificador", GetType(String))
             DtCtasResultante.Columns.Add("Descripcion", GetType(String))
@@ -3334,14 +3377,48 @@ Public Class frmSelTipoCobro
             CboCtasBanVales.DisplayMember = "Descripcion"
 
         Else
-            CboCtasBanEfectivo.Enabled = False
-            CboCtasBanCheque.Enabled = False
-            CboCtaBanAnticipo.Enabled = False
-            CboCtasBanDacion.Enabled = False
-            CboCtasBanNota.Enabled = False
-            CboCtasBanSldo.Enabled = False
-            CboCtasBanTdc.Enabled = False
-            CboCtasBanVales.Enabled = False
+
+
+            'Efectivo
+            LblCtasBancariasEfectivo.Visible = False
+            CboCtasBanEfectivo.Visible = False
+
+
+            'Tarjeta de credito
+            LblCtasBanTdc.Visible = False
+            CboCtasBanTdc.Visible = False
+
+
+
+            'cheque
+            lblCtasBanCheque.Visible = False
+            CboCtasBanCheque.Visible = False
+
+
+            ' SLDO 
+            lblCtasBanSldo.Visible = False
+            CboCtasBanSldo.Visible = False
+
+
+            'Nota credito
+            lblCtasBanNota.Visible = False
+            CboCtasBanNota.Visible = False
+
+
+            'Anticipo
+            lblCtasBanAnticipo.Visible = False
+            CboCtaBanAnticipo.Visible = False
+
+            'dacion pago
+            lblCtasBanDacion.Visible = False
+            CboCtasBanDacion.Visible = False
+
+
+            'Vales
+            lblCtaBanVales.Visible = False
+            CboCtasBanVales.Visible = False
+
+
 
         End If
 
