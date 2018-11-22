@@ -1429,10 +1429,11 @@ Public Class frmPrincipal
                 Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura()
                 oConsultaFactura.sucursal = GLOBAL_Sucursal
                 oConsultaFactura.Corporativo = GLOBAL_Corporativo
+                oConsultaFactura.Usuario = GLOBAL_IDUsuario
                 oConsultaFactura.MdiParent = Me
                 oConsultaFactura.Show()
             Else
-                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway, GLOBAL_Modulo, ConString)
+                Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(_URLGateway, GLOBAL_Modulo, ConString, Usuario:=GLOBAL_IDUsuario)
                 oConsultaFactura.MdiParent = Me
                 'oConsultaFactura.Close()
                 oConsultaFactura.Show()
