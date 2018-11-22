@@ -1079,6 +1079,9 @@ Public Class frmCapCobranzaDoc
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.FichaDeposito _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaDeDebito _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito _
+                    Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaServicio _
                     Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.NotaIngreso Then
                 If MessageBox.Show(M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
                         = DialogResult.Yes Then
@@ -1118,6 +1121,7 @@ Public Class frmCapCobranzaDoc
                                     Exit Sub
                                 Else
                                     _SaldoAFavor = True
+
                                 End If
                             End If
                         End If
@@ -1125,6 +1129,7 @@ Public Class frmCapCobranzaDoc
                     Dim s As SigaMetClasses.sPedido
                     For Each s In lstDocumento.Items
                         ListaCobroPedido.Add(s)
+
                     Next
                     'If TipoCobro = enumTipoCobro.Efectivo Or TipoCobro = enumTipoCobro.Vales Then CapturaEfectivoVales = True
                     'Cambiado el 09 de octubre del 2002
@@ -1375,7 +1380,10 @@ Public Class frmCapCobranzaDoc
                  SigaMetClasses.Enumeradores.enumTipoCobro.FichaDeposito,
                  SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia,
                  SigaMetClasses.Enumeradores.enumTipoCobro.NotaCredito,
-                 SigaMetClasses.Enumeradores.enumTipoCobro.Vales
+                 SigaMetClasses.Enumeradores.enumTipoCobro.Vales,
+                 SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaDeDebito,
+                SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito,
+                SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaServicio
                 _AceptaSaldoAFavor = True
             Case Else
                 _AceptaSaldoAFavor = False
