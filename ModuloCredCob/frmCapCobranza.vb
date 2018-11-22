@@ -1033,7 +1033,8 @@ Public Class frmCapCobranza
         End Try
 
 
-        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+        If (Not String.IsNullOrEmpty(_URLGateway) And Not String.IsNullOrEmpty(txtCliente.Text.ToString().Trim())) Then
+
             If validacionDeClientesEdificioCRM(Integer.Parse(txtCliente.Text.ToString())) = False Then
                 MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente padre de Administración de Edificios", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
