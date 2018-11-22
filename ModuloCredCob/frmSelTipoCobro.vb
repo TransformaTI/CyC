@@ -3270,7 +3270,7 @@ Public Class frmSelTipoCobro
         End Try
 
 
-        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+        If (Not String.IsNullOrEmpty(_URLGateway) And Not String.IsNullOrEmpty(txtClienteCheque.Text.ToString().Trim())) Then
             If validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
                 btnAceptarTarjetaCredito.Enabled = False
             End If
