@@ -240,6 +240,7 @@ Public Class frmSelTipoCobro
         End Get
     End Property
 
+
     Public WriteOnly Property HabilitarDacionEnPago() As Boolean
         Set(value As Boolean)
             _HabilitarDacionEnPago = value
@@ -2559,7 +2560,10 @@ Public Class frmSelTipoCobro
                     frmCaptura.TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro)
                     frmCaptura.ImporteCobro = CType(txtImporteTC.Text, Decimal)
 
+
                     If frmCaptura.ShowDialog = DialogResult.OK Then
+                        Dim SldoAFavor As Decimal = frmCaptura.ImporteRestante
+
                         With _Cobro
                             .Consecutivo = _Consecutivo
                             .AnoCobro = CType(FechaOperacion.Year, Short)
@@ -2573,6 +2577,11 @@ Public Class frmSelTipoCobro
                             .Referencia = cboTarjetaCreditoAfiliacion.Text
                             .FechaCheque = dtpTarjetaCreditoFDocto.Value
                             .NoCuentaDestino = CboCtasBanTdc.Text
+                            .Saldo = SldoAFavor
+                            If SldoAFavor > 0 Then
+                                .SaldoAFavor = True
+                            End If
+
                             ImporteTotalCobro = .Total
 
 
@@ -2696,10 +2705,10 @@ Public Class frmSelTipoCobro
         End If
         '*****
 
-        If DateDiff(DateInterval.Day, dtpFechaCheque.Value.Date, dtpFechaCobro.Value.Date) < 0 Then
-            MessageBox.Show("La fecha de cobro debe ser mayor o igual a la fecha del documento", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+        'If DateDiff(DateInterval.Day, dtpFechaCheque.Value.Date, dtpFechaCobro.Value.Date) < 0 Then
+        '    MessageBox.Show("La fecha de cobro debe ser mayor o igual a la fecha del documento", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        '    Exit Sub
+        'End If
 
         If _CargaNotaIngreso = False Then
             If Not ValidaCapturaChequeFicha() Then
@@ -2766,8 +2775,8 @@ Public Class frmSelTipoCobro
                         '23-03-2005 JAG
                         If (rbTransferencia.Checked = True) Then
                             .NoCuentaDestino = txtNumeroCuentaOrigen.Text
-                        end if
-                            .BancoOrigen = CType(ComboBancoOrigen.SelectedValue, Short)
+                        End If
+                        .BancoOrigen = CType(ComboBancoOrigen.SelectedValue, Short)
 
                         .SaldoAFavor = frmCaptura.SaldoAFavor
 
