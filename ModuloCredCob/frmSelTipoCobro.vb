@@ -2557,7 +2557,7 @@ Public Class frmSelTipoCobro
             Exit Sub
         End If
 
-        If lblClienteNombre.Text <> "" Then
+        If lblClienteNombre.Text <> "" And txtClienteTC.Text <> "" Then
             If txtImporteTC.Text <> "" And IsNumeric(txtImporteTC.Text) Then
                 If _CapturaDetalle = True Then
                     Dim frmCaptura As New frmCapCobranzaDoc(_TipoMovimientoCaja, _SoloDocumentosCartera, _ListaCobros)

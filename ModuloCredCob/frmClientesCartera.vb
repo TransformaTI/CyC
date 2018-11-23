@@ -73,7 +73,7 @@ Public Class frmClientesCartera
     Friend WithEvents btnConsultar As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmClientesCartera))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmClientesCartera))
         Me.imgTools = New System.Windows.Forms.ImageList(Me.components)
         Me.tbCartera = New System.Windows.Forms.ToolBar()
         Me.tbbModificar = New System.Windows.Forms.ToolBarButton()
@@ -103,10 +103,12 @@ Public Class frmClientesCartera
         '
         'imgTools
         '
-        Me.imgTools.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imgTools.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgTools.ImageStream = CType(resources.GetObject("imgTools.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgTools.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgTools.Images.SetKeyName(0, "")
+        Me.imgTools.Images.SetKeyName(1, "")
+        Me.imgTools.Images.SetKeyName(2, "")
+        Me.imgTools.Images.SetKeyName(3, "")
         '
         'tbCartera
         '
@@ -114,14 +116,16 @@ Public Class frmClientesCartera
         Me.tbCartera.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.tbbModificar, Me.btnConsultar, Me.tbbSep1, Me.tbbRefrescar, Me.tbbCerrar})
         Me.tbCartera.DropDownArrows = True
         Me.tbCartera.ImageList = Me.imgTools
+        Me.tbCartera.Location = New System.Drawing.Point(0, 0)
         Me.tbCartera.Name = "tbCartera"
         Me.tbCartera.ShowToolTips = True
-        Me.tbCartera.Size = New System.Drawing.Size(944, 39)
+        Me.tbCartera.Size = New System.Drawing.Size(944, 42)
         Me.tbCartera.TabIndex = 0
         '
         'tbbModificar
         '
         Me.tbbModificar.ImageIndex = 2
+        Me.tbbModificar.Name = "tbbModificar"
         Me.tbbModificar.Tag = "Modificar"
         Me.tbbModificar.Text = "Modificar"
         Me.tbbModificar.ToolTipText = "Modificar los datos de crédito del cliente"
@@ -129,17 +133,20 @@ Public Class frmClientesCartera
         'btnConsultar
         '
         Me.btnConsultar.ImageIndex = 3
+        Me.btnConsultar.Name = "btnConsultar"
         Me.btnConsultar.Tag = "Consultar"
         Me.btnConsultar.Text = "Consultar"
         Me.btnConsultar.ToolTipText = "Consultar el cliente seleccionado"
         '
         'tbbSep1
         '
+        Me.tbbSep1.Name = "tbbSep1"
         Me.tbbSep1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'tbbRefrescar
         '
         Me.tbbRefrescar.ImageIndex = 1
+        Me.tbbRefrescar.Name = "tbbRefrescar"
         Me.tbbRefrescar.Tag = "Refrescar"
         Me.tbbRefrescar.Text = "Refrescar"
         Me.tbbRefrescar.ToolTipText = "Refrescar la información"
@@ -147,15 +154,16 @@ Public Class frmClientesCartera
         'tbbCerrar
         '
         Me.tbbCerrar.ImageIndex = 0
+        Me.tbbCerrar.Name = "tbbCerrar"
         Me.tbbCerrar.Tag = "Cerrar"
         Me.tbbCerrar.Text = "Cerrar"
         Me.tbbCerrar.ToolTipText = "Cerrar"
         '
         'grdCartera
         '
-        Me.grdCartera.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdCartera.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdCartera.BackgroundColor = System.Drawing.Color.LightGray
         Me.grdCartera.CaptionBackColor = System.Drawing.Color.White
         Me.grdCartera.CaptionFont = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -270,17 +278,17 @@ Public Class frmClientesCartera
         '
         'lblCelula
         '
-        Me.lblCelula.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCelula.AutoSize = True
         Me.lblCelula.Location = New System.Drawing.Point(600, 11)
         Me.lblCelula.Name = "lblCelula"
-        Me.lblCelula.Size = New System.Drawing.Size(38, 14)
+        Me.lblCelula.Size = New System.Drawing.Size(40, 13)
         Me.lblCelula.TabIndex = 14
         Me.lblCelula.Text = "Célula:"
         '
         'cboCelula
         '
-        Me.cboCelula.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.cboCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCelula.ForeColor = System.Drawing.Color.MediumBlue
         Me.cboCelula.Location = New System.Drawing.Point(640, 8)
@@ -290,11 +298,12 @@ Public Class frmClientesCartera
         '
         'btnCargarDatos
         '
-        Me.btnCargarDatos.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
-        Me.btnCargarDatos.Image = CType(resources.GetObject("btnCargarDatos.Image"), System.Drawing.Bitmap)
+        Me.btnCargarDatos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnCargarDatos.Image = CType(resources.GetObject("btnCargarDatos.Image"), System.Drawing.Image)
         Me.btnCargarDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCargarDatos.Location = New System.Drawing.Point(864, 7)
         Me.btnCargarDatos.Name = "btnCargarDatos"
+        Me.btnCargarDatos.Size = New System.Drawing.Size(75, 23)
         Me.btnCargarDatos.TabIndex = 17
         Me.btnCargarDatos.Text = "Consultar"
         Me.btnCargarDatos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -312,7 +321,12 @@ Public Class frmClientesCartera
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(944, 429)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnCargarDatos, Me.cboCelula, Me.lblCelula, Me.grdCartera, Me.tbCartera, Me.btnCerrar})
+        Me.Controls.Add(Me.btnCargarDatos)
+        Me.Controls.Add(Me.cboCelula)
+        Me.Controls.Add(Me.lblCelula)
+        Me.Controls.Add(Me.grdCartera)
+        Me.Controls.Add(Me.tbCartera)
+        Me.Controls.Add(Me.btnCerrar)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmClientesCartera"
@@ -320,6 +334,7 @@ Public Class frmClientesCartera
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.grdCartera, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -351,7 +366,7 @@ Public Class frmClientesCartera
 
     Private Sub Consultar()
         Cursor = Cursors.WaitCursor
-        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
+        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub
@@ -462,7 +477,7 @@ SiguienteFila:
                     CargaDatos(_URLGateway)
                 End If
             End If
-                Cursor = Cursors.Default
+            Cursor = Cursors.Default
         End If
     End Sub
 
@@ -478,4 +493,7 @@ SiguienteFila:
         Me.Close()
     End Sub
 
+    Private Sub grdCartera_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdCartera.Navigate
+
+    End Sub
 End Class

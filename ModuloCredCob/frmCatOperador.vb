@@ -71,7 +71,7 @@ Public Class frmCatOperador
     Friend WithEvents colCliente As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents btnOperadorPedido As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmCatOperador))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCatOperador))
         Me.Estilo1 = New System.Windows.Forms.DataGridTableStyle()
         Me.colCliente = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCategoriaOperador = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -88,56 +88,8 @@ Public Class frmCatOperador
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnOperadorPedido = New System.Windows.Forms.ToolBarButton()
         CType(Me.grdDatos, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tabDatos.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'BarraBotones
-        '
-        Me.BarraBotones.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.btnOperadorPedido})
-        Me.BarraBotones.Visible = True
-        '
-        'tbbModificar
-        '
-        'Me.tbbModificar.Rectangle = New System.Drawing.Rectangle(66, 0, 66, 36)
-        ''
-        ''tbbRefrescar
-        ''
-        'Me.tbbRefrescar.Rectangle = New System.Drawing.Rectangle(346, 0, 66, 36)
-        ''
-        'tbbSep1
-        '
-        'Me.tbbSep1.Rectangle = New System.Drawing.Rectangle(264, 0, 8, 36)
-        ''
-        ''tbbConsultar
-        ''
-        'Me.tbbConsultar.Rectangle = New System.Drawing.Rectangle(198, 0, 66, 36)
-        ''
-        ''tbbEliminar
-        ''
-        'Me.tbbEliminar.Rectangle = New System.Drawing.Rectangle(132, 0, 66, 36)
-        ''
-        ''tbbCerrar
-        ''
-        'Me.tbbCerrar.Rectangle = New System.Drawing.Rectangle(420, 0, 66, 36)
-        ''
-        ''tbbAgregar
-        ''
-        'Me.tbbAgregar.Rectangle = New System.Drawing.Rectangle(0, 0, 66, 36)
-        ''
-        ''Toolbar
-        ''
-        'Me.Toolbar.ImageStream = CType(resources.GetObject("Toolbar.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        ''
-        ''tbbSep2
-        ''
-        'Me.tbbSep2.Rectangle = New System.Drawing.Rectangle(338, 0, 8, 36)
-        ''
-        ''tbbImprimir
-        ''
-        'Me.tbbImprimir.Rectangle = New System.Drawing.Rectangle(272, 0, 66, 36)
-        ''
-        ''tbbSep3
-        ''
-        'Me.tbbSep3.Rectangle = New System.Drawing.Rectangle(412, 0, 8, 36)
         '
         'grdDatos
         '
@@ -148,7 +100,22 @@ Public Class frmCatOperador
         Me.grdDatos.CaptionForeColor = System.Drawing.Color.Navy
         Me.grdDatos.CaptionText = "Operadores"
         Me.grdDatos.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.Estilo1})
-        Me.grdDatos.Visible = True
+        '
+        'BarraBotones
+        '
+        Me.BarraBotones.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.btnOperadorPedido})
+        Me.BarraBotones.Size = New System.Drawing.Size(608, 42)
+        '
+        'Toolbar
+        '
+        Me.Toolbar.ImageStream = CType(resources.GetObject("Toolbar.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.Toolbar.Images.SetKeyName(0, "")
+        Me.Toolbar.Images.SetKeyName(1, "")
+        Me.Toolbar.Images.SetKeyName(2, "")
+        Me.Toolbar.Images.SetKeyName(3, "")
+        Me.Toolbar.Images.SetKeyName(4, "")
+        Me.Toolbar.Images.SetKeyName(5, "")
+        Me.Toolbar.Images.SetKeyName(6, "")
         '
         'Estilo1
         '
@@ -247,7 +214,7 @@ Public Class frmCatOperador
         '
         'ComboCelula
         '
-        Me.ComboCelula.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.ComboCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ComboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboCelula.ForeColor = System.Drawing.Color.MediumBlue
         Me.ComboCelula.Location = New System.Drawing.Point(488, 8)
@@ -257,17 +224,18 @@ Public Class frmCatOperador
         '
         'Label1
         '
-        Me.Label1.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(448, 11)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(38, 14)
+        Me.Label1.Size = New System.Drawing.Size(40, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Célula:"
         '
         'btnOperadorPedido
         '
         Me.btnOperadorPedido.ImageIndex = 6
+        Me.btnOperadorPedido.Name = "btnOperadorPedido"
         Me.btnOperadorPedido.Tag = "OperadorPedido"
         Me.btnOperadorPedido.Text = "Documentos"
         Me.btnOperadorPedido.ToolTipText = "Consulta los documentos cargados al operador"
@@ -276,13 +244,21 @@ Public Class frmCatOperador
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.ClientSize = New System.Drawing.Size(608, 413)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label1, Me.ComboCelula, Me.BarraBotones, Me.grdDatos})
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ComboCelula)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCatOperador"
         Me.Text = "Catálogo de operadores"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        Me.Controls.SetChildIndex(Me.grdDatos, 0)
+        Me.Controls.SetChildIndex(Me.BarraBotones, 0)
+        Me.Controls.SetChildIndex(Me.ComboCelula, 0)
+        Me.Controls.SetChildIndex(Me.Label1, 0)
+        Me.Controls.SetChildIndex(Me.tabDatos, 0)
         CType(Me.grdDatos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tabDatos.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -346,7 +322,7 @@ Linea1:
         Else
             _Cliente = CType(grdDatos.Item(grdDatos.CurrentRowIndex, 0), Integer)
         End If
-        _TipoOperador = CType(grdDatos.Item(grdDatos.CurrentRowIndex, 1), String) & " / " & _
+        _TipoOperador = CType(grdDatos.Item(grdDatos.CurrentRowIndex, 1), String) & " / " &
                         CType(grdDatos.Item(grdDatos.CurrentRowIndex, 5), String)
         _Operador = CType(grdDatos.Item(grdDatos.CurrentRowIndex, 2), Short)
         _Nombre = CType(grdDatos.Item(grdDatos.CurrentRowIndex, 3), String)
@@ -393,7 +369,7 @@ Linea1:
             Case Is = "Consultar"
                 If _Cliente > 0 And Not IsDBNull(_Cliente) Then
                     Cursor = Cursors.WaitCursor
-                    Dim frmConDatos As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
+                    Dim frmConDatos As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario)
                     frmConDatos.ShowDialog()
                     Cursor = Cursors.Default
                 End If
@@ -412,4 +388,7 @@ Linea1:
         End Select
     End Sub
 
+    Private Sub BarraBotones_ButtonClick_1(sender As Object, e As ToolBarButtonClickEventArgs) Handles BarraBotones.ButtonClick
+
+    End Sub
 End Class
