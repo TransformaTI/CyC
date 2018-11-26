@@ -2544,12 +2544,20 @@ Public Class frmSelTipoCobro
 
     'TARJETA DE CREDITO
     Private Sub btnAceptarTarjetaCredito_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptarTarjetaCredito.Click
+
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
         If GLOBAL_ValidarTipoCobro Then
             If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito) Then
                 Exit Sub
             End If
         End If
+
+        If TxtNoTarjeta.Text = String.Empty Then
+            MessageBox.Show("El número de tarjeta es requerido", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+
 
         'Validar que los números de autorización sean idénticos y se hayan proporcionado
         If (txtTarjetaCreditoAutorizacion.Text.Trim() = "" Or txtTarjetaCreditoConfirmaAutorizacion.Text.Trim() = "") Or (txtTarjetaCreditoAutorizacion.Text.Trim() <> txtTarjetaCreditoConfirmaAutorizacion.Text.Trim()) Then
@@ -4383,7 +4391,7 @@ Public Class frmSelTipoCobro
     Private Sub cmdAceptar_Click(sender As Object, e As EventArgs) Handles cmdAceptar.Click
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
         If GLOBAL_ValidarTipoCobro Then
-            If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.Cheque) Then
+            If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo) Then
                 Exit Sub
             End If
         End If
