@@ -1035,9 +1035,8 @@ Public Class frmCapCobranza
 
         If (Not String.IsNullOrEmpty(_URLGateway) And Not String.IsNullOrEmpty(txtCliente.Text.ToString().Trim())) Then
 
-            If validacionDeClientesEdificioCRM(Integer.Parse(txtCliente.Text.ToString())) = False Then
+            If ValidaClienteHijo(Integer.Parse(txtCliente.Text.ToString())) = True Then
                 MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente padre de Administración de Edificios", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
             End If
         End If
 
@@ -1112,6 +1111,53 @@ Public Class frmCapCobranza
 
 
         Return ClientePadre
+    End Function
+
+    Function ValidaClienteHijo(ByVal IDDireccioneEntrega As Integer) As Boolean
+        Dim ClienteHijo As Boolean
+
+
+
+        Dim Gateway As RTGMGateway.RTGMGateway
+        Dim Solicitud As RTGMGateway.SolicitudGateway
+        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
+
+
+
+        Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        Gateway.URLServicio = _URLGateway
+
+
+
+        Solicitud.IDCliente = IDDireccioneEntrega
+        Solicitud.Portatil = False
+        Solicitud.IDAutotanque = Nothing
+        Solicitud.FechaConsulta = Nothing
+
+
+        Try
+
+            DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+
+
+            If (Not DireccionEntrega.Ramo Is Nothing) Then
+
+                If (DireccionEntrega.Ramo.IDRamoCliente = 53 And IsNothing(DireccionEntrega.IDDireccionEntregaPadreEdificio)) Then
+                    ClienteHijo = True
+
+                End If
+            End If
+
+        Catch ex As Exception
+            EventLog.WriteEntry(My.Application.Info.AssemblyName.ToString() & ex.Source, ex.Message, EventLogEntryType.Error)
+        Finally
+            Gateway = Nothing
+            Solicitud = Nothing
+            DireccionEntrega = Nothing
+        End Try
+
+
+        Return ClienteHijo
     End Function
 
     Private Sub cboTipoMovCaja_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTipoMovCaja.SelectedIndexChanged
