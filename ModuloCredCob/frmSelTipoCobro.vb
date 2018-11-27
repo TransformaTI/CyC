@@ -588,7 +588,6 @@ Public Class frmSelTipoCobro
         '
         'CboCtasBanEfectivo
         '
-        Me.CboCtasBanEfectivo.Enabled = False
         Me.CboCtasBanEfectivo.Location = New System.Drawing.Point(136, 49)
         Me.CboCtasBanEfectivo.Name = "CboCtasBanEfectivo"
         Me.CboCtasBanEfectivo.Size = New System.Drawing.Size(160, 21)
