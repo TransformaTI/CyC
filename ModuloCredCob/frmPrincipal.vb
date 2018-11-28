@@ -1184,7 +1184,7 @@ Public Class frmPrincipal
             End If
         Next
         Cursor = Cursors.WaitCursor
-        frmConCheques = New SigaMetClasses.ConsultaCheques(4, Main.GLOBAL_IDUsuario, GLOBAL_Corporativo, GLOBAL_Sucursal)
+        frmConCheques = New SigaMetClasses.ConsultaCheques(4, Main.GLOBAL_IDUsuario, GLOBAL_Corporativo, GLOBAL_Sucursal, ConString)
         AddHandler frmConCheques.ImprimirChequeDevuelto, AddressOf ImprimirFormatoChequeDevuelto
         With frmConCheques
             .MdiParent = Me
