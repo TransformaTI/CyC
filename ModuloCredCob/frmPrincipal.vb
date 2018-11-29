@@ -1460,8 +1460,11 @@ Public Class frmPrincipal
                 Exit Sub
             End If
         Next
+
+
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(True)
+        ' Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(PermiteModificar:=True, Constr:=ConString, Usuario:=GLOBAL_IDUsuario, Empresa:=0)
+        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(PermiteModificar:=True, Usuario:=GLOBAL_IDUsuario, Constr:=ConString, Empresa:=Nothing)
         oConsultaEmpresa.MdiParent = Me
         oConsultaEmpresa.Show()
         Cursor = Cursors.Default
