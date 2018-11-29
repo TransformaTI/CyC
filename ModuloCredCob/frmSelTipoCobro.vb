@@ -3215,39 +3215,41 @@ Public Class frmSelTipoCobro
         If txtClienteTC.Text <> "" And IsNumeric(txtClienteTC.Text) Then
             LimpiaInfoTarjetaCredito()
             If Not chkCapturaTPV.Checked Then
-                If ConsultaTarjetaCredito(CType(txtClienteTC.Text, Integer)) Then
-                    Dim CargosTarjetas As List(Of SigaMetClasses.CargoTarjeta)
-                    Dim objCargoTarjetaDatos As New SigaMetClasses.CargoTarjetaDatos
-                    CargosTarjetas = objCargoTarjetaDatos.consultarCargoTarjeta(txtClienteTC.Text)
-                    If CargosTarjetas.Count > 0 Then
-                        Dim frmConsultaCargo As SigaMetClasses.frmConsultaCargoTarjetaCliente
-                        frmConsultaCargo = New SigaMetClasses.frmConsultaCargoTarjetaCliente
-                        frmConsultaCargo.Cliente = txtClienteTC.Text
-
-                        If frmConsultaCargo.ShowDialog() = DialogResult.OK Then
-                            lblTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
-                            lblBancoNombre.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
-                            lblTipoTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
-                            LblImporteTc.Visible = True
-                            LblImporteTc.Text = FormatCurrency(CType(frmConsultaCargo.CargoTarjeta.Importe, String), 2)
-                            dtpTarjetaCreditoFDocto.Text = CType(frmConsultaCargo.CargoTarjeta.FAlta, String)
-                            txtImporteTC.Text = CType(frmConsultaCargo.CargoTarjeta.Importe, String)
-                            CargoTarjetaSeleccionado = frmConsultaCargo.CargoTarjeta
-                            tbTarjetaCreditoObservaciones.Text = frmConsultaCargo.CargoTarjeta.Observacion
-                            txtTarjetaCreditoAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
-                            txtTarjetaCreditoConfirmaAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
-                            cboTarjetaCreditoAfiliacion.SelectedIndex = cboTarjetaCreditoAfiliacion.FindString(frmConsultaCargo.CargoTarjeta.Afiliacion.ToString())
-                            TxtNoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
-                            cboTarjetaCreditoTipoTarjeta.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
-                            cboTarjetaCreditoBanco.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.Banco)
-                            cboTarjetaCreditoBancoTarjeta.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.BancoOrigen)
-
-                            InhabilitarTarjeta()
-                        End If
-                    End If
-                Else
+                'If ConsultaTarjetaCredito(CType(txtClienteTC.Text, Integer)) Then
+                If True <> ConsultaTarjetaCredito(CType(txtClienteTC.Text, Integer)) Then
                     TPVConsultaCliente()
                 End If
+
+                Dim CargosTarjetas As List(Of SigaMetClasses.CargoTarjeta)
+                Dim objCargoTarjetaDatos As New SigaMetClasses.CargoTarjetaDatos
+                CargosTarjetas = objCargoTarjetaDatos.consultarCargoTarjeta(txtClienteTC.Text)
+                If CargosTarjetas.Count > 0 Then
+                    Dim frmConsultaCargo As SigaMetClasses.frmConsultaCargoTarjetaCliente
+                    frmConsultaCargo = New SigaMetClasses.frmConsultaCargoTarjetaCliente
+                    frmConsultaCargo.Cliente = txtClienteTC.Text
+                    If frmConsultaCargo.ShowDialog() = DialogResult.OK Then
+                        lblTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
+                        lblBancoNombre.Text = frmConsultaCargo.CargoTarjeta.NombreBanco
+                        lblTipoTarjetaCredito.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
+                        LblImporteTc.Visible = True
+                        LblImporteTc.Text = FormatCurrency(CType(frmConsultaCargo.CargoTarjeta.Importe, String), 2)
+                        dtpTarjetaCreditoFDocto.Text = CType(frmConsultaCargo.CargoTarjeta.FAlta, String)
+                        txtImporteTC.Text = CType(frmConsultaCargo.CargoTarjeta.Importe, String)
+                        CargoTarjetaSeleccionado = frmConsultaCargo.CargoTarjeta
+                        tbTarjetaCreditoObservaciones.Text = frmConsultaCargo.CargoTarjeta.Observacion
+                        txtTarjetaCreditoAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
+                        txtTarjetaCreditoConfirmaAutorizacion.Text = frmConsultaCargo.CargoTarjeta.Autorizacion
+                        cboTarjetaCreditoAfiliacion.SelectedIndex = cboTarjetaCreditoAfiliacion.FindString(frmConsultaCargo.CargoTarjeta.Afiliacion.ToString())
+                        TxtNoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
+                        cboTarjetaCreditoTipoTarjeta.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
+                        cboTarjetaCreditoBanco.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.Banco)
+                        cboTarjetaCreditoBancoTarjeta.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.BancoOrigen)
+                        InhabilitarTarjeta()
+                    End If
+                End If
+                'Else
+                '    TPVConsultaCliente()
+                'End If
                 'TODO: Validacion de clientes hijos de edificios adminstrados 13/10/2004
                 If GLOBAL_AplicaAdmEdificios Then
                     btnAceptarTarjetaCredito.Enabled = True
