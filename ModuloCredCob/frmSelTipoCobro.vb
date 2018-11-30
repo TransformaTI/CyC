@@ -2589,7 +2589,11 @@ Public Class frmSelTipoCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Referencia = cboTarjetaCreditoAfiliacion.Text
                             .FechaCheque = dtpTarjetaCreditoFDocto.Value
-                            .NoCuentaDestino = CboCtasBanTdc.Text
+                            If Not IsNothing(CboCtasBanTdc.SelectedValue) Then
+                                .NoCuentaDestino = CboCtasBanTdc.SelectedValue.ToString()
+                            Else
+                                .NoCuentaDestino = String.Empty
+                            End If
                             .Saldo = SldoAFavor
                             If SldoAFavor > 0 Then
                                 .SaldoAFavor = True
