@@ -1148,6 +1148,9 @@ Public Class frmCapCobranza
                 End If
             End If
 
+
+
+
         Catch ex As Exception
             EventLog.WriteEntry(My.Application.Info.AssemblyName.ToString() & ex.Source, ex.Message, EventLogEntryType.Error)
         Finally
@@ -1161,10 +1164,30 @@ Public Class frmCapCobranza
     End Function
 
     Private Sub cboTipoMovCaja_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTipoMovCaja.SelectedIndexChanged
+        Dim TransBan As String = ""
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        Try
+            TransBan = CType(oConfig.Parametros("TransBan"), String).Trim()
+        Catch ex As Exception
+            TransBan = ""
+        End Try
+
+        If Me.cboTipoMovCaja.Text.Contains("3") And TransBan = "0" Then
+            btnAgregar.Enabled = False
+        Else
+            btnAgregar.Enabled = True
+        End If
+
 
     End Sub
 
     Private Sub txtCliente_TextChanged(sender As Object, e As EventArgs) Handles txtCliente.TextChanged
+
+    End Sub
+
+    Private Sub cboTipoMovCaja_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboTipoMovCaja.SelectedValueChanged
 
     End Sub
 End Class

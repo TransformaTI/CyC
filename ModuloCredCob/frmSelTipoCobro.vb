@@ -301,9 +301,6 @@ Public Class frmSelTipoCobro
         MyBase.New()
         InitializeComponent()
     End Sub
-
-
-
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
@@ -3059,6 +3056,24 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub frmSelTipoCobro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim TransBan As String = ""
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        Try
+            TransBan = CType(oConfig.Parametros("TransBan"), String).Trim()
+        Catch ex As Exception
+            TransBan = ""
+        End Try
+
+
+        If TransBan = "1" Then
+            rbTransferencia.Enabled = True
+        Else
+            rbTransferencia.Enabled = False
+        End If
+
+
         ComboBanco.CargaDatos(CargaBancoCero:=True, MostrarClaves:=True, SoloActivos:=True)
         ComboTipoVale.CargaDatos()
         ComboProveedor.CargaDatos()
