@@ -1,3 +1,5 @@
+Imports System.Collections.Generic
+Imports System.Linq
 Imports RTGMGateway
 
 Public Class frmClientesCartera
@@ -7,6 +9,8 @@ Public Class frmClientesCartera
     Private _Cliente As Integer
     Private NoExiste As Boolean = False
     Private _URLGateway As String
+    'developmentsinvales_DCL
+    Private ListaDireccionesEntrega As New List(Of RTGMCore.DireccionEntrega)
 
 #Region " Windows Form Designer generated code "
 
@@ -119,7 +123,7 @@ Public Class frmClientesCartera
         Me.tbCartera.Location = New System.Drawing.Point(0, 0)
         Me.tbCartera.Name = "tbCartera"
         Me.tbCartera.ShowToolTips = True
-        Me.tbCartera.Size = New System.Drawing.Size(944, 42)
+        Me.tbCartera.Size = New System.Drawing.Size(944, 46)
         Me.tbCartera.TabIndex = 0
         '
         'tbbModificar
@@ -170,10 +174,10 @@ Public Class frmClientesCartera
         Me.grdCartera.CaptionForeColor = System.Drawing.Color.Navy
         Me.grdCartera.DataMember = ""
         Me.grdCartera.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdCartera.Location = New System.Drawing.Point(4, 40)
+        Me.grdCartera.Location = New System.Drawing.Point(6, 49)
         Me.grdCartera.Name = "grdCartera"
         Me.grdCartera.ReadOnly = True
-        Me.grdCartera.Size = New System.Drawing.Size(936, 384)
+        Me.grdCartera.Size = New System.Drawing.Size(932, 374)
         Me.grdCartera.TabIndex = 3
         Me.grdCartera.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.Estilo1})
         '
@@ -280,9 +284,9 @@ Public Class frmClientesCartera
         '
         Me.lblCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCelula.AutoSize = True
-        Me.lblCelula.Location = New System.Drawing.Point(600, 11)
+        Me.lblCelula.Location = New System.Drawing.Point(462, 13)
         Me.lblCelula.Name = "lblCelula"
-        Me.lblCelula.Size = New System.Drawing.Size(40, 13)
+        Me.lblCelula.Size = New System.Drawing.Size(48, 17)
         Me.lblCelula.TabIndex = 14
         Me.lblCelula.Text = "Célula:"
         '
@@ -291,9 +295,9 @@ Public Class frmClientesCartera
         Me.cboCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCelula.ForeColor = System.Drawing.Color.MediumBlue
-        Me.cboCelula.Location = New System.Drawing.Point(640, 8)
+        Me.cboCelula.Location = New System.Drawing.Point(518, 10)
         Me.cboCelula.Name = "cboCelula"
-        Me.cboCelula.Size = New System.Drawing.Size(216, 21)
+        Me.cboCelula.Size = New System.Drawing.Size(302, 25)
         Me.cboCelula.TabIndex = 16
         '
         'btnCargarDatos
@@ -301,9 +305,9 @@ Public Class frmClientesCartera
         Me.btnCargarDatos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCargarDatos.Image = CType(resources.GetObject("btnCargarDatos.Image"), System.Drawing.Image)
         Me.btnCargarDatos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnCargarDatos.Location = New System.Drawing.Point(864, 7)
+        Me.btnCargarDatos.Location = New System.Drawing.Point(832, 9)
         Me.btnCargarDatos.Name = "btnCargarDatos"
-        Me.btnCargarDatos.Size = New System.Drawing.Size(75, 23)
+        Me.btnCargarDatos.Size = New System.Drawing.Size(105, 27)
         Me.btnCargarDatos.TabIndex = 17
         Me.btnCargarDatos.Text = "Consultar"
         Me.btnCargarDatos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -311,14 +315,14 @@ Public Class frmClientesCartera
         'btnCerrar
         '
         Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Location = New System.Drawing.Point(528, 8)
+        Me.btnCerrar.Location = New System.Drawing.Point(739, 10)
         Me.btnCerrar.Name = "btnCerrar"
-        Me.btnCerrar.Size = New System.Drawing.Size(8, 16)
+        Me.btnCerrar.Size = New System.Drawing.Size(11, 19)
         Me.btnCerrar.TabIndex = 18
         '
         'frmClientesCartera
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(7, 17)
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(944, 429)
         Me.Controls.Add(Me.btnCargarDatos)
@@ -404,6 +408,28 @@ Public Class frmClientesCartera
         End Try
     End Sub
 
+    Private Function ConsultarDirecciones(iCliente As Integer) As String
+        Dim sResultado As String = String.Empty
+        Dim bContinua As Boolean = True
+        Dim indice As Integer = 0
+        Dim totalRegistros As Integer = ListaDireccionesEntrega.Count
+        Try
+            Do
+                If ListaDireccionesEntrega.Item(indice).IDDireccionEntrega = iCliente Then
+                    sResultado = ListaDireccionesEntrega(indice).Nombre
+                    bContinua = False
+                End If
+                indice = indice + 1
+                If indice >= totalRegistros Then
+                    bContinua = False
+                End If
+            Loop While bContinua
+        Catch ex As Exception
+            MessageBox.Show(ex.Message & CType(indice, String))
+        End Try
+        Return sResultado
+    End Function
+
     Private Sub CargaDatos(URLGateway As String)
         Cursor = Cursors.WaitCursor
         _Cliente = 0
@@ -431,24 +457,60 @@ Public Class frmClientesCartera
                 objGateway.URLServicio = URLGateway
                 '  Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 'Dim objRtgCore As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
+                Dim pedidos As New List(Of Integer)
+                Dim prueba As DataTable = dt.DefaultView.ToTable(True, "Cliente")
 
                 Dim row As DataRow
-
-                For Each row In dt.Rows
-                    If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
-                        GoTo SiguienteFila
-                    End If
-
-                    Dim Cliente As Integer = CInt(row("Cliente"))
-                    Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                    objSolicitudGateway.IDCliente = Cliente
-                    ' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                    objGateway.URLServicio = URLGateway
-                    Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                    row("Nombre") = IIf(Not IsNothing(objRtgCore.Nombre), objRtgCore.Nombre, String.Empty)
-SiguienteFila:
+                Dim clientesDistintos As New List(Of Integer)
+                For Each row In prueba.Rows
+                    clientesDistintos.Add(CInt(row("Cliente")))
                 Next
 
+                Dim x As Integer = 1
+                If clientesDistintos.Count > 0 Then
+                    Dim myOptions As Threading.Tasks.ParallelOptions = New Threading.Tasks.ParallelOptions()
+                    myOptions.MaxDegreeOfParallelism = Environment.ProcessorCount
+
+                    Threading.Tasks.Parallel.ForEach(clientesDistintos, myOptions,
+                    Sub(indice)
+                        Try
+                            'SyncLock ListaDireccionesEntrega
+                            Dim Cliente As Integer = indice
+                            Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                            objSolicitudGateway.IDCliente = Cliente
+                            ' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                            objGateway.URLServicio = URLGateway
+                            Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                            If Not IsNothing(objRtgCore.Nombre) Then
+                                ListaDireccionesEntrega.Add(objRtgCore)
+                            End If
+                            'End SyncLock
+                        Catch ex As Exception
+                            x = x + 1
+                            'MessageBox.Show(ex.Message & ". " & CType(x, String))
+                        End Try
+
+                    End Sub)
+                End If
+                Dim i As Integer = 1
+                MessageBox.Show("Número de excepciones: " & CType(x, String))
+                For Each row In dt.Rows
+                    'If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
+                    '    GoTo SiguienteFila
+                    'End If
+                    'Dim Cliente As Integer = CInt(row("Cliente"))
+                    'Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                    'objSolicitudGateway.IDCliente = Cliente
+                    '' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                    'objGateway.URLServicio = URLGateway
+                    'Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                    'If Not IsNothing(objRtgCore.Nombre) Then
+                    '    i = i + 1
+                    'End If
+                    'row("Nombre") = IIf(Not IsNothing(objRtgCore.Nombre), objRtgCore.Nombre, String.Empty)
+                    row("nombre") = ConsultarDirecciones(CInt(row("Cliente")))
+SiguienteFila:
+                Next
                 'daCartera.Fill(dt)
                 'If dt.Rows.Count > 0 Then
                 grdCartera.DataSource = dt
