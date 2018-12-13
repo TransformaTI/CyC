@@ -4410,6 +4410,10 @@ Public Class frmSelTipoCobro
 
     Private Sub cmdAceptar_Click(sender As Object, e As EventArgs) Handles cmdAceptar.Click
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
+        Dim dtAntipos As DataTable = TryCast(LstAnticipos.DataSource, DataTable)
+        Dim Fecha_Cheque_Anticipo As DateTime = DateTime.Parse(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("FMovimiento").ToString())
+
+
         If GLOBAL_ValidarTipoCobro Then
             If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo) Then
                 Exit Sub
@@ -4438,7 +4442,13 @@ Public Class frmSelTipoCobro
                             .Total = frmCaptura.ImporteCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Observaciones = Txtbox_observacionAnticipos.Text
-                            .NoCuentaDestino = CboCtaBanAnticipo.Text
+                            If Not IsNothing(CboCtaBanAnticipo.SelectedValue) Then
+                                .NoCuentaDestino = CboCtaBanAnticipo.Text
+                            Else
+                                .NoCuentaDestino = ""
+                            End If
+                            .FechaCheque = Fecha_Cheque_Anticipo
+
                             ImporteTotalCobro = .Total
 
                         End With
