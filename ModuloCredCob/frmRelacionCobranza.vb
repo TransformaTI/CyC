@@ -1513,75 +1513,84 @@ Public Class frmRelacionCobranza
 	End Sub
 
 	Private Sub grdCobranza_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdCobranza.CurrentCellChanged
-		_Cobranza = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 0), Integer)
-		_Empleado = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 3), Integer)
-		_UsuarioCaptura = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 5), String))
-		_Status = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 6), String))
-		_TipoCobranza = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 15), Integer)
-
-		Dim direccionEntrega As RTGMCore.DireccionEntrega
-		listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
-		Dim Filtro As String = "Cobranza = " & _Cobranza.ToString
-		grdCobranza.Select(grdCobranza.CurrentRowIndex)
-		'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
-		CargarDetallePedidos(_Cobranza)
-		'_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
-
-
-
-		Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
-
-		Dim listaClientesDistintos As New List(Of Integer)
-
-		If clientesDistintos.Rows.Count > 0 Then
-
-			For Each fila As DataRow In clientesDistintos.Rows
-				listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
-			Next
-
-			System.Threading.Tasks.Parallel.ForEach(listaClientesDistintos, Sub(x) consultarDirecciones(x))
-		End If
 
 		Try
-			If _UrlGateway <> "" Then
-				Dim drow As DataRow
+			Cursor.Current = Cursors.WaitCursor
+			_Cobranza = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 0), Integer)
+			_Empleado = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 3), Integer)
+			_UsuarioCaptura = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 5), String))
+			_Status = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 6), String))
+			_TipoCobranza = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 15), Integer)
+
+			Dim direccionEntrega As RTGMCore.DireccionEntrega
+			listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+			Dim Filtro As String = "Cobranza = " & _Cobranza.ToString
+			grdCobranza.Select(grdCobranza.CurrentRowIndex)
+			'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
+			CargarDetallePedidos(_Cobranza)
+			'_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
 
 
-				If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
-					For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
-						CLIENTETEMP = (CType(drow("Cliente"), Integer))
 
-						direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+			Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
 
-						If Not IsNothing(direccionEntrega) Then
-							drow("Nombre") = If(IsNothing(direccionEntrega.Nombre), Nothing, direccionEntrega.Nombre.Trim())
-						End If
-					Next
-				End If
+			Dim listaClientesDistintos As New List(Of Integer)
+
+			If clientesDistintos.Rows.Count > 0 Then
+
+				For Each fila As DataRow In clientesDistintos.Rows
+					listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+				Next
+
+				System.Threading.Tasks.Parallel.ForEach(listaClientesDistintos, Sub(x) consultarDirecciones(x))
 			End If
-			grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
-			grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
-		Catch ex As Exception
-			MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+			Try
+				If _UrlGateway <> "" Then
+					Dim drow As DataRow
+
+
+					If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
+						For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
+							CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+							direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+							If Not IsNothing(direccionEntrega) Then
+								drow("Nombre") = If(IsNothing(direccionEntrega.Nombre), Nothing, direccionEntrega.Nombre.Trim())
+							End If
+						Next
+					End If
+				End If
+				grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
+				grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
+			Catch ex As Exception
+				MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+			lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
+			lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString
+			If Not IsDBNull(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12)) Then
+				lblUsuarioCancelacion.Text = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12), String))
+				lblMotivoCancelacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 13), String)
+				lblFCancelacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 14), Date).ToString
+			Else
+				lblUsuarioCancelacion.Text = String.Empty
+				lblMotivoCancelacion.Text = String.Empty
+				lblFCancelacion.Text = String.Empty
+			End If
+
+			datosDocumento(String.Empty)
+
+			tbbModificar.Enabled = True
+			tbbCancelar.Enabled = True
+			tbbCerrarCobranza.Enabled = True
+			tbbImprimir.Enabled = True
+
+		Finally
+			Cursor.Current = Cursors.Default
 		End Try
-		lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
-		lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString
-		If Not IsDBNull(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12)) Then
-			lblUsuarioCancelacion.Text = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12), String))
-			lblMotivoCancelacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 13), String)
-			lblFCancelacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 14), Date).ToString
-		Else
-			lblUsuarioCancelacion.Text = String.Empty
-			lblMotivoCancelacion.Text = String.Empty
-			lblFCancelacion.Text = String.Empty
-		End If
 
-		datosDocumento(String.Empty)
 
-		tbbModificar.Enabled = True
-		tbbCancelar.Enabled = True
-		tbbCerrarCobranza.Enabled = True
-		tbbImprimir.Enabled = True
 
 	End Sub
 
