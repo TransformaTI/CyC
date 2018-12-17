@@ -987,7 +987,7 @@ Public Class frmRelacionCobranza
 	End Sub
 
 	Private Sub CargarDetallePedidos(ByVal Cobranza As Integer)
-		Cursor = Cursors.WaitCursor
+		'Cursor = Cursors.WaitCursor
 
 		Dim cmd As New SqlCommand()
 		cmd.Connection = SigaMetClasses.DataLayer.Conexion
@@ -1015,7 +1015,7 @@ Public Class frmRelacionCobranza
 			MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
 		Finally
 			da.Dispose()
-			Cursor = Cursors.Default
+			'Cursor = Cursors.Default
 		End Try
 	End Sub
 
@@ -1499,23 +1499,75 @@ Public Class frmRelacionCobranza
 		Dim oGateway As RTGMGateway.RTGMGateway
 		Dim oSolicitud As RTGMGateway.SolicitudGateway
 		Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+		Try
 
-		oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-		oSolicitud = New RTGMGateway.SolicitudGateway()
-		oGateway.URLServicio = _UrlGateway
 
-		oSolicitud.IDCliente = idCliente
-		oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+			oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+			oSolicitud = New RTGMGateway.SolicitudGateway()
+			oGateway.URLServicio = _UrlGateway
 
-		listaDireccionesEntrega.Add(oDireccionEntrega)
+
+			oSolicitud.IDCliente = idCliente
+			oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+			If Not IsNothing(oDireccionEntrega) Then
+				If Not IsNothing(oDireccionEntrega.Message) Then
+					oDireccionEntrega = New RTGMCore.DireccionEntrega()
+					oDireccionEntrega.IDDireccionEntrega = idCliente
+					oDireccionEntrega.Nombre = oDireccionEntrega.Message
+					listaDireccionesEntrega.Add(oDireccionEntrega)
+				Else
+					listaDireccionesEntrega.Add(oDireccionEntrega)
+				End If
+
+			Else
+				oDireccionEntrega = New RTGMCore.DireccionEntrega()
+				oDireccionEntrega.IDDireccionEntrega = idCliente
+				oDireccionEntrega.Nombre = "No se encontró cliente"
+				listaDireccionesEntrega.Add(oDireccionEntrega)
+			End If
+
+		Catch ex As Exception
+			oDireccionEntrega = New RTGMCore.DireccionEntrega()
+			oDireccionEntrega.IDDireccionEntrega = idCliente
+			oDireccionEntrega.Nombre = ex.Message
+			listaDireccionesEntrega.Add(oDireccionEntrega)
+
+		End Try
+
 
 
 	End Sub
 
-	Private Sub grdCobranza_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdCobranza.CurrentCellChanged
+	Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+		Try
+			Dim listaClientes As New List(Of Integer)
+			Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
 
+			For Each clienteTemp As Integer In listaClientesDistintos
+				direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+				If IsNothing(direccionEntregaTemp) Then
+					listaClientes.Add(clienteTemp)
+				End If
+			Next
+
+			Dim opciones As New System.Threading.Tasks.ParallelOptions()
+			opciones.MaxDegreeOfParallelism = 100
+			System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+		Catch ex As Exception
+
+		End Try
+
+	End Sub
+
+
+	Private Sub grdCobranza_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdCobranza.CurrentCellChanged
+		Dim drow As DataRow
+		Dim iteraciones As Integer = 0
 		Try
 			Cursor.Current = Cursors.WaitCursor
+			grdCobranza.Enabled = False
 			_Cobranza = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 0), Integer)
 			_Empleado = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 3), Integer)
 			_UsuarioCaptura = Trim(CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 5), String))
@@ -1529,36 +1581,47 @@ Public Class frmRelacionCobranza
 			'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
 			CargarDetallePedidos(_Cobranza)
 			'_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
-
-
-
 			Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
 
 			Dim listaClientesDistintos As New List(Of Integer)
-
-			If clientesDistintos.Rows.Count > 0 Then
-
-				For Each fila As DataRow In clientesDistintos.Rows
-					listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
-				Next
-
-				System.Threading.Tasks.Parallel.ForEach(listaClientesDistintos, Sub(x) consultarDirecciones(x))
-			End If
+			Dim listaClientesDistintos2 As New List(Of Integer)
 
 			Try
+				If clientesDistintos.Rows.Count > 0 Then
+
+					For Each fila As DataRow In clientesDistintos.Rows
+						listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+					Next
+
+					While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
+						generaListaCLientes(listaClientesDistintos)
+						iteraciones = iteraciones + 1
+					End While
+
+
+
+				End If
+			Catch ex As Exception
+				MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+			Try
 				If _UrlGateway <> "" Then
-					Dim drow As DataRow
-
-
 					If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
 						For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
-							CLIENTETEMP = (CType(drow("Cliente"), Integer))
+							Try
+								drow("Nombre") = ""
+								CLIENTETEMP = (CType(drow("Cliente"), Integer))
 
-							direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+								direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
 
-							If Not IsNothing(direccionEntrega) Then
-								drow("Nombre") = If(IsNothing(direccionEntrega.Nombre), Nothing, direccionEntrega.Nombre.Trim())
-							End If
+								If Not IsNothing(direccionEntrega) Then
+									drow("Nombre") = direccionEntrega.Nombre.Trim()
+								Else
+									drow("Nombre") = "No encontrado"
+								End If
+							Catch ex As Exception
+								drow("Nombre") = "Error al buscar"
+							End Try
 						Next
 					End If
 				End If
@@ -1588,6 +1651,7 @@ Public Class frmRelacionCobranza
 
 		Finally
 			Cursor.Current = Cursors.Default
+			grdCobranza.Enabled = True
 		End Try
 
 
