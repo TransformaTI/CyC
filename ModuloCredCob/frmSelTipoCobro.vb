@@ -781,7 +781,7 @@ Public Class frmSelTipoCobro
         Me.cboTarjetaCreditoBanco.FormattingEnabled = True
         Me.cboTarjetaCreditoBanco.Location = New System.Drawing.Point(104, 163)
         Me.cboTarjetaCreditoBanco.Name = "cboTarjetaCreditoBanco"
-        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(121, 21)
+        Me.cboTarjetaCreditoBanco.Size = New System.Drawing.Size(160, 21)
         Me.cboTarjetaCreditoBanco.TabIndex = 6
         '
         'tbTarjetaCreditoObservaciones
@@ -797,7 +797,7 @@ Public Class frmSelTipoCobro
         Me.cboTarjetaCreditoBancoTarjeta.FormattingEnabled = True
         Me.cboTarjetaCreditoBancoTarjeta.Location = New System.Drawing.Point(104, 187)
         Me.cboTarjetaCreditoBancoTarjeta.Name = "cboTarjetaCreditoBancoTarjeta"
-        Me.cboTarjetaCreditoBancoTarjeta.Size = New System.Drawing.Size(121, 21)
+        Me.cboTarjetaCreditoBancoTarjeta.Size = New System.Drawing.Size(160, 21)
         Me.cboTarjetaCreditoBancoTarjeta.TabIndex = 7
         '
         'cboTarjetaCreditoTipoTarjeta
@@ -2558,6 +2558,12 @@ Public Class frmSelTipoCobro
             MessageBox.Show("El número de tarjeta es requerido", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
+
+        If TxtNoTarjeta.Text.Trim.Length < 4 Or TxtNoTarjeta.Text.Trim.Length > 16 Then
+            MessageBox.Show("El número de tarjeta es debe contener un mínimo de cuatro digitos y un máximo de 16 ", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
 
 
 
