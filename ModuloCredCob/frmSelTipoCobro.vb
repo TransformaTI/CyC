@@ -2592,12 +2592,13 @@ Public Class frmSelTipoCobro
                             .TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro)
                             .Total = frmCaptura.ImporteCobro
                             .Cliente = CType(txtClienteTC.Text, Integer)
-                            .Banco = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
+                            .Banco = CType(cboTarjetaCreditoBanco.SelectedValue, Short)  'CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
                             .NoCuenta = TxtNoTarjeta.Text.Trim().Substring(TxtNoTarjeta.TextLength - 4, 4)
                             .NoCheque = txtTarjetaCreditoAutorizacion.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Referencia = cboTarjetaCreditoAfiliacion.Text
                             .FechaCheque = dtpTarjetaCreditoFDocto.Value
+                            .BancoOrigen = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
 
                             If Not IsNothing(CboCtasBanTdc.SelectedValue) Then
                                 .NoCuentaDestino = CboCtasBanTdc.Text

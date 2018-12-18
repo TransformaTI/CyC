@@ -635,7 +635,7 @@ Module Main
             data.LoadData(dtBancosTC, "spLIQ2ConsultaBancos", CommandType.StoredProcedure, True)
             Dim dr As DataRow
             For Each dr In dtBancosTC.Rows
-                Diccionario.Add(Convert.ToInt32(dr(0)), Convert.ToString(dr(1)))
+                Diccionario.Add(Convert.ToInt32(dr(0)), Convert.ToString(dr(1)).Trim)
             Next
         Catch ex As Exception
             EventLog.WriteEntry(ex.Source, ex.Message, EventLogEntryType.Error)
