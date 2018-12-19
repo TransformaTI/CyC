@@ -263,9 +263,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
     </Reference>
-    <Reference Include="RTGMGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+    <Reference Include="RTGMGateway">
+      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -298,7 +297,6 @@
     </Reference>
     <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms">
@@ -496,6 +494,7 @@
       <DependentUpon>Splash.vb</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="My Project\app.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
