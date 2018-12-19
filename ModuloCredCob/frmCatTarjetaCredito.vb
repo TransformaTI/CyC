@@ -34,8 +34,9 @@ Public Class frmCatTarjetaCredito
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmCatTarjetaCredito))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCatTarjetaCredito))
         CType(Me.grdDatos, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tabDatos.SuspendLayout()
         Me.SuspendLayout()
         '
         'grdDatos
@@ -44,24 +45,34 @@ Public Class frmCatTarjetaCredito
         Me.grdDatos.AccessibleRole = System.Windows.Forms.AccessibleRole.Table
         Me.grdDatos.CaptionBackColor = System.Drawing.Color.Brown
         Me.grdDatos.CaptionText = "Catálogo de tarjetas de crédito"
-        Me.grdDatos.Visible = True
         '
         'BarraBotones
         '
-        Me.BarraBotones.Size = New System.Drawing.Size(608, 38)
-        Me.BarraBotones.Visible = True
+        Me.BarraBotones.Size = New System.Drawing.Size(608, 42)
+        '
+        'Toolbar
+        '
+        Me.Toolbar.ImageStream = CType(resources.GetObject("Toolbar.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.Toolbar.Images.SetKeyName(0, "")
+        Me.Toolbar.Images.SetKeyName(1, "")
+        Me.Toolbar.Images.SetKeyName(2, "")
+        Me.Toolbar.Images.SetKeyName(3, "")
+        Me.Toolbar.Images.SetKeyName(4, "")
+        Me.Toolbar.Images.SetKeyName(5, "")
+        Me.Toolbar.Images.SetKeyName(6, "")
         '
         'frmCatTarjetaCredito
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.ClientSize = New System.Drawing.Size(608, 413)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.BarraBotones, Me.grdDatos})
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCatTarjetaCredito"
         Me.Text = "Catálogo de tarjetas de crédito"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.grdDatos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tabDatos.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -99,7 +110,7 @@ Public Class frmCatTarjetaCredito
         grdDatos.Select(grdDatos.CurrentRowIndex)
     End Sub
 
-    Public Overrides Sub BarraBotones_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles BarraBotones.ButtonClick
+    Private Sub BarraBotones_ButtonClick_1(sender As Object, e As ToolBarButtonClickEventArgs) Handles BarraBotones.ButtonClick
         Select Case e.Button.Tag.ToString()
             Case Is = "Consultar"
                 If _Cliente > 0 And Not IsDBNull(_Cliente) Then
@@ -114,5 +125,22 @@ Public Class frmCatTarjetaCredito
                 Me.Close()
         End Select
     End Sub
+
+
+    'Public Overrides Sub BarraBotones_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles BarraBotones.ButtonClick
+    '    Select Case e.Button.Tag.ToString()
+    '        Case Is = "Consultar"
+    '            If _Cliente > 0 And Not IsDBNull(_Cliente) Then
+    '                Cursor = Cursors.WaitCursor
+    '                Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario)
+    '                frmConCliente.ShowDialog()
+    '                Cursor = Cursors.Default
+    '            End If
+    '        Case Is = "Refrescar"
+    '            CargaDatos()
+    '        Case Is = "Cerrar"
+    '            Me.Close()
+    '    End Select
+    'End Sub
 
 End Class
