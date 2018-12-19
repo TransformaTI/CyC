@@ -3292,7 +3292,7 @@ Public Class frmSelTipoCobro
                         TxtNoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
                         cboTarjetaCreditoTipoTarjeta.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
                         cboTarjetaCreditoBanco.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.Banco)
-                        cboTarjetaCreditoBancoTarjeta.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.BancoOrigen)
+                        cboTarjetaCreditoBancoTarjeta.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.BancoAfiliacion)
                         InhabilitarTarjeta()
                     End If
                 End If
