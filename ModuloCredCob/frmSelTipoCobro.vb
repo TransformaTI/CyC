@@ -4266,7 +4266,7 @@ Public Class frmSelTipoCobro
             If Not dt Is Nothing And dt.Rows.Count > 0 Then
                 TxtAntNombre.Text = dt.Rows(0).Item(1).ToString()
                 LstAnticipos.DisplayMember = "Saldo"
-                LstAnticipos.ValueMember = "Saldo"
+                LstAnticipos.ValueMember = "FolioMovimiento"
                 LstAnticipos.DataSource = dt
             End If
 
@@ -4285,7 +4285,8 @@ Public Class frmSelTipoCobro
         End If
     End Sub
     Private Sub LstAnticipos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstAnticipos.SelectedIndexChanged
-        Dim cad As String() = LstAnticipos.SelectedValue.ToString().Split(New Char() {","c})
+        'Dim cad As String() = LstAnticipos.SelectedValue.ToString().Split(New Char() {","c})
+        Dim cad As String() = LstAnticipos.GetItemText(LstAnticipos.SelectedItem).ToString().Trim.Split(New Char() {","c})
         TxtAntMonto.Text = cad(0)
 
     End Sub
@@ -4492,6 +4493,7 @@ Public Class frmSelTipoCobro
                             .Total = frmCaptura.ImporteCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Observaciones = Txtbox_observacionAnticipos.Text
+                            .FolioMovAnt = CInt(LstAnticipos.SelectedValue.ToString())
 
                             If Not IsNothing(CboCtaBanAnticipo.SelectedValue) Then
                                 .NoCuentaDestino = CboCtaBanAnticipo.Text
