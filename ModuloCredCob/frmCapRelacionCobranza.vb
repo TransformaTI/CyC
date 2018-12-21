@@ -1,4 +1,6 @@
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
+Imports System.Linq
 Imports Microsoft.VisualBasic.ControlChars
 Public Class frmCapRelacionCobranza
     Inherits System.Windows.Forms.Form
@@ -12,7 +14,8 @@ Public Class frmCapRelacionCobranza
     Private _DatosCargados As Boolean
     Private _Columna As Integer = -1
     Private _SalidaInmediata As Boolean = False
-
+    'Private _DiccCliente As New Dictionary(Of Integer, String)
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     'Consulta por serie y folio del vale de crédito
     Private _folioDocumento As DocumentosBSR.SerieDocumento
 
@@ -53,7 +56,6 @@ Public Class frmCapRelacionCobranza
         cboTipoCobranza.CargaDatos()
         _Cargado = True
         cboCelula.CargaDatos()
-
         'Controlar captura o precaptura de lista de cobranza
         _tipoOperacionCaptura = TipoCaptura
         If _tipoOperacionCaptura = TipoCapturaCobranza.Precaptura Then
@@ -677,7 +679,7 @@ Public Class frmCapRelacionCobranza
 
 #End Region
 
-    Public Sub New(ByVal TipoCaptura As Integer, ByVal Cobranza As Integer, Optional URLGateway As String = "")
+    Public Sub New(ByVal TipoCaptura As Integer, ByVal Cobranza As Integer, Optional URLGateway As String = "", Optional ByVal listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega) = Nothing)
         MyBase.New()
         InitializeComponent()
         _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion
@@ -686,7 +688,7 @@ Public Class frmCapRelacionCobranza
         cboTipoCobranza.CargaDatos()
         cboEmpleado.CargaDatos(True, 3)
         cboCelula.CargaDatos()
-
+        Me.listaDireccionesEntrega = listaDireccionesEntrega
         'Controlar captura o precaptura de lista de cobranza
         _tipoOperacionCaptura = TipoCaptura
         If _tipoOperacionCaptura = TipoCapturaCobranza.Precaptura Then
@@ -1005,7 +1007,17 @@ Public Class frmCapRelacionCobranza
             If String.IsNullOrEmpty(_URLGateway) Then
                 oPedido.SubItems.Add(Trim(CType(drLista("Nombre"), String)))
             Else
-                oPedido.SubItems.Add(consultaClienteCRM(CType(drLista("Cliente"), Integer)))
+                Dim _cliente As Integer
+                _cliente = CType(drLista("Cliente"), Integer)
+                Dim direntrega As New RTGMCore.DireccionEntrega
+                direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
+                If Not IsNothing(direntrega) Then
+                    oPedido.SubItems.Add(direntrega.Nombre)
+                Else
+                    Dim _Ccliente As String
+                    _Ccliente = consultaClienteCRM(_cliente)
+                    oPedido.SubItems.Add(_Ccliente)
+                End If
             End If
             oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
             oPedido.SubItems.Add(CType(drLista("Saldo"), Decimal).ToString("N"))
@@ -1237,7 +1249,7 @@ Public Class frmCapRelacionCobranza
     End Sub
 
     Private Sub mnuConsultaDocumento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaDocumento.Click
-        ConsultaDocumento(Trim(lvwLista.FocusedItem.Text))
+        ConsultaDocumento(Trim(lvwLista.FocusedItem.Text), CType(lvwLista.FocusedItem.SubItems(9).Text, Integer))
     End Sub
 
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
@@ -1247,7 +1259,7 @@ Public Class frmCapRelacionCobranza
     Private Sub mnuConsultaFactura_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaFactura.Click
         If Trim(lvwLista.FocusedItem.SubItems(13).Text) <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(CType(lvwLista.FocusedItem.SubItems(13).Text, Integer), CType(lvwLista.FocusedItem.SubItems(14).Text, String))
+            Dim oConsultaFactura As New SigaMetClasses.ConsultaFactura(CType(lvwLista.FocusedItem.SubItems(13).Text, Integer), CType(lvwLista.FocusedItem.SubItems(14).Text, String), _Cliente:=listaDireccionesEntrega)
             oConsultaFactura.ShowDialog()
             Cursor = Cursors.Default
         End If
@@ -1259,16 +1271,18 @@ Public Class frmCapRelacionCobranza
 
 #End Region
 
-    Private Sub ConsultaDocumento(ByVal PedidoReferencia As String)
+    Private Sub ConsultaDocumento(ByVal PedidoReferencia As String, ByVal cliente As Integer)
         Cursor = Cursors.WaitCursor
-        Dim objConsultaDocumento As New SigaMetClasses.ConsultaCargo(PedidoReferencia)
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+        Dim objConsultaDocumento As New SigaMetClasses.ConsultaCargo(PedidoReferencia, _ClienteRow:=direccionEntrega)
         objConsultaDocumento.ShowDialog()
         Cursor = Cursors.Default
     End Sub
 
     Private Sub ConsultaCliente(ByVal Cliente As Integer)
         Cursor = Cursors.WaitCursor
-        Dim objConsultaCliente As New SigaMetClasses.frmConsultaCliente(Cliente, Nuevo:=0)
+        Dim objConsultaCliente As New SigaMetClasses.frmConsultaCliente(Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = Cliente))
         objConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub
@@ -1297,7 +1311,7 @@ Public Class frmCapRelacionCobranza
 
     Private Sub frmCapRelacionCobranza_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ActivaOpcionesControl(False)
-
+        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
         chkPedidoReferencia.Checked = Not GLOBAL_BusquedaPorValeCredito
         chkPedidoReferencia.Visible = GLOBAL_BusquedaPorValeCredito
 
@@ -1340,7 +1354,7 @@ Public Class frmCapRelacionCobranza
             Case "Eliminar"
                 Eliminar()
             Case "ConsultarDocumento"
-                ConsultaDocumento(Trim(lvwLista.FocusedItem.Text))
+                ConsultaDocumento(Trim(lvwLista.FocusedItem.Text), CType(lvwLista.FocusedItem.SubItems(9).Text, Integer))
             Case "ConsultarCliente"
                 ConsultaCliente(CType(lvwLista.FocusedItem.SubItems(9).Text, Integer))
             Case "CambiarGestion"
@@ -1382,14 +1396,26 @@ Public Class frmCapRelacionCobranza
                 Main.DSCatalogos.Tables("Rutas"),
                 DirectCast(cboEmpleado.DataSource, DataTable),
                 CType(cboEmpleado.SelectedValue, Integer),
-                GLOBAL_connection)
+                GLOBAL_connection, GLOBAL_Modulo, ConString, _URLGateway, _listaDireccionesEntrega:=listaDireccionesEntrega)
 
             If programacioncobranza.ShowDialog() = DialogResult.OK Then
+                cargarDiccionario(programacioncobranza.ListaClientes)
                 cargaAutomatica(programacioncobranza.ListaDocumentos)
             End If
         Else
             mensajeOperacionInvalidaEntrega()
         End If
+    End Sub
+
+    Private Sub cargarDiccionario(ByVal cliente As List(Of RTGMCore.DireccionEntrega))
+
+        For Each entrega As RTGMCore.DireccionEntrega In cliente
+            Dim direntrega As New RTGMCore.DireccionEntrega
+            direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = entrega.IDDireccionEntrega)
+            If IsNothing(direntrega) Then
+                listaDireccionesEntrega.Add(entrega)
+            End If
+        Next
     End Sub
 
     Private Sub cargaAutomatica(ByVal SourceTable As DataTable)
@@ -1819,13 +1845,22 @@ Public Class frmCapRelacionCobranza
 
         Try
             If (Not String.IsNullOrEmpty(URLGateway)) Then
-                Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                Gateway.URLServicio = URLGateway
-                Solicitud = New RTGMGateway.SolicitudGateway() With {
-                    .IDCliente = cliente}
+                If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
+                    Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                    Gateway.URLServicio = URLGateway
+                    Solicitud = New RTGMGateway.SolicitudGateway() With {
+                        .IDCliente = cliente}
 
-                DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+                    DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+                Else
+                    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                End If
+
+
                 If DireccionEntrega.Nombre IsNot Nothing Then
+                    If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
+                        listaDireccionesEntrega.Add(DireccionEntrega)
+                    End If
                     Nombre = DireccionEntrega.Nombre.Trim
                 End If
             End If
@@ -1850,7 +1885,19 @@ Public Class frmCapRelacionCobranza
 
                     For Each item As ListViewItem In lvwLista.Items
                         cliente = Convert.ToInt32(item.SubItems(idxCliente).Text)
-                        item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
+                        If listaDireccionesEntrega.Count > 0 Then
+                            Dim direntrega As New RTGMCore.DireccionEntrega
+                            direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                            If Not IsNothing(direntrega) Then
+                                item.SubItems(idxNombre).Text = direntrega.Nombre
+                            Else
+                                Dim _Ccliente As String
+                                _Ccliente = consultaClienteCRM(cliente)
+                                item.SubItems(idxNombre).Text = _Ccliente
+                            End If
+                        Else
+                            item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
+                        End If
                     Next item
                 End If
             End If

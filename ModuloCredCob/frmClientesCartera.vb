@@ -412,7 +412,7 @@ Public Class frmClientesCartera
         End If
         Dim ColumnKey(0) As DataColumn
         Dim strQuery As String =
-        "SELECT  Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " &
+        "SELECT Cliente, Nombre, Celula, Ruta, Saldo, Status, DiaRevisionNombre, DiasCredito, MaxImporteCredito, TipoCobroDescripcion, EmpleadoNombre " &
         "FROM vwDatosCliente " &
         "WHERE Saldo > 0 " &
         "AND Celula = @Celula ORDER BY Celula, Ruta, Cliente"

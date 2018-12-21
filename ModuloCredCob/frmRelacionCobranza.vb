@@ -1048,9 +1048,9 @@ Public Class frmRelacionCobranza
 		End If
 
 		Cursor = Cursors.WaitCursor
-		Dim frmCapRel As New frmCapRelacionCobranza(_tipoOperacionCobranza, URLGateway:=_UrlGateway)
+        Dim frmCapRel As New frmCapRelacionCobranza(_tipoOperacionCobranza, URLGateway:=_UrlGateway)
 
-		If frmCapRel.ShowDialog() = DialogResult.OK Then
+        If frmCapRel.ShowDialog() = DialogResult.OK Then
 			chkSolicitud.Checked = (Not _tipoOperacionCobranza = TipoCapturaCobranza.Captura)
 			CargaDatos(dtpFCobranza.Value.Date)
 		End If
@@ -1080,8 +1080,8 @@ Public Class frmRelacionCobranza
 
 	Private Sub Modificar()
 		Cursor = Cursors.WaitCursor
-		Dim x As New frmCapRelacionCobranza(_tipoOperacionCobranza, _Cobranza, URLGateway:=_UrlGateway)
-		If x.ShowDialog() = DialogResult.OK Then
+        Dim x As New frmCapRelacionCobranza(_tipoOperacionCobranza, _Cobranza, URLGateway:=_UrlGateway)
+        If x.ShowDialog() = DialogResult.OK Then
 			Me.CargaDatos(dtpFCobranza.Value.Date)
 		End If
 		Cursor = Cursors.Default
@@ -1101,8 +1101,8 @@ Public Class frmRelacionCobranza
 		Dim da As New SqlDataAdapter(cmd)
 
 		da.Fill(_dsCobranza, "RelacionCobranza")
-		Dim objCierre As New frmCierreRelacionCobranza(_dsCobranza, _Cobranza, _UrlGateway)
-		If objCierre.ShowDialog() = DialogResult.OK Then
+        Dim objCierre As New frmCierreRelacionCobranza(_dsCobranza, _Cobranza, _UrlGateway, listaDireccionesEntrega:=listaDireccionesEntrega)
+        If objCierre.ShowDialog() = DialogResult.OK Then
 			CargaDatos(dtpFCobranza.Value.Date)
 		End If
 		Cursor = Cursors.Default
@@ -1114,8 +1114,8 @@ Public Class frmRelacionCobranza
 		Dim strURL As String = ConsultaURLGateway()
 
 		If (Not String.IsNullOrEmpty(strURL)) Then
-			frmCobranzaEntrega = New frmCapRelacionCobranza(TipoCapturaCobranza.Entrega, _Cobranza, strURL)
-		Else
+            frmCobranzaEntrega = New frmCapRelacionCobranza(TipoCapturaCobranza.Entrega, _Cobranza, strURL, listaDireccionesEntrega:=listaDireccionesEntrega)
+        Else
 			frmCobranzaEntrega = New frmCapRelacionCobranza(TipoCapturaCobranza.Entrega, _Cobranza)
 		End If
 
@@ -1350,8 +1350,8 @@ Public Class frmRelacionCobranza
 					'Cerrar relacion de cobranza para planeacion, se debe validar el perfil del usuario para el cierre
 					If _TipoCobranza = 10 Or _TipoCobranza = GLOBAL_ListaDevEjecutivo Then
 						If oSeguridad.TieneAcceso("CIERRE_REL_COB_EJEC_ADMIN") Then
-							Dim oForm As New frmCierreRelCobPlaneacion(_dsCobranza, _Cobranza)
-							oForm.ShowDialog()
+                            Dim oForm As New frmCierreRelCobPlaneacion(_dsCobranza, _Cobranza)
+                            oForm.ShowDialog()
 							oForm = Nothing
 							CargaDatos(dtpFCobranza.Value.Date)
 							Exit Sub
@@ -1553,8 +1553,8 @@ Public Class frmRelacionCobranza
 			Next
 
 			Dim opciones As New System.Threading.Tasks.ParallelOptions()
-			opciones.MaxDegreeOfParallelism = 100
-			System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+            opciones.MaxDegreeOfParallelism = 10
+            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
 		Catch ex As Exception
 
 		End Try
