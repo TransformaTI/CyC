@@ -2958,6 +2958,7 @@ Public Class frmSelTipoCobro
         Next
         Return False
 
+
     End Function
 
     Private Function ValidaCapturaChequeFicha() As Boolean
