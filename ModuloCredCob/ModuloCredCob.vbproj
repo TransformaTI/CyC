@@ -246,7 +246,7 @@
     </Reference>
     <Reference Include="ProgramacionCobranza, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ProgramacionCobranza.dll</HintPath>
+      <HintPath>..\SigametLibrerias\ProgramacionCobranza\bin\ProgramacionCobranza.dll</HintPath>
     </Reference>
     <Reference Include="QuejasLibrary">
       <HintPath>..\..\SigametLibrerias\QuejasLibrary\QuejasLibrary\bin\Debug\QuejasLibrary.dll</HintPath>
@@ -263,17 +263,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
     </Reference>
-    <Reference Include="RTGMGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
-    </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SGDAC.dll</HintPath>
     </Reference>
     <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
+      <HintPath>..\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SIGAMETSecurity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -298,7 +294,6 @@
     </Reference>
     <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms">
@@ -518,6 +513,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RTGMGateway\RTGMGateway\RTGMGateway.csproj">
+      <Project>{226853d8-23aa-4ff2-b66f-0ac17d0a66b9}</Project>
+      <Name>RTGMGateway</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

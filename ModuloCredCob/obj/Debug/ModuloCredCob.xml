@@ -17,5 +17,10 @@ ModuloCredCob
  URLGateway en la tabla 'Parametro'
  </summary>
 </member>
+<member name="M:ModuloCredCob.frmSelTipoCobro.CargaCtasBancariasTipoMovCaja">
+ <summary>
+Carga Cuentas Bancarias.
+ </summary>
+</member>
 </members>
 </doc>

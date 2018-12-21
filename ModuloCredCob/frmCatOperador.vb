@@ -1,3 +1,6 @@
+Imports System.Collections.Generic
+Imports System.Linq
+
 Public Class frmCatOperador
     Inherits Catalogo.frmCatalogo
     Private _TipoOperacion As SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo = SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo.Agregar
@@ -10,6 +13,9 @@ Public Class frmCatOperador
     Private _MaxDiasCredito As Short
     Private dtOperador As DataTable
     Private _URLGateway As String
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private _ChequeRow As DataRow
+    Dim _EntregaCheque As RTGMCore.DireccionEntrega
 
     Public Sub New(ByVal TipoOperacion As SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo)
         MyBase.New()
@@ -269,36 +275,151 @@ Public Class frmCatOperador
         Dim DireccionEntrega As New RTGMCore.DireccionEntrega
         Dim objRTGMGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
         objRTGMGateway.URLServicio = _URLGateway
-        Dim objSolicitud As RTGMGateway.SolicitudGateway
+        'Dim objSolicitud As RTGMGateway.SolicitudGateway
+        Dim iteraciones As Integer = 0
+        Dim CLIENTETEMP As Integer
+        'Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim dtOperModificados As New DataTable()
 
-        For Each row As DataRow In _dtOperadores.Rows
+        Try
+            listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+            Dim dwOperVista As DataView = New DataView(_dtOperadores)
+            dtOperModificados = dwOperVista.ToTable(True, "Cliente")
 
-            If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
-                GoTo Linea1
-            End If
+            If dtOperModificados.Rows.Count() > 0 Then
 
-            Try
-                If (Not String.IsNullOrEmpty(_URLGateway)) Then
-                    objRTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                    objRTGMGateway.URLServicio = _URLGateway
-                    objSolicitud = New RTGMGateway.SolicitudGateway() With {
-                        .IDCliente = CInt(row("Cliente"))}
+                Dim listaClientesDistintos As New List(Of Integer)
 
+                For Each fila As DataRow In dtOperModificados.Rows
 
-                    DireccionEntrega = objRTGMGateway.buscarDireccionEntrega(objSolicitud)
-                    If Not IsNothing(objSolicitud.Nombre) Then
-                        row("Nombre") = objSolicitud.Nombre
-                    Else
-                        row("Nombre") = ""
+                    If fila("Cliente") Is DBNull.Value OrElse fila("Cliente") Is Nothing Then
+                        'GoTo Linea1
+                        fila("Cliente") = 1
                     End If
-                End If
-            Catch ex As Exception
-                Throw ex
-            End Try
+
+                    listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+                Next
+
+                While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
+                    generaListaCLientes(listaClientesDistintos)
+                    iteraciones = iteraciones + 1
+                End While
+
+                For Each drow As DataRow In _dtOperadores.Rows
+                    Try
+                        drow("Nombre") = ""
+                        CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                        DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                        If Not IsNothing(DireccionEntrega.Nombre) Then
+                            drow("Nombre") = DireccionEntrega.Nombre.Trim()
+                        Else
+                            drow("Nombre") = "No encontrado"
+                        End If
+                    Catch ex As Exception
+                        drow("Nombre") = "Error al buscar"
+                    End Try
+                Next
+
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            dtOperModificados.Clear()
+        Finally
+            Cursor = Cursors.Default
+        End Try
+
+
+        '        For Each row As DataRow In _dtOperadores.Rows
+
+        '            If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
+        '                GoTo Linea1
+        '            End If
+
+        '            Try
+        '                If (Not String.IsNullOrEmpty(_URLGateway)) Then
+        '                    objRTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        '                    objRTGMGateway.URLServicio = _URLGateway
+        '                    objSolicitud = New RTGMGateway.SolicitudGateway() With {
+        '                        .IDCliente = CInt(row("Cliente"))}
+
+
+        '                    DireccionEntrega = objRTGMGateway.buscarDireccionEntrega(objSolicitud)
+        '                    If Not IsNothing(objSolicitud.Nombre) Then
+        '                        row("Nombre") = objSolicitud.Nombre
+        '                    Else
+        '                        row("Nombre") = ""
+        '                    End If
+        '                End If
+        '            Catch ex As Exception
+        '                Throw ex
+        '            End Try
 Linea1:
-        Next
+        '        Next
         Return _dtOperadores
     End Function
+
+    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(CType(GLOBAL_Modulo, Byte), ConString)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontró cliente"
+                listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
+    End Sub
 
     Private Sub CargaGrid()
         Cursor = Cursors.WaitCursor
@@ -306,9 +427,9 @@ Linea1:
         dtOperador = New DataTable()
         dtOperador = oOperador.Consulta()
         If dtOperador.Rows.Count > 0 Then
-            'If Not String.IsNullOrEmpty(_URLGateway) Then
-            '    dtOperador = recargarOperadoresCRM(dtOperador)
-            'End If
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+                dtOperador = recargarOperadoresCRM(dtOperador)
+            End If
             grdDatos.DataSource = dtOperador
             grdDatos.CaptionText = "Operadores (" & dtOperador.Rows.Count.ToString & ")"
         End If
@@ -340,6 +461,20 @@ Linea1:
             Me.PermiteConsultar = False
         End If
 
+        Dim dtTemp As DataTable
+        dtTemp = CType(grdDatos.DataSource, DataTable)
+        _ChequeRow = dtTemp.Rows(grdDatos.CurrentRowIndex)
+
+        _EntregaCheque = New RTGMCore.DireccionEntrega
+        _EntregaCheque.Ruta = New RTGMCore.Ruta()
+        _EntregaCheque.Nombre = _ChequeRow("Nombre").ToString()
+        _EntregaCheque.IDDireccionEntrega = CType(_ChequeRow("Cliente"), Integer)
+        '_EntregaCheque.Ruta.IDRuta = CType(_ChequeRow("Ruta"), Integer)
+        '_EntregaCheque.Ruta.Descripcion = CType(_ChequeRow("RutaDescripcion"), String)
+        _EntregaCheque.Status = CType(_ChequeRow("Status"), String)
+        '_EntregaCheque.FAlta = CType(_ChequeRow("FAlta"), DateTime)
+        '_EntregaCheque.Observaciones = CType(_ChequeRow("Observaciones"), String)
+
         PermiteImprimir = False
         PermiteAgregar = False
         PermiteEliminar = False
@@ -369,7 +504,7 @@ Linea1:
             Case Is = "Consultar"
                 If _Cliente > 0 And Not IsDBNull(_Cliente) Then
                     Cursor = Cursors.WaitCursor
-                    Dim frmConDatos As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario)
+                    Dim frmConDatos As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario, _ClienteRow:=_EntregaCheque)
                     frmConDatos.ShowDialog()
                     Cursor = Cursors.Default
                 End If
