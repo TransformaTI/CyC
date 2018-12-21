@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTGMGateway", "..\..\RTGMGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelacionCobranza", "..\SigametLibrerias\RelacionCobranza\RelacionCobranza.csproj", "{C96D72B6-E23D-4164-ADAD-65D284965594}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProgramacionCobranza", "..\SigametLibrerias\ProgramacionCobranza\ProgramacionCobranza.vbproj", "{6288F8C8-5FA7-4621-8821-CE53C1DF657B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,14 @@ Global
 		{C96D72B6-E23D-4164-ADAD-65D284965594}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C96D72B6-E23D-4164-ADAD-65D284965594}.Release|x86.ActiveCfg = Release|x86
 		{C96D72B6-E23D-4164-ADAD-65D284965594}.Release|x86.Build.0 = Release|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|x86.ActiveCfg = Debug|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|x86.Build.0 = Debug|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|x86.ActiveCfg = Release|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

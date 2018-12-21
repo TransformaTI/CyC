@@ -246,7 +246,7 @@
     </Reference>
     <Reference Include="ProgramacionCobranza, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ProgramacionCobranza.dll</HintPath>
+      <HintPath>..\SigametLibrerias\ProgramacionCobranza\bin\ProgramacionCobranza.dll</HintPath>
     </Reference>
     <Reference Include="QuejasLibrary">
       <HintPath>..\..\SigametLibrerias\QuejasLibrary\QuejasLibrary\bin\Debug\QuejasLibrary.dll</HintPath>

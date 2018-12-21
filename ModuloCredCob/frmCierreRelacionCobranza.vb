@@ -1,4 +1,7 @@
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
+Imports System.Linq
+
 Public Class frmCierreRelacionCobranza
     Inherits System.Windows.Forms.Form
     Private _dsCobranza As DataSet
@@ -17,6 +20,7 @@ Public Class frmCierreRelacionCobranza
     Private _URLGateway As String
     'Control de cheques posfechados
     Private _chequesPosfechados As Boolean = False
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     '*****
 
     Public Sub New()
@@ -374,7 +378,7 @@ Public Class frmCierreRelacionCobranza
         Me.stbEstatus.Name = "stbEstatus"
         Me.stbEstatus.Size = New System.Drawing.Size(1008, 22)
         Me.stbEstatus.TabIndex = 48
-        Me.stbEstatus.Text = "Aplique los cobros correspondientes y el cambio de gestión a los documentos y ens" & _
+        Me.stbEstatus.Text = "Aplique los cobros correspondientes y el cambio de gestión a los documentos y ens" &
         "eguida dé clic en el botón 'Aceptar'"
         '
         'lblAyuda
@@ -384,8 +388,8 @@ Public Class frmCierreRelacionCobranza
         Me.lblAyuda.Name = "lblAyuda"
         Me.lblAyuda.Size = New System.Drawing.Size(232, 88)
         Me.lblAyuda.TabIndex = 49
-        Me.lblAyuda.Text = "De clic en el botón ""Agregar cobro"" para dar de alta los cobros pendientes a la r" & _
-        "elación de cobranza.  También puede cambiar el tipo de gestión que tuvo un docum" & _
+        Me.lblAyuda.Text = "De clic en el botón ""Agregar cobro"" para dar de alta los cobros pendientes a la r" &
+        "elación de cobranza.  También puede cambiar el tipo de gestión que tuvo un docum" &
         "ento haciendo el cambio en su renglón correspondiente en la lista."
         '
         'lblTituloRelacion
@@ -746,16 +750,29 @@ Public Class frmCierreRelacionCobranza
 
     Private Sub CargaGestionCobranza()
         Dim dr As DataRow
-        Dim oGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim iteraciones As Integer = 0
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
         Dim lClienteNombre As String = ""
         Dim lCliente As Integer
         If Not _URLGateway Is Nothing And _URLGateway.Trim() <> "" Then
-            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-            oSolicitud = New RTGMGateway.SolicitudGateway()
-            oGateway.URLServicio = _URLGateway
+            Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
+            Dim listaClientesDistintos As New List(Of Integer)
 
+            Try
+                If clientesDistintos.Rows.Count > 0 Then
+
+                    For Each fila As DataRow In clientesDistintos.Rows
+                        listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+                    Next
+
+                    While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
+                        generaListaCLientes(listaClientesDistintos)
+                        iteraciones = iteraciones + 1
+                    End While
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
 
         Dim i As Integer = 0
@@ -767,8 +784,7 @@ Public Class frmCierreRelacionCobranza
 
                 lCliente = CType(dr("Cliente"), Integer)
                 If Not String.IsNullOrEmpty(_URLGateway) Then
-                    oSolicitud.IDCliente = lCliente
-                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                    oDireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = lCliente)
                     If oDireccionEntrega.Nombre IsNot Nothing Then
                         lClienteNombre = oDireccionEntrega.Nombre
                     End If
@@ -782,7 +798,7 @@ Public Class frmCierreRelacionCobranza
                     .Celula = CType(dr("Celula"), Byte)
                     .Pedido = CType(dr("Pedido"), Integer)
                     .PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
-                    .GestionInicial = CType(dr("GestionInicial"), Byte)               
+                    .GestionInicial = CType(dr("GestionInicial"), Byte)
                     .GestionInicialDescripcion = Trim(CType(dr("GestionInicialDescripcion"), String))
                     .Cliente = CType(dr("Cliente"), Integer)
                     If Not IsDBNull(dr("Empresa")) Then
@@ -823,6 +839,72 @@ Public Class frmCierreRelacionCobranza
         Next
 
         lblTituloRelacion.Text = "Lista de documentos incluidos en la relación de cobranza (" & i.ToString & " en total)"
+    End Sub
+
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontró cliente"
+                listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
+
+
+
+    End Sub
+
+    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
     Private Function CierraRelacion() As String
@@ -947,19 +1029,19 @@ Public Class frmCierreRelacionCobranza
             End If
 
             Dim strClave As String = Nothing
-            oMovimientoCaja.Alta(GLOBAL_CajaUsuario, _
-                                Main.FechaOperacion, _
-                                Main.ConsecutivoInicioDeSesion, _
-                                Main.FechaOperacion, _
-                                TotalMovimiento, _
-                                Main.GLOBAL_IDUsuario, _
-                                _Empleado, _
-                                _TipoMovimientoCaja, _
-                                0, _
-                                0, _
-                                ListaCobros, _
-                                Main.GLOBAL_IDUsuario, _
-                                "FUENTE: RELACION_COBRANZA", _
+            oMovimientoCaja.Alta(GLOBAL_CajaUsuario,
+                                Main.FechaOperacion,
+                                Main.ConsecutivoInicioDeSesion,
+                                Main.FechaOperacion,
+                                TotalMovimiento,
+                                Main.GLOBAL_IDUsuario,
+                                _Empleado,
+                                _TipoMovimientoCaja,
+                                0,
+                                0,
+                                ListaCobros,
+                                Main.GLOBAL_IDUsuario,
+                                "FUENTE: RELACION_COBRANZA",
                                 strClave)
             Return strClave
         Catch ex As Exception
@@ -1057,12 +1139,13 @@ Public Class frmCierreRelacionCobranza
 #End Region
 
     Public Sub New(ByVal dsCobranza As DataSet,
-                   ByVal Cobranza As Integer, Optional URLGateway As String = "")
+                   ByVal Cobranza As Integer, Optional URLGateway As String = "", Optional ByVal listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega) = Nothing)
         MyBase.New()
         InitializeComponent()
-        _UrlGateway = URLGateway
+        _URLGateway = URLGateway
         _dsCobranza = dsCobranza
         _Cobranza = Cobranza
+        Me.listaDireccionesEntrega = listaDireccionesEntrega
         CargaGestionCobranza()
 
         _dtCobranza = dsCobranza.Tables("Cobranza")
@@ -1094,10 +1177,10 @@ Public Class frmCierreRelacionCobranza
         If MessageBox.Show(SigaMetClasses.M_ESTAN_CORRECTOS, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
             'TODO: Validar que se entreguen todos los documentos con saldo, parametrizar esta función
             If GLOBAL_DevDocumentosReq AndAlso Not ValidaDevolucionDocumentos() Then
-                If MessageBox.Show("Hay documentos no cobrados que no fueron devueltos" & vbCrLf & _
-                    "Haga click en 'SÍ' para continuar y generar una nueva lista con" & vbCrLf & _
-                    "los documentos no devueltos" & vbCrLf & _
-                    "Haga click en 'NO' para volver a la pantalla de captura y verificar", Me.Text, MessageBoxButtons.YesNo, _
+                If MessageBox.Show("Hay documentos no cobrados que no fueron devueltos" & vbCrLf &
+                    "Haga click en 'SÍ' para continuar y generar una nueva lista con" & vbCrLf &
+                    "los documentos no devueltos" & vbCrLf &
+                    "Haga click en 'NO' para volver a la pantalla de captura y verificar", Me.Text, MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) = DialogResult.No Then
                     Exit Sub
                 Else
@@ -1144,7 +1227,7 @@ Public Class frmCierreRelacionCobranza
                 Dim msgBoxIcon As MessageBoxIcon = MessageBoxIcon.Information
 
                 If strMovimientoCajaClave <> "" Then
-                    strMensaje &= Chr(13) & "La información de los abonos fue guardada en el movimiento " & strMovimientoCajaClave & _
+                    strMensaje &= Chr(13) & "La información de los abonos fue guardada en el movimiento " & strMovimientoCajaClave &
                         Chr(13) & "¿Desea imprimir el comprobante?"
                     msgBoxButton = MessageBoxButtons.YesNo
                     msgBoxIcon = MessageBoxIcon.Question
@@ -1156,9 +1239,9 @@ Public Class frmCierreRelacionCobranza
 
                 'Control de cheques posfechados, impresión del listado acumulado de cheques posfechados del día y del usuario
                 If _chequesPosfechados Then
-                    If MessageBox.Show("Este movimiento generó cobros posfechados" & vbCrLf & _
+                    If MessageBox.Show("Este movimiento generó cobros posfechados" & vbCrLf &
                         "¿Desea imprimir el listado? (acumulado del día de hoy)", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                        Dim rptListadoPosfechados As frmConsultaReporte = New frmConsultaReporte(frmConsultaReporte.enumTipoReporte.RelacionChequePosfechado, _
+                        Dim rptListadoPosfechados As frmConsultaReporte = New frmConsultaReporte(frmConsultaReporte.enumTipoReporte.RelacionChequePosfechado,
                             GLOBAL_IDUsuario, FechaOperacion)
                         rptListadoPosfechados.ShowDialog()
                     End If
@@ -1175,14 +1258,14 @@ Public Class frmCierreRelacionCobranza
                         'Lista de cobranza para resguardo
                         Dim _totalNvaCobranzaResguardo As Decimal = TotalNuevaCobranzaResguardo()
                         If listaNvaCobranzaResguardo.Count > 0 Then
-                            nuevaCobranzaResguardo = nCobranza.Alta(DateTime.Now.Date, 9, GLOBAL_IDUsuario, GLOBAL_IDEmpleado, _
+                            nuevaCobranzaResguardo = nCobranza.Alta(DateTime.Now.Date, 9, GLOBAL_IDUsuario, GLOBAL_IDEmpleado,
                                                         _totalNvaCobranzaResguardo, "Documentos devueltos a resguardo", listaNvaCobranzaResguardo)
                         End If
 
                         'Lista de cobranza para cobrador
                         Dim _totalNvaCobranzaGestor As Decimal = TotalNuevaCobranza()
                         If generaNuevaLista And listaNvaCobranza.Count > 0 Then
-                            nuevaCobranza = nCobranza.Alta(DateTime.Now.Date, GLOBAL_ListaDevCobrador, GLOBAL_IDUsuario, _Empleado, _
+                            nuevaCobranza = nCobranza.Alta(DateTime.Now.Date, GLOBAL_ListaDevCobrador, GLOBAL_IDUsuario, _Empleado,
                                 _totalNvaCobranzaGestor, "Documentos no entregados", listaNvaCobranza)
                         End If
                         '*****
@@ -1195,8 +1278,8 @@ Public Class frmCierreRelacionCobranza
                             mensaje = "Error al generar la lista de cobranza para el cobrador (documentos no entregados)"
                         End If
 
-                        MessageBox.Show(mensaje & vbCrLf & _
-                            "Capture manualmente la lista de cobranza para los siguientes documentos:" & vbCrLf & _
+                        MessageBox.Show(mensaje & vbCrLf &
+                            "Capture manualmente la lista de cobranza para los siguientes documentos:" & vbCrLf &
                             listaDocumentos.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                         _Cierre = True
                         DialogResult = DialogResult.OK
@@ -1211,8 +1294,8 @@ Public Class frmCierreRelacionCobranza
                         End If
 
 
-                        If (MessageBox.Show(mensaje & vbCrLf & _
-                            "¿Desea imprimir los comprobantes?", Me.Text, MessageBoxButtons.YesNo, _
+                        If (MessageBox.Show(mensaje & vbCrLf &
+                            "¿Desea imprimir los comprobantes?", Me.Text, MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question) = DialogResult.Yes) Then
                             imprimirComprobanteCobranza(nuevaCobranzaResguardo)
                             imprimirComprobanteCobranza(nuevaCobranza)
@@ -1268,6 +1351,7 @@ Public Class frmCierreRelacionCobranza
         intCobro += 1
 
         Dim oCapCobro As New frmSelTipoCobro(intCobro, lstCobro, GeneraListaDocumentos, _TipoMovimientoCaja)
+        oCapCobro.listaDireccionesEntrega = listaDireccionesEntrega
 
         If oSeguridad.TieneAcceso("AreaDacionEnPago") Then
             oCapCobro.HabilitarDacionEnPago = True
@@ -1343,7 +1427,7 @@ Public Class frmCierreRelacionCobranza
             _Consecutivo = CType(dtMovimiento.Rows(0).Item("Consecutivo"), Byte)
             _Folio = CType(dtMovimiento.Rows(0).Item("Folio"), Integer)
         Catch ex As Exception
-            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & _
+            MessageBox.Show("Ha ocurrido un error:" & vbCrLf &
                 ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
 

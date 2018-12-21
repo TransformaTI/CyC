@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.Data.SqlClient
+Imports System.Linq
 
 Public Class frmSelTipoCobro
     Inherits System.Windows.Forms.Form
@@ -22,7 +23,7 @@ Public Class frmSelTipoCobro
     Private _HabilitarDacionEnPago As Boolean = False
     Private _Cliente As Integer
     Private _URLGateway As String
-
+    Public listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
@@ -2521,7 +2522,7 @@ Public Class frmSelTipoCobro
                             Else
                                 .NoCuentaDestino = String.Empty
                             End If
-                    ImporteTotalCobro = .Total
+                            ImporteTotalCobro = .Total
                         End With
                         DialogResult = DialogResult.OK
                     End If
@@ -3569,7 +3570,7 @@ Public Class frmSelTipoCobro
             _URLGateway = ""
         End Try
         If Trim(txtClienteCheque.Text) <> "" Then
-            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo)
+            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault()) '(Function(x) x.IDDireccionEntrega = CLIENTE))
             frmConCliente.ShowDialog()
         End If
     End Sub
@@ -4020,6 +4021,7 @@ Public Class frmSelTipoCobro
 
     Private Sub btnBusquedaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBusquedaCliente.Click
         Dim buscaClientePadre As New SigaMetClasses.BusquedaCliente(True)
+        buscaClientePadre._DireccionesEntrega = listaDireccionesEntrega
         buscaClientePadre.ShowDialog()
         If buscaClientePadre.DialogResult = DialogResult.OK Then
             txtClienteCheque.Text = CStr(buscaClientePadre.Cliente)
