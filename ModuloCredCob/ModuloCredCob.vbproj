@@ -517,12 +517,6 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\RTGMGateway\RTGMGateway\RTGMGateway.csproj">
-      <Project>{226853d8-23aa-4ff2-b66f-0ac17d0a66b9}</Project>
-      <Name>RTGMGateway</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
