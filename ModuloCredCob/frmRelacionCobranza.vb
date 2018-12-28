@@ -5,6 +5,7 @@ Imports RTGMGateway
 Imports System.Collections.Generic
 Imports System.Linq
 
+
 Public Class frmRelacionCobranza
 	Inherits System.Windows.Forms.Form
 	Private _Cobranza As Integer

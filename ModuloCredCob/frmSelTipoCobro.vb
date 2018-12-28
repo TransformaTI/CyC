@@ -3293,8 +3293,9 @@ Public Class frmSelTipoCobro
                         cboTarjetaCreditoAfiliacion.SelectedIndex = cboTarjetaCreditoAfiliacion.FindString(frmConsultaCargo.CargoTarjeta.Afiliacion.ToString())
                         TxtNoTarjeta.Text = frmConsultaCargo.CargoTarjeta.NumeroTarjeta
                         cboTarjetaCreditoTipoTarjeta.Text = frmConsultaCargo.CargoTarjeta.TipoCobroDescripcion
-                        cboTarjetaCreditoBanco.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.Banco)
-                        cboTarjetaCreditoBancoTarjeta.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.BancoAfiliacion)
+
+                        cboTarjetaCreditoBanco.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.BancoAfiliacion) 'CInt(frmConsultaCargo.CargoTarjeta.Banco)
+                        cboTarjetaCreditoBancoTarjeta.SelectedValue = CInt(frmConsultaCargo.CargoTarjeta.Banco) 'CInt(frmConsultaCargo.CargoTarjeta.BancoAfiliacion)
                         InhabilitarTarjeta()
                     End If
                 End If

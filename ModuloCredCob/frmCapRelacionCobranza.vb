@@ -2,6 +2,8 @@ Imports System.Collections.Generic
 Imports System.Data.SqlClient
 Imports System.Linq
 Imports Microsoft.VisualBasic.ControlChars
+Imports RTGMGateway
+
 Public Class frmCapRelacionCobranza
     Inherits System.Windows.Forms.Form
     Private _Empleado As Integer
