@@ -17,7 +17,7 @@ Public Class frmCapRelacionCobranza
     Private _Columna As Integer = -1
     Private _SalidaInmediata As Boolean = False
     'Private _DiccCliente As New Dictionary(Of Integer, String)
-    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private listaDireccionesEntrega As New List(Of RTGMCore.DireccionEntrega)
     'Consulta por serie y folio del vale de crédito
     Private _folioDocumento As DocumentosBSR.SerieDocumento
 
@@ -1012,13 +1012,15 @@ Public Class frmCapRelacionCobranza
                 Dim _cliente As Integer
                 _cliente = CType(drLista("Cliente"), Integer)
                 Dim direntrega As New RTGMCore.DireccionEntrega
-                direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
-                If Not IsNothing(direntrega) Then
+
+                Dim _Ccliente As String
+                _Ccliente = consultaClienteCRM(_cliente)
+
+                oPedido.SubItems.Add(_Ccliente)
+
+                If Not IsNothing(listaDireccionesEntrega) Then
+                    direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
                     oPedido.SubItems.Add(direntrega.Nombre)
-                Else
-                    Dim _Ccliente As String
-                    _Ccliente = consultaClienteCRM(_cliente)
-                    oPedido.SubItems.Add(_Ccliente)
                 End If
             End If
             oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
@@ -1847,22 +1849,29 @@ Public Class frmCapRelacionCobranza
 
         Try
             If (Not String.IsNullOrEmpty(URLGateway)) Then
-                If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
-                    Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                    Gateway.URLServicio = URLGateway
-                    Solicitud = New RTGMGateway.SolicitudGateway() With {
+
+                Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                Gateway.URLServicio = URLGateway
+                Solicitud = New RTGMGateway.SolicitudGateway() With {
                         .IDCliente = cliente}
 
-                    DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
-                Else
-                    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+
+                'If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
+                '    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                'Else
+                '    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                'End If
+
+                If Not IsNothing(DireccionEntrega) And Not IsNothing(listaDireccionesEntrega) Then
+                    listaDireccionesEntrega.Add(DireccionEntrega)
                 End If
 
 
                 If DireccionEntrega.Nombre IsNot Nothing Then
-                    If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
-                        listaDireccionesEntrega.Add(DireccionEntrega)
-                    End If
+                    'If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
+
+                    'End If
                     Nombre = DireccionEntrega.Nombre.Trim
                 End If
             End If
