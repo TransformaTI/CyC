@@ -1896,18 +1896,21 @@ Public Class frmCapRelacionCobranza
 
                     For Each item As ListViewItem In lvwLista.Items
                         cliente = Convert.ToInt32(item.SubItems(idxCliente).Text)
-                        If listaDireccionesEntrega.Count > 0 Then
-                            Dim direntrega As New RTGMCore.DireccionEntrega
-                            direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
-                            If Not IsNothing(direntrega) Then
-                                item.SubItems(idxNombre).Text = direntrega.Nombre
+                        If Not IsNothing(listaDireccionesEntrega) Then
+
+                            If listaDireccionesEntrega.Count > 0 Then
+                                Dim direntrega As New RTGMCore.DireccionEntrega
+                                direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                                If Not IsNothing(direntrega) Then
+                                    item.SubItems(idxNombre).Text = direntrega.Nombre
+                                Else
+                                    Dim _Ccliente As String
+                                    _Ccliente = consultaClienteCRM(cliente)
+                                    item.SubItems(idxNombre).Text = _Ccliente
+                                End If
                             Else
-                                Dim _Ccliente As String
-                                _Ccliente = consultaClienteCRM(cliente)
-                                item.SubItems(idxNombre).Text = _Ccliente
+                                item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
                             End If
-                        Else
-                            item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
                         End If
                     Next item
                 End If
