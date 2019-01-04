@@ -3105,6 +3105,12 @@ Public Class frmSelTipoCobro
             rbTransferencia.Enabled = False
         End If
 
+        If GLOBAL_AplicacionSaldoAFavor Then
+            tbSaldoAFavor.Visible = True
+        Else
+            tbSaldoAFavor.Visible = False
+        End If
+
 
         ComboBanco.CargaDatos(CargaBancoCero:=True, MostrarClaves:=True, SoloActivos:=True)
         ComboTipoVale.CargaDatos()
