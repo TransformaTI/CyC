@@ -1174,7 +1174,7 @@ Public Class frmCapCobranza
             TransBan = ""
         End Try
 
-        If Me.cboTipoMovCaja.Text.Contains("3") And TransBan = "0" Then
+        If Me.cboTipoMovCaja.Text.ToUpper.Contains("TRANSFERENCIA") And TransBan = "0" Then
             btnAgregar.Enabled = False
             btnAceptar.Enabled = False
         Else
