@@ -844,6 +844,7 @@ Public Class frmCapRelacionCobranza
         'NO MODIFICAR
         'ATTE. RDC
         Dim _Agregado As Boolean
+        Dim TipoCobranza As String = String.Empty
 
         'AVISAR SI NO SE ENCUENTRA EL DOCUMENTO
 
@@ -874,11 +875,17 @@ Public Class frmCapRelacionCobranza
                 Exit Sub
             End If
 
+            Try
+                TipoCobranza = cboTipoCobranza.SelectedValue.ToString()
+            Catch ex As Exception
+                TipoCobranza = String.Empty
+            End Try
+
             'Validación del tipo de cargo del documento que se está capturando
             'Si la tabla está vacia o nula no validar aquí
             If Not dtTipoCargo Is Nothing Then
                 If Not _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion _
-                    AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) Then
+                    AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) And Not TipoCobranza.Contains("14") Then
                     strMensaje = "El documento " & strPedidoReferencia & " es " &
                                 " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
                                 " y no puede ser capturado en esta lista."
@@ -1020,7 +1027,7 @@ Public Class frmCapRelacionCobranza
 
                 If Not IsNothing(listaDireccionesEntrega) Then
                     direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
-                    oPedido.SubItems.Add(direntrega.Nombre)
+                    ' oPedido.SubItems.Add(direntrega.Nombre)
                 End If
             End If
             oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
