@@ -1011,17 +1011,17 @@ Public Class frmCapRelacionCobranza
             Else
                 Dim _cliente As Integer
                 _cliente = CType(drLista("Cliente"), Integer)
-                Dim direntrega As New RTGMCore.DireccionEntrega
+                'Dim direntrega As New RTGMCore.DireccionEntrega
 
                 Dim _Ccliente As String
                 _Ccliente = consultaClienteCRM(_cliente)
 
                 oPedido.SubItems.Add(_Ccliente)
 
-                If Not IsNothing(listaDireccionesEntrega) Then
-                    direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
-                    oPedido.SubItems.Add(direntrega.Nombre)
-                End If
+                'If Not IsNothing(listaDireccionesEntrega) Then
+                '    direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
+                '    oPedido.SubItems.Add(direntrega.Nombre)
+                'End If
             End If
             oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
             oPedido.SubItems.Add(CType(drLista("Saldo"), Decimal).ToString("N"))
@@ -1315,7 +1315,9 @@ Public Class frmCapRelacionCobranza
 
     Private Sub frmCapRelacionCobranza_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ActivaOpcionesControl(False)
-        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        If IsNothing(listaDireccionesEntrega) Then
+            listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        End If
         chkPedidoReferencia.Checked = Not GLOBAL_BusquedaPorValeCredito
         chkPedidoReferencia.Visible = GLOBAL_BusquedaPorValeCredito
 
@@ -1850,18 +1852,16 @@ Public Class frmCapRelacionCobranza
         Try
             If (Not String.IsNullOrEmpty(URLGateway)) Then
 
-                Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                Gateway.URLServicio = URLGateway
-                Solicitud = New RTGMGateway.SolicitudGateway() With {
+
+                If listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
+                    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                Else
+                    Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                    Gateway.URLServicio = URLGateway
+                    Solicitud = New RTGMGateway.SolicitudGateway() With {
                         .IDCliente = cliente}
-
-                DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
-
-                'If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
-                '    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
-                'Else
-                '    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
-                'End If
+                    DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+                End If
 
                 If Not IsNothing(DireccionEntrega) And Not IsNothing(listaDireccionesEntrega) Then
                     listaDireccionesEntrega.Add(DireccionEntrega)
@@ -1869,9 +1869,6 @@ Public Class frmCapRelacionCobranza
 
 
                 If DireccionEntrega.Nombre IsNot Nothing Then
-                    'If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
-
-                    'End If
                     Nombre = DireccionEntrega.Nombre.Trim
                 End If
             End If

@@ -23,7 +23,7 @@ Public Class frmSelTipoCobro
     Private _HabilitarDacionEnPago As Boolean = False
     Private _Cliente As Integer
     Private _URLGateway As String
-    Public listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
@@ -2946,6 +2946,14 @@ Public Class frmSelTipoCobro
 
 #End Region
 
+    Public Property listaDireccionesEntregas As List(Of RTGMCore.DireccionEntrega)
+        Get
+            Return listaDireccionesEntrega
+        End Get
+        Set(value As List(Of RTGMCore.DireccionEntrega))
+            listaDireccionesEntrega = value
+        End Set
+    End Property
 
     Private Function BuscaCobroGlobal(ByVal Documento As String,
                                       ByVal Cliente As Integer,
@@ -3587,7 +3595,7 @@ Public Class frmSelTipoCobro
             _URLGateway = ""
         End Try
         If Trim(txtClienteCheque.Text) <> "" Then
-            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault()) '(Function(x) x.IDDireccionEntrega = CLIENTE))
+            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(txtClienteCheque.Text, Integer)))
             frmConCliente.ShowDialog()
         End If
     End Sub

@@ -1,8 +1,14 @@
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
+Imports System.Linq
 
 Public Class frmClientesCreditoRebasado
     Inherits System.Windows.Forms.Form
     Private _Cliente As Integer
+    Private _Modulo As Short
+    Private _CadenaConexion As String
+    Private _URLGateway As String
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
 
 #Region " Windows Form Designer generated code "
 
@@ -313,8 +319,38 @@ Public Class frmClientesCreditoRebasado
 
 #End Region
 
+    Public Property Modulo As Short
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Short)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property CadenaConexion As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
+    Public Property URLGateway As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
     Private Sub frmClientesCreditoRebasado_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         cboCelula.CargaDatos()
+        If IsNothing(listaDireccionesEntrega) Then
+            listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        End If
     End Sub
 
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
@@ -371,6 +407,152 @@ Public Class frmClientesCreditoRebasado
             dt.Dispose()
 
             Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub CargaDatos(URLGateway As String)
+        Cursor = Cursors.WaitCursor
+        Dim cmd As New SqlCommand("spReporteClientesCreditoRebasado")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .CommandTimeout = 180
+            .Parameters.Add("@Celula", SqlDbType.TinyInt).Value = CType(cboCelula.Celula, Byte)
+        End With
+
+        Dim cn As SqlConnection = GLOBAL_connection
+        Dim da As SqlDataAdapter = Nothing
+        Dim dt As DataTable = Nothing
+        Dim CLIENTETEMP As Integer
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+
+        Try
+            Try
+                cn.Open()
+            Catch ex As Exception
+                MessageBox.Show(SigaMetClasses.M_NO_CONEXION, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End Try
+
+            cmd.Connection = cn
+            da = New SqlDataAdapter(cmd)
+            dt = New DataTable("Cliente")
+
+            da.Fill(dt)
+            If dt.Rows.Count > 0 Then
+                Dim dvConsultar As DataView = New DataView(dt)
+                Dim dtConsultar As DataTable = dvConsultar.ToTable(True, "Cliente")
+                If dtConsultar.Rows.Count() > 0 Then
+                    Dim listaClientesDistintos As New List(Of Integer)
+
+                    For Each fila As DataRow In dtConsultar.Rows
+                        listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+                    Next
+
+                    Try
+                        generaListaClientes(listaClientesDistintos)
+                    Catch ex As Exception
+
+                    End Try
+
+                    For Each drow As DataRow In dt.Rows
+                        Try
+                            drow("Nombre") = ""
+                            CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                            direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                            If Not IsNothing(direccionEntrega) Then
+                                drow("Nombre") = direccionEntrega.Nombre.Trim()
+                            Else
+                                drow("Nombre") = "No encontrado"
+                            End If
+                        Catch ex As Exception
+                            drow("Nombre") = "Error al buscar"
+                        End Try
+                    Next
+
+                End If
+
+
+                grdCliente.DataSource = dt
+                grdCliente.CaptionText = "Clientes que ya rebasaron su límite de crédito en la célula: " & cboCelula.Celula.ToString & " (" & dt.Rows.Count.ToString & " en total)"
+            Else
+                grdCliente.DataSource = Nothing
+                grdCliente.CaptionText = "No se encontraron registros"
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        Finally
+            If Not cn Is Nothing Then
+                If cn.State = ConnectionState.Open Then
+                    cn.Close()
+                End If
+                'cn.Dispose()
+            End If
+            da.Dispose()
+            cmd.Dispose()
+            dt.Dispose()
+
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer?)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim oSolicitud As RTGMGateway.SolicitudGateway
+            oSolicitud.ListaCliente = listaClientes
+            consultarDireccionesLista(oSolicitud)
+        Catch ex As Exception
+            Throw
+        End Try
+
+    End Sub
+
+    Private Sub consultarDireccionesLista(oSolicitud As RTGMGateway.SolicitudGateway)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oDireccionEntrega As New RTGMCore.DireccionEntrega()
+        Dim oDireccionEntregaLista As List(Of RTGMCore.DireccionEntrega)
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+            oGateway.URLServicio = _URLGateway
+
+            oDireccionEntregaLista = oGateway.busquedaDireccionEntregaLista(oSolicitud)
+
+            If Not IsNothing(oDireccionEntregaLista) Then
+                For Each direccion As RTGMCore.DireccionEntrega In oDireccionEntregaLista
+                    If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = direccion.IDDireccionEntrega) Then
+                        If Not IsNothing(direccion.Message) Then
+                            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                            oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            oDireccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(oDireccionEntrega)
+                        Else
+                            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                            oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            oDireccionEntrega.Nombre = direccion.Nombre
+                            listaDireccionesEntrega.Add(oDireccionEntrega)
+                        End If
+                    End If
+                Next
+            End If
+
+        Catch ex As Exception
+            Throw
         End Try
     End Sub
 

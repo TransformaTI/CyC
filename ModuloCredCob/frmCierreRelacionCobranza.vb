@@ -765,10 +765,8 @@ Public Class frmCierreRelacionCobranza
                         listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
                     Next
 
-                    While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
-                        generaListaCLientes(listaClientesDistintos)
-                        iteraciones = iteraciones + 1
-                    End While
+                    generaListaCLientes(listaClientesDistintos)
+
                 End If
             Catch ex As Exception
                 MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -885,7 +883,63 @@ Public Class frmCierreRelacionCobranza
 
     End Sub
 
-    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer?)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim oSolicitud As RTGMGateway.SolicitudGateway
+            oSolicitud.ListaCliente = listaClientes
+            consultarDireccionesLista(oSolicitud)
+        Catch ex As Exception
+            Throw
+        End Try
+
+    End Sub
+
+    Private Sub consultarDireccionesLista(oSolicitud As RTGMGateway.SolicitudGateway)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oDireccionEntrega As New RTGMCore.DireccionEntrega()
+        Dim oDireccionEntregaLista As List(Of RTGMCore.DireccionEntrega)
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+            oGateway.URLServicio = _URLGateway
+
+            oDireccionEntregaLista = oGateway.busquedaDireccionEntregaLista(oSolicitud)
+
+            If Not IsNothing(oDireccionEntregaLista) Then
+                For Each direccion As RTGMCore.DireccionEntrega In oDireccionEntregaLista
+                    If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = direccion.IDDireccionEntrega) Then
+                        If Not IsNothing(direccion.Message) Then
+                            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                            oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            oDireccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(oDireccionEntrega)
+                        Else
+                            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                            oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            oDireccionEntrega.Nombre = direccion.Nombre
+                            listaDireccionesEntrega.Add(oDireccionEntrega)
+                        End If
+                    End If
+                Next
+            End If
+
+        Catch ex As Exception
+            Throw
+        End Try
+    End Sub
+
+    Private Sub generaListaCLientess(ByVal listaClientesDistintos As List(Of Integer))
         Try
             Dim listaClientes As New List(Of Integer)
             Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
@@ -1319,6 +1373,9 @@ Public Class frmCierreRelacionCobranza
 
 
     Private Sub frmCierreRelacionCobranza_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        If IsNothing(listaDireccionesEntrega) Then
+            listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        End If
         lstCobro.DisplayMember = "InformacionCompleta"
         lstPedido.DisplayMember = "InformacionCompleta"
     End Sub
@@ -1351,7 +1408,7 @@ Public Class frmCierreRelacionCobranza
         intCobro += 1
 
         Dim oCapCobro As New frmSelTipoCobro(intCobro, lstCobro, GeneraListaDocumentos, _TipoMovimientoCaja)
-        oCapCobro.listaDireccionesEntrega = listaDireccionesEntrega
+        oCapCobro.listaDireccionesEntregas = listaDireccionesEntrega
 
         If oSeguridad.TieneAcceso("AreaDacionEnPago") Then
             oCapCobro.HabilitarDacionEnPago = True

@@ -1052,6 +1052,9 @@ Public Class frmPrincipal
         Cursor = Cursors.WaitCursor
         Dim frmClientesNuevos As New frmConsultaClientesNuevos()
         frmClientesNuevos.MdiParent = Me
+        frmClientesNuevos.Modulo = GLOBAL_Modulo
+        frmClientesNuevos.CadenaConexion = ConString
+        frmClientesNuevos.URLGateway = _URLGateway
         frmClientesNuevos.Show()
         Cursor = Cursors.Default
     End Sub
@@ -1067,6 +1070,9 @@ Public Class frmPrincipal
         Cursor = Cursors.WaitCursor
         Dim frmRebasado As New frmClientesCreditoRebasado()
         frmRebasado.MdiParent = Me
+        frmRebasado.Modulo = GLOBAL_Modulo
+        frmRebasado.CadenaConexion = ConString
+        frmRebasado.URLGateway = _URLGateway
         frmRebasado.Show()
         Cursor = Cursors.Default
     End Sub
@@ -1097,6 +1103,8 @@ Public Class frmPrincipal
                 Dim oDatosCredito As New frmClientesCartera(_URLGateway)
                 oDatosCredito.MdiParent = Me
                 oDatosCredito.WindowState = FormWindowState.Maximized
+                oDatosCredito.Modulo = GLOBAL_Modulo
+                oDatosCredito.CadenaConexion = ConString
                 oDatosCredito.Show()
             End If
         Catch ex As Exception
@@ -2081,6 +2089,9 @@ Public Class frmPrincipal
             Dim cobOperador As ResguardoCyC.RelacionesOperador = New ResguardoCyC.RelacionesOperador(GLOBAL_IDUsuario, GLOBAL_RespResguardoOP, GLOBAL_RutaReportes)
             cobOperador.MdiParent = Me
             cobOperador.WindowState = FormWindowState.Maximized
+            cobOperador.Modulo = GLOBAL_Modulo
+            cobOperador.CadenaConexion = ConString
+            cobOperador.URLGateway = _URLGateway
             cobOperador.Show()
         Else
             MessageBox.Show(SigaMetClasses.M_NO_PRIVILEGIOS, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
