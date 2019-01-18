@@ -26,6 +26,7 @@ Public Class frmSelTipoCobro
     Public listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
+    Private _AñoMovAnticipo As Integer
 
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
@@ -4300,7 +4301,7 @@ Public Class frmSelTipoCobro
         'Dim cad As String() = LstAnticipos.SelectedValue.ToString().Split(New Char() {","c})
         Dim cad As String() = LstAnticipos.GetItemText(LstAnticipos.SelectedItem).ToString().Trim.Split(New Char() {","c})
         TxtAntMonto.Text = cad(0)
-
+        _AñoMovAnticipo = CType(cad(1).Substring(5, 4), Integer)
     End Sub
 
     Private Sub TxtAntCliente_TextChanged(sender As Object, e As EventArgs) Handles TxtAntCliente.TextChanged
@@ -4507,6 +4508,7 @@ Public Class frmSelTipoCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
                             .Observaciones = Txtbox_observacionAnticipos.Text
                             .FolioMovAnt = CInt(LstAnticipos.SelectedValue.ToString())
+                            .AñoFolioMov = _AñoMovAnticipo
 
                             If Not IsNothing(CboCtaBanAnticipo.SelectedValue) Then
                                 .NoCuentaDestino = CboCtaBanAnticipo.Text
