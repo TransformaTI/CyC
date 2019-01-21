@@ -2900,11 +2900,13 @@ Public Class frmSelTipoCobro
                             .Total = frmCaptura.ImporteCobro
 
                             .FechaCheque = fecha.Now
-                            .Cliente = CType(lblIdClienteDato.Text, Integer)
+                            '.Cliente = CType(lblIdClienteDato.Text, Integer)
+                            .Cliente = _Cliente 'CType(lblIdClienteDato.Text, Integer)
                             '.Banco = CType(lblBanco.Text, Short)
                             '.NoCuenta = lblTarjetaCredito.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
 
+                            .NoCheque = txtSerie.Text.ToString.Trim & txtFolio.Text.ToString().Trim
 
                             If Not IsNothing(CboCtasBanNota.SelectedValue) Then
                                 .NoCuentaDestino = CboCtasBanNota.Text
@@ -4552,6 +4554,10 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub txtClienteCheque_TextChanged(sender As Object, e As EventArgs) Handles txtClienteCheque.TextChanged
+
+    End Sub
+
+    Private Sub txtSerie_TextChanged(sender As Object, e As EventArgs) Handles txtSerie.TextChanged
 
     End Sub
     '*****
