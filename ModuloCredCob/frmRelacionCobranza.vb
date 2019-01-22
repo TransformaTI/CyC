@@ -1638,46 +1638,46 @@ Public Class frmRelacionCobranza
 			grdCobranza.Select(grdCobranza.CurrentRowIndex)
 			'FILTRO POR NÚMERO DE COBRANZA, AQUÍ DEBERÍA CARGAR LOS DATOS DE ESA COBRANZA DE LA BASE DE SIGAMET
 			CargarDetallePedidos(_Cobranza)
-			'_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
-			Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
-
-            Dim listaClientesDistintos As New List(Of Integer)
-
+            '_dsCobranza.Tables("PedidoCobranza").DefaultView.RowFilter = Filtro
             Try
-				If clientesDistintos.Rows.Count > 0 Then
+                If _UrlGateway <> "" Then
+                    Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
 
-					For Each fila As DataRow In clientesDistintos.Rows
-						listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
-					Next
+                    Dim listaClientesDistintos As New List(Of Integer)
 
-                    generaListaClientes(listaClientesDistintos)
+                    Try
+                        If clientesDistintos.Rows.Count > 0 Then
 
+                            For Each fila As DataRow In clientesDistintos.Rows
+                                listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+                            Next
+
+                            generaListaClientes(listaClientesDistintos)
+
+                        End If
+                    Catch ex As Exception
+                        MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+                    If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
+                        For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
+                            Try
+                                drow("Nombre") = ""
+                                CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                                direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                                If Not IsNothing(direccionEntrega) Then
+                                    drow("Nombre") = direccionEntrega.Nombre.Trim()
+                                Else
+                                    drow("Nombre") = "No encontrado"
+                                End If
+                            Catch ex As Exception
+                                drow("Nombre") = "Error al buscar"
+                            End Try
+                        Next
+                    End If
                 End If
-			Catch ex As Exception
-				MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-			End Try
-			Try
-				If _UrlGateway <> "" Then
-					If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
-						For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
-							Try
-								drow("Nombre") = ""
-								CLIENTETEMP = (CType(drow("Cliente"), Integer))
-
-								direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
-
-								If Not IsNothing(direccionEntrega) Then
-									drow("Nombre") = direccionEntrega.Nombre.Trim()
-								Else
-									drow("Nombre") = "No encontrado"
-								End If
-							Catch ex As Exception
-								drow("Nombre") = "Error al buscar"
-							End Try
-						Next
-					End If
-				End If
-				grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
+                grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
 				grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
 			Catch ex As Exception
 				MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
