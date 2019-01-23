@@ -1283,7 +1283,7 @@ Public Class frmPrincipal
                     End If
                 Next
 
-                Dim frmConMov As New frmConsultaMovimientos(_URLGateway, GLOBAL_Modulo, ConString, ConsultarPedidosGateway:=_ConsultarPedidosGateway)
+                Dim frmConMov As New frmConsultaMovimientos(_URLGateway, GLOBAL_Modulo, ConString) ' ConsultarPedidosGateway:=_ConsultarPedidosGateway)
                 frmConMov.MdiParent = Me
                 frmConMov.Modulo = GLOBAL_Modulo
                 frmConMov.Show()
@@ -1900,6 +1900,9 @@ Public Class frmPrincipal
             Dim _asignacionEjecCyC As New AsignacionMultiple.AsignacionEjecCyC(DSCatalogos.Tables("EjecutivosCyC"), GLOBAL_connection)
             _asignacionEjecCyC.WindowState = FormWindowState.Maximized
             _asignacionEjecCyC.MdiParent = Me
+            _asignacionEjecCyC.CadenaConexion = ConString
+            _asignacionEjecCyC.Modulo = GLOBAL_Modulo
+            _asignacionEjecCyC.URLGateway = _URLGateway
             Try
                 _asignacionEjecCyC.Show()
             Catch EX As Exception
@@ -2337,9 +2340,9 @@ Public Class frmPrincipal
         Try
             '_SGCWebHabilitado = CType(oConfig.Parametros("PlataformaSGCWeb"), Boolean)
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
-            If Not IsNothing(oConfig.Parametros("MovimientosGateway")) Then
-                _ConsultarPedidosGateway = CType(oConfig.Parametros("MovimientosGateway"), Boolean)
-            End If
+            'If Not IsNothing(oConfig.Parametros("MovimientosGateway")) Then
+            '    _ConsultarPedidosGateway = CType(oConfig.Parametros("MovimientosGateway"), Boolean)
+            'End If
 
         Catch ex As Exception
             MessageBox.Show("Se produjo un error consultando los parámetros:" & vbCrLf & ex.Message,

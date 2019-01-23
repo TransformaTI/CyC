@@ -26,14 +26,14 @@ Public Class frmConsultaMovimientos
 
     Public Sub New(ByVal URLGateway As String,
           Optional ByVal modulo As Byte = 0,
-          Optional ByVal CadCon As String = "",
-          Optional ByVal ConsultarPedidosGateway As Boolean = False)
-        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway, Main.ConString, ConsultarPedidosGateway:=ConsultarPedidosGateway)
+          Optional ByVal CadCon As String = "")
+        'Optional ByVal ConsultarPedidosGateway As Boolean = False)
+        MyBase.New(Main.GLOBAL_Modulo, Main.GLOBAL_IDUsuario, Main.GLOBAL_IDEmpleado, URLGateway, Main.ConString) ' ConsultarPedidosGateway:=ConsultarPedidosGateway)
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         'Add any initialization after the InitializeComponent() call
         _URLGatewy = URLGateway
-        _ConsultarPedidosGateway = ConsultarPedidosGateway
+        '_ConsultarPedidosGateway = ConsultarPedidosGateway
     End Sub
 
     'Form overrides dispose to clean up the component list.
