@@ -3626,7 +3626,7 @@ Public Class frmSelTipoCobro
 
 
         If (Not String.IsNullOrEmpty(_URLGateway)) Then
-            If validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
+            If Not validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
                 MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
                             "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
