@@ -880,6 +880,12 @@ Public Class frmCapCobranzaDoc
                 'a) Si URLGateway == NULL o URLGateway == “” entonces objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)  (como es actualmente)
                 'b) Si URLGateway!=NULL o URLGateway!=”” entonces validarClientePadre(int IDDireccioneEntrega)
 
+                If Not objPedido.ValeCredito.ToString().Trim = txtPedidoReferencia.Text.ToString().Trim And chkPedidoReferencia.Checked = False Then
+                    MessageBox.Show("El número de documento no corresponde a un vale de crédito" & CrLf &
+                                   "Verifique por favor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Function
+                End If
+
 
                 Try
                     _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
