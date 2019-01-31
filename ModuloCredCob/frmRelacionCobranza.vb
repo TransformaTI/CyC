@@ -1546,7 +1546,7 @@ Public Class frmRelacionCobranza
         Try
 
 
-            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString) ', _UrlGateway)
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString, _UrlGateway)
             oSolicitud = New RTGMGateway.SolicitudGateway()
             'oGateway.URLServicio = _UrlGateway
             AddHandler oGateway.eListaEntregas, AddressOf DelegateListaEntregas
