@@ -1694,32 +1694,32 @@ Public Class frmRelacionCobranza
 			Catch ex As Exception
 				MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
-            'Try
-            '	If _UrlGateway <> "" Then
-            '		If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
-            '			For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
-            '				Try
-            '					drow("Nombre") = ""
-            '					CLIENTETEMP = (CType(drow("Cliente"), Integer))
+            Try
+                If _UrlGateway <> "" Then
+                    If _dsCobranza.Tables("PedidoCobranza").Rows.Count > 0 Then
+                        For Each drow In _dsCobranza.Tables("PedidoCobranza").Rows
+                            Try
+                                drow("Nombre") = ""
+                                CLIENTETEMP = (CType(drow("Cliente"), Integer))
 
-            '					direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+                                direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
 
-            '					If Not IsNothing(direccionEntrega) Then
-            '						drow("Nombre") = direccionEntrega.Nombre.Trim()
-            '					Else
-            '						drow("Nombre") = "No encontrado"
-            '					End If
-            '				Catch ex As Exception
-            '					drow("Nombre") = "Error al buscar"
-            '				End Try
-            '			Next
-            '		End If
-            '	End If
-            '	grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
-            '	grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
-            'Catch ex As Exception
-            '	MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            'End Try
+                                If Not IsNothing(direccionEntrega) Then
+                                    drow("Nombre") = direccionEntrega.Nombre.Trim()
+                                Else
+                                    drow("Nombre") = "No encontrado"
+                                End If
+                            Catch ex As Exception
+                                drow("Nombre") = "Error al buscar"
+                            End Try
+                        Next
+                    End If
+                End If
+                grdPedidoCobranza.DataSource = _dsCobranza.Tables("PedidoCobranza")
+                grdPedidoCobranza.CaptionText = "Documentos incluidos en la relación de cobranza: " & _Cobranza.ToString & " (" & _dsCobranza.Tables("PedidoCobranza").DefaultView.Count.ToString & " documentos en total)"
+            Catch ex As Exception
+                MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
             lblObservaciones.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 9), String)
 			lblFActualizacion.Text = CType(grdCobranza.Item(grdCobranza.CurrentRowIndex, 10), Date).ToString
 			If Not IsDBNull(grdCobranza.Item(grdCobranza.CurrentRowIndex, 12)) Then
