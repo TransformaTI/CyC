@@ -1118,13 +1118,17 @@ Public Class frmCapRelacionCobranza
                 End Try
 
                 'If CInt(Val(lvwItem.SubItems(14).Text)) = CInt(Val(PedidoReferencia)) Then
-                If CInt(Val(lvwItem.SubItems(16).Text)) = CInt(Val(DocumentosBSR.SerieDocumento.FolioNota)) Then
-                    MessageBox.Show("El documento ya se capturó en la lista.", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    lvwItem.EnsureVisible()
-                    txtPedidoReferencia.SelectAll()
+                If chkPedidoReferencia.Checked = False Then
+                    If CInt(Val(lvwItem.SubItems(15).Text)) = CInt(Val(DocumentosBSR.SerieDocumento.FolioNota)) Then
 
-                    Return True
+                        MessageBox.Show("El documento ya se capturó en la lista.", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        lvwItem.EnsureVisible()
+                        txtPedidoReferencia.SelectAll()
+
+                        Return True
+                    End If
                 End If
+
             End If
         Next
         Return False
