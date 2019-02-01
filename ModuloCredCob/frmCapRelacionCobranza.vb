@@ -1293,7 +1293,7 @@ Public Class frmCapRelacionCobranza
 
     Private Sub ConsultaCliente(ByVal Cliente As Integer)
         Cursor = Cursors.WaitCursor
-        Dim objConsultaCliente As New SigaMetClasses.frmConsultaCliente(Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = Cliente))
+        Dim objConsultaCliente As New SigaMetClasses.frmConsultaCliente(Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = Cliente), PermiteModificarDatosCliente:=True)
         objConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub
