@@ -1078,6 +1078,18 @@ Public Class frmCapCobranzaDoc
 
 #Region "Botón Aceptar P. Saldo a favor"
     Private Sub btnAceptarSF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) 'Handles btnAceptar.Click
+        Dim PagoExcesoTPV As Decimal = 0
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim ReglaTPVActiva As Boolean = False
+
+        Try
+            PagoExcesoTPV = CType(oConfig.Parametros("PagoExcesoTPV"), Decimal)
+            ReglaTPVActiva = CType(oConfig.Parametros("ReglaTPVActiva"), Boolean)
+        Catch ex As Exception
+            PagoExcesoTPV = 0
+            ReglaTPVActiva = False
+        End Try
+
         If lstDocumento.Items.Count > 0 Then
             'Esto valida que solo se pueda dejar un sobrante para cheques, ahora también incluirá fichas y transferencias
             If _ImporteRestante <= 0 _
@@ -1104,54 +1116,74 @@ Public Class frmCapCobranzaDoc
                                                "Haga clic en 'Sí' para registrar el sobrante como '" & msgWindow & "'," & CrLf &
                                                "haga clic en 'No', para continuar abonando", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
                                 Exit Sub
+
+
                             Else
+
+                                'Valida Pago en Exceso TPV
+
+                                If (_TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaDeDebito _
+                                          Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito _
+                                         Or _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaServicio) And ReglaTPVActiva = True Then
+
+                                    If ValidaPagoEnExcesoTPV(ImporteRestante) = False Then
+                                        Exit Sub
+                                    End If
+                                End If
+
+
                                 _SaldoAFavor = True
+
+
+
+
+
+                        End If
+                    Else
+                        'Buscar en esta sección saldos pendientes por abonar para que se agote el sobrante
+                        frmSaldosPendientes = New CyCSaldoAFavor.SaldosPendientes(_Cliente, _TipoMovimientoCaja,
+                                                                                _ImporteRestante.ToString("c"), lstDocumento, _ListaCobros, ConString)
+                        If frmSaldosPendientes.SaldoPendiente Then
+                            If frmSaldosPendientes.ShowDialog() = DialogResult.OK Then
+                                txtPedidoReferencia.Text = frmSaldosPendientes.PedidoReferenciaSeleccionado
+                                Exit Sub
+                            Else
+                                MessageBox.Show("Faltan por relacionar " & _ImporteRestante.ToString("C"), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
                             End If
                         Else
-                            'Buscar en esta sección saldos pendientes por abonar para que se agote el sobrante
-                            frmSaldosPendientes = New CyCSaldoAFavor.SaldosPendientes(_Cliente, _TipoMovimientoCaja,
-                                                                                    _ImporteRestante.ToString("c"), lstDocumento, _ListaCobros, ConString)
-                            If frmSaldosPendientes.SaldoPendiente Then
-                                If frmSaldosPendientes.ShowDialog() = DialogResult.OK Then
-                                    txtPedidoReferencia.Text = frmSaldosPendientes.PedidoReferenciaSeleccionado
-                                    Exit Sub
-                                Else
-                                    MessageBox.Show("Faltan por relacionar " & _ImporteRestante.ToString("C"), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
+                            'Aquí debería consultar si se guarda como saldo a favor
+                            If MessageBox.Show("Faltan por relacionar " & _ImporteRestante.ToString("C") & CrLf &
+                                               "Haga clic en 'Sí' para registrar el sobrante como '" & msgWindow & "'," & CrLf &
+                                               "haga clic en 'No', para continuar abonando", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
+                                Exit Sub
                             Else
-                                'Aquí debería consultar si se guarda como saldo a favor
-                                If MessageBox.Show("Faltan por relacionar " & _ImporteRestante.ToString("C") & CrLf &
-                                                   "Haga clic en 'Sí' para registrar el sobrante como '" & msgWindow & "'," & CrLf &
-                                                   "haga clic en 'No', para continuar abonando", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.No Then
-                                    Exit Sub
-                                Else
-                                    _SaldoAFavor = True
+                                _SaldoAFavor = True
 
-                                End If
                             End If
                         End If
                     End If
-                    Dim s As SigaMetClasses.sPedido
-                    For Each s In lstDocumento.Items
-                        ListaCobroPedido.Add(s)
-
-                    Next
-                    'If TipoCobro = enumTipoCobro.Efectivo Or TipoCobro = enumTipoCobro.Vales Then CapturaEfectivoVales = True
-                    'Cambiado el 09 de octubre del 2002
-                    'Bloqueamos el boton para que no se captura dos veces EfectivoVales
-                    If _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales Then
-                        _ImporteCobro = Me.decImporteTotalCobranza
-                        CapturaEfectivoVales = True
-                        CapturaMixtaEfectivoVales = True
-                    End If
-                    DialogResult = DialogResult.OK
                 End If
-            Else
-                MessageBox.Show("Falta por relacionar " & _ImporteRestante.ToString("C"), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Dim s As SigaMetClasses.sPedido
+                For Each s In lstDocumento.Items
+                    ListaCobroPedido.Add(s)
+
+                Next
+                'If TipoCobro = enumTipoCobro.Efectivo Or TipoCobro = enumTipoCobro.Vales Then CapturaEfectivoVales = True
+                'Cambiado el 09 de octubre del 2002
+                'Bloqueamos el boton para que no se captura dos veces EfectivoVales
+                If _TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales Then
+                    _ImporteCobro = Me.decImporteTotalCobranza
+                    CapturaEfectivoVales = True
+                    CapturaMixtaEfectivoVales = True
+                End If
+                DialogResult = DialogResult.OK
             End If
         Else
-            MessageBox.Show("No se han capturado documentos en la cobranza.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Falta por relacionar " & _ImporteRestante.ToString("C"), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+        Else
+        MessageBox.Show("No se han capturado documentos en la cobranza.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
     End Sub
 #End Region
@@ -2016,4 +2048,35 @@ Public Class frmCapCobranzaDoc
     Private Sub btnAceptar_Click_1(sender As Object, e As EventArgs) Handles btnAceptar.Click
 
     End Sub
+
+    ''' <summary>
+    ''' Función que valida pago en exceso TPV
+    ''' </summary>
+    ''' <param name="ImporteRestante"></param>
+    ''' <returns></returns>
+    Private Function ValidaPagoEnExcesoTPV(ImporteRestante As Decimal) As Boolean
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim PagoExcesoTPV As Decimal = 0
+
+        Try
+            PagoExcesoTPV = CType(oConfig.Parametros("PagoExcesoTPV"), Decimal)
+        Catch ex As Exception
+            PagoExcesoTPV = 0
+        End Try
+
+        If ImporteRestante <= PagoExcesoTPV Then
+            Return True
+            'Se registra el pago en las tablas Cobro, CobroPedido y se inserta una nota de ingreso por saldo a favor en la tabla MovimientoAConciliar
+
+        ElseIf (ImporteRestante <= 0) Then
+            'entonces se registra el pago en las tablas Cobro y Cobropedido
+            Return True
+        ElseIf (ImporteRestante > PagoExcesoTPV) Then
+
+            MessageBox.Show("El importe restante " & _ImporteRestante.ToString("C") & "excede la tolerancia de " & PagoExcesoTPV.ToString("C") & CrLf &
+                               " Por favor continue abonando a pedidos para cumplir con la tolerancia establecida.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            Return False
+        End If
+    End Function
 End Class
