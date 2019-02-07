@@ -1558,7 +1558,7 @@ Public Class frmRelacionCobranza
                             listaDireccionesEntrega.Add(direccionEntrega)
                         ElseIf direccion.IDDireccionEntrega = -1 Then
                             errorConsulta = True
-                        ElseIf direccion.IDDireccionEntrega > 0 Then
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
                             listaDireccionesEntrega.Add(direccion)
                         End If
                     Else
@@ -1598,7 +1598,7 @@ Public Class frmRelacionCobranza
                     llenarListaEntrega()
             End If
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1650,10 +1650,9 @@ Public Class frmRelacionCobranza
                 oGateway.busquedaDireccionEntregaAsync(oSolicitud)
             Next
         Catch ex As Exception
-
+            Throw
         End Try
     End Sub
-
 
     Private Sub grdCobranza_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdCobranza.CurrentCellChanged
         Try
