@@ -436,7 +436,7 @@ Public Class frmClientesCreditoRebasado
                             listaDireccionesEntrega.Add(direccionEntrega)
                         ElseIf direccion.IDDireccionEntrega = -1 Then
                             errorConsulta = True
-                        ElseIf direccion.IDDireccionEntrega > 0 Then
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
                             listaDireccionesEntrega.Add(direccion)
                         End If
                     Else
@@ -476,7 +476,7 @@ Public Class frmClientesCreditoRebasado
                 llenarListaEntrega()
             End If
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -515,7 +515,6 @@ Public Class frmClientesCreditoRebasado
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Try
-
             oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString) ', _UrlGateway)
             oGateway.ListaCliente = listaClientesDistintos
             oGateway.URLServicio = _URLGateway
@@ -527,7 +526,7 @@ Public Class frmClientesCreditoRebasado
                 oGateway.busquedaDireccionEntregaAsync(oSolicitud)
             Next
         Catch ex As Exception
-
+            Throw
         End Try
     End Sub
 

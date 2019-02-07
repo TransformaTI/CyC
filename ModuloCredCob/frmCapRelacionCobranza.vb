@@ -18,6 +18,9 @@ Public Class frmCapRelacionCobranza
     Private _SalidaInmediata As Boolean = False
     'Private _DiccCliente As New Dictionary(Of Integer, String)
     Private listaDireccionesEntrega As New List(Of RTGMCore.DireccionEntrega)
+    Private drReader As SqlDataReader
+    Private validarPeticion As Boolean
+    Private listaClientesEnviados As List(Of Integer)
     'Consulta por serie y folio del vale de crédito
     Private _folioDocumento As DocumentosBSR.SerieDocumento
 
@@ -836,23 +839,75 @@ Public Class frmCapRelacionCobranza
             cmd.Dispose()
             'cn.Dispose()
         End Try
-
-
     End Sub
 
-    Private Sub LlenaLista(ByVal drLista As SqlDataReader)
-        'NO MODIFICAR
-        'ATTE. RDC
+    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        Dim errorConsulta As Boolean
+        Try
+            For Each direccion As RTGMCore.DireccionEntrega In lista
+                Try
+                    If Not IsNothing(direccion) Then
+                        If Not IsNothing(direccion.Message) Then
+                            direccionEntrega = New RTGMCore.DireccionEntrega()
+                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            direccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(direccionEntrega)
+                        ElseIf direccion.IDDireccionEntrega = -1 Then
+                            errorConsulta = True
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
+                            listaDireccionesEntrega.Add(direccion)
+                        End If
+                    Else
+                        direccionEntrega = New RTGMCore.DireccionEntrega()
+                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                        direccionEntrega.Nombre = "No se encontró cliente"
+                        listaDireccionesEntrega.Add(direccionEntrega)
+                    End If
+
+                Catch ex As Exception
+                    direccionEntrega = New RTGMCore.DireccionEntrega()
+                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                    direccionEntrega.Nombre = ex.Message
+                    listaDireccionesEntrega.Add(direccionEntrega)
+                End Try
+            Next
+
+            If validarPeticion And errorConsulta Then
+                validarPeticion = False
+                Dim listaClientes As List(Of Integer) = New List(Of Integer)
+                For Each clienteTemp As Integer In listaClientesEnviados
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientes.Add(clienteTemp)
+                    End If
+                Next
+
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+
+                If result = DialogResult.Yes Then
+                    generaListaClientes(listaClientes)
+                Else
+                    llenarListaEntrega()
+                End If
+            Else
+                llenarListaEntrega()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub llenarListaEntrega()
+        Dim _Encontrado As Boolean = False
         Dim _Agregado As Boolean
         Dim TipoCobranza As String = String.Empty
 
-        'AVISAR SI NO SE ENCUENTRA EL DOCUMENTO
-
-        Dim _Encontrado As Boolean = False
-
-        Do While drLista.Read ' And _Agregado = False 'Agrego el flag de Agregado para aquellos documentos que estan en más de una factura
+        Do While drReader.Read ' And _Agregado = False 'Agrego el flag de Agregado para aquellos documentos que estan en más de una factura
             Dim strMensaje As String
-            Dim strPedidoReferencia As String = Trim(CType(drLista("PedidoReferencia"), String))
+            Dim strPedidoReferencia As String = Trim(CType(drReader("PedidoReferencia"), String))
 
             'FLAG -- DOCUMENTO ENCONTRADO
 
@@ -864,12 +919,12 @@ Public Class frmCapRelacionCobranza
             'Validación del Tipo de Cargo al documento que se esta agregando
             'Con esta restricción se impide que se "combinen" diferentes tipos de cargo en la lista.
             If lvwLista.Items.Count = 0 Then
-                _TipoCargo = CType(drLista("TipoCargo"), Byte)
+                _TipoCargo = CType(drReader("TipoCargo"), Byte)
             End If
 
-            If _TipoCargo <> CType(drLista("TipoCargo"), Byte) Then
+            If _TipoCargo <> CType(drReader("TipoCargo"), Byte) Then
                 strMensaje = "El documento " & strPedidoReferencia & " es " &
-                            " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
+                            " de tipo " & CType(drReader("TipoCargoTipoPedido"), String) & Chr(13) &
                             " y no puede ser capturado en esta lista."
                 MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
@@ -887,15 +942,15 @@ Public Class frmCapRelacionCobranza
                 If Not _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion _
                     AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) And Not TipoCobranza.Contains("14") Then
                     strMensaje = "El documento " & strPedidoReferencia & " es " &
-                                " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
+                                " de tipo " & CType(drReader("TipoCargoTipoPedido"), String) & Chr(13) &
                                 " y no puede ser capturado en esta lista."
                     MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             End If
 
-            If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
-                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
+            If CType(drReader("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drReader("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
                 "¿Desea agregar este documento a la relación de cobranza?"
                 If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
                     Exit Sub
@@ -903,7 +958,7 @@ Public Class frmCapRelacionCobranza
             End If
 
             'No se permite la captura de documentos pagagos en la lista de cobranza. JAGD 18/02/2006
-            If CType(drLista("Saldo"), Decimal) = 0 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+            If CType(drReader("Saldo"), Decimal) = 0 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
                 'Si el tipo de cobranza no es la de archivo muerto, se deben validar todas las condiciones para permitr la captura
                 'de documentos pagados
                 If Not CType(cboTipoCobranza.SelectedValue, Byte) = 14 Then
@@ -930,7 +985,7 @@ Public Class frmCapRelacionCobranza
             End If
 
             'No se permite la captura de documentos con saldo en la lista de cobranza para archivo muerto
-            If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(drLista("Saldo"), Decimal) > 0 Then
+            If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(drReader("Saldo"), Decimal) > 0 Then
                 strMensaje = "El documento " & strPedidoReferencia &
                                                      " tiene saldo pendiente" & Chr(13) &
                                                      "y no puede ser capturado en esta lista."
@@ -940,7 +995,7 @@ Public Class frmCapRelacionCobranza
 
             'Validación solicitada por JLHT el 21 de mayo del 2004
             'TODO sugerir parámetro
-            If CType(drLista("Cartera"), Byte) = 6 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+            If CType(drReader("Cartera"), Byte) = 6 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
                 'If Main.GLOBAL_IDUsuario <> "JOALRA" Then
                 If Not oSeguridad.TieneAcceso("CAPTURA_CarteraEspecial") Then
                     MessageBox.Show("Sólo el gerente de crédito puede capturar este documento.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -950,13 +1005,13 @@ Public Class frmCapRelacionCobranza
             'Fin de la validación
 
             'Validar clientes que pagan con transferencia
-            If CType(IIf(IsDBNull(drLista("TipoCobroCliente")), 0, drLista("TipoCobroCliente")), Byte) = 10 Then
+            If CType(IIf(IsDBNull(drReader("TipoCobroCliente")), 0, drReader("TipoCobroCliente")), Byte) = 10 Then
                 Dim mensaje As New System.Text.StringBuilder()
                 mensaje.Append("Este cliente paga regularmente con transferencia bancaria")
-                If Not IsDBNull(drLista("ProximaGestion")) Then
+                If Not IsDBNull(drReader("ProximaGestion")) Then
                     mensaje.Append(vbCrLf)
                     mensaje.Append("y su próxima gestión es: ")
-                    mensaje.Append(CType(drLista("ProximaGestion"), String))
+                    mensaje.Append(CType(drReader("ProximaGestion"), String))
                 End If
                 mensaje.Append(vbCrLf)
                 mensaje.Append("¿Desea capturarlo para gestión de revisión?")
@@ -985,10 +1040,10 @@ Public Class frmCapRelacionCobranza
 
             Cursor = Cursors.WaitCursor
 
-            Dim oPedido As New ListViewItem(Trim(CType(drLista("PedidoReferencia"), String)), 0)
-            oPedido.SubItems.Add(CType(drLista("AñoPed"), String))
-            oPedido.SubItems.Add(CType(drLista("Celula"), String))
-            oPedido.SubItems.Add(CType(drLista("Pedido"), String))
+            Dim oPedido As New ListViewItem(Trim(CType(drReader("PedidoReferencia"), String)), 0)
+            oPedido.SubItems.Add(CType(drReader("AñoPed"), String))
+            oPedido.SubItems.Add(CType(drReader("Celula"), String))
+            oPedido.SubItems.Add(CType(drReader("Pedido"), String))
 
             'Carga del tipo de gestión inicial correspondiente según la precarga
             If _tipoGestion <> Nothing Then
@@ -997,53 +1052,48 @@ Public Class frmCapRelacionCobranza
                 _tipoGestion = Nothing
                 _tipoGestionDesc = Nothing
             Else
-                oPedido.SubItems.Add(CType(drLista("GestionInicial"), String))
-                oPedido.SubItems.Add(CType(drLista("GestionInicialDescripcion"), String))
+                oPedido.SubItems.Add(CType(drReader("GestionInicial"), String))
+                oPedido.SubItems.Add(CType(drReader("GestionInicialDescripcion"), String))
             End If
-            oPedido.SubItems.Add(CType(drLista("RutaSuministro"), String))
-            oPedido.SubItems.Add(Trim(CType(drLista("TipoCargoTipoPedido"), String)))
-            If CType(drLista("TipoCobro"), Byte) <> 5 Then
+            oPedido.SubItems.Add(CType(drReader("RutaSuministro"), String))
+            oPedido.SubItems.Add(Trim(CType(drReader("TipoCargoTipoPedido"), String)))
+            If CType(drReader("TipoCobro"), Byte) <> 5 Then
                 oPedido.ImageIndex = 0
             Else
                 oPedido.ImageIndex = 6
             End If
-            If Not IsDBNull(drLista("FCargo")) Then
-                oPedido.SubItems.Add(CType(drLista("FCargo"), Date).ToShortDateString)
+            If Not IsDBNull(drReader("FCargo")) Then
+                oPedido.SubItems.Add(CType(drReader("FCargo"), Date).ToShortDateString)
             Else
                 oPedido.SubItems.Add("")
             End If
-            oPedido.SubItems.Add(CType(drLista("Cliente"), String))
+            oPedido.SubItems.Add(CType(drReader("Cliente"), String))
             If String.IsNullOrEmpty(_URLGateway) Then
-                oPedido.SubItems.Add(Trim(CType(drLista("Nombre"), String)))
+                oPedido.SubItems.Add(Trim(CType(drReader("Nombre"), String)))
             Else
                 Dim _cliente As Integer
-                _cliente = CType(drLista("Cliente"), Integer)
+                _cliente = CType(drReader("Cliente"), Integer)
                 Dim direntrega As New RTGMCore.DireccionEntrega
-
-                Dim _Ccliente As String
-                _Ccliente = consultaClienteCRM(_cliente)
-
-                oPedido.SubItems.Add(_Ccliente)
 
                 If Not IsNothing(listaDireccionesEntrega) Then
                     direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
-                    ' oPedido.SubItems.Add(direntrega.Nombre)
+                    oPedido.SubItems.Add(direntrega.Nombre)
                 End If
             End If
-            oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
-            oPedido.SubItems.Add(CType(drLista("Saldo"), Decimal).ToString("N"))
-            If Not IsDBNull(drLista("Factura")) Then
-                oPedido.SubItems.Add(CType(drLista("Factura"), String))
-                oPedido.SubItems.Add(CType(drLista("SerieFactura"), String))
+            oPedido.SubItems.Add(CType(drReader("Total"), Decimal).ToString("N"))
+            oPedido.SubItems.Add(CType(drReader("Saldo"), Decimal).ToString("N"))
+            If Not IsDBNull(drReader("Factura")) Then
+                oPedido.SubItems.Add(CType(drReader("Factura"), String))
+                oPedido.SubItems.Add(CType(drReader("SerieFactura"), String))
             Else
                 oPedido.SubItems.Add("")
                 oPedido.SubItems.Add("")
             End If
 
             'agrego el vale de crédito para validar que no se capture 2 veces
-            oPedido.SubItems.Add(CType(drLista("ValeCredito"), String))
+            oPedido.SubItems.Add(CType(drReader("ValeCredito"), String))
 
-            _TotalCobranza += CType(drLista("Saldo"), Decimal)
+            _TotalCobranza += CType(drReader("Saldo"), Decimal)
 
             If _Agregar Then
                 lvwLista.Items.Add(oPedido)
@@ -1067,6 +1117,297 @@ Public Class frmCapRelacionCobranza
             End If
 
         End If
+    End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+            Next
+        Catch ex As Exception
+            Throw
+        End Try
+    End Sub
+
+    Private Sub LlenaLista(ByVal drLista As SqlDataReader)
+        'NO MODIFICAR
+        'ATTE. RDC
+        'Dim _Agregado As Boolean
+        'Dim TipoCobranza As String = String.Empty
+        drReader = drLista
+        Dim tempListaClientes As List(Of Integer) = New List(Of Integer)
+        listaClientesEnviados = New List(Of Integer)
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega
+        'AVISAR SI NO SE ENCUENTRA EL DOCUMENTO
+        Try
+            If _URLGateway <> "" Then
+                Do While drLista.Read
+                    If Not IsDBNull(drLista("Cliente")) Then
+                        If Not tempListaClientes.Exists(Function(x) x = CType(drLista("Cliente"), Integer)) Then
+                            tempListaClientes.Add(CType(drLista("Cliente"), Integer))
+                        End If
+                    End If
+                Loop
+                Dim listaClientesDistintos As New List(Of Integer)
+
+                For Each clienteTemp As Integer In tempListaClientes
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientesDistintos.Add(clienteTemp)
+                    End If
+                Next
+
+                Try
+                    If tempListaClientes.Count > 0 Then
+                        If listaClientesDistintos.Count > 0 Then
+                            validarPeticion = True
+                            generaListaClientes(listaClientesDistintos)
+                        Else
+                            llenarListaEntrega()
+                        End If
+                    Else
+                        llenarListaEntrega()
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                llenarListaEntrega()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+        'Dim _Encontrado As Boolean = False
+
+        'Do While drLista.Read ' And _Agregado = False 'Agrego el flag de Agregado para aquellos documentos que estan en más de una factura
+        '    Dim strMensaje As String
+        '    Dim strPedidoReferencia As String = Trim(CType(drLista("PedidoReferencia"), String))
+
+        '    'FLAG -- DOCUMENTO ENCONTRADO
+
+        '    _Encontrado = True
+
+        '    'MARCAR LOS DOCUMENTOS QUE DEBEN AGREGARSE
+        '    Dim _Agregar As Boolean = True
+
+        '    'Validación del Tipo de Cargo al documento que se esta agregando
+        '    'Con esta restricción se impide que se "combinen" diferentes tipos de cargo en la lista.
+        '    If lvwLista.Items.Count = 0 Then
+        '        _TipoCargo = CType(drLista("TipoCargo"), Byte)
+        '    End If
+
+        '    If _TipoCargo <> CType(drLista("TipoCargo"), Byte) Then
+        '        strMensaje = "El documento " & strPedidoReferencia & " es " &
+        '                    " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
+        '                    " y no puede ser capturado en esta lista."
+        '        MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Exit Sub
+        '    End If
+
+        '    Try
+        '        TipoCobranza = cboTipoCobranza.SelectedValue.ToString()
+        '    Catch ex As Exception
+        '        TipoCobranza = String.Empty
+        '    End Try
+
+        '    'Validación del tipo de cargo del documento que se está capturando
+        '    'Si la tabla está vacia o nula no validar aquí
+        '    If Not dtTipoCargo Is Nothing Then
+        '        If Not _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion _
+        '            AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) And Not TipoCobranza.Contains("14") Then
+        '            strMensaje = "El documento " & strPedidoReferencia & " es " &
+        '                        " de tipo " & CType(drLista("TipoCargoTipoPedido"), String) & Chr(13) &
+        '                        " y no puede ser capturado en esta lista."
+        '            MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '            Exit Sub
+        '        End If
+        '    End If
+
+        '    If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+        '        strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
+        '        "¿Desea agregar este documento a la relación de cobranza?"
+        '        If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+        '            Exit Sub
+        '        End If
+        '    End If
+
+        '    'No se permite la captura de documentos pagagos en la lista de cobranza. JAGD 18/02/2006
+        '    If CType(drLista("Saldo"), Decimal) = 0 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+        '        'Si el tipo de cobranza no es la de archivo muerto, se deben validar todas las condiciones para permitr la captura
+        '        'de documentos pagados
+        '        If Not CType(cboTipoCobranza.SelectedValue, Byte) = 14 Then
+        '            If GLOBAL_RCCaptDocumentoPagado Then
+        '                strMensaje = "El documento " & strPedidoReferencia & " ya está pagado" &
+        '                "¿Desea agregar este documento a la relación de cobranza?"
+        '                If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+        '                    Exit Sub
+        '                End If
+        '            Else
+        '                strMensaje = "El documento " & strPedidoReferencia & " ya " &
+        '                             "se encuentra pagado" & Chr(13) &
+        '                             "y no puede ser capturado en esta lista."
+        '                MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+        '                'No agregar los documentos pagados
+        '                _Agregar = False
+
+        '                If Not _tipoOperacionCaptura = TipoCapturaCobranza.Entrega Then
+        '                    Exit Sub
+        '                End If
+        '            End If
+        '        End If
+        '    End If
+
+        '    'No se permite la captura de documentos con saldo en la lista de cobranza para archivo muerto
+        '    If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(drLista("Saldo"), Decimal) > 0 Then
+        '        strMensaje = "El documento " & strPedidoReferencia &
+        '                                             " tiene saldo pendiente" & Chr(13) &
+        '                                             "y no puede ser capturado en esta lista."
+        '        MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Exit Sub
+        '    End If
+
+        '    'Validación solicitada por JLHT el 21 de mayo del 2004
+        '    'TODO sugerir parámetro
+        '    If CType(drLista("Cartera"), Byte) = 6 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+        '        'If Main.GLOBAL_IDUsuario <> "JOALRA" Then
+        '        If Not oSeguridad.TieneAcceso("CAPTURA_CarteraEspecial") Then
+        '            MessageBox.Show("Sólo el gerente de crédito puede capturar este documento.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '            Exit Sub
+        '        End If
+        '    End If
+        '    'Fin de la validación
+
+        '    'Validar clientes que pagan con transferencia
+        '    If CType(IIf(IsDBNull(drLista("TipoCobroCliente")), 0, drLista("TipoCobroCliente")), Byte) = 10 Then
+        '        Dim mensaje As New System.Text.StringBuilder()
+        '        mensaje.Append("Este cliente paga regularmente con transferencia bancaria")
+        '        If Not IsDBNull(drLista("ProximaGestion")) Then
+        '            mensaje.Append(vbCrLf)
+        '            mensaje.Append("y su próxima gestión es: ")
+        '            mensaje.Append(CType(drLista("ProximaGestion"), String))
+        '        End If
+        '        mensaje.Append(vbCrLf)
+        '        mensaje.Append("¿Desea capturarlo para gestión de revisión?")
+        '        mensaje.Append(vbCrLf)
+        '        mensaje.Append(vbCrLf)
+        '        mensaje.Append("Sí:")
+        '        mensaje.Append(vbTab)
+        '        mensaje.Append("Capturar para gestión de revisión")
+        '        mensaje.Append(vbCrLf)
+        '        mensaje.Append("No:")
+        '        mensaje.Append(vbTab)
+        '        mensaje.Append("Capturar para gestión de cobro")
+        '        mensaje.Append(vbCrLf)
+        '        mensaje.Append("Cancelar:")
+        '        mensaje.Append(vbTab)
+        '        mensaje.Append("No Capturar")
+        '        Select Case MessageBox.Show(mensaje.ToString(), Me.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+        '            Case DialogResult.Yes
+        '                'establecer el tipo de gestión para revisión
+        '                _tipoGestion = 2
+        '                _tipoGestionDesc = "Revisión"
+        '            Case DialogResult.Cancel
+        '                Exit Sub
+        '        End Select
+        '    End If
+
+        '    Cursor = Cursors.WaitCursor
+
+        '    Dim oPedido As New ListViewItem(Trim(CType(drLista("PedidoReferencia"), String)), 0)
+        '    oPedido.SubItems.Add(CType(drLista("AñoPed"), String))
+        '    oPedido.SubItems.Add(CType(drLista("Celula"), String))
+        '    oPedido.SubItems.Add(CType(drLista("Pedido"), String))
+
+        '    'Carga del tipo de gestión inicial correspondiente según la precarga
+        '    If _tipoGestion <> Nothing Then
+        '        oPedido.SubItems.Add(_tipoGestion.ToString)
+        '        oPedido.SubItems.Add(_tipoGestionDesc.Trim)
+        '        _tipoGestion = Nothing
+        '        _tipoGestionDesc = Nothing
+        '    Else
+        '        oPedido.SubItems.Add(CType(drLista("GestionInicial"), String))
+        '        oPedido.SubItems.Add(CType(drLista("GestionInicialDescripcion"), String))
+        '    End If
+        '    oPedido.SubItems.Add(CType(drLista("RutaSuministro"), String))
+        '    oPedido.SubItems.Add(Trim(CType(drLista("TipoCargoTipoPedido"), String)))
+        '    If CType(drLista("TipoCobro"), Byte) <> 5 Then
+        '        oPedido.ImageIndex = 0
+        '    Else
+        '        oPedido.ImageIndex = 6
+        '    End If
+        '    If Not IsDBNull(drLista("FCargo")) Then
+        '        oPedido.SubItems.Add(CType(drLista("FCargo"), Date).ToShortDateString)
+        '    Else
+        '        oPedido.SubItems.Add("")
+        '    End If
+        '    oPedido.SubItems.Add(CType(drLista("Cliente"), String))
+        '    If String.IsNullOrEmpty(_URLGateway) Then
+        '        oPedido.SubItems.Add(Trim(CType(drLista("Nombre"), String)))
+        '    Else
+        '        Dim _cliente As Integer
+        '        _cliente = CType(drLista("Cliente"), Integer)
+        '        'Dim direntrega As New RTGMCore.DireccionEntrega
+
+        '        Dim _Ccliente As String
+        '        _Ccliente = consultaClienteCRM(_cliente)
+
+        '        oPedido.SubItems.Add(_Ccliente)
+
+        '        'If Not IsNothing(listaDireccionesEntrega) Then
+        '        '    direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
+        '        '    ' oPedido.SubItems.Add(direntrega.Nombre)
+        '        'End If
+        '    End If
+        '    oPedido.SubItems.Add(CType(drLista("Total"), Decimal).ToString("N"))
+        '    oPedido.SubItems.Add(CType(drLista("Saldo"), Decimal).ToString("N"))
+        '    If Not IsDBNull(drLista("Factura")) Then
+        '        oPedido.SubItems.Add(CType(drLista("Factura"), String))
+        '        oPedido.SubItems.Add(CType(drLista("SerieFactura"), String))
+        '    Else
+        '        oPedido.SubItems.Add("")
+        '        oPedido.SubItems.Add("")
+        '    End If
+
+        '    'agrego el vale de crédito para validar que no se capture 2 veces
+        '    oPedido.SubItems.Add(CType(drLista("ValeCredito"), String))
+
+        '    _TotalCobranza += CType(drLista("Saldo"), Decimal)
+
+        '    If _Agregar Then
+        '        lvwLista.Items.Add(oPedido)
+        '        oPedido.EnsureVisible()
+        '    End If
+
+        '    Estatus()
+
+        '    Cursor = Cursors.Default
+        '    _Agregado = True
+        'Loop
+
+        ''AVISAR SI NO SE ENCUENTRA EL DOCUMENTO ESPECIFICADO
+
+        'If Not _Encontrado Then
+        '    If Not chkPedidoReferencia.Checked Then
+        '        MessageBox.Show("No se encontró un documento asociado al vale de crédito especificado," & Chr(13) &
+        '                        "intente la búsqueda por número de pedido (Pedido referencia)", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        '    Else
+        '        MessageBox.Show("No se encontró el documento especificado", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        '    End If
+
+        'End If
 
     End Sub
 
@@ -1322,7 +1663,7 @@ Public Class frmCapRelacionCobranza
 
     Private Sub frmCapRelacionCobranza_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ActivaOpcionesControl(False)
-        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        'listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
         chkPedidoReferencia.Checked = Not GLOBAL_BusquedaPorValeCredito
         chkPedidoReferencia.Visible = GLOBAL_BusquedaPorValeCredito
 
@@ -1857,22 +2198,25 @@ Public Class frmCapRelacionCobranza
         Try
             If (Not String.IsNullOrEmpty(URLGateway)) Then
 
-                Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                Gateway.URLServicio = URLGateway
-                Solicitud = New RTGMGateway.SolicitudGateway() With {
+                If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
+                    Gateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+                    Gateway.URLServicio = URLGateway
+                    Solicitud = New RTGMGateway.SolicitudGateway() With {
                         .IDCliente = cliente}
 
-                DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
-
-                'If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = cliente) Then
-                '    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
-                'Else
-                '    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
-                'End If
-
-                If Not IsNothing(DireccionEntrega) And Not IsNothing(listaDireccionesEntrega) Then
-                    listaDireccionesEntrega.Add(DireccionEntrega)
+                    DireccionEntrega = Gateway.buscarDireccionEntrega(Solicitud)
+                    If IsNothing(DireccionEntrega) Then
+                        If IsNothing(DireccionEntrega.Message) Then
+                            listaDireccionesEntrega.Add(DireccionEntrega)
+                        End If
+                    End If
+                Else
+                    DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
                 End If
+
+                'If Not IsNothing(DireccionEntrega) And Not IsNothing(listaDireccionesEntrega) Then
+                '    listaDireccionesEntrega.Add(DireccionEntrega)
+                'End If
 
 
                 If DireccionEntrega.Nombre IsNot Nothing Then
@@ -1903,22 +2247,23 @@ Public Class frmCapRelacionCobranza
 
                     For Each item As ListViewItem In lvwLista.Items
                         cliente = Convert.ToInt32(item.SubItems(idxCliente).Text)
-                        If Not IsNothing(listaDireccionesEntrega) Then
+                        item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
+                        'If Not IsNothing(listaDireccionesEntrega) Then
 
-                            If listaDireccionesEntrega.Count > 0 Then
-                                Dim direntrega As New RTGMCore.DireccionEntrega
-                                direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
-                                If Not IsNothing(direntrega) Then
-                                    item.SubItems(idxNombre).Text = direntrega.Nombre
-                                Else
-                                    Dim _Ccliente As String
-                                    _Ccliente = consultaClienteCRM(cliente)
-                                    item.SubItems(idxNombre).Text = _Ccliente
-                                End If
-                            Else
-                                item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
-                            End If
-                        End If
+                        '    If listaDireccionesEntrega.Count > 0 Then
+                        '        'Dim direntrega As New RTGMCore.DireccionEntrega
+                        '        'direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = cliente)
+                        '        'If Not IsNothing(direntrega) Then
+                        '        '    item.SubItems(idxNombre).Text = direntrega.Nombre
+                        '        'Else
+                        '        Dim _Ccliente As String
+                        '            _Ccliente = consultaClienteCRM(cliente)
+                        '            item.SubItems(idxNombre).Text = _Ccliente
+                        '            'End If
+                        '            Else
+                        '        item.SubItems(idxNombre).Text = consultaClienteCRM(cliente)
+                        '    End If
+                        'End If
                     Next item
                 End If
             End If

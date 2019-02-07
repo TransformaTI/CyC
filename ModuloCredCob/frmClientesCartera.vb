@@ -511,7 +511,7 @@ Public Class frmClientesCartera
                             listaDireccionesEntrega.Add(direccionEntrega)
                         ElseIf direccion.IDDireccionEntrega = -1 Then
                             errorConsulta = True
-                        ElseIf direccion.IDDireccionEntrega > 0 Then
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
                             listaDireccionesEntrega.Add(direccion)
                         End If
                     Else
@@ -551,7 +551,7 @@ Public Class frmClientesCartera
                 llenarListaEntrega()
             End If
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -602,7 +602,7 @@ Public Class frmClientesCartera
                 oGateway.busquedaDireccionEntregaAsync(oSolicitud)
             Next
         Catch ex As Exception
-
+            Throw
         End Try
     End Sub
 
