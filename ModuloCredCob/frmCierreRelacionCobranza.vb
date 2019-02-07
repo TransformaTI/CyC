@@ -21,6 +21,8 @@ Public Class frmCierreRelacionCobranza
     'Control de cheques posfechados
     Private _chequesPosfechados As Boolean = False
     Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private validarPeticion As Boolean
+    Private listaClientesEnviados As List(Of Integer)
     '*****
 
     Public Sub New()
@@ -749,96 +751,122 @@ Public Class frmCierreRelacionCobranza
 
 
     Private Sub CargaGestionCobranza()
-        Dim dr As DataRow
-        Dim iteraciones As Integer = 0
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
         Dim lClienteNombre As String = ""
-        Dim lCliente As Integer
         If Not _URLGateway Is Nothing And _URLGateway.Trim() <> "" Then
             Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
             Dim listaClientesDistintos As New List(Of Integer)
 
+            For Each clienteTemp As DataRow In clientesDistintos.Rows
+                oDireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
+
+                If IsNothing(oDireccionEntrega) Then
+                    listaClientesDistintos.Add(CType(clienteTemp("Cliente"), Integer))
+                End If
+            Next
+
             Try
                 If clientesDistintos.Rows.Count > 0 Then
-
-                    For Each fila As DataRow In clientesDistintos.Rows
-                        listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
-                    Next
-
-                    While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
-                        generaListaCLientes(listaClientesDistintos)
-                        iteraciones = iteraciones + 1
-                    End While
+                    If listaClientesDistintos.Count > 0 Then
+                        validarPeticion = True
+                        generaListaClientes(listaClientesDistintos)
+                    Else
+                        llenarListaEntrega()
+                    End If
+                Else
+                    llenarListaEntrega()
                 End If
             Catch ex As Exception
                 MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
+
+
+            'Dim clientesDistintos As DataTable = _dsCobranza.Tables("PedidoCobranza").DefaultView.ToTable(True, "Cliente")
+            'Dim listaClientesDistintos As New List(Of Integer)
+
+            'Try
+            '    If clientesDistintos.Rows.Count > 0 Then
+
+            '        For Each fila As DataRow In clientesDistintos.Rows
+            '            listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+            '        Next
+
+            '        While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
+            '            generaListaCLientes(listaClientesDistintos)
+            '            iteraciones = iteraciones + 1
+            '        End While
+            '    End If
+            'Catch ex As Exception
+            '    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End Try
+        Else
+            llenarListaEntrega()
         End If
 
-        Dim i As Integer = 0
-        For Each dr In _dsCobranza.Tables("PedidoCobranza").Rows
-            If CType(dr("Cobranza"), Integer) = _Cobranza Then
-                i += 1
-                _TotalSaldoReal += CType(dr("Saldo"), Decimal)
-                objGestionCob = New SigaMetClasses.GestionCobranza()
+        'Dim i As Integer = 0
+        'For Each dr In _dsCobranza.Tables("PedidoCobranza").Rows
+        '    If CType(dr("Cobranza"), Integer) = _Cobranza Then
+        '        i += 1
+        '        _TotalSaldoReal += CType(dr("Saldo"), Decimal)
+        '        objGestionCob = New SigaMetClasses.GestionCobranza()
 
-                lCliente = CType(dr("Cliente"), Integer)
-                If Not String.IsNullOrEmpty(_URLGateway) Then
-                    oDireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = lCliente)
-                    If oDireccionEntrega.Nombre IsNot Nothing Then
-                        lClienteNombre = oDireccionEntrega.Nombre
-                    End If
-                Else
-                    lClienteNombre = Trim(CType(dr("Nombre"), String))
-                End If
+        '        lCliente = CType(dr("Cliente"), Integer)
+        '        If Not String.IsNullOrEmpty(_URLGateway) Then
+        '            oDireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = lCliente)
+        '            If oDireccionEntrega.Nombre IsNot Nothing Then
+        '                lClienteNombre = oDireccionEntrega.Nombre
+        '            End If
+        '        Else
+        '            lClienteNombre = Trim(CType(dr("Nombre"), String))
+        '        End If
 
-                With objGestionCob
-                    .Top = i * objGestionCob.Height
-                    .AñoPed = CType(dr("AñoPed"), Short)
-                    .Celula = CType(dr("Celula"), Byte)
-                    .Pedido = CType(dr("Pedido"), Integer)
-                    .PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
-                    .GestionInicial = CType(dr("GestionInicial"), Byte)
-                    .GestionInicialDescripcion = Trim(CType(dr("GestionInicialDescripcion"), String))
-                    .Cliente = CType(dr("Cliente"), Integer)
-                    If Not IsDBNull(dr("Empresa")) Then
-                        .Empresa = CType(dr("Empresa"), Integer)
-                    End If
+        '        With objGestionCob
+        '            .Top = i * objGestionCob.Height
+        '            .AñoPed = CType(dr("AñoPed"), Short)
+        '            .Celula = CType(dr("Celula"), Byte)
+        '            .Pedido = CType(dr("Pedido"), Integer)
+        '            .PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+        '            .GestionInicial = CType(dr("GestionInicial"), Byte)
+        '            .GestionInicialDescripcion = Trim(CType(dr("GestionInicialDescripcion"), String))
+        '            .Cliente = CType(dr("Cliente"), Integer)
+        '            If Not IsDBNull(dr("Empresa")) Then
+        '                .Empresa = CType(dr("Empresa"), Integer)
+        '            End If
 
-                    .Nombre = lClienteNombre
-                    .DiasCredito = CType(dr("DiasCredito"), Short)
-                    .SaldoReal = CType(dr("Saldo"), Decimal)
-                    If Not IsDBNull(dr("ValeCredito")) Then
-                        .ValeCredito = CType(dr("ValeCredito"), String)
-                    End If
-                    '.TipoGestionCobranza = CType(dr("GestionInicial"), Byte)
-                    .TipoGestionCobranza = 1
-                End With
+        '            .Nombre = lClienteNombre
+        '            .DiasCredito = CType(dr("DiasCredito"), Short)
+        '            .SaldoReal = CType(dr("Saldo"), Decimal)
+        '            If Not IsDBNull(dr("ValeCredito")) Then
+        '                .ValeCredito = CType(dr("ValeCredito"), String)
+        '            End If
+        '            '.TipoGestionCobranza = CType(dr("GestionInicial"), Byte)
+        '            .TipoGestionCobranza = 1
+        '        End With
 
-                If _TipoMovimientoCaja = 0 Then
-                    If CType(dr("TipoCargo"), Byte) = 1 Then
-                        _TipoMovimientoCaja = GLOBAL_TipoMovCajaVentaGas
-                    End If
-                    If CType(dr("TipoCargo"), Byte) = 3 Then
-                        _TipoMovimientoCaja = GLOBAL_TipoMovCajaCheqDev
-                    End If
-                End If
+        '        If _TipoMovimientoCaja = 0 Then
+        '            If CType(dr("TipoCargo"), Byte) = 1 Then
+        '                _TipoMovimientoCaja = GLOBAL_TipoMovCajaVentaGas
+        '            End If
+        '            If CType(dr("TipoCargo"), Byte) = 3 Then
+        '                _TipoMovimientoCaja = GLOBAL_TipoMovCajaCheqDev
+        '            End If
+        '        End If
 
 
-                AddHandler Me.objGestionCob.ReasignacionCobro, AddressOf Me.ReasignacionCobro
-                AddHandler Me.objGestionCob.RepetirObservacionesCliente, AddressOf Me.RepetirObservacionesCliente
-                AddHandler Me.objGestionCob.RepetirObservacionesEmpresa, AddressOf Me.RepetirObservacionesEmpresa
-                AddHandler Me.objGestionCob.RepetirFCompromisoCliente, AddressOf Me.RepetirFCompromisoCliente
-                AddHandler Me.objGestionCob.RepetirFCompromisoEmpresa, AddressOf Me.RepetirFCompromisoEmpresa
-                AddHandler Me.objGestionCob.RepetirDocumentoCobroCliente, AddressOf Me.RepetirDocumentoGestionCliente
-                AddHandler Me.objGestionCob.RepetirDocumentoCobroEmpresa, AddressOf Me.RepetirDocumentoGestionEmpresa
-                AddHandler Me.objGestionCob.Leave, AddressOf Me.AvandonaControl
+        '        AddHandler Me.objGestionCob.ReasignacionCobro, AddressOf Me.ReasignacionCobro
+        '        AddHandler Me.objGestionCob.RepetirObservacionesCliente, AddressOf Me.RepetirObservacionesCliente
+        '        AddHandler Me.objGestionCob.RepetirObservacionesEmpresa, AddressOf Me.RepetirObservacionesEmpresa
+        '        AddHandler Me.objGestionCob.RepetirFCompromisoCliente, AddressOf Me.RepetirFCompromisoCliente
+        '        AddHandler Me.objGestionCob.RepetirFCompromisoEmpresa, AddressOf Me.RepetirFCompromisoEmpresa
+        '        AddHandler Me.objGestionCob.RepetirDocumentoCobroCliente, AddressOf Me.RepetirDocumentoGestionCliente
+        '        AddHandler Me.objGestionCob.RepetirDocumentoCobroEmpresa, AddressOf Me.RepetirDocumentoGestionEmpresa
+        '        AddHandler Me.objGestionCob.Leave, AddressOf Me.AvandonaControl
 
-                pnlGestion.Controls.Add(objGestionCob)
-            End If
-        Next
+        '        pnlGestion.Controls.Add(objGestionCob)
+        '    End If
+        'Next
 
-        lblTituloRelacion.Text = "Lista de documentos incluidos en la relación de cobranza (" & i.ToString & " en total)"
+        'lblTituloRelacion.Text = "Lista de documentos incluidos en la relación de cobranza (" & i.ToString & " en total)"
     End Sub
 
     Private Sub consultarDirecciones(ByVal idCliente As Integer)
@@ -880,31 +908,160 @@ Public Class frmCierreRelacionCobranza
             listaDireccionesEntrega.Add(oDireccionEntrega)
 
         End Try
-
-
-
     End Sub
 
-    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        Dim errorConsulta As Boolean
         Try
-            Dim listaClientes As New List(Of Integer)
-            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+            For Each direccion As RTGMCore.DireccionEntrega In lista
+                Try
+                    If Not IsNothing(direccion) Then
+                        If Not IsNothing(direccion.Message) Then
+                            direccionEntrega = New RTGMCore.DireccionEntrega()
+                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            direccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(direccionEntrega)
+                        ElseIf direccion.IDDireccionEntrega = -1 Then
+                            errorConsulta = True
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
+                            listaDireccionesEntrega.Add(direccion)
+                        End If
+                    Else
+                        direccionEntrega = New RTGMCore.DireccionEntrega()
+                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                        direccionEntrega.Nombre = "No se encontró cliente"
+                        listaDireccionesEntrega.Add(direccionEntrega)
+                    End If
 
-            For Each clienteTemp As Integer In listaClientesDistintos
-                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+                Catch ex As Exception
+                    direccionEntrega = New RTGMCore.DireccionEntrega()
+                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                    direccionEntrega.Nombre = ex.Message
+                    listaDireccionesEntrega.Add(direccionEntrega)
+                End Try
+            Next
 
-                If IsNothing(direccionEntregaTemp) Then
-                    listaClientes.Add(clienteTemp)
+            If validarPeticion And errorConsulta Then
+                validarPeticion = False
+                Dim listaClientes As List(Of Integer) = New List(Of Integer)
+                For Each clienteTemp As Integer In listaClientesEnviados
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientes.Add(clienteTemp)
+                    End If
+                Next
+
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+
+                If result = DialogResult.Yes Then
+                    generaListaClientes(listaClientes)
+                Else
+                    llenarListaEntrega()
+                End If
+            Else
+                llenarListaEntrega()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub llenarListaEntrega()
+        Dim dr As DataRow
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Dim i As Integer = 0
+        Dim lCliente As Integer
+        Dim lClienteNombre As String = ""
+        Try
+            For Each dr In _dsCobranza.Tables("PedidoCobranza").Rows
+                If CType(dr("Cobranza"), Integer) = _Cobranza Then
+                    i += 1
+                    _TotalSaldoReal += CType(dr("Saldo"), Decimal)
+                    objGestionCob = New SigaMetClasses.GestionCobranza()
+
+                    lCliente = CType(dr("Cliente"), Integer)
+                    If Not String.IsNullOrEmpty(_URLGateway) Then
+                        oDireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = lCliente)
+                        If oDireccionEntrega.Nombre IsNot Nothing Then
+                            lClienteNombre = oDireccionEntrega.Nombre
+                        End If
+                    Else
+                        lClienteNombre = Trim(CType(dr("Nombre"), String))
+                    End If
+
+                    With objGestionCob
+                        .Top = i * objGestionCob.Height
+                        .AñoPed = CType(dr("AñoPed"), Short)
+                        .Celula = CType(dr("Celula"), Byte)
+                        .Pedido = CType(dr("Pedido"), Integer)
+                        .PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+                        .GestionInicial = CType(dr("GestionInicial"), Byte)
+                        .GestionInicialDescripcion = Trim(CType(dr("GestionInicialDescripcion"), String))
+                        .Cliente = CType(dr("Cliente"), Integer)
+                        If Not IsDBNull(dr("Empresa")) Then
+                            .Empresa = CType(dr("Empresa"), Integer)
+                        End If
+
+                        .Nombre = lClienteNombre
+                        .DiasCredito = CType(dr("DiasCredito"), Short)
+                        .SaldoReal = CType(dr("Saldo"), Decimal)
+                        If Not IsDBNull(dr("ValeCredito")) Then
+                            .ValeCredito = CType(dr("ValeCredito"), String)
+                        End If
+                        '.TipoGestionCobranza = CType(dr("GestionInicial"), Byte)
+                        .TipoGestionCobranza = 1
+                    End With
+
+                    If _TipoMovimientoCaja = 0 Then
+                        If CType(dr("TipoCargo"), Byte) = 1 Then
+                            _TipoMovimientoCaja = GLOBAL_TipoMovCajaVentaGas
+                        End If
+                        If CType(dr("TipoCargo"), Byte) = 3 Then
+                            _TipoMovimientoCaja = GLOBAL_TipoMovCajaCheqDev
+                        End If
+                    End If
+
+
+                    AddHandler Me.objGestionCob.ReasignacionCobro, AddressOf Me.ReasignacionCobro
+                    AddHandler Me.objGestionCob.RepetirObservacionesCliente, AddressOf Me.RepetirObservacionesCliente
+                    AddHandler Me.objGestionCob.RepetirObservacionesEmpresa, AddressOf Me.RepetirObservacionesEmpresa
+                    AddHandler Me.objGestionCob.RepetirFCompromisoCliente, AddressOf Me.RepetirFCompromisoCliente
+                    AddHandler Me.objGestionCob.RepetirFCompromisoEmpresa, AddressOf Me.RepetirFCompromisoEmpresa
+                    AddHandler Me.objGestionCob.RepetirDocumentoCobroCliente, AddressOf Me.RepetirDocumentoGestionCliente
+                    AddHandler Me.objGestionCob.RepetirDocumentoCobroEmpresa, AddressOf Me.RepetirDocumentoGestionEmpresa
+                    AddHandler Me.objGestionCob.Leave, AddressOf Me.AvandonaControl
+
+                    pnlGestion.Controls.Add(objGestionCob)
                 End If
             Next
 
-            Dim opciones As New System.Threading.Tasks.ParallelOptions()
-            opciones.MaxDegreeOfParallelism = 10
-            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+            lblTituloRelacion.Text = "Lista de documentos incluidos en la relación de cobranza (" & i.ToString & " en total)"
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
 
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+            Next
+        Catch ex As Exception
+            Throw
+        End Try
     End Sub
 
     Private Function CierraRelacion() As String
