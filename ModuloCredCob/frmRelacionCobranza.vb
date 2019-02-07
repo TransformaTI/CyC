@@ -1538,9 +1538,6 @@ Public Class frmRelacionCobranza
             listaDireccionesEntrega.Add(oDireccionEntrega)
 
         End Try
-
-
-
     End Sub
 
     Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
