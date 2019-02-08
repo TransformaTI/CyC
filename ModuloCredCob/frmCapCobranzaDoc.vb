@@ -2065,16 +2065,25 @@ Public Class frmCapCobranzaDoc
         End Try
 
         If ImporteRestante <= PagoExcesoTPV Then
-            Return True
-            'Se registra el pago en las tablas Cobro, CobroPedido y se inserta una nota de ingreso por saldo a favor en la tabla MovimientoAConciliar
 
-        ElseIf (ImporteRestante <= 0) Then
+            If MessageBox.Show("Faltan por relacionar " & _ImporteRestante.ToString("C") & CrLf &
+                                           "Haga clic en 'Sí' para registrar el sobrante como saldo a favor '" & CrLf &
+                                           "haga clic en 'No', para continuar abonando", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                Return True
+            Else
+                Return False
+
+            End if
+
+
+            ElseIf (ImporteRestante <= 0) Then
             'entonces se registra el pago en las tablas Cobro y Cobropedido
             Return True
         ElseIf (ImporteRestante > PagoExcesoTPV) Then
 
-            MessageBox.Show("El importe restante " & _ImporteRestante.ToString("C") & "excede la tolerancia de " & PagoExcesoTPV.ToString("C") & CrLf &
-                               " Por favor continue abonando a pedidos para cumplir con la tolerancia establecida.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Faltan por relacionar " & _ImporteRestante.ToString("C") & CrLf &
+                                           "El monto por relacionar supera el monto máximo de pago por exceso para TPV '" & CrLf &
+                                           "favor de relacionar mas documentos", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
             Return False
         End If
