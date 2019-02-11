@@ -2408,7 +2408,7 @@ Public Class frmPrincipal
         Next
 
         Cursor = Cursors.WaitCursor
-        Dim FrmConsulta As New SigaMetClasses.frmConsultaPagosAreaTarjeta(GLOBAL_IDUsuario, ConString)
+        Dim FrmConsulta As New SigaMetClasses.frmConsultaPagosAreaTarjeta(GLOBAL_IDUsuario, ConString, 4, CByte(GLOBAL_Sucursal), GLOBAL_Corporativo)
         FrmConsulta.MdiParent = Me
         FrmConsulta.WindowState = FormWindowState.Maximized
         FrmConsulta.Show()
