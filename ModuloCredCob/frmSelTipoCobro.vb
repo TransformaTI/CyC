@@ -2629,8 +2629,22 @@ Public Class frmSelTipoCobro
                         .TipoCobro = CType(CInt(cboTarjetaCreditoTipoTarjeta.SelectedValue.ToString()), SigaMetClasses.Enumeradores.enumTipoCobro) ' SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito
                         .Total = CType(txtImporteTC.Text, Decimal)
                         .Cliente = CType(txtClienteTC.Text, Integer)
-                        .Banco = CType(lblBanco.Text, Short)
-                        .NoCuenta = lblTarjetaCredito.Text
+                        .Banco = CType(cboTarjetaCreditoBanco.SelectedValue, Short) 'CType(lblBanco.Text, Short)
+                        .FechaCheque = dtpTarjetaCreditoFDocto.Value
+
+                        .NoCuenta = TxtNoTarjeta.Text.Trim().Substring(TxtNoTarjeta.TextLength - 4, 4)
+                        .NoCheque = txtTarjetaCreditoAutorizacion.Text
+                        .Referencia = cboTarjetaCreditoAfiliacion.Text
+                        .FechaCheque = dtpTarjetaCreditoFDocto.Value
+                        .BancoOrigen = CType(cboTarjetaCreditoBancoTarjeta.SelectedValue, Short)
+
+                        If Not IsNothing(CboCtasBanTdc.SelectedValue) Then
+                            .NoCuentaDestino = CboCtasBanTdc.Text
+                        Else
+                            .NoCuentaDestino = String.Empty
+                        End If
+
+
                         .ListaPedidos = Nothing
                         ImporteTotalCobro = .Total
                     End With
@@ -4365,10 +4379,25 @@ Public Class frmSelTipoCobro
 
                 Else
                     With _Cobro
+                        '.Consecutivo = _Consecutivo
+                        '.AnoCobro = CType(FechaOperacion.Year, Short)
+                        '.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
+                        '.Total = CType(TxtMontoVales.Text, Decimal)
+
                         .Consecutivo = _Consecutivo
                         .AnoCobro = CType(FechaOperacion.Year, Short)
                         .TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales
-                        .Total = CType(txtTotalEfectivoVales.Text, Decimal)
+                        .Total = CType(TxtMontoVales.Text, Decimal)
+                        .Cliente = CInt(txtClienteVales.Text)
+
+                        .Observaciones = TextObservacionesVales.Text
+                        If Not IsNothing(CboCtasBanVales.SelectedValue) Then
+                            .NoCuentaDestino = CboCtasBanVales.Text
+                        Else
+                            .NoCuentaDestino = ""
+                        End If
+
+
                         ImporteTotalCobro = .Total
                         .ListaPedidos = Nothing
                     End With
