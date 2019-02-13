@@ -2919,10 +2919,8 @@ Public Class frmSelTipoCobro
                             '.Banco = CType(lblBanco.Text, Short)
                             '.NoCuenta = lblTarjetaCredito.Text
                             .ListaPedidos = frmCaptura.ListaCobroPedido
-
                             .NoCheque = txtSerie.Text.ToString.Trim & txtFolio.Text.ToString().Trim
                             .Referencia = _FacturaNC.ToString().Trim
-
                             If Not IsNothing(CboCtasBanNota.SelectedValue) Then
                                 .NoCuentaDestino = CboCtasBanNota.Text
                             Else
@@ -4177,10 +4175,13 @@ Public Class frmSelTipoCobro
             If txtSerie.Text <> "" Then
                 lblIdClienteDato.Text = "0"
 
+
                 Dim oNotaCredito As New SigaMetClasses.cCliente()
                 oNotaCredito.ConsultaNotaCredito(CType(txtFolio.Text, Integer),
                                                  CType(lblIdClienteDato.Text, Integer),
                                                  CType(txtSerie.Text, String))
+
+
 
 
                 If oNotaCredito.TotalNC > 0 Then
