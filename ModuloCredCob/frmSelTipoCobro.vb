@@ -4182,6 +4182,7 @@ Public Class frmSelTipoCobro
                                                  CType(lblIdClienteDato.Text, Integer),
                                                  CType(txtSerie.Text, String))
 
+
                 If oNotaCredito.TotalNC > 0 Then
                     lblNotaCreditoImporte.Text = oNotaCredito.TotalNC.ToString("C2")
                     lblNotaCreditoFecha.Text = oNotaCredito.FechaNC.ToString()
