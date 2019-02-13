@@ -6,6 +6,13 @@ ModuloCredCob
 </name>
 </assembly>
 <members>
+<member name="M:ModuloCredCob.frmCapCobranzaDoc.ValidaPagoEnExcesoTPV(System.Decimal)">
+ <summary>
+ Función que valida pago en exceso TPV
+ </summary>
+ <param name="ImporteRestante"></param>
+ <returns></returns>
+</member>
 <member name="M:ModuloCredCob.frmPrincipal.CargarParametros">
  <summary>
  Carga las configuraciones desde la tabla dbo.Parametro
