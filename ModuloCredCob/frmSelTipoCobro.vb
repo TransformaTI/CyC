@@ -2921,6 +2921,7 @@ Public Class frmSelTipoCobro
                             .ListaPedidos = frmCaptura.ListaCobroPedido
 
                             .NoCheque = txtSerie.Text.ToString.Trim & txtFolio.Text.ToString().Trim
+                            .Referencia = _FacturaNC.ToString().Trim
 
                             If Not IsNothing(CboCtasBanNota.SelectedValue) Then
                                 .NoCuentaDestino = CboCtasBanNota.Text
@@ -4189,6 +4190,10 @@ Public Class frmSelTipoCobro
                     _Cliente = oNotaCredito.Cliente
                     If oNotaCredito.ExisteNC Then
                         MessageBox.Show("La nota de crédito con folio " + txtFolio.Text + " y serie " + txtSerie.Text + ", ya existe", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        txtFolio.Text = ""
+                        txtSerie.Text = ""
+                        lblNotaCreditoImporte.Text = ""
+                        lblNotaCreditoFecha.Text = ""
                     End If
                 Else
                     MessageBox.Show("No existe la nota de crédito, favor de verificar serie y folio", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)

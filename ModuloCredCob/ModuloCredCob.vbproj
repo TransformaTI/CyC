@@ -166,7 +166,10 @@
     </Reference>
     <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Contactos.dll</HintPath>
+      <HintPath>..\..\Users\Ivan\Downloads\MCC_ModuloCredCob_23012019_bin\ModuloCredCob\bin\Contactos.dll</HintPath>
+    </Reference>
+    <Reference Include="ContactosDL">
+      <HintPath>..\..\Users\Ivan\Downloads\MCC_ModuloCredCob_23012019_bin\ModuloCredCob\bin\ContactosDL.dll</HintPath>
     </Reference>
     <Reference Include="ControlesBase, Version=1.1.5606.17781, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -261,17 +264,19 @@
     </Reference>
     <Reference Include="ResguardoCyC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ResguardoCyC.dll</HintPath>
+      <HintPath>..\SigametLibrerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
     </Reference>
-    <Reference Include="RTGMGateway">
-      <HintPath>bin\RTGMGateway.dll</HintPath>
+    <Reference Include="RTGMGateway, Version=1.19.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SGDAC.dll</HintPath>
     </Reference>
-    <Reference Include="SigaMetClasses">
-      <HintPath>bin\SigaMetClasses.dll</HintPath>
+    <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SIGAMETSecurity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -303,6 +308,9 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Timer">
+      <HintPath>..\..\Users\Ivan\Downloads\MCC_CyC_22012019_bin\bin\Timer.dll</HintPath>
     </Reference>
     <Reference Include="UINotas, Version=1.0.5605.16911, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
