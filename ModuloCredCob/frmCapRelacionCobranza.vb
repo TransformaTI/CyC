@@ -894,11 +894,13 @@ Public Class frmCapRelacionCobranza
                 End If
             End If
 
-            If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
-                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
+            If Not (drLista("TipoCobro") Is DBNull.Value) Then
+                If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+                    strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
                 "¿Desea agregar este documento a la relación de cobranza?"
-                If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
-                    Exit Sub
+                    If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+                        Exit Sub
+                    End If
                 End If
             End If
 

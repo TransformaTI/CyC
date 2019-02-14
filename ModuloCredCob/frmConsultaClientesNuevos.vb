@@ -548,7 +548,7 @@ Public Class frmConsultaClientesNuevos
 
     Private Sub ConsultaCliente()
         Cursor = Cursors.WaitCursor
-        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario)
+        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0, Usuario:=GLOBAL_IDUsuario, PermiteModificarDatosCliente:=True)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub

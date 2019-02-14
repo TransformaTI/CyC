@@ -3597,13 +3597,19 @@ Public Class frmSelTipoCobro
 
     Private Sub btnBuscarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarCliente.Click
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim _ClienteRow As RTGMCore.DireccionEntrega
+
+        If Not IsNothing(listaDireccionesEntrega) Then
+            _ClienteRow = listaDireccionesEntrega.FirstOrDefault()
+        End If
+
         Try
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
         Catch ex As Exception
             _URLGateway = ""
         End Try
         If Trim(txtClienteCheque.Text) <> "" Then
-            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=listaDireccionesEntrega.FirstOrDefault()) '(Function(x) x.IDDireccionEntrega = CLIENTE))
+            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=_ClienteRow) '(Function(x) x.IDDireccionEntrega = CLIENTE))
             frmConCliente.ShowDialog()
         End If
     End Sub
@@ -3627,28 +3633,30 @@ Public Class frmSelTipoCobro
             End If
             'Fin de la validacion de cobranza de edificios administrados
             oCliente = Nothing
-        End If
 
 
 
-        Try
-            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
-        Catch ex As Exception
-            _URLGateway = ""
-        End Try
+
+            Try
+                _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+            Catch ex As Exception
+                _URLGateway = ""
+            End Try
 
 
-        If (Not String.IsNullOrEmpty(_URLGateway)) Then
-            If Not validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
-                MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
-                            "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            If (Not String.IsNullOrEmpty(_URLGateway)) Then
+                If Not validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
+                    MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
+                                "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            Else
+                If validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo, GLOBAL_ClientePadreEdificio) = False Then
+                    MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
+                                "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+                End If
             End If
-        Else
-            If validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo, GLOBAL_ClientePadreEdificio) = False Then
-                MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
-                            "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
-            End If
         End If
 
 

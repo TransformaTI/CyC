@@ -301,12 +301,13 @@ Public Class frmCargosPendientesEmpleado
         btnConsultaDocumento.Enabled = False
         btnConsultaCliente.Enabled = False
 
-        Dim strQuery As String = "SELECT * FROM vwCYCCargosPendientesEmpleadoNomina"
+        Dim strQuery As String = "SELECT  * FROM vwCYCCargosPendientesEmpleadoNomina"
         Dim da As SqlDataAdapter = Nothing
         Dim dt As DataTable = Nothing
 
         Try
             da = New SqlDataAdapter(strQuery, GLOBAL_connection)
+            da.SelectCommand.CommandTimeout = 0
             dt = New DataTable("CargoEmpleado")
             da.Fill(dt)
 
