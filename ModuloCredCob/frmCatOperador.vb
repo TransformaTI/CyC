@@ -16,6 +16,8 @@ Public Class frmCatOperador
     Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     Private _ChequeRow As DataRow
     Dim _EntregaCheque As RTGMCore.DireccionEntrega
+    Private validarPeticion As Boolean
+    Private listaClientesEnviados As List(Of Integer)
 
     Public Sub New(ByVal TipoOperacion As SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo)
         MyBase.New()
@@ -272,57 +274,78 @@ Public Class frmCatOperador
     Public Function recargarOperadoresCRM(ByVal dtOperadores As DataTable) As DataTable
         Dim _dtOperadores As New DataTable()
         _dtOperadores = dtOperadores
-        Dim DireccionEntrega As New RTGMCore.DireccionEntrega
-        Dim objRTGMGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-        objRTGMGateway.URLServicio = _URLGateway
+        Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
+        listaClientesEnviados = New List(Of Integer)
+        'Dim objRTGMGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+        'objRTGMGateway.URLServicio = _URLGateway
         'Dim objSolicitud As RTGMGateway.SolicitudGateway
-        Dim iteraciones As Integer = 0
-        Dim CLIENTETEMP As Integer
+        'Dim iteraciones As Integer = 0
+        'Dim CLIENTETEMP As Integer
         'Dim direccionEntrega As RTGMCore.DireccionEntrega
         Dim dtOperModificados As New DataTable()
 
         Try
-            listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
             Dim dwOperVista As DataView = New DataView(_dtOperadores)
             dtOperModificados = dwOperVista.ToTable(True, "Cliente")
 
-            If dtOperModificados.Rows.Count() > 0 Then
+            'If dtOperModificados.Rows.Count() > 0 Then
+            Dim listaClientesDistintos As New List(Of Integer)
 
-                Dim listaClientesDistintos As New List(Of Integer)
+                For Each clienteTemp As DataRow In dtOperModificados.Rows
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
 
-                For Each fila As DataRow In dtOperModificados.Rows
-
-                    If fila("Cliente") Is DBNull.Value OrElse fila("Cliente") Is Nothing Then
-                        'GoTo Linea1
-                        fila("Cliente") = 1
+                If IsNothing(direccionEntregaTemp) Then
+                    If Not IsDBNull(clienteTemp("Cliente")) Then
+                        listaClientesDistintos.Add(CType(clienteTemp("Cliente"), Integer))
                     End If
-
-                    listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
-                Next
-
-                While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
-                    generaListaCLientes(listaClientesDistintos)
-                    iteraciones = iteraciones + 1
-                End While
-
-                For Each drow As DataRow In _dtOperadores.Rows
-                    Try
-                        drow("Nombre") = ""
-                        CLIENTETEMP = (CType(drow("Cliente"), Integer))
-
-                        DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
-
-                        If Not IsNothing(DireccionEntrega.Nombre) Then
-                            drow("Nombre") = DireccionEntrega.Nombre.Trim()
+                End If
+            Next
+                Try
+                    If dtOperModificados.Rows.Count > 0 Then
+                        If listaClientesDistintos.Count > 0 Then
+                            validarPeticion = True
+                            generaListaClientes(listaClientesDistintos)
                         Else
-                            drow("Nombre") = "No encontrado"
+                            llenarListaEntrega()
                         End If
-                    Catch ex As Exception
-                        drow("Nombre") = "Error al buscar"
-                    End Try
-                Next
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                'Dim listaClientesDistintos As New List(Of Integer)
 
-            End If
+            'For Each fila As DataRow In dtOperModificados.Rows
+
+            '    If fila("Cliente") Is DBNull.Value OrElse fila("Cliente") Is Nothing Then
+            '        'GoTo Linea1
+            '        fila("Cliente") = 1
+            '    End If
+
+            '    listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+            'Next
+
+            'While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
+            '    generaListaCLientes(listaClientesDistintos)
+            '    iteraciones = iteraciones + 1
+            'End While
+
+            'For Each drow As DataRow In _dtOperadores.Rows
+            '    Try
+            '        drow("Nombre") = ""
+            '        CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+            '        DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+            '        If Not IsNothing(DireccionEntrega.Nombre) Then
+            '            drow("Nombre") = DireccionEntrega.Nombre.Trim()
+            '        Else
+            '            drow("Nombre") = "No encontrado"
+            '        End If
+            '    Catch ex As Exception
+            '        drow("Nombre") = "Error al buscar"
+            '    End Try
+            'Next
+            'End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             dtOperModificados.Clear()
@@ -360,26 +383,114 @@ Linea1:
         Return _dtOperadores
     End Function
 
-    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        Dim errorConsulta As Boolean
         Try
-            Dim listaClientes As New List(Of Integer)
-            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+            For Each direccion As RTGMCore.DireccionEntrega In lista
+                Try
+                    If Not IsNothing(direccion) Then
+                        If Not IsNothing(direccion.Message) Then
+                            direccionEntrega = New RTGMCore.DireccionEntrega()
+                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            direccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(direccionEntrega)
+                        ElseIf direccion.IDDireccionEntrega = -1 Then
+                            errorConsulta = True
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
+                            listaDireccionesEntrega.Add(direccion)
+                        End If
+                    Else
+                        direccionEntrega = New RTGMCore.DireccionEntrega()
+                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                        direccionEntrega.Nombre = "No se encontró cliente"
+                        listaDireccionesEntrega.Add(direccionEntrega)
+                    End If
 
-            For Each clienteTemp As Integer In listaClientesDistintos
-                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
-
-                If IsNothing(direccionEntregaTemp) Then
-                    listaClientes.Add(clienteTemp)
-                End If
+                Catch ex As Exception
+                    direccionEntrega = New RTGMCore.DireccionEntrega()
+                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                    direccionEntrega.Nombre = ex.Message
+                    listaDireccionesEntrega.Add(direccionEntrega)
+                End Try
             Next
 
-            Dim opciones As New System.Threading.Tasks.ParallelOptions()
-            opciones.MaxDegreeOfParallelism = 10
-            Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+            If validarPeticion And errorConsulta Then
+                validarPeticion = False
+                Dim listaClientes As List(Of Integer) = New List(Of Integer)
+                For Each clienteTemp As Integer In listaClientesEnviados
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientes.Add(clienteTemp)
+                    End If
+                Next
+
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+
+                If result = DialogResult.Yes Then
+                    generaListaClientes(listaClientes)
+                Else
+                    llenarListaEntrega()
+                End If
+            Else
+                llenarListaEntrega()
+            End If
         Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub llenarListaEntrega()
+        Dim drow As DataRow
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim CLIENTETEMP As Integer
+        Try
+            direccionEntrega = New RTGMCore.DireccionEntrega
+            For Each drow In dtOperador.Rows
+                Try
+                    drow("Nombre") = ""
+                    CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                    direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                    If Not IsNothing(direccionEntrega) Then
+                        drow("Nombre") = direccionEntrega.Nombre.Trim()
+                    Else
+                        drow("Nombre") = "No encontrado"
+                    End If
+                Catch ex As Exception
+                    drow("Nombre") = "Error al buscar"
+                End Try
+            Next
+
+            grdDatos.DataSource = dtOperador
+        Catch ex As Exception
+            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
 
         End Try
+    End Sub
 
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+            Next
+        Catch ex As Exception
+            Throw
+        End Try
     End Sub
 
     Private Sub consultarDirecciones(ByVal idCliente As Integer)
@@ -454,6 +565,7 @@ Linea1:
     End Sub
 
     Private Sub frmCatOperador_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
         CargaGrid()
         ComboCelula.CargaDatos()
         If _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo.Modificar Then

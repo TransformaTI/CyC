@@ -1,3 +1,5 @@
+Imports System.Collections.Generic
+Imports System.Linq
 Imports RTGMGateway
 
 Public Class frmClientesCartera
@@ -7,6 +9,10 @@ Public Class frmClientesCartera
     Private _Cliente As Integer
     Private NoExiste As Boolean = False
     Private _URLGateway As String
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private validarPeticion As Boolean
+    Private listaClientesEnviados As List(Of Integer)
+    Private dtCliente As DataTable
 
 #Region " Windows Form Designer generated code "
 
@@ -407,6 +413,7 @@ Public Class frmClientesCartera
     Private Sub CargaDatos(URLGateway As String)
         Cursor = Cursors.WaitCursor
         _Cliente = 0
+        listaClientesEnviados = New List(Of Integer)
         If Not LoadCompleted Then
             Exit Sub
         End If
@@ -421,38 +428,66 @@ Public Class frmClientesCartera
         Dim cnSIGAMET As SqlClient.SqlConnection = GLOBAL_connection
         Dim cmdCartera As New SqlClient.SqlCommand(strQuery, cnSIGAMET)
         Dim daCartera As New SqlClient.SqlDataAdapter(cmdCartera)
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega
         Dim dt As New DataTable("Cartera")
         cmdCartera.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = cboCelula.Celula
         Try
             daCartera.Fill(dt)
-            If dt.Rows.Count > 0 Then
+            dtCliente = dt
 
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                objGateway.URLServicio = URLGateway
-                '  Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                'Dim objRtgCore As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
+            Dim clientesDistintos As DataTable = dt.DefaultView.ToTable(True, "Cliente")
+            Dim listaClientesDistintos As New List(Of Integer)
 
-                Dim row As DataRow
+            For Each clienteTemp As DataRow In clientesDistintos.Rows
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
 
-                For Each row In dt.Rows
-                    If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
-                        GoTo SiguienteFila
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientesDistintos.Add(CType(clienteTemp("Cliente"), Integer))
+                End If
+            Next
+
+            Try
+                If clientesDistintos.Rows.Count > 0 Then
+                    If listaClientesDistintos.Count > 0 Then
+                        validarPeticion = True
+                        generaListaClientes(listaClientesDistintos)
+                    Else
+                        llenarListaEntrega()
                     End If
+                Else
+                    grdCartera.DataSource = dt
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+            '            If dt.Rows.Count > 0 Then
 
-                    Dim Cliente As Integer = CInt(row("Cliente"))
-                    Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                    objSolicitudGateway.IDCliente = Cliente
-                    ' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
-                    objGateway.URLServicio = URLGateway
-                    Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                    row("Nombre") = IIf(Not IsNothing(objRtgCore.Nombre), objRtgCore.Nombre, String.Empty)
-SiguienteFila:
-                Next
+            '                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+            '                objGateway.URLServicio = URLGateway
+            '                '  Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+            '                'Dim objRtgCore As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
 
-                'daCartera.Fill(dt)
-                'If dt.Rows.Count > 0 Then
-                grdCartera.DataSource = dt
-            End If
+            '                Dim row As DataRow
+
+            '                For Each row In dt.Rows
+            '                    If row("Cliente") Is DBNull.Value OrElse row("Cliente") Is Nothing Then
+            '                        GoTo SiguienteFila
+            '                    End If
+
+            '                    Dim Cliente As Integer = CInt(row("Cliente"))
+            '                    Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+            '                    objSolicitudGateway.IDCliente = Cliente
+            '                    ' Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString)
+            '                    objGateway.URLServicio = URLGateway
+            '                    Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+            '                    row("Nombre") = IIf(Not IsNothing(objRtgCore.Nombre), objRtgCore.Nombre, String.Empty)
+            'SiguienteFila:
+            '                Next
+
+            '                'daCartera.Fill(dt)
+            '                'If dt.Rows.Count > 0 Then
+            '                grdCartera.DataSource = dt
+            '            End If
             grdCartera.CaptionText = "Clientes de la cartera de crédito de la célula " & cboCelula.Celula.ToString & " (" & dt.Rows.Count.ToString & " en total)"
         Catch ex As Exception
             MessageBox.Show("Ha ocurrido el siguiente error:" & Chr(13) & ex.Message, Application.ProductName & " versión " & Application.ProductVersion, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -461,8 +496,119 @@ SiguienteFila:
         End Try
     End Sub
 
+    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        Dim errorConsulta As Boolean
+        Try
+            For Each direccion As RTGMCore.DireccionEntrega In lista
+                Try
+                    If Not IsNothing(direccion) Then
+                        If Not IsNothing(direccion.Message) Then
+                            direccionEntrega = New RTGMCore.DireccionEntrega()
+                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            direccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(direccionEntrega)
+                        ElseIf direccion.IDDireccionEntrega = -1 Then
+                            errorConsulta = True
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
+                            listaDireccionesEntrega.Add(direccion)
+                        End If
+                    Else
+                        direccionEntrega = New RTGMCore.DireccionEntrega()
+                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                        direccionEntrega.Nombre = "No se encontró cliente"
+                        listaDireccionesEntrega.Add(direccionEntrega)
+                    End If
+
+                Catch ex As Exception
+                    direccionEntrega = New RTGMCore.DireccionEntrega()
+                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                    direccionEntrega.Nombre = ex.Message
+                    listaDireccionesEntrega.Add(direccionEntrega)
+                End Try
+            Next
+
+            If validarPeticion And errorConsulta Then
+                validarPeticion = False
+                Dim listaClientes As List(Of Integer) = New List(Of Integer)
+                For Each clienteTemp As Integer In listaClientesEnviados
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientes.Add(clienteTemp)
+                    End If
+                Next
+
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+
+                If result = DialogResult.Yes Then
+                    generaListaClientes(listaClientes)
+                Else
+                    llenarListaEntrega()
+                End If
+            Else
+                llenarListaEntrega()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub llenarListaEntrega()
+        Dim drow As DataRow
+        Dim CLIENTETEMP As Integer
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Try
+            direccionEntrega = New RTGMCore.DireccionEntrega
+            For Each drow In dtCliente.Rows
+                Try
+                    drow("Nombre") = ""
+                    CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                    direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                    If Not IsNothing(direccionEntrega) Then
+                        drow("Nombre") = direccionEntrega.Nombre.Trim()
+                    Else
+                        drow("Nombre") = "No encontrado"
+                    End If
+                Catch ex As Exception
+                    drow("Nombre") = "Error al buscar"
+                End Try
+            Next
+
+            grdCartera.DataSource = dtCliente
+        Catch ex As Exception
+            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+
+        End Try
+    End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(GLOBAL_Modulo, ConString) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+            Next
+        Catch ex As Exception
+            Throw
+        End Try
+    End Sub
+
     Private Sub frmCartera_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         LoadCompleted = True
+        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
     End Sub
 
     Private Sub Modificar()
