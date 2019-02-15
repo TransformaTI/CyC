@@ -949,13 +949,11 @@ Public Class frmCapRelacionCobranza
                 End If
             End If
 
-            If Not (drLista("TipoCobro") Is DBNull.Value) Then
-                If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
-                    strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
+            If CType(drReader("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drReader("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
                 "¿Desea agregar este documento a la relación de cobranza?"
-                    If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
-                        Exit Sub
-                    End If
+                If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+                    Exit Sub
                 End If
             End If
 
@@ -1120,6 +1118,229 @@ Public Class frmCapRelacionCobranza
 
         End If
     End Sub
+
+
+    'Private Sub llenarListaEntrega()
+    '    Dim _Encontrado As Boolean = False
+    '    Dim _Agregado As Boolean
+    '    Dim TipoCobranza As String = String.Empty
+
+
+    '    Do While drReader.Read ' And _Agregado = False 'Agrego el flag de Agregado para aquellos documentos que estan en más de una factura
+    '        Dim strMensaje As String
+    '        Dim strPedidoReferencia As String = Trim(CType(drReader("PedidoReferencia"), String))
+
+    '        'FLAG -- DOCUMENTO ENCONTRADO
+
+    '        _Encontrado = True
+
+    '        'MARCAR LOS DOCUMENTOS QUE DEBEN AGREGARSE
+    '        Dim _Agregar As Boolean = True
+
+    '        'Validación del Tipo de Cargo al documento que se esta agregando
+    '        'Con esta restricción se impide que se "combinen" diferentes tipos de cargo en la lista.
+    '        If lvwLista.Items.Count = 0 Then
+    '            _TipoCargo = CType(drReader("TipoCargo"), Byte)
+    '        End If
+
+    '        If _TipoCargo <> CType(drReader("TipoCargo"), Byte) Then
+    '            strMensaje = "El documento " & strPedidoReferencia & " es " &
+    '                        " de tipo " & CType(drReader("TipoCargoTipoPedido"), String) & Chr(13) &
+    '                        " y no puede ser capturado en esta lista."
+    '            MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '            Exit Sub
+    '        End If
+
+    '        Try
+    '            TipoCobranza = cboTipoCobranza.SelectedValue.ToString()
+    '        Catch ex As Exception
+    '            TipoCobranza = String.Empty
+    '        End Try
+
+    '        'Validación del tipo de cargo del documento que se está capturando
+    '        'Si la tabla está vacia o nula no validar aquí
+    '        If Not dtTipoCargo Is Nothing Then
+    '            If Not _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion _
+    '                AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) And Not TipoCobranza.Contains("14") Then
+    '                strMensaje = "El documento " & strPedidoReferencia & " es " &
+    '                            " de tipo " & CType(drReader("TipoCargoTipoPedido"), String) & Chr(13) &
+    '                            " y no puede ser capturado en esta lista."
+    '                MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '                Exit Sub
+    '            End If
+    '        End If
+
+    '        If Not (drLista("TipoCobro") Is DBNull.Value) Then
+    '            If CType(drLista("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+    '                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drLista("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
+    '            "¿Desea agregar este documento a la relación de cobranza?"
+    '                If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+    '                    Exit Sub
+    '                End If
+    '            End If
+    '        End If
+
+    '        'No se permite la captura de documentos pagagos en la lista de cobranza. JAGD 18/02/2006
+    '        If CType(drReader("Saldo"), Decimal) = 0 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+    '            'Si el tipo de cobranza no es la de archivo muerto, se deben validar todas las condiciones para permitr la captura
+    '            'de documentos pagados
+    '            If Not CType(cboTipoCobranza.SelectedValue, Byte) = 14 Then
+    '                If GLOBAL_RCCaptDocumentoPagado Then
+    '                    strMensaje = "El documento " & strPedidoReferencia & " ya está pagado" &
+    '                    "¿Desea agregar este documento a la relación de cobranza?"
+    '                    If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+    '                        Exit Sub
+    '                    End If
+    '                Else
+    '                    strMensaje = "El documento " & strPedidoReferencia & " ya " &
+    '                                 "se encuentra pagado" & Chr(13) &
+    '                                 "y no puede ser capturado en esta lista."
+    '                    MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+    '                    'No agregar los documentos pagados
+    '                    _Agregar = False
+
+    '                    If Not _tipoOperacionCaptura = TipoCapturaCobranza.Entrega Then
+    '                        Exit Sub
+    '                    End If
+    '                End If
+    '            End If
+    '        End If
+
+    '        'No se permite la captura de documentos con saldo en la lista de cobranza para archivo muerto
+    '        If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(drReader("Saldo"), Decimal) > 0 Then
+    '            strMensaje = "El documento " & strPedidoReferencia &
+    '                                                 " tiene saldo pendiente" & Chr(13) &
+    '                                                 "y no puede ser capturado en esta lista."
+    '            MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '            Exit Sub
+    '        End If
+
+    '        'Validación solicitada por JLHT el 21 de mayo del 2004
+    '        'TODO sugerir parámetro
+    '        If CType(drReader("Cartera"), Byte) = 6 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+    '            'If Main.GLOBAL_IDUsuario <> "JOALRA" Then
+    '            If Not oSeguridad.TieneAcceso("CAPTURA_CarteraEspecial") Then
+    '                MessageBox.Show("Sólo el gerente de crédito puede capturar este documento.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '                Exit Sub
+    '            End If
+    '        End If
+    '        'Fin de la validación
+
+    '        'Validar clientes que pagan con transferencia
+    '        If CType(IIf(IsDBNull(drReader("TipoCobroCliente")), 0, drReader("TipoCobroCliente")), Byte) = 10 Then
+    '            Dim mensaje As New System.Text.StringBuilder()
+    '            mensaje.Append("Este cliente paga regularmente con transferencia bancaria")
+    '            If Not IsDBNull(drReader("ProximaGestion")) Then
+    '                mensaje.Append(vbCrLf)
+    '                mensaje.Append("y su próxima gestión es: ")
+    '                mensaje.Append(CType(drReader("ProximaGestion"), String))
+    '            End If
+    '            mensaje.Append(vbCrLf)
+    '            mensaje.Append("¿Desea capturarlo para gestión de revisión?")
+    '            mensaje.Append(vbCrLf)
+    '            mensaje.Append(vbCrLf)
+    '            mensaje.Append("Sí:")
+    '            mensaje.Append(vbTab)
+    '            mensaje.Append("Capturar para gestión de revisión")
+    '            mensaje.Append(vbCrLf)
+    '            mensaje.Append("No:")
+    '            mensaje.Append(vbTab)
+    '            mensaje.Append("Capturar para gestión de cobro")
+    '            mensaje.Append(vbCrLf)
+    '            mensaje.Append("Cancelar:")
+    '            mensaje.Append(vbTab)
+    '            mensaje.Append("No Capturar")
+    '            Select Case MessageBox.Show(mensaje.ToString(), Me.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+    '                Case DialogResult.Yes
+    '                    'establecer el tipo de gestión para revisión
+    '                    _tipoGestion = 2
+    '                    _tipoGestionDesc = "Revisión"
+    '                Case DialogResult.Cancel
+    '                    Exit Sub
+    '            End Select
+    '        End If
+
+    '        Cursor = Cursors.WaitCursor
+
+    '        Dim oPedido As New ListViewItem(Trim(CType(drReader("PedidoReferencia"), String)), 0)
+    '        oPedido.SubItems.Add(CType(drReader("AñoPed"), String))
+    '        oPedido.SubItems.Add(CType(drReader("Celula"), String))
+    '        oPedido.SubItems.Add(CType(drReader("Pedido"), String))
+
+    '        'Carga del tipo de gestión inicial correspondiente según la precarga
+    '        If _tipoGestion <> Nothing Then
+    '            oPedido.SubItems.Add(_tipoGestion.ToString)
+    '            oPedido.SubItems.Add(_tipoGestionDesc.Trim)
+    '            _tipoGestion = Nothing
+    '            _tipoGestionDesc = Nothing
+    '        Else
+    '            oPedido.SubItems.Add(CType(drReader("GestionInicial"), String))
+    '            oPedido.SubItems.Add(CType(drReader("GestionInicialDescripcion"), String))
+    '        End If
+    '        oPedido.SubItems.Add(CType(drReader("RutaSuministro"), String))
+    '        oPedido.SubItems.Add(Trim(CType(drReader("TipoCargoTipoPedido"), String)))
+    '        If CType(drReader("TipoCobro"), Byte) <> 5 Then
+    '            oPedido.ImageIndex = 0
+    '        Else
+    '            oPedido.ImageIndex = 6
+    '        End If
+    '        If Not IsDBNull(drReader("FCargo")) Then
+    '            oPedido.SubItems.Add(CType(drReader("FCargo"), Date).ToShortDateString)
+    '        Else
+    '            oPedido.SubItems.Add("")
+    '        End If
+    '        oPedido.SubItems.Add(CType(drReader("Cliente"), String))
+    '        If String.IsNullOrEmpty(_URLGateway) Then
+    '            oPedido.SubItems.Add(Trim(CType(drReader("Nombre"), String)))
+    '        Else
+    '            Dim _cliente As Integer
+    '            _cliente = CType(drReader("Cliente"), Integer)
+    '            Dim direntrega As New RTGMCore.DireccionEntrega
+
+    '            If Not IsNothing(listaDireccionesEntrega) Then
+    '                direntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = _cliente)
+    '                oPedido.SubItems.Add(direntrega.Nombre)
+    '            End If
+    '        End If
+    '        oPedido.SubItems.Add(CType(drReader("Total"), Decimal).ToString("N"))
+    '        oPedido.SubItems.Add(CType(drReader("Saldo"), Decimal).ToString("N"))
+    '        If Not IsDBNull(drReader("Factura")) Then
+    '            oPedido.SubItems.Add(CType(drReader("Factura"), String))
+    '            oPedido.SubItems.Add(CType(drReader("SerieFactura"), String))
+    '        Else
+    '            oPedido.SubItems.Add("")
+    '            oPedido.SubItems.Add("")
+    '        End If
+
+    '        'agrego el vale de crédito para validar que no se capture 2 veces
+    '        oPedido.SubItems.Add(CType(drReader("ValeCredito"), String))
+
+    '        _TotalCobranza += CType(drReader("Saldo"), Decimal)
+
+    '        If _Agregar Then
+    '            lvwLista.Items.Add(oPedido)
+    '            oPedido.EnsureVisible()
+    '        End If
+
+    '        Estatus()
+
+    '        Cursor = Cursors.Default
+    '        _Agregado = True
+    '    Loop
+
+    '    'AVISAR SI NO SE ENCUENTRA EL DOCUMENTO ESPECIFICADO
+
+    '    If Not _Encontrado Then
+    '        If Not chkPedidoReferencia.Checked Then
+    '            MessageBox.Show("No se encontró un documento asociado al vale de crédito especificado," & Chr(13) &
+    '                            "intente la búsqueda por número de pedido (Pedido referencia)", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        Else
+    '            MessageBox.Show("No se encontró el documento especificado", "Relación de cobranza", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        End If
+
+    '    End If
+    'End Sub
 
     Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
         Dim oGateway As RTGMGateway.RTGMGateway
