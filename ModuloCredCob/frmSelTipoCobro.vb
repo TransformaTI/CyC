@@ -3609,7 +3609,7 @@ Public Class frmSelTipoCobro
             _URLGateway = ""
         End Try
         If Trim(txtClienteCheque.Text) <> "" Then
-            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=_ClienteRow) '(Function(x) x.IDDireccionEntrega = CLIENTE))
+            Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=CType(txtClienteCheque.Text, Integer), PermiteSeleccionarDocumento:=False, URLGateway:=_URLGateway, CadenaCon:=ConString, Modulo:=GLOBAL_Modulo, _ClienteRow:=_ClienteRow, PermiteModificarDatosCliente:=True) '(Function(x) x.IDDireccionEntrega = CLIENTE))
             frmConCliente.ShowDialog()
         End If
     End Sub
