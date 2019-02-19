@@ -18,7 +18,7 @@ Public Class frmCapRelacionCobranza
     Private _SalidaInmediata As Boolean = False
     'Private _DiccCliente As New Dictionary(Of Integer, String)
     Private listaDireccionesEntrega As New List(Of RTGMCore.DireccionEntrega)
-    Private drReader As SqlDataReader
+    Private drReader As DataTable
     Private validarPeticion As Boolean
     Private listaClientesEnviados As List(Of Integer)
     'Consulta por serie y folio del vale de crédito
@@ -774,7 +774,9 @@ Public Class frmCapRelacionCobranza
             cn.Open()
             Dim dr As SqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
 
-            LlenaLista(dr)
+            drReader = New DataTable
+            drReader.Load(dr)
+            LlenaLista(drReader)
 
         Catch ex As Exception
             MessageBox.Show(ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -796,6 +798,7 @@ Public Class frmCapRelacionCobranza
 
         'Dim cn As New SqlConnection(SigaMetClasses.LeeInfoConexion(False))
         Dim cn As SqlConnection = GLOBAL_connection
+
         Dim cmd As New SqlCommand("spCYCRelacionCobranzaConsultaDocumento", cn)
         With cmd
             .CommandType = CommandType.StoredProcedure
@@ -823,9 +826,10 @@ Public Class frmCapRelacionCobranza
         Try
             cmd.Connection = cn
             cn.Open()
-            Dim dr As SqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
-
-            LlenaLista(dr)
+            Dim dr As SqlDataReader = cmd.ExecuteReader() '(CommandBehavior.CloseConnection)
+            drReader = New DataTable
+            drReader.Load(dr)
+            LlenaLista(drReader)
 
             txtPedidoReferencia.Text = String.Empty
             txtPedidoReferencia.Focus()
@@ -904,10 +908,12 @@ Public Class frmCapRelacionCobranza
         Dim _Encontrado As Boolean = False
         Dim _Agregado As Boolean
         Dim TipoCobranza As String = String.Empty
+        For Each item As DataRow In drReader.Rows
 
-        Do While drReader.Read ' And _Agregado = False 'Agrego el flag de Agregado para aquellos documentos que estan en más de una factura
+
+            'Do While drReader.Read ' And _Agregado = False 'Agrego el flag de Agregado para aquellos documentos que estan en más de una factura
             Dim strMensaje As String
-            Dim strPedidoReferencia As String = Trim(CType(drReader("PedidoReferencia"), String))
+            Dim strPedidoReferencia As String = Trim(CType(item("PedidoReferencia"), String))
 
             'FLAG -- DOCUMENTO ENCONTRADO
 
@@ -919,12 +925,12 @@ Public Class frmCapRelacionCobranza
             'Validación del Tipo de Cargo al documento que se esta agregando
             'Con esta restricción se impide que se "combinen" diferentes tipos de cargo en la lista.
             If lvwLista.Items.Count = 0 Then
-                _TipoCargo = CType(drReader("TipoCargo"), Byte)
+                _TipoCargo = CType(item("TipoCargo"), Byte)
             End If
 
-            If _TipoCargo <> CType(drReader("TipoCargo"), Byte) Then
+            If _TipoCargo <> CType(item("TipoCargo"), Byte) Then
                 strMensaje = "El documento " & strPedidoReferencia & " es " &
-                            " de tipo " & CType(drReader("TipoCargoTipoPedido"), String) & Chr(13) &
+                            " de tipo " & CType(item("TipoCargoTipoPedido"), String) & Chr(13) &
                             " y no puede ser capturado en esta lista."
                 MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
@@ -942,23 +948,26 @@ Public Class frmCapRelacionCobranza
                 If Not _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Modificacion _
                     AndAlso Not dtTipoCargo.Rows.Contains(_TipoCargo) And Not TipoCobranza.Contains("14") Then
                     strMensaje = "El documento " & strPedidoReferencia & " es " &
-                                " de tipo " & CType(drReader("TipoCargoTipoPedido"), String) & Chr(13) &
+                                " de tipo " & CType(item("TipoCargoTipoPedido"), String) & Chr(13) &
                                 " y no puede ser capturado en esta lista."
                     MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             End If
 
-            If CType(drReader("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
-                strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(drReader("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
-                "¿Desea agregar este documento a la relación de cobranza?"
-                If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
-                    Exit Sub
+            If Not (item("TipoCobro") Is DBNull.Value) Then
+                If CType(item("TipoCobro"), Byte) = 5 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+                    strMensaje = "El documento " & strPedidoReferencia & " es de tipo [" & Trim(CType(item("TipoCobroDescripcion"), String)) & "]" & Chr(13) &
+                    "¿Desea agregar este documento a la relación de cobranza?"
+                    If MessageBox.Show(strMensaje, Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+                        Exit Sub
+                    End If
                 End If
             End If
 
+
             'No se permite la captura de documentos pagagos en la lista de cobranza. JAGD 18/02/2006
-            If CType(drReader("Saldo"), Decimal) = 0 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+            If CType(item("Saldo"), Decimal) = 0 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
                 'Si el tipo de cobranza no es la de archivo muerto, se deben validar todas las condiciones para permitr la captura
                 'de documentos pagados
                 If Not CType(cboTipoCobranza.SelectedValue, Byte) = 14 Then
@@ -985,7 +994,7 @@ Public Class frmCapRelacionCobranza
             End If
 
             'No se permite la captura de documentos con saldo en la lista de cobranza para archivo muerto
-            If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(drReader("Saldo"), Decimal) > 0 Then
+            If CType(cboTipoCobranza.SelectedValue, Byte) = 14 AndAlso CType(item("Saldo"), Decimal) > 0 Then
                 strMensaje = "El documento " & strPedidoReferencia &
                                                      " tiene saldo pendiente" & Chr(13) &
                                                      "y no puede ser capturado en esta lista."
@@ -995,7 +1004,7 @@ Public Class frmCapRelacionCobranza
 
             'Validación solicitada por JLHT el 21 de mayo del 2004
             'TODO sugerir parámetro
-            If CType(drReader("Cartera"), Byte) = 6 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
+            If CType(item("Cartera"), Byte) = 6 And _TipoOperacion = SigaMetClasses.Enumeradores.enumTipoOperacionRelacionCobranza.Captura Then
                 'If Main.GLOBAL_IDUsuario <> "JOALRA" Then
                 If Not oSeguridad.TieneAcceso("CAPTURA_CarteraEspecial") Then
                     MessageBox.Show("Sólo el gerente de crédito puede capturar este documento.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1005,13 +1014,13 @@ Public Class frmCapRelacionCobranza
             'Fin de la validación
 
             'Validar clientes que pagan con transferencia
-            If CType(IIf(IsDBNull(drReader("TipoCobroCliente")), 0, drReader("TipoCobroCliente")), Byte) = 10 Then
+            If CType(IIf(IsDBNull(item("TipoCobroCliente")), 0, item("TipoCobroCliente")), Byte) = 10 Then
                 Dim mensaje As New System.Text.StringBuilder()
                 mensaje.Append("Este cliente paga regularmente con transferencia bancaria")
-                If Not IsDBNull(drReader("ProximaGestion")) Then
+                If Not IsDBNull(item("ProximaGestion")) Then
                     mensaje.Append(vbCrLf)
                     mensaje.Append("y su próxima gestión es: ")
-                    mensaje.Append(CType(drReader("ProximaGestion"), String))
+                    mensaje.Append(CType(item("ProximaGestion"), String))
                 End If
                 mensaje.Append(vbCrLf)
                 mensaje.Append("¿Desea capturarlo para gestión de revisión?")
@@ -1040,10 +1049,10 @@ Public Class frmCapRelacionCobranza
 
             Cursor = Cursors.WaitCursor
 
-            Dim oPedido As New ListViewItem(Trim(CType(drReader("PedidoReferencia"), String)), 0)
-            oPedido.SubItems.Add(CType(drReader("AñoPed"), String))
-            oPedido.SubItems.Add(CType(drReader("Celula"), String))
-            oPedido.SubItems.Add(CType(drReader("Pedido"), String))
+            Dim oPedido As New ListViewItem(Trim(CType(item("PedidoReferencia"), String)), 0)
+            oPedido.SubItems.Add(CType(item("AñoPed"), String))
+            oPedido.SubItems.Add(CType(item("Celula"), String))
+            oPedido.SubItems.Add(CType(item("Pedido"), String))
 
             'Carga del tipo de gestión inicial correspondiente según la precarga
             If _tipoGestion <> Nothing Then
@@ -1052,27 +1061,27 @@ Public Class frmCapRelacionCobranza
                 _tipoGestion = Nothing
                 _tipoGestionDesc = Nothing
             Else
-                oPedido.SubItems.Add(CType(drReader("GestionInicial"), String))
-                oPedido.SubItems.Add(CType(drReader("GestionInicialDescripcion"), String))
+                oPedido.SubItems.Add(CType(item("GestionInicial"), String))
+                oPedido.SubItems.Add(CType(item("GestionInicialDescripcion"), String))
             End If
-            oPedido.SubItems.Add(CType(drReader("RutaSuministro"), String))
-            oPedido.SubItems.Add(Trim(CType(drReader("TipoCargoTipoPedido"), String)))
-            If CType(drReader("TipoCobro"), Byte) <> 5 Then
+            oPedido.SubItems.Add(CType(item("RutaSuministro"), String))
+            oPedido.SubItems.Add(Trim(CType(item("TipoCargoTipoPedido"), String)))
+            If CType(item("TipoCobro"), Byte) <> 5 Then
                 oPedido.ImageIndex = 0
             Else
                 oPedido.ImageIndex = 6
             End If
-            If Not IsDBNull(drReader("FCargo")) Then
-                oPedido.SubItems.Add(CType(drReader("FCargo"), Date).ToShortDateString)
+            If Not IsDBNull(item("FCargo")) Then
+                oPedido.SubItems.Add(CType(item("FCargo"), Date).ToShortDateString)
             Else
                 oPedido.SubItems.Add("")
             End If
-            oPedido.SubItems.Add(CType(drReader("Cliente"), String))
+            oPedido.SubItems.Add(CType(item("Cliente"), String))
             If String.IsNullOrEmpty(_URLGateway) Then
-                oPedido.SubItems.Add(Trim(CType(drReader("Nombre"), String)))
+                oPedido.SubItems.Add(Trim(CType(item("Nombre"), String)))
             Else
                 Dim _cliente As Integer
-                _cliente = CType(drReader("Cliente"), Integer)
+                _cliente = CType(item("Cliente"), Integer)
                 Dim direntrega As New RTGMCore.DireccionEntrega
 
                 If Not IsNothing(listaDireccionesEntrega) Then
@@ -1080,20 +1089,20 @@ Public Class frmCapRelacionCobranza
                     oPedido.SubItems.Add(direntrega.Nombre)
                 End If
             End If
-            oPedido.SubItems.Add(CType(drReader("Total"), Decimal).ToString("N"))
-            oPedido.SubItems.Add(CType(drReader("Saldo"), Decimal).ToString("N"))
-            If Not IsDBNull(drReader("Factura")) Then
-                oPedido.SubItems.Add(CType(drReader("Factura"), String))
-                oPedido.SubItems.Add(CType(drReader("SerieFactura"), String))
+            oPedido.SubItems.Add(CType(item("Total"), Decimal).ToString("N"))
+            oPedido.SubItems.Add(CType(item("Saldo"), Decimal).ToString("N"))
+            If Not IsDBNull(item("Factura")) Then
+                oPedido.SubItems.Add(CType(item("Factura"), String))
+                oPedido.SubItems.Add(CType(item("SerieFactura"), String))
             Else
                 oPedido.SubItems.Add("")
                 oPedido.SubItems.Add("")
             End If
 
             'agrego el vale de crédito para validar que no se capture 2 veces
-            oPedido.SubItems.Add(CType(drReader("ValeCredito"), String))
+            oPedido.SubItems.Add(CType(item("ValeCredito"), String))
 
-            _TotalCobranza += CType(drReader("Saldo"), Decimal)
+            _TotalCobranza += CType(item("Saldo"), Decimal)
 
             If _Agregar Then
                 lvwLista.Items.Add(oPedido)
@@ -1104,8 +1113,8 @@ Public Class frmCapRelacionCobranza
 
             Cursor = Cursors.Default
             _Agregado = True
-        Loop
-
+            'Loop
+        Next
         'AVISAR SI NO SE ENCUENTRA EL DOCUMENTO ESPECIFICADO
 
         If Not _Encontrado Then
@@ -1362,25 +1371,32 @@ Public Class frmCapRelacionCobranza
         End Try
     End Sub
 
-    Private Sub LlenaLista(ByVal drLista As SqlDataReader)
+    Private Sub LlenaLista(ByVal drLista As DataTable)
         'NO MODIFICAR
         'ATTE. RDC
         'Dim _Agregado As Boolean
         'Dim TipoCobranza As String = String.Empty
-        drReader = drLista
+
         Dim tempListaClientes As List(Of Integer) = New List(Of Integer)
         listaClientesEnviados = New List(Of Integer)
         Dim direccionEntregaTemp As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega
         'AVISAR SI NO SE ENCUENTRA EL DOCUMENTO
         Try
             If _URLGateway <> "" Then
-                Do While drLista.Read
-                    If Not IsDBNull(drLista("Cliente")) Then
-                        If Not tempListaClientes.Exists(Function(x) x = CType(drLista("Cliente"), Integer)) Then
-                            tempListaClientes.Add(CType(drLista("Cliente"), Integer))
+                For Each item As DataRow In drLista.Rows
+                    If Not IsDBNull(item("Cliente")) Then
+                        If Not tempListaClientes.Exists(Function(x) x = CType(item("Cliente"), Integer)) Then
+                            tempListaClientes.Add(CType(item("Cliente"), Integer))
                         End If
                     End If
-                Loop
+                Next
+                'Do While drLista.Read
+                '    If Not IsDBNull(drLista("Cliente")) Then
+                '        If Not tempListaClientes.Exists(Function(x) x = CType(drLista("Cliente"), Integer)) Then
+                '            tempListaClientes.Add(CType(drLista("Cliente"), Integer))
+                '        End If
+                '    End If
+                'Loop
                 Dim listaClientesDistintos As New List(Of Integer)
 
                 For Each clienteTemp As Integer In tempListaClientes
@@ -2067,7 +2083,10 @@ Public Class frmCapRelacionCobranza
         Try
             cn.Open()
             Dim drPC As SqlDataReader = cmdSelect.ExecuteReader
-            LlenaLista(drPC)
+            drReader = New DataTable
+            drReader.Load(drPC)
+            LlenaLista(drReader)
+            LlenaLista(drReader)
         Catch ex As SqlException
             MessageBox.Show(ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Catch ex As Exception
@@ -2360,8 +2379,9 @@ Public Class frmCapRelacionCobranza
         Try
             cn.Open()
             Dim dr As SqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
-
-            LlenaLista(dr)
+            drReader = New DataTable
+            drReader.Load(dr)
+            LlenaLista(drReader)
 
             If (Not String.IsNullOrEmpty(URLGateway)) Then
                 recargaPrecapturados()
