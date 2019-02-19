@@ -3107,13 +3107,16 @@ Public Class frmSelTipoCobro
 
     Private Sub frmSelTipoCobro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim TransBan As String = ""
+        Dim TipoMovCajaNotaCred As Byte = 0
 
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
 
         Try
             TransBan = CType(oConfig.Parametros("TransBan"), String).Trim()
+            TipoMovCajaNotaCred = CType(oConfig.Parametros("TipoMovCajaNotaCred"), Byte)
         Catch ex As Exception
             TransBan = ""
+            TipoMovCajaNotaCred = 0
         End Try
 
 
@@ -3137,7 +3140,7 @@ Public Class frmSelTipoCobro
         'TDC
         comboBancoTDC.CargaDatos(CargaBancoCero:=False, MostrarClaves:=True, SoloActivos:=True)
 
-        If _TipoMovimientoCaja = 35 Then
+        If _TipoMovimientoCaja = TipoMovCajaNotaCred Then
 
             tbNotaCredito.Enabled = True
             tbChequeFicha.Enabled = False
@@ -3154,7 +3157,7 @@ Public Class frmSelTipoCobro
             tabTipoCobro.TabPages.Remove(tbNotaCredito)
             ' 16/10/2018. RM - Se elimina solo si la variable GLOBAL_AplicacionSaldoAFavor tiene valor falso
             'tabTipoCobro.TabPages.Remove(tbSaldoAFavor)
-            If _TipoMovimientoCaja = 35 Then
+            If _TipoMovimientoCaja = TipoMovCajaNotaCred Then
                 tabTipoCobro.TabPages.Add(tbNotaCredito)
                 tabTipoCobro.SelectedTab = tbNotaCredito
                 tabTipoCobro.TabPages.Remove(tbEfectivoVales)
