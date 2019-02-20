@@ -1400,7 +1400,9 @@ Public Class frmCapRelacionCobranza
                 Dim listaClientesDistintos As New List(Of Integer)
 
                 For Each clienteTemp As Integer In tempListaClientes
-                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+                    If Not IsNothing(listaDireccionesEntrega) Then
+                        direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+                    End If
 
                     If IsNothing(direccionEntregaTemp) Then
                         listaClientesDistintos.Add(clienteTemp)

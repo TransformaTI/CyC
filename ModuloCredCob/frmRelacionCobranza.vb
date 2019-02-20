@@ -1083,7 +1083,7 @@ Public Class frmRelacionCobranza
 
 	Private Sub Modificar()
 		Cursor = Cursors.WaitCursor
-        Dim x As New frmCapRelacionCobranza(_tipoOperacionCobranza, _Cobranza, URLGateway:=_UrlGateway)
+        Dim x As New frmCapRelacionCobranza(_tipoOperacionCobranza, _Cobranza, URLGateway:=_UrlGateway, listaDireccionesEntrega:=listaDireccionesEntrega)
         If x.ShowDialog() = DialogResult.OK Then
 			Me.CargaDatos(dtpFCobranza.Value.Date)
 		End If
