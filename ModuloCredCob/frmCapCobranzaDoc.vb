@@ -880,7 +880,7 @@ Public Class frmCapCobranzaDoc
                 'a) Si URLGateway == NULL o URLGateway == “” entonces objPedido.PedidoEdificio = CType(dr("PedidoEdificio"), Boolean)  (como es actualmente)
                 'b) Si URLGateway!=NULL o URLGateway!=”” entonces validarClientePadre(int IDDireccioneEntrega)
 
-                If Not objPedido.ValeCredito.ToString().Trim = txtPedidoReferencia.Text.ToString().Trim And chkPedidoReferencia.Checked = False Then
+                If Not objPedido.ValeCredito.ToString().Trim = PedidoReferencia.Trim And chkPedidoReferencia.Checked = False Then
                     MessageBox.Show("El número de documento no corresponde a un vale de crédito" & CrLf &
                                    "Verifique por favor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Function
@@ -1265,6 +1265,11 @@ Public Class frmCapCobranzaDoc
         btnConsultaDescuento.Visible = False
 
         Dim strPedidoReferencia As String = Replace(UCase(Trim(txtPedidoReferencia.Text)), "'", "")
+
+        If strPedidoReferencia.StartsWith("0") Then
+            strPedidoReferencia = strPedidoReferencia.Remove(0, 1)
+        End If
+
         If strPedidoReferencia <> "" Then
             Dim i As Integer = BuscaPedidoLocal(strPedidoReferencia)
             If i = -1 Then
