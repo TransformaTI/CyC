@@ -1910,7 +1910,8 @@ Public Class frmPrincipal
                 Exit Sub
             End If
         Next
-        Dim frmContactos As New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion)
+        Dim frmContactos As New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _URLGateway, GLOBAL_Modulo, ConString)
+
         frmContactos.MdiParent = Me
         frmContactos.Show()
     End Sub
