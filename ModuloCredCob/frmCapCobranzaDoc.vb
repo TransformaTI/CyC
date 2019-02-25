@@ -1520,7 +1520,9 @@ Public Class frmCapCobranzaDoc
             _URLGateway = ""
         End Try
 
-        If txtCliente.Text <> "" Then
+
+
+        If txtCliente.Text <> "" And txtCliente.Text <> "0" Then
             Dim frmConCliente As SigaMetClasses.frmConsultaCliente
             frmConCliente = New SigaMetClasses.frmConsultaCliente(CType(txtCliente.Text, Integer),
                                      PermiteSeleccionarDocumento:=True,
@@ -1530,6 +1532,9 @@ Public Class frmCapCobranzaDoc
                 txtPedidoReferencia.Focus()
                 chkPedidoReferencia.Checked = True
             End If
+
+        ElseIf (txtCliente.Text.Trim = "0") Then
+            MessageBox.Show("¡Capture un número de cliente válido!.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
     End Sub
 
