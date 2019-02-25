@@ -1264,6 +1264,10 @@ Public Class frmCapCobranzaDoc
         'Para desplegar el importe total menos el descuento del cargo, si aplica
         btnConsultaDescuento.Visible = False
 
+        If txtPedidoReferencia.Text.ToString().Trim = String.Empty Then
+            Exit Sub
+        End If
+
         Dim strPedidoReferencia As String = Replace(UCase(Trim(txtPedidoReferencia.Text)), "'", "")
 
         If strPedidoReferencia.StartsWith("0") Then
