@@ -1929,7 +1929,7 @@ Public Class frmPrincipal
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
             Dim _autorizacionCyC As New AutorizacionCredito.Solicitantes(GLOBAL_IDUsuario, GLOBAL_MaxImporteCredito,
-                GLOBAL_ClaveCreditoAutorizado, SigaMetClasses.DataLayer.Conexion)
+                GLOBAL_ClaveCreditoAutorizado, SigaMetClasses.DataLayer.Conexion, _URLGateway, ConString, GLOBAL_Modulo)
             _autorizacionCyC.WindowState = FormWindowState.Maximized
             _autorizacionCyC.MdiParent = Me
             Try
