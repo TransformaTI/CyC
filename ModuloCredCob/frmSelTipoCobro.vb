@@ -3132,6 +3132,12 @@ Public Class frmSelTipoCobro
             tbSaldoAFavor.Visible = False
         End If
 
+        If GLOBAL_HabilitaNCAnterior Then
+            rbNotaCredito.Enabled = True
+        Else
+            rbNotaCredito.Enabled = False
+        End If
+
 
         ComboBanco.CargaDatos(CargaBancoCero:=True, MostrarClaves:=True, SoloActivos:=True)
         ComboTipoVale.CargaDatos()
@@ -3166,6 +3172,7 @@ Public Class frmSelTipoCobro
                 tabTipoCobro.TabPages.Remove(tbDacionPago)
                 tabTipoCobro.TabPages.Remove(tabvalesdespensa)
                 tabTipoCobro.TabPages.Remove(tbChequeFicha)
+
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message)
@@ -4605,6 +4612,14 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub txtSerie_TextChanged(sender As Object, e As EventArgs) Handles txtSerie.TextChanged
+
+    End Sub
+
+    Private Sub txtDocumento_TextChanged(sender As Object, e As EventArgs) Handles txtDocumento.TextChanged
+
+    End Sub
+
+    Private Sub tbChequeFicha_Click(sender As Object, e As EventArgs) Handles tbChequeFicha.Click
 
     End Sub
     '*****

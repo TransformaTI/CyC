@@ -46,6 +46,9 @@ Module Main
     'Habilita la validación de la aplicación de notas de crédito
     Public GLOBAL_AplicaValidaciónNotaCredito As Boolean
 
+    'Habilita Notacobro nota credito anterior 
+    Public GLOBAL_HabilitaNCAnterior As Boolean
+
     'Cadena de conexión para exportación de cargos
     Public GLOBAL_CadenaConexionExport As String
 
@@ -353,6 +356,8 @@ Module Main
                     End If
 
                     GLOBAL_AplicaValidaciónNotaCredito = CType(oLogin.Parametros("ValidaAplicacionNotaCredi"), Boolean)
+					
+					GLOBAL_HabilitaNCAnterior=CType(oLogin.Parametros("HabilitaNCAnterior"), Boolean)
 
                     'Para usar el usuario y password del usuario de reportes
                     consultaParametrosConexionReportesEspeciales(SigaMetClasses.DataLayer.Conexion)
