@@ -3928,8 +3928,8 @@ Public Class frmSelTipoCobro
         Dim cnSigamet As SqlClient.SqlConnection = GLOBAL_connection
         Dim consultaSaldoAFavor As New CyCSaldoAFavor.frmSaldosAFavor(cnSigamet, txtSFClave.Text,
             CType(Val(txtSFCliente.Text), Integer), CType(Val(txtSFAñoAtt.Text), Integer),
-            CType(Val(txtSFFolioAtt.Text), Integer))
-        Dim oCliente As New SigaMetClasses.cCliente
+            CType(Val(txtSFFolioAtt.Text), Integer), _URLGateway, GLOBAL_Modulo, ConString)
+
 
         If consultaSaldoAFavor.ShowDialog() = DialogResult.OK Then
 
@@ -3942,15 +3942,6 @@ Public Class frmSelTipoCobro
             lblSFMovimientoOrigen.Text = consultaSaldoAFavor.MovimientoOrigen.ToString
 
 
-            If Not String.IsNullOrEmpty(_URLGateway) Then
-                oCliente.Consulta(CType(txtSFCliente.Text, Integer), _URLGateway)
-            Else
-                oCliente.Consulta(CType(txtSFCliente.Text, Integer))
-            End If
-
-            If Not IsNothing(oCliente.Nombre) Then
-                lblSaldoAFavorNombre.Text = consultaSaldoAFavor.Nombre
-            End If
 
         End If
     End Sub
