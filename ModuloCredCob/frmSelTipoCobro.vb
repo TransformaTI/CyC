@@ -4339,10 +4339,12 @@ Public Class frmSelTipoCobro
         End If
     End Sub
     Private Sub LstAnticipos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstAnticipos.SelectedIndexChanged
-        'Dim cad As String() = LstAnticipos.SelectedValue.ToString().Split(New Char() {","c})
         Dim cad As String() = LstAnticipos.GetItemText(LstAnticipos.SelectedItem).ToString().Trim.Split(New Char() {","c})
+
+
         TxtAntMonto.Text = cad(0)
         _AñoMovAnticipo = CType(cad(1).Substring(5, 4), Integer)
+
     End Sub
 
     Private Sub TxtAntCliente_TextChanged(sender As Object, e As EventArgs) Handles TxtAntCliente.TextChanged
@@ -4533,6 +4535,9 @@ Public Class frmSelTipoCobro
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
         Dim dtAntipos As DataTable = TryCast(LstAnticipos.DataSource, DataTable)
         Dim Fecha_Cheque_Anticipo As DateTime = DateTime.Parse(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("FMovimiento").ToString())
+        Dim AnioCobroOrigen As Short = CShort(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("AnioCobroOrigen").ToString())
+        Dim CobroOrigen As Integer = CInt(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("CobroOrigen").ToString())
+
 
 
         If GLOBAL_ValidarTipoCobro Then
@@ -4565,6 +4570,10 @@ Public Class frmSelTipoCobro
                             .Observaciones = Txtbox_observacionAnticipos.Text
                             .FolioMovAnt = CInt(LstAnticipos.SelectedValue.ToString())
                             .AñoFolioMov = _AñoMovAnticipo
+                            .AnioCobroOrigen = AnioCobroOrigen
+                            .CobroOrigen = CobroOrigen
+
+
 
                             If Not IsNothing(CboCtaBanAnticipo.SelectedValue) Then
                                 .NoCuentaDestino = CboCtaBanAnticipo.Text
