@@ -4535,12 +4535,26 @@ Public Class frmSelTipoCobro
         'Validar que el tipo de cobro seleccionado se puede capturar en este tipo de movimiento JAG 23-01-2008
         Dim dtAntipos As DataTable = TryCast(LstAnticipos.DataSource, DataTable)
         Dim Fecha_Cheque_Anticipo As DateTime = DateTime.Parse(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("FMovimiento").ToString())
-        Dim AnioCobroOrigen As Short = CShort(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("AnioCobroOrigen").ToString())
-        Dim CobroOrigen As Integer = CInt(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("CobroOrigen").ToString())
+        Dim AnioCobroOrigen As Short = 0
+        Dim CobroOrigen As Integer = 0
+
+        If Not IsNothing(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("AnioCobroOrigen")) Then
+            If (dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("AnioCobroOrigen").ToString() <> String.Empty) Then
+                AnioCobroOrigen = CShort(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("AnioCobroOrigen").ToString())
+            End If
+        End If
+
+        If Not IsNothing(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("CobroOrigen")) Then
+            If (dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("CobroOrigen").ToString() <> String.Empty) Then
+                CobroOrigen = CInt(dtAntipos.Rows(LstAnticipos.SelectedIndex).Item("CobroOrigen").ToString())
+            End If
+        End If
 
 
 
-        If GLOBAL_ValidarTipoCobro Then
+
+
+            If GLOBAL_ValidarTipoCobro Then
             If Not ValidarTipoCobro(_TipoMovimientoCaja, SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo) Then
                 Exit Sub
             End If
@@ -4570,8 +4584,14 @@ Public Class frmSelTipoCobro
                             .Observaciones = Txtbox_observacionAnticipos.Text
                             .FolioMovAnt = CInt(LstAnticipos.SelectedValue.ToString())
                             .AñoFolioMov = _AñoMovAnticipo
-                            .AnioCobroOrigen = AnioCobroOrigen
-                            .CobroOrigen = CobroOrigen
+
+                            If AnioCobroOrigen <> 0 Then
+                                .AnioCobroOrigen = AnioCobroOrigen
+                            End If
+
+                            If CobroOrigen <> 0 Then
+                                .CobroOrigen = CobroOrigen
+                            End If
 
 
 
