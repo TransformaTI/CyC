@@ -231,8 +231,8 @@ Public Class frmRelacionCobranza
 		'tbrBarra
 		'
 		Me.tbrBarra.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-		Me.tbrBarra.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.tbbCapturar, Me.tbbModificar, Me.tbbCancelar, Me.tbbCerrarCobranza, Me.tbbSep5, Me.tbbIntegrar, Me.tbbSep4, Me.tbbConsultarDocumento, Me.tbbSep1, Me.tbbRefrescar, Me.tbbSep2, Me.tbbImprimir, Me.tbbSep3, Me.tbbExportar, Me.ToolBarButton1, Me.tbbCerrar, Me.tbbSep6})
-		Me.tbrBarra.ButtonSize = New System.Drawing.Size(65, 36)
+        Me.tbrBarra.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.tbbCapturar, Me.tbbModificar, Me.tbbCancelar, Me.tbbCerrarCobranza, Me.tbbSep5, Me.tbbIntegrar, Me.tbbSep4, Me.tbbConsultarDocumento, Me.tbbSep1, Me.tbbRefrescar, Me.tbbSep2, Me.tbbImprimir, Me.tbbSep3, Me.tbbExportar, Me.ToolBarButton1, Me.tbbCerrar})
+        Me.tbrBarra.ButtonSize = New System.Drawing.Size(65, 36)
 		Me.tbrBarra.DropDownArrows = True
 		Me.tbrBarra.ImageList = Me.imgLista16
 		Me.tbrBarra.Name = "tbrBarra"
