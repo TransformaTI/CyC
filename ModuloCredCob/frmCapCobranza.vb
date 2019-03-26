@@ -587,6 +587,7 @@ Public Class frmCapCobranza
             oCobro.Referencia = If(Not IsDBNull(dr("referencia")), CType(dr("referencia"), String), "")
             oCobro.NoCuentaDestino = If(Not IsDBNull(dr("NumeroCuentaDestino")), CType(dr("NumeroCuentaDestino"), String), "")
             oCobro.BancoOrigen = If(Not IsDBNull(dr("BancoOrigen")), CType(dr("BancoOrigen"), Short), CType(0, Short))
+
             'Control de saldos a favor en modificación de cobranza
             If oSeguridad.TieneAcceso("CAPTURA_SALDOAFAVOR") Then
                 oCobro.SaldoAFavor = CType(dr("Saldo"), Boolean)
@@ -597,6 +598,7 @@ Public Class frmCapCobranza
             If Not IsDBNull(dr("FCheque")) Then oCobro.FechaCheque = CType(dr("FCheque"), Date)
             If Not IsDBNull(dr("NumeroCheque")) Then oCobro.NoCheque = CType(dr("NumeroCheque"), String).Trim
             If Not IsDBNull(dr("NumeroCuenta")) Then oCobro.NoCuenta = CType(dr("NumeroCuenta"), String).Trim
+            If Not IsDBNull(dr("FCOBRO")) Then oCobro.Fcobro = CType(dr("FCOBRO"), Date)
 
             oCobro.ListaPedidos = New ArrayList()
 
