@@ -782,10 +782,13 @@ Public Class frmCapCobranza
 
     Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
 
+
         If CType(cboEmpleado.SelectedValue, Integer) = 0 Then
             MessageBox.Show("Debe seleccionar el empleado responsable del movimiento.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
+
+
 
         If cboTipoMovCaja.TipoMovimientoCaja <= 0 Then
             MessageBox.Show("Debe seleccionar el tipo de movimiento de esta captura.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -913,7 +916,7 @@ Public Class frmCapCobranza
 
                 Me.Close()
             Catch ex As Exception
-                EventLog.WriteEntry("CyC " & ex.Source, ex.Message, EventLogEntryType.Error)
+                'EventLog.WriteEntry("CyC " & ex.Source, ex.Message, EventLogEntryType.Error)
                 MessageBox.Show(ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
                 'Si falla la modificación, revivir el movimiento cancelado
