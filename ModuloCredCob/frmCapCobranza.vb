@@ -509,7 +509,7 @@ Public Class frmCapCobranza
         Dim cn2 As New SqlConnection(Main.ConString)
 
         Dim cmdMovimientoCaja As New SqlCommand("SELECT * FROM MovimientoCaja WHERE Clave = @Clave", cn)
-        Dim cmd As New SqlCommand("SELECT co.* FROM Cobro co JOIN vwCYCMovimientoCajaCobro mcc ON co.AñoCobro = mcc.AñoCobro and co.Cobro = mcc.Cobro AND mcc.Clave = @Clave", cn)
+        Dim cmd As New SqlCommand("SELECT co.*,mcc.FolioMovimiento,MCC.AñoMovimiento FROM Cobro co JOIN vwCYCMovimientoCajaCobro mcc ON co.AñoCobro = mcc.AñoCobro and co.Cobro = mcc.Cobro AND mcc.Clave = @Clave", cn)
         Dim cmdCobroPedido As New SqlCommand("SELECT cp.*, pe.PedidoReferencia, pe.Cliente, pe.Total as PedidoTotal, cl.Nombre FROM CobroPedido cp JOIN Pedido pe ON cp.AñoPed = pe.AñoPed and cp.Celula = pe.Celula and cp.Pedido = pe.Pedido JOIN Cliente cl on pe.Cliente = cl.Cliente WHERE cp.AñoCobro = @AñoCobro AND cp.Cobro = @Cobro", cn2)
 
         If cn.State = ConnectionState.Closed Then
@@ -578,11 +578,19 @@ Public Class frmCapCobranza
             _AñoCobro = CType(dr("AñoCobro"), Short)
             _Cobro = CType(dr("Cobro"), Integer)
 
+
+
+
             oCobro.Consecutivo = i
             oCobro.AnoCobro = _AñoCobro
             oCobro.TipoCobro = CType(dr("TipoCobro"), SigaMetClasses.Enumeradores.enumTipoCobro)
             oCobro.Saldo = CType(dr("Saldo"), Decimal)
             oCobro.Total = CType(dr("Total"), Decimal)
+
+
+            If Not IsDBNull(dr("FolioMovimiento")) Then oCobro.FolioMovAnt = CType(dr("FolioMovimiento"), Integer)
+            If Not IsDBNull(dr("AñoMovimiento")) Then oCobro.AñoFolioMov = CType(dr("AñoMovimiento"), Integer)
+
 
             oCobro.Referencia = If(Not IsDBNull(dr("referencia")), CType(dr("referencia"), String), "")
             oCobro.NoCuentaDestino = If(Not IsDBNull(dr("NumeroCuentaDestino")), CType(dr("NumeroCuentaDestino"), String), "")
