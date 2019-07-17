@@ -3354,6 +3354,9 @@ Public Class frmSelTipoCobro
                     txtImporteTC.Focus()
                 End If
             End If
+
+        Else
+            MessageBox.Show("Capture el número de cliente", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
 
 
@@ -3629,15 +3632,29 @@ Public Class frmSelTipoCobro
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         Dim oCliente As New SigaMetClasses.cCliente()
 
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
         If Trim(txtClienteCheque.Text) <> String.Empty Then
 
-            oCliente.Consulta(CType(txtClienteCheque.Text, Integer))
+            If String.IsNullOrEmpty(_URLGateway) Then
+                oCliente.Consulta(CType(txtClienteCheque.Text, Integer))
+            Else
+                oCliente.CadenaConexion = ConString
+                oCliente.Modulo = GLOBAL_Modulo
+                oCliente.Consulta(CType(txtClienteCheque.Text, Integer), _URLGateway)
+            End If
+
             lblNombre.Text = oCliente.Nombre
             'TODO: Validacion para clientes de adminsitracion de edificios 13/10/2004
             If GLOBAL_AplicaAdmEdificios Then
                 btnAceptarChequeFicha.Enabled = True
                 If Not (validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo,
-                        GLOBAL_ClientePadreEdificio)) Then
+                            GLOBAL_ClientePadreEdificio)) Then
                     btnAceptarChequeFicha.Enabled = False
                 End If
             End If
@@ -3645,31 +3662,29 @@ Public Class frmSelTipoCobro
             oCliente = Nothing
 
 
-
-
-            Try
-                _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
-            Catch ex As Exception
-                _URLGateway = ""
-            End Try
-
-
             If (Not String.IsNullOrEmpty(_URLGateway)) Then
                 If Not validacionDeClientesHijosEdificioCRM(Integer.Parse(txtClienteCheque.Text.ToString())) = False Then
                     MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
-                                "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                    "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             Else
                 If validacionDeClientesHijosEdificio(oCliente, GLOBAL_AplicaValidacionClienteHijo, GLOBAL_ClientePadreEdificio) = False Then
                     MessageBox.Show("Ha sido seleccionado el tipo de cobranza de 'Edificios Administrados' por lo que se requiere el contrato de un cliente hijo de Administración de Edificios" &
-                                "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                    "asignado al contrato padre " & CStr(txtClienteCheque.Text.ToString()), Titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
                 End If
             End If
 
+
+
+        Else
+
+            MessageBox.Show("Capture el número de cliente", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
         End If
 
-
+        oConfig = Nothing
+        oCliente = Nothing
 
     End Sub
 
@@ -3928,12 +3943,24 @@ Public Class frmSelTipoCobro
     End Sub
 
     Private Sub btnSFBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSFBuscar.Click
+
+        Dim oCliente As New SigaMetClasses.cCliente()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+
         CleanSaldoAFavor()
         'Dim cnSigamet As New SqlClient.SqlConnection(ConString)
         Dim cnSigamet As SqlClient.SqlConnection = GLOBAL_connection
         Dim consultaSaldoAFavor As New CyCSaldoAFavor.frmSaldosAFavor(cnSigamet, txtSFClave.Text,
             CType(Val(txtSFCliente.Text), Integer), CType(Val(txtSFAñoAtt.Text), Integer),
             CType(Val(txtSFFolioAtt.Text), Integer))
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
         If consultaSaldoAFavor.ShowDialog() = DialogResult.OK Then
             lblSFAñoCobro.Text = consultaSaldoAFavor.AnioCobro.ToString
             lblSFCobro.Text = consultaSaldoAFavor.Cobro.ToString
@@ -3942,7 +3969,19 @@ Public Class frmSelTipoCobro
             lblSFTipo.Text = consultaSaldoAFavor.TipoDocumento
             lblSFImporte.Text = consultaSaldoAFavor.Importe.ToString
             lblSFMovimientoOrigen.Text = consultaSaldoAFavor.MovimientoOrigen.ToString
+
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+
+                oCliente.CadenaConexion = ConString
+                oCliente.Modulo = GLOBAL_Modulo
+                oCliente.Consulta(CType(txtClienteTC.Text, Integer), _URLGateway)
+                lblSaldoAFavorNombre.Text = oCliente.Nombre
+
+            End If
         End If
+
+        oCliente = Nothing
+        oConfig = Nothing
     End Sub
 
     Private Sub CleanSaldoAFavor()
@@ -4064,8 +4103,27 @@ Public Class frmSelTipoCobro
 
     Private Sub TPVConsultaCliente()
         Dim oCliente As New SigaMetClasses.cCliente()
-        oCliente.Consulta(CType(txtClienteTC.Text, Integer))
-        lblClienteNombre.Text = oCliente.Nombre
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
+        If String.IsNullOrEmpty(_URLGateway) Then
+
+            oCliente.Consulta(CType(txtClienteTC.Text, Integer))
+            lblClienteNombre.Text = oCliente.Nombre
+        Else
+            oCliente.CadenaConexion = ConString
+            oCliente.Modulo = GLOBAL_Modulo
+            oCliente.Consulta(CType(txtClienteTC.Text, Integer), _URLGateway)
+            lblClienteNombre.Text = oCliente.Nombre
+        End If
+
+        oCliente = Nothing
+        oConfig = Nothing
     End Sub
 
 #End Region
@@ -4314,6 +4372,17 @@ Public Class frmSelTipoCobro
 
     Private Sub ConsultaPagosAnticipados()
         Dim oTC As New SigaMetClasses.Anticpo
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim oCliente As New SigaMetClasses.cCliente
+
+
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
         Try
             Dim dt As DataTable = oTC.ConsultaPagosAnticipados(Integer.Parse(TxtAntCliente.Text))
 
@@ -4324,6 +4393,12 @@ Public Class frmSelTipoCobro
                 LstAnticipos.DataSource = dt
             End If
 
+
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+                oCliente.Consulta(CType(TxtAntCliente.Text, Integer))
+                TxtAntNombre.Text = oCliente.Nombre
+            End If
+
             If dt.Rows.Count = 0 Then
                 MessageBox.Show("No se encontraron anticipos para el cliente: " + TxtAntCliente.Text, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
@@ -4331,11 +4406,18 @@ Public Class frmSelTipoCobro
             MessageBox.Show("Se generó el siguiente error: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
+
+        oConfig = Nothing
+        oCliente = Nothing
     End Sub
 
     Private Sub TxtAntCliente_Leave(sender As Object, e As EventArgs) Handles TxtAntCliente.Leave
         If TxtAntCliente.Text <> "" Then
             ConsultaPagosAnticipados()
+        Else
+
+            MessageBox.Show("Capture el número de cliente", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
         End If
     End Sub
     Private Sub LstAnticipos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstAnticipos.SelectedIndexChanged
@@ -4448,9 +4530,36 @@ Public Class frmSelTipoCobro
 
     Private Sub txtClienteVales_Leave(sender As Object, e As EventArgs) Handles txtClienteVales.Leave
         Dim oCliente As New SigaMetClasses.cCliente()
-        oCliente.Consulta(CType(txtClienteVales.Text, Integer))
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        If String.IsNullOrEmpty(txtClienteVales.Text) Then
+            MessageBox.Show("Capture el número de cliente", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            _URLGateway = ""
+        End Try
+
+        If String.IsNullOrEmpty(_URLGateway) Then
+            oCliente.Consulta(CType(txtClienteVales.Text, Integer))
+
+        Else
+            oCliente.CadenaConexion = ConString
+            oCliente.Modulo = GLOBAL_Modulo
+            oCliente.Consulta(CType(txtClienteVales.Text, Integer), _URLGateway)
+
+        End If
+
+
+        'oCliente.Consulta(CType(txtClienteVales.Text, Integer))
         LabelNombreVales.Text = oCliente.Nombre
+
         oCliente = Nothing
+        oConfig = Nothing
     End Sub
 
     Private Sub txtObserv_TextChanged(sender As Object, e As EventArgs) Handles txtObserv.TextChanged

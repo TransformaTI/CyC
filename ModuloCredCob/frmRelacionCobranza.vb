@@ -28,20 +28,30 @@ Public Class frmRelacionCobranza
 
 #Region " Windows Form Designer generated code "
 
-	Public Sub New(URLGateway As String)
-		MyBase.New()
+    Public Sub New(URLGateway As String)
+        MyBase.New()
 
-		'This call is required by the Windows Form Designer.
-		InitializeComponent()
-		_UrlGateway = URLGateway
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+        _UrlGateway = URLGateway
 
 
-		'Add any initialization after the InitializeComponent() call
+        'Add any initialization after the InitializeComponent() call
 
-	End Sub
+    End Sub
 
-	'Form overrides dispose to clean up the component list.
-	Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+    Public Sub New()
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+
+    End Sub
+
+    'Form overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
 		If disposing Then
 			If Not (components Is Nothing) Then
 				components.Dispose()
@@ -1050,7 +1060,9 @@ Public Class frmRelacionCobranza
 			End If
 		End If
 
-		Cursor = Cursors.WaitCursor
+        Cursor = Cursors.WaitCursor
+
+
         Dim frmCapRel As New frmCapRelacionCobranza(_tipoOperacionCobranza, URLGateway:=_UrlGateway)
 
         If frmCapRel.ShowDialog() = DialogResult.OK Then

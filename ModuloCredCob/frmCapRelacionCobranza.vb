@@ -48,6 +48,32 @@ Public Class frmCapRelacionCobranza
             _URLGateway = value
         End Set
     End Property
+    Public Sub New(TipoCaptura As Integer)
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+        cboEmpleado.CargaDatos(True, 3)
+        cboTipoCobranza.CargaDatos()
+        _Cargado = True
+        cboCelula.CargaDatos()
+
+        'Controlar captura o precaptura de lista de cobranza
+        _tipoOperacionCaptura = TipoCaptura
+        If _tipoOperacionCaptura = TipoCapturaCobranza.Precaptura Then
+            presPrecaptura()
+        End If
+
+        If Not GLOBAL_CapturaCobranzaAtrasada Then
+            dtpFCobranza.MinDate = FechaOperacion.Date
+        End If
+
+        dtpFCobranza.Value = FechaOperacion.Date
+
+        _DatosCargados = True
+    End Sub
 
     Public Sub New(TipoCaptura As Integer, Optional URLGateway As String = "")
         MyBase.New()
