@@ -964,16 +964,17 @@ Public Class frmPrincipal
         End If
 
         If oConfig.Parametros("FuenteCRM").ToString() = "CRM" Then
-            'mnuConsultaEmpresa.Enabled = False
+            mnuConsultaEmpresa.Enabled = False
             mnuClientesNuevos.Enabled = False
             mnuClientesCreditoRebasado.Enabled = False
             mniAutorizacionCredito.Enabled = False
             mnuCargoPendienteEmpleado.Enabled = False
             mnuArqueo.Enabled = Enabled = False
-            'mnuCatEmpresas.Enabled = False
+            mnuCatEmpresas.Enabled = False
             mnuCatClientesDescuento.Enabled = False
             mnuEjecutivoCyC.Enabled = False
             mniBuroCredito.Enabled = False
+            btnmportarPagoRef.Enabled = False
         End If
 
         If Not IsNothing(oConfig.Parametros("FuenteCRM")) Then
