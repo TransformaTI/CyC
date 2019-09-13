@@ -126,19 +126,18 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnConsultaDescuento.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAHRJREFUOE+9k1kK
-        ACAIRDt6N29flGbMnxIkkHyMNoWAI5UySnJ9l0dTLCfKBYWgoymNOGENpII2eyFQMm+u420VZF62B1nv
-        kDeAKd8zBlUgIcaz8hG+AegibQXaTFcjVZjeg8ONeHHaRMDSli/szyRh7u+cAUrdaWnOy5TOAAAAAElF
-        TkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAbklEQVQ4T82QSQ7AMAgD8/T+vBVyEGCW
+        KLeONJfY5pDV8DYe2cWncT7kilDhd3QjVLCxwjk2BoVQqTJsAAU34gg93jgcYKrOeED0VPl/DggUQE/O
+        bSxQmD9RiJ14QKDCZB4rO6xGouZnfNlLrPUBSt1paSkW/pwAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="btnCancelar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk3uAAAAAAAAAHYAAAAoAAAADQAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3iH
-        d3d3d3A6kRh3d3mHcDqREYd3kRhwOpERGHkREYA6eRERgRERgDp3kRERERhwOnd5ERERh3A6d3cRERh3
-        cDp3d5ERGHdwOnd5EREYd3A6d5ERgRGHcDp5ERh5ERhwOnkRh3eREYA6d5F3d3kREDp3d3d3d5GQOg==
+        d3d3d3AAkRh3d3mHcACREYd3kRhwAJERGHkREYAAeRERgRERgAB3kRERERhwAHd5ERERh3AAd3cRERh3
+        cAB3d5ERGHdwAHd5EREYd3AAd5ERgRGHcAB5ERh5ERhwAHkRh3eREYAAd5F3d3kREAB3d3d3d5GQAA==
 </value>
   </data>
   <data name="btnAceptar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -160,10 +159,10 @@
   </data>
   <data name="btnClienteFecha.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAFxJREFUOE+1UkEK
-        ACAI29N9mj+zjIwulqQNBoNybRWISF4JQKDDgM+TeZ2BTDCzSYnolSBtoKedSP2ydtrecAIdNuy6zuB7
-        Be9FwhWuBrcK3npdgtRHGjFy7OMJNPNAtb8OL/EaAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAWklEQVQ4T82QUQrAIAxDc/QerTdzixgo
+        g4m0/TDwJIQ2qDCzkQXAmAXAP9+lSF+B5O7Lnfm+AoY77B2MKD++AZek6PsKOLyDSxHlfZ8opQsYZrjk
+        CeuoUBHwAPNAtb8PdY4GAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="lblMensajeRelacionCobranza2.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
