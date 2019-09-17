@@ -1781,9 +1781,12 @@ Public Class frmCapRelacionCobranza
     End Sub
 
     Private Function CapturaValida() As Boolean
+        Dim bContinua As Boolean
+        bContinua = False
+
         If CType(cboEmpleado.SelectedValue, Integer) <> 0 Then
             If lvwLista.Items.Count > 0 Then
-                Return True
+                bContinua = True
             Else
                 MessageBox.Show("No se han capturado documentos en la relación de cobranza.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 txtPedidoReferencia.Focus()
@@ -1794,6 +1797,39 @@ Public Class frmCapRelacionCobranza
             cboEmpleado.Focus()
             Return False
         End If
+
+        Dim lvwItem As ListViewItem
+        Dim lvItem2 As ListViewItem
+        Dim PedidoReferencia As String
+        Dim cadena As String
+        cadena = ""
+        Dim iCont As Integer
+        iCont = 0
+        Dim ListaTexto As List(Of String) = New List(Of String)
+
+
+        If bContinua Then
+            For Each lvItem2 In lvwLista.Items
+                PedidoReferencia = lvItem2.Text
+                iCont = 0
+                For Each lvwItem In lvwLista.Items
+                    If lvwItem.Text = PedidoReferencia Then
+                        iCont = iCont + 1
+                    End If
+                Next
+                If iCont > 1 Then
+                    ListaTexto.Add(PedidoReferencia)
+                End If
+            Next
+        End If
+
+        If ListaTexto.Count > 0 Then
+            MessageBox.Show("Existen estos registros duplicados: " & String.Join(",", ListaTexto.Distinct().ToList().ToArray()) & ".", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        Else
+            Return bContinua
+        End If
+
     End Function
 
     Private Sub AltaModifica()
