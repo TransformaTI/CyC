@@ -292,9 +292,15 @@ Public Class frmCatOperador
             Dim listaClientesDistintos As New List(Of Integer)
 
                 For Each clienteTemp As DataRow In dtOperModificados.Rows
-                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
+				direccionEntregaTemp = Nothing
+				Try
+					direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
+				Catch ex As Exception
 
-                If IsNothing(direccionEntregaTemp) Then
+				End Try
+
+
+				If IsNothing(direccionEntregaTemp) Then
                     If Not IsDBNull(clienteTemp("Cliente")) Then
                         listaClientesDistintos.Add(CType(clienteTemp("Cliente"), Integer))
                     End If

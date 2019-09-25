@@ -138,7 +138,7 @@
     </Reference>
     <Reference Include="AjustesCartera, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\AjustesCartera.dll</HintPath>
+      <HintPath>..\..\Librerias\AjustesCartera\bin\Debug\AjustesCartera.dll</HintPath>
     </Reference>
     <Reference Include="Arqueo, Version=1.0.5712.23317, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -166,10 +166,11 @@
     </Reference>
     <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Users\Ivan\Downloads\MCC_ModuloCredCob_23012019_bin\ModuloCredCob\bin\Contactos.dll</HintPath>
+      <HintPath>..\..\Librerias\Contactos\bin\Debug\Contactos.dll</HintPath>
     </Reference>
-    <Reference Include="ContactosDL">
-      <HintPath>..\..\Users\Ivan\Downloads\MCC_ModuloCredCob_23012019_bin\ModuloCredCob\bin\ContactosDL.dll</HintPath>
+    <Reference Include="ContactosDL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ContactosDL\bin\Debug\ContactosDL.dll</HintPath>
     </Reference>
     <Reference Include="ControlesBase, Version=1.1.5606.17781, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -225,7 +226,7 @@
     </Reference>
     <Reference Include="frontReportesEspeciales, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\frontReportesEspeciales.dll</HintPath>
+      <HintPath>..\..\Librerias\frontReportesEspeciales\bin\frontReportesEspeciales.dll</HintPath>
     </Reference>
     <Reference Include="ImporteDescuento, Version=1.0.5605.16005, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -262,13 +263,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\ReporteDinamico.dll</HintPath>
     </Reference>
+    <Reference Include="ReportesEspeciales, Version=1.0.6633.26357, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ReportesEspeciales\bin\ReportesEspeciales.dll</HintPath>
+    </Reference>
     <Reference Include="ResguardoCyC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SigametLibrerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
+      <HintPath>..\..\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway, Version=1.19.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -276,7 +281,7 @@
     </Reference>
     <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
+      <HintPath>..\..\Librerias\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SIGAMETSecurity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -310,7 +315,7 @@
       <Name>System.XML</Name>
     </Reference>
     <Reference Include="Timer">
-      <HintPath>..\..\Users\Ivan\Downloads\MCC_CyC_22012019_bin\bin\Timer.dll</HintPath>
+      <HintPath>..\..\Librerias\Timer\bin\Debug\Timer.dll</HintPath>
     </Reference>
     <Reference Include="UINotas, Version=1.0.5605.16911, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
