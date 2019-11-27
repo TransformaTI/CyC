@@ -267,8 +267,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\ReportesEspeciales\bin\ReportesEspeciales.dll</HintPath>
     </Reference>
-    <Reference Include="ResguardoCyC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ResguardoCyC">
       <HintPath>..\..\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway, Version=1.19.0.0, Culture=neutral, processorArchitecture=MSIL">

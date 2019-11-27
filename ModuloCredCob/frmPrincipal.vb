@@ -912,6 +912,7 @@ Public Class frmPrincipal
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         Dim strURLGateway As String
 
+        strURLGateway = ""
         Try
             strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
         Catch saex As System.ArgumentException
@@ -962,20 +963,23 @@ Public Class frmPrincipal
             oSeguridad.TieneAcceso("SaldoAFavorCONSULTA") Then
             mnuIngresosSaldoAFavor.Enabled = True
         End If
-
-        If oConfig.Parametros("FuenteCRM").ToString() = "CRM" Then
-            mnuConsultaEmpresa.Enabled = False
-            mnuClientesNuevos.Enabled = False
-            mnuClientesCreditoRebasado.Enabled = False
-            mniAutorizacionCredito.Enabled = False
-            mnuCargoPendienteEmpleado.Enabled = False
-            mnuArqueo.Enabled = Enabled = False
-            mnuCatEmpresas.Enabled = False
-            mnuCatClientesDescuento.Enabled = False
-            mnuEjecutivoCyC.Enabled = False
-            mniBuroCredito.Enabled = False
-            btnmportarPagoRef.Enabled = False
+        If strURLGateway <> "" Then
+            If oConfig.Parametros("FuenteCRM").ToString() = "CRM" Then
+                mnuDatosCredito.Enabled = False
+                mnuConsultaEmpresa.Enabled = False
+                mnuClientesNuevos.Enabled = False
+                mnuClientesCreditoRebasado.Enabled = False
+                mniAutorizacionCredito.Enabled = False
+                mnuCargoPendienteEmpleado.Enabled = False
+                mnuArqueo.Enabled = Enabled = False
+                mnuCatEmpresas.Enabled = False
+                mnuCatClientesDescuento.Enabled = False
+                mnuEjecutivoCyC.Enabled = False
+                mniBuroCredito.Enabled = False
+                btnmportarPagoRef.Enabled = False
+            End If
         End If
+
 
         If Not IsNothing(oConfig.Parametros("FuenteCRM")) Then
             sbpFuenteCRM.Text = "SIGAMET-" & oConfig.Parametros("FuenteCRM").ToString()
