@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ModuloCredCob", "ModuloCredCob.vbproj", "{BC319760-454B-4215-920F-44D522366861}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timer", "..\..\Librerias\Timer\Timer.csproj", "{757D8814-24CB-4824-BAB0-C870A9DACFC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjustesCartera", "..\..\Librerias\AjustesCartera\AjustesCartera.csproj", "{28B26A62-8F24-430C-8934-D9F20F25CC5A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProgramacionCobranza", "..\..\Librerias\ProgramacionCobranza\ProgramacionCobranza.vbproj", "{6288F8C8-5FA7-4621-8821-CE53C1DF657B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,14 @@ Global
 		{28B26A62-8F24-430C-8934-D9F20F25CC5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28B26A62-8F24-430C-8934-D9F20F25CC5A}.Release|x86.ActiveCfg = Release|x86
 		{28B26A62-8F24-430C-8934-D9F20F25CC5A}.Release|x86.Build.0 = Release|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|x86.ActiveCfg = Debug|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Debug|x86.Build.0 = Debug|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|x86.ActiveCfg = Release|x86
+		{6288F8C8-5FA7-4621-8821-CE53C1DF657B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
