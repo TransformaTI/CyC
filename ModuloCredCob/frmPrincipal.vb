@@ -977,6 +977,7 @@ Public Class frmPrincipal
                 mnuEjecutivoCyC.Enabled = False
                 mniBuroCredito.Enabled = False
                 btnmportarPagoRef.Enabled = False
+                btnQueja.Enabled = False
             End If
         End If
 

@@ -250,7 +250,7 @@
     </Reference>
     <Reference Include="ProgramacionCobranza, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ProgramacionCobranza.dll</HintPath>
+      <HintPath>..\..\Librerias\ProgramacionCobranza\bin\ProgramacionCobranza.dll</HintPath>
     </Reference>
     <Reference Include="QuejasLibrary">
       <HintPath>bin\QuejasLibrary.dll</HintPath>
@@ -313,7 +313,8 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Timer">
+    <Reference Include="Timer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\Timer\bin\Debug\Timer.dll</HintPath>
     </Reference>
     <Reference Include="UINotas, Version=1.0.5605.16911, Culture=neutral, processorArchitecture=MSIL">
